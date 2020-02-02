@@ -5,6 +5,20 @@
 ## Introduction
 PawvaScript is a functional scripting language designed for non-conventional programmers such as designers, animators, and anyone who wants to make beautiful web pages fast. PawvaScript draws on many fundamentals from JavaScript, while adding aspects of Python such as indentation and readability. Our language is focused on extensive functionality while maintaining readability.
 
+## Features
+* Language for scripting
+* Static typing
+* Indentation based
+* Loops and conditionals
+* Lists
+* Dictionaries/Maps
+* 5 types
+..* String, Boolean, Number, Function, Object
+* Single and multi-line comments
+* No semicolons after each line
+* Object-Oriented 
+
+
 ## Example Programs
 #### Pawvascript:
 ```
