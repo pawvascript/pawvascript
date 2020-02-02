@@ -7,14 +7,14 @@ PawvaScript is a functional scripting language designed for non-conventional pro
 
 ## Example Programs
 ```
- func toDogAge uses [] and returns [number]:
-	var age is prompt “How old are you?”
-  return age * 7 
+func toDogAge uses [] and returns [number]:
+    var age is prompt “How old are you?”
+    return age * 7 
 ```
 
 ```
 func createDog uses [given_name, given_humanAge, given_color] and returns [Dog]
-	Dog is [name: given_name, humanAge: given_humanAge, dogAge: given_humanAge * 7]
-	Dog’s color is given_color
-	return Dog
+    Dog is [name: given_name, humanAge: given_humanAge, dogAge: given_humanAge * 7]
+    Dog’s color is given_color
+    return Dog
 ```
