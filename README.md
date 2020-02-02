@@ -28,7 +28,7 @@ function toDogAge() {
 	return age * 7;
 }
 ```
-####Pawvascript:
+#### Pawvascript:
 ```
 func pugChecker uses [String:breed] and returns [String]
 	if breed equals “Pug”
