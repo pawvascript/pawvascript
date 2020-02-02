@@ -12,8 +12,7 @@ PawvaScript is a functional scripting language designed for non-conventional pro
 * Loops and conditionals
 * Lists
 * Dictionaries/Maps
-* 5 types
-..* String, Boolean, Number, Function, Object
+* 5 types (String, Boolean, Number, Function, Object)
 * Single and multi-line comments
 * No semicolons after each line
 * Object-Oriented 
