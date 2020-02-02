@@ -13,8 +13,8 @@ func toDogAge uses [] and returns [number]:
 ```
 
 ```
-func createDog uses [given_name, given_humanAge, given_color] and returns [Dog]
-    Dog is [name: given_name, humanAge: given_humanAge, dogAge: given_humanAge * 7]
+func createDog uses [given_name, given_humanAge, given_color] and returns [Dog]:
+    var Dog is [name: given_name, humanAge: given_humanAge, dogAge: given_humanAge * 7]
     Dog’s color is given_color
     return Dog
 ```
