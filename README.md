@@ -10,10 +10,16 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 ## Features
 * Language for scripting
 * Static typing
-* Loops and conditionals
+* Loops
+* Conditionals
 * Lists
-* Dictionaries
-* 5 types (String, Boolean, Number, Function, Object)
+* Maps
+* 5 types
+	* string
+	* boolean
+	* number
+	* function
+	* breed (what we call objects)
 * Single and multi-line comments
 * No semicolons after each line
 * Object-Oriented 
@@ -24,17 +30,30 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 ### The Basics
 
 ```JavaScript
-PAWVASCRIPT                                               JAVASCRIPT
+PAWVASCRIPT                                                       JAVASCRIPT
+
+// Hello, World!
+say "Hello, World!"                                               console.log("Hello, World!")
 
 // initialize variables by barking
 
-bark string dogName is "Cece"                             let dogName = "Cece";
+bark string dogName is "Cece"                                     let dogName = "Cece";
 
-bark number dogAge is 12                                  let dogAge = 12;
+bark number dogAge is 12                                          let dogAge = 12;
 
-bark boolean isCute is true                               let isCute = true;
+bark boolean isCute is true                                       let isCute = true;
 
-bark boolean dogNames[string] is ["Cece", "Fluffy"]       let dogNames = ["Cece", "Fluffy"]
+bark list dogNames[string] is ["Cece", "Fluffy"]                  let dogNames = ["Cece", "Fluffy"]
+
+bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2]       let dogAges = {"Cece": 1, "Fluffy": 2} 
+
+// let's loop!
+loop 5 times:                                                     for (let i = 0; i < 4; i++) {
+	say "Stay."                                              	 console.log("Stay.")
+end                                                               }
+
+// let's find some Fibonacci numbers!
+bark func fibonacci 
 ```
 
 
