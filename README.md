@@ -53,7 +53,15 @@ loop 5 times:                                                     for (let i = 0
 end                                                               }
 
 // let's find some Fibonacci numbers!
-bark func fibonacci 
+bark func gcd chases[number num1, number num2] returns[number]:	  function gcd(num1, num2) {
+	bark number remainder                                     var remainder;
+
+	loop while (a mod b) is greater than 0:			  	while ( (num1 % num2) > 0) {
+	remainder is (a mod b)                              	        	remainder = a % b;
+		a is b                                                          a = b;	
+		b is remainder                                                  b = remainder
+	end					                        }
+end                                                                }
 ```
 
 
