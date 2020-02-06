@@ -8,10 +8,9 @@ PawvaScript is a functional scripting language designed for non-conventional pro
 ## Features
 * Language for scripting
 * Static typing
-* Indentation based
 * Loops and conditionals
 * Lists
-* Dictionaries/Maps
+* Dictionaries
 * 5 types (String, Boolean, Number, Function, Object)
 * Single and multi-line comments
 * No semicolons after each line
@@ -30,10 +29,78 @@ PawvaScript is a functional scripting language designed for non-conventional pro
 				console.log(“Hello, World!”);
 		</td>
 	</tr>
+	<tr style="border-top: 5px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				var myList = [String]:["one", "two", "three"]
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				var myArray = ["one", "two", "three"]
+		</td>
+	</tr>
+	<tr style="border-top: 5px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				var myDictionary = [String:String]:["a": "one", "b": "two", "c": "three"]
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				var myMap = {a: "one", b: "two", c: "three"};
+		</td>
+	</tr>
+	<tr style="border-top: 5px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				! This is a comment<br><br>
+				!! This is a lot of comments.<br>
+				It is so manny comments,<br>
+				that I needed all of these lines. !!
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				// This is a one line comment<br><br>
+				/* This is a comment<br>
+				that requires many lines<br>
+				so many lines<br>
+				that it's more than one. */<br>
+		</td>
+	</tr>
+	<tr style="border-top: 5px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				function myForLoop:<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;var Number x = 0<br><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;loop by 1 until x equals 10:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say x<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				end
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				function myForLoop() {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;for (var x = 0; x < 10; x++ ) {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;console.log(x);<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				}
+		</td>
+	</tr>
+	<tr style="border-top: 5px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+			function myWhileLoop:<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;var Number x = 0<br><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;loop while x is less than 10:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x = x + 1<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;say "x is 10!"<br>
+				end
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				function myWhileLoop() {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;var x = 0;<br><br>
+				&nbsp;&nbsp;&nbsp;&nbsp;while (x < 10) {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x += 2;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;console.log("x is 10!")<br>
+				}
+		</td>
+	</tr>
 	<tr style="border-top: 10px solid white">
 		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
-				func toDogAge uses [] and returns [Number]:<br>
-					&nbsp;&nbsp;&nbsp;&nbsp;var number age is prompt “How old are you?”<br>
+				func toDogAge returns [Number]:<br>
+					&nbsp;&nbsp;&nbsp;&nbsp;var Number age is prompt “How old are you?”<br>
     				&nbsp;&nbsp;&nbsp;&nbsp;return age * 7<br>
 				end
 		</td>
@@ -79,6 +146,42 @@ PawvaScript is a functional scripting language designed for non-conventional pro
     			&nbsp;&nbsp;&nbsp;&nbsp;let dog = {name: given_name, humanAge: given_humanAge, color: given_color};<br>
     			&nbsp;&nbsp;&nbsp;&nbsp;dog.dogAge = dog.humanAge * 7;<br>
     			&nbsp;&nbsp;&nbsp;&nbsp;return dog<br>
+				}
+		</td>
+	</tr>
+	<tr style="border-top: 10px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				func gcd uses [Number:number1, Number:number2] and returns [Number] {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;if number2 equals 0:<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return number1<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;return gcd(number2, number1 mod number2)<br>
+				end
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				function gcd(number1, number2) {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;if (number2 == 0) {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return number1;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;return gcd(number2, number1 % number2);<br>
+				}
+		</td>
+	</tr>
+	<tr style="border-top: 10px solid white">
+		<td style="border: none; border-right: 20px solid white; background-color: rgba(0,0,0,.05); margin:">
+				func fibonacci uses [Number:number1, Number:number2] and returns [Number] {<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;if number2 equals 0:<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return number1<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;end<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;return gcd(number2, number1 mod number2)<br>
+				end
+		</td>
+		<td style="border: none; background-color: rgba(0,0,0,.05)">
+				function fib(n) {<br>
+  				&nbsp;&nbsp;&nbsp;&nbsp;if (n < 2) {<br>
+    			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return n;<br>
+  				&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  				&nbsp;&nbsp;&nbsp;&nbsp;return fib(n - 1) + fib (n - 2)<br>
 				}
 		</td>
 	</tr>
