@@ -64,15 +64,38 @@ x is at least y                                          x >= y
 x is at most y                                           x <= y  
 ```
 
-<br>Let's loop!
+<br>Forever Loop
 ```
 loop:                                                             while (true) {
 	say "I run forever!"                                      	console.log("I run forever!")
 end                                                               }
+```
 
+<br>Fixed Loop
+```
 loop 5 times:                                                     for (let i = 0; i < 4; i++) {
 	say "Stay."                                              	 console.log("Stay.")
 end                                                               }
+```
+
+<br>While Loop
+```
+loop while x is at most 5:                                        while (x <= 5) {                                
+	say x                                                     	console.log(x);
+end                         					  }
+```
+<br>For Loop
+```
+loop i is 0 by i*2 while i is less than 10:                       for (let i = 0; i *= 2; i <10;) {
+	say i                                                     	console.log(i);           
+end                                                               }
+```
+
+<br>For Each Loop
+```
+loop element through myList:                                      for (var element of myArray) {
+	say element                                               	console.log(element);
+end						                  }
 ```
 
 <br>Let's find the greatest common divisor between two numbers!
