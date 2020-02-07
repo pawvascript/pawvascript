@@ -34,9 +34,10 @@ PAWVASCRIPT                                                       JAVASCRIPT
 
 // Hello, World!
 say "Hello, World!"                                               console.log("Hello, World!")
+```
 
-// initialize variables by barking
-
+<br>Initialize variables by barking
+```
 bark string dogName is "Cece"                                     let dogName = "Cece";
 
 bark number dogAge is 12                                          let dogAge = 12;
@@ -46,14 +47,45 @@ bark boolean isCute is true                                       let isCute = t
 bark list dogNames[string] is ["Cece", "Fluffy"]                  let dogNames = ["Cece", "Fluffy"]
 
 bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2]       let dogAges = {"Cece": 1, "Fluffy": 2} 
+```
 
-// let's loop!
+<br>Wanna compare stuff?
+```JavaScript
+x equals y                                               x == y
+
+x not equals y                                           x != y
+
+x is greater than y                                      x > y
+
+x is less than y                                         x < y
+
+x is at least y                                          x >= y
+
+x is at most y                                           x <= y  
+```
+
+<br>Let's loop!
+```
+loop:                                                             while (true) {
+	say "I run forever!"                                      	console.log("I run forever!")
+end                                                               }
+
 loop 5 times:                                                     for (let i = 0; i < 4; i++) {
 	say "Stay."                                              	 console.log("Stay.")
 end                                                               }
+```
 
-// let's find some Fibonacci numbers!
-bark func fibonacci 
+<br>Let's find the greatest common divisor between two numbers!
+```
+bark func gcd chases[number num1, number num2] returns[number]:	  function gcd(num1, num2) {
+	bark number remainder                                     var remainder;
+
+	loop while (a mod b) is greater than 0:			  	while ( (num1 % num2) > 0) {
+	remainder is (a mod b)                              	        	remainder = a % b;
+		a is b                                                          a = b;	
+		b is remainder                                                  b = remainder
+	end					                        }
+end                                                                }
 ```
 
 
