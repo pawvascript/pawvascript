@@ -27,17 +27,18 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 
 ## Example Programs
 
-### The Basics
+#### The Basics
 
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
-// Hello, World!
 say "Hello, World!"                                               console.log("Hello, World!")
 ```
 
-<br>Initialize variables by barking
-```
+<br>Initialize variables by barking.
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
 bark string dogName is "Cece"                                     let dogName = "Cece";
 
 bark number dogAge is 12                                          let dogAge = 12;
@@ -51,57 +52,72 @@ bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2]       let dogAges = 
 
 <br>Wanna compare stuff?
 ```JavaScript
-x equals y                                               x == y
+PAWVASCRIPT                                                       JAVASCRIPT
 
-x not equals y                                           x != y
+x equals y                                                        x == y
 
-x is greater than y                                      x > y
+x not equals y                                                    x != y
 
-x is less than y                                         x < y
+x is greater than y                                               x > y
 
-x is at least y                                          x >= y
+x is less than y                                                  x < y
 
-x is at most y                                           x <= y  
+x is at least y                                                   x >= y
+
+x is at most y                                                    x <= y  
 ```
+#### Loops
 
-<br>Forever Loop
-```
+Forever Loop
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
 loop:                                                             while (true) {
 	say "I run forever!"                                      	console.log("I run forever!")
 end                                                               }
 ```
 
 <br>Fixed Loop
-```
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
 loop 5 times:                                                     for (let i = 0; i < 4; i++) {
 	say "Stay."                                              	 console.log("Stay.")
 end                                                               }
 ```
 
 <br>While Loop
-```
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
 loop while x is at most 5:                                        while (x <= 5) {                                
 	say x                                                     	console.log(x);
 end                         					  }
 ```
 <br>For Loop
-```
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
 loop i is 0 by i*2 while i is less than 10:                       for (let i = 0; i *= 2; i <10;) {
 	say i                                                     	console.log(i);           
 end                                                               }
 ```
 
 <br>For Each Loop
-```
-loop element through myList:                                      for (var element of myArray) {
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+loop element through myList:                                      for (letelement of myArray) {
 	say element                                               	console.log(element);
 end						                  }
 ```
 
-<br>Let's find the greatest common divisor between two numbers!
-```
-bark func gcd chases[number num1, number num2] returns[number]:	  function gcd(num1, num2) {
-	bark number remainder                                     var remainder;
+#### Functions
+Let's find the greatest common divisor between two numbers!
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
+bark func gcd chases[number num1, number num2] fetches[number]:	  function gcd(num1, num2) {
+	bark number remainder                                     letremainder;
 
 	loop while (a mod b) is greater than 0:			  	while ( (num1 % num2) > 0) {
 	remainder is (a mod b)                              	        	remainder = a % b;
@@ -111,5 +127,28 @@ bark func gcd chases[number num1, number num2] returns[number]:	  function gcd(n
 end                                                                }
 ```
 
+#### Objects
 
+Let's make an owner object!
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
+bark breed is Owner:                                              class Owner {
+    bark string dogName                    			 	constructor(dogName) {
+							                	this.dogName = dogName;
+	bark func Owner chases[string:dogName] fetches[Owner]           }
+
+	bark func introduceDog:						introduceDog() {		
+		say "My dog's name is " add Owner's dogName         		console.log(`My dog's name is ${this.dogName}`);
+	end                                                             }
+
+	bark func command fetches[string]:                           	command() {
+		return Owner's dogName add ", stay!"				return `${this.dogName}, stay!`;
+	end                                                             }
+end                                                                }
+
+bark Owner lucille is new Owner("Cece")                            let lucille = new Owner("Cece");
+lucille's introduceDog()  !output: "My dog's name is Cece"         lucille.introduceDog();
+say lucille's command()   !output: "Cece, stay!"                   console.log(lucille.command())
+```
 
