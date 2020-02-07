@@ -1,0 +1,27 @@
+{
+  "name": "pawvascript",
+  "version": "1.0.0",
+  "description": "<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pawvascript/pawvascript.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pawvascript/pawvascript/issues"
+  },
+  "homepage": "https://github.com/pawvascript/pawvascript#readme",
+  "dependencies": {
+    "jest": "^25.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
