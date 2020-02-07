@@ -27,7 +27,7 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 
 ## Example Programs
 
-#### The Basics
+### The Basics
 
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
@@ -66,7 +66,19 @@ x is at least y                                                   x >= y
 
 x is at most y                                                    x <= y  
 ```
-#### Loops
+
+<br>Let's write some comments
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
+! I'm a one line comment                                          // I'm a comment
+
+!! I'm a                                                          /* I'm a                                        
+multiline                                                         multiline
+comment !!                                                        comment */
+```
+
+### Loops
 
 Forever Loop
 ```JavaScript
@@ -111,7 +123,7 @@ loop element through myList:                                      for (letelemen
 end						                  }
 ```
 
-#### Functions
+### Functions
 Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
@@ -127,7 +139,7 @@ bark func gcd chases[number num1, number num2] fetches[number]:	  function gcd(n
 end                                                                }
 ```
 
-#### Objects
+### Objects
 
 Let's make an owner object!
 ```JavaScript
