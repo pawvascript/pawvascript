@@ -44,9 +44,9 @@
     end         := "end" ~alnum
     keyword     = end | equalityop | relop | "func" | "is" | "breed"
     id          = ~keyword (letter "_") (letter | digit | "_")*
-    space         += comment
-	comment        = singlecom
-                     |  multicom
-    singlecom      = ~"!!" "!" (~"!" ~"\n" any)* "\n"
-    multicom       = "!!" (~"!!" any)* "!!"
+    space       += comment
+	comment     = singlecom
+                |  multicom
+    singlecom   = ~"!!" "!" (~"!" ~"\n" any)* "\n"
+    multicom    = "!!" (~"!!" any)* "!!"
 }`
