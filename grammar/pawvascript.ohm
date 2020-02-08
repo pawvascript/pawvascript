@@ -1,4 +1,4 @@
-`Pawvascript {
+`PawvaScript {
     Program     = Block+
     Block       = (Exp "\n")*
                 | Loop
@@ -44,5 +44,9 @@
     end         := "end" ~alnum
     keyword     = end | equalityop | relop | "func" | "is" | "breed"
     id          = ~keyword (letter "_") (letter | digit | "_")*
-    comment     = "--" (~"\n" any)* "\n"
+    space         += comment
+	comment        = singlecom
+                     |  multicom
+    singlecom      = ~"!!" "!" (~"!" ~"\n" any)* "\n"
+    multicom       = "!!" (~"!!" any)* "!!"
 }`
