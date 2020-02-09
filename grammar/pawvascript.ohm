@@ -1,4 +1,4 @@
-`PawvaScript {
+PawvaScript {
     Program     = Block+
     Block       = (Exp "\n")*
                 | Loop
@@ -8,8 +8,8 @@
                 | loop id "through" id Body
                 | loop VarDec "by" Exp "while" Exp Body
                 | loop Body
-    Exp         = Declaration
-                | FuncCall
+    Exp         = Declaration                   --declaration
+                | FuncCall                      --funcCall
     Declaration = bark (FuncDec | VarDec | ClassDec)
     FuncDec     = func id "chases" Parameters ("fetches" type)? Body
     VarDec      = type id Grouping? "is" Exp
@@ -49,4 +49,4 @@
                 |  multicom
     singlecom   = ~"!!" "!" (~"!" ~"\n" any)* "\n"
     multicom    = "!!" (~"!!" any)* "!!"
-}`
+}

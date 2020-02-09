@@ -5,7 +5,7 @@
 ## Introduction
 Ever wish that JavaScript had less symbols and more dogs? We did, so we made PawvaScript!
 
-PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly. PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear terms, adds types to help with debugging, and adds some dog related stuff just for fun.
+PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clearer, readable-English terms, adds types to help with debugging, and throws in some dog related stuff just for fun.
 
 ## Features
 * Language for scripting
@@ -71,11 +71,11 @@ x is at most y                                                    x <= y
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
-! I'm a one line comment                                          // I'm a comment
+!!! I'm a one line comment !!!                                    // I'm a comment
 
-!! I'm a                                                          /* I'm a                                        
+!!! I'm a                                                         /* I'm a                                        
 multiline                                                         multiline
-comment !!                                                        comment */
+comment !!!                                                       comment */
 ```
 
 ### Loops
@@ -89,7 +89,8 @@ loop:                                                             while (true) {
 end                                                               }
 ```
 
-<br>Fixed Loop
+<br>
+Fixed Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -98,7 +99,8 @@ loop 5 times:                                                     for (let i = 0
 end                                                               }
 ```
 
-<br>While Loop
+<br>
+While Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -106,7 +108,9 @@ loop while x is at most 5:                                        while (x <= 5)
 	say x                                                     	console.log(x);
 end                         					  }
 ```
-<br>For Loop
+
+<br>
+For Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -115,7 +119,8 @@ loop i is 0 by i*2 while i is less than 10:                       for (let i = 0
 end                                                               }
 ```
 
-<br>For Each Loop
+<br>
+For Each Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 loop element through myList:                                      for (letelement of myArray) {
