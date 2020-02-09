@@ -77,19 +77,19 @@ x is at most y                                                      x <= y
 PAWVASCRIPT                                                         JAVASCRIPT
 
 if x is at least y then:                                            if (x <= y) {
-    bark string dogName is "CeCe"                                       let dogName = "CeCe";
+    bark string dogName is "CeCe";                                      let dogName = "CeCe";
 else:                                                               else {
-    bark string dogName is "Buster"                                     let dogName = "Buster";
+    bark string dogName is "Buster";                                    let dogName = "Buster";
 end                                                                 }  
 
 if x not equals y then:                                             if (x !== y) {
-    say "CeCe is kinda cute"                                            console.log("CeCe is kinda cute");
+    say "CeCe is kinda cute";                                           console.log("CeCe is kinda cute");
 else if x is greater than y then:                                   else if (x > y) {
-    say "CeCe is pretty cute"                                           console.log("CeCe is pretty cute");
+    say "CeCe is pretty cute";                                          console.log("CeCe is pretty cute");
 else if x is less than y then:                                      else if (x < y) {
-    say "Okay, CeCe is really cute"                                     console.log("Okay, CeCe is really cute");
+    say "Okay, CeCe is really cute";                                    console.log("Okay, CeCe is really cute");
 else:                                                               else {
-    say "CeCe is the cutest of the cutest"                              console.log("CeCe is the cutest of the cutest");
+    say "CeCe is the cutest of the cutest";                             console.log("CeCe is the cutest of the cutest");
 end                                                                 }
 ```
 
