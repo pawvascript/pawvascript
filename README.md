@@ -10,16 +10,16 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 ## Features
 * Language for scripting
 * Static typing
-* Loops
-* Conditionals
-* Lists
-* Maps
+* 5 kinds of loops
 * 5 types
 	* string
 	* boolean
 	* number
 	* function
 	* breed (what we call objects)
+* Conditional Statements
+* Lists
+* Maps
 * Single and multi-line comments
 * No semicolons after each line
 * Object-Oriented 
@@ -35,7 +35,8 @@ PAWVASCRIPT                                                       JAVASCRIPT
 say "Hello, World!"                                               console.log("Hello, World!")
 ```
 
-<br>Initialize variables by barking.
+<br>
+Initialize variables by barking.
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -48,15 +49,21 @@ bark boolean isCute is true                                       let isCute = t
 bark list dogNames[string] is ["Cece", "Fluffy"]                  let dogNames = ["Cece", "Fluffy"]
 
 bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2]       let dogAges = {"Cece": 1, "Fluffy": 2} 
+
+!!! this has a default initialization of 0 !!! 
+bark number cuteness                                              let cuteness; 
+
+cuteness is 100                                                   cuteness = 100;
 ```
 
-<br>Wanna compare stuff?
+<br>
+Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
-x equals y                                                        x == y
+x equals y                                                        x === y
 
-x not equals y                                                    x != y
+x not equals y                                                    x !== y
 
 x is greater than y                                               x > y
 
@@ -67,7 +74,30 @@ x is at least y                                                   x >= y
 x is at most y                                                    x <= y  
 ```
 
-<br>Let's write some comments
+<br>
+Conditional Statements
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
+if x is at least y then:                                          if (x <= y) {
+    bark string dogName is "CeCe"                                     let dogName = "CeCe";
+else:                                                             else {
+    bark string dogName is "Buster"                                   let dogName = "Buster";
+end                                                               }  
+
+if x not equals y then:                                           if (x !== y) {
+    say "CeCe is kinda cute"                                          console.log("CeCe is kinda cute");
+else if x is greater than y then:                                 else if (x > y) {
+    say "CeCe is pretty cute"                                         console.log("CeCe is pretty cute");
+else if x is less than y then:                                    else if (x < y) {
+    say "Okay, CeCe is really cute"                                   console.log("Okay, CeCe is really cute");
+else:                                                             else {
+    say "CeCe is the cutest of the cutest"                            console.log("CeCe is the cutest of the cutest");
+end                                                               }
+```
+
+<br>
+Let's write some comments
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -95,7 +125,7 @@ Fixed Loop
 PAWVASCRIPT                                                       JAVASCRIPT
 
 loop 5 times:                                                     for (let i = 0; i < 4; i++) {
-	say "Stay."                                              	 console.log("Stay.")
+	say "Stay."                                              	console.log("Stay.")
 end                                                               }
 ```
 
@@ -134,9 +164,9 @@ Let's find the greatest common divisor between two numbers!
 PAWVASCRIPT                                                       JAVASCRIPT
 
 bark func gcd chases[number num1, number num2] fetches[number]:	  function gcd(num1, num2) {
-	bark number remainder                                     letremainder;
+	bark number remainder                                     let remainder;
 
-	loop while (a mod b) is greater than 0:			  	while ( (num1 % num2) > 0) {
+	loop while (a mod b) is greater than 0:			  	while ((num1 % num2) > 0) {
 	remainder is (a mod b)                              	        	remainder = a % b;
 		a is b                                                          a = b;	
 		b is remainder                                                  b = remainder
