@@ -32,27 +32,27 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-say "Hello, World!"                                                 console.log("Hello, World!")
+say "Hello, World!";                                                console.log("Hello, World!")
 ```
 
 <br>Initialize variables by barking.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Cece"                                       let dogName = "Cece";
+bark string dogName is "Cece";                                      let dogName = "Cece";
 
-bark number dogAge is 12                                            let dogAge = 12;
+bark number dogAge is 12;                                           let dogAge = 12;
 
-bark boolean isCute is true                                         let isCute = true;
+bark boolean isCute is true;                                        let isCute = true;
 
-bark list dogNames[string] is ["Cece", "Fluffy"]                    let dogNames = ["Cece", "Fluffy"]
+bark list dogNames[string] is ["Cece", "Fluffy"];                   let dogNames = ["Cece", "Fluffy"]
 
-bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2]         let dogAges = {"Cece": 1, "Fluffy": 2} 
+bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];        let dogAges = {"Cece": 1, "Fluffy": 2} 
 
 !!! this has a default initialization of 0 !!! 
-bark number cuteness                                                let cuteness; 
+bark number cuteness;                                               let cuteness; 
 
-cuteness is 100                                                     cuteness = 100;
+cuteness is 100;                                                    cuteness = 100;
 ```
 
 <br>Wanna compare stuff?
