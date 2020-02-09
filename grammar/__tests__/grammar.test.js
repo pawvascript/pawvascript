@@ -7,7 +7,7 @@
 
 const syntaxCheck = require('../syntax-checker');
 
-const examplePrograms = [
+const readmeExamples = [
   ['Statement', 'hello world', 'say "Hello, World!";'],
   ['Declaration', 'string declarations', 'bark string dogName is "CeCe";'],
   ['Declaration', 'number declarations', 'bark number dogAge is 12;'],
@@ -36,11 +36,13 @@ const examplePrograms = [
                                             say "Okay, CeCe is really cute";
                                           else:
                                             say "CeCe is the cutest of the cutest";
-                                          end`]
+                                          end`],
+  ['comment', 'one line comments', `!!! I'm a one line comment !!!`],
+  ['comment', 'multiline comments', `!!! I'm a \n multiline \n comment !!!`]
 ];
 
 describe('The syntax can match', () => {
-  examplePrograms.forEach( ([startPoint, scenario, program]) => {
+  readmeExamples.forEach( ([startPoint, scenario, program]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(program, startPoint)).toBe(true);
       done();

@@ -64,8 +64,5 @@ PawvaScript {
     keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
-    comment     = singlecom
-                |  multicom
-    singlecom   = ~"!!" "!" (~"!" ~"\n" any)* "\n"
-    multicom    = "!!" (~"!!" any)* "!!"
+    comment     = "!!!" (~"!!" any)* "!!!"
 }
