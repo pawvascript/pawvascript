@@ -21,7 +21,8 @@ PawvaScript {
     Declaration = bark FuncDec                                                              --FuncDec
                 | bark VarDec ";"                                                           --VarDec
                 | bark TypeDec                                                              --TypeDec
-    FuncDec     = func id ("chases" Parameters)? ("fetches" type)? ":" Block end
+    FuncDec     = func id ("chases" Parameters)? ("fetches" type)? ":" Block end            --funcDec
+                | func id ("chases" Parameters)? ("fetches" id) ";"                         --contructorDec
     VarDec      = type id Grouping? "is" Exp                                                --fullDec
                 | type id Grouping?                                                         --defaultDec
     TypeDec     = "breed" id "is" ":" Block end                                             --typeDec

@@ -66,10 +66,15 @@ const readmeExamples = [
                                                                                                                           
 ];
 
-const functions = [
-  ['Declaration', 'breed declaration', `bark breed Owner is:
+const objects = [
+  ['Declaration', 'object declaration', `bark breed Owner is:
                                           bark string dogName;
-                                        end`]
+                                        end`],
+  ['Declaration', 'object constructor declaration', `bark breed Owner is:
+                                                      bark string dogName;
+                                                        
+                                                        bark func Owner chases[string:dogName] fetches Owner;
+                                                    end`]
 ];
 
 describe('The syntax can match', () => {
@@ -82,7 +87,7 @@ describe('The syntax can match', () => {
 });
 
 describe('Declarations can be', () => {
-  functions.forEach( ([startPoint, scenario, snippet]) => {
+  objects.forEach( ([startPoint, scenario, snippet]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(snippet, startPoint)).toBe(true);
       done();
