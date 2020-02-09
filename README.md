@@ -111,7 +111,7 @@ Forever Loop
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop:                                                               while (true) {
-    say "I run forever!"                                      	        console.log("I run forever!")
+    say "I run forever!";                                      	        console.log("I run forever!")
 end                                                                 }
 ```
 
@@ -120,7 +120,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop 5 times:                                                       for (let i = 0; i < 4; i++) {
-    say "Stay."                                              	        console.log("Stay.")
+    say "Stay.";                                              	        console.log("Stay.")
 end                                                                 }
 ```
 
@@ -129,7 +129,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop while x is at most 5:                                          while (x <= 5) {                                
-    say x                                                     	        console.log(x);
+    say x;                                                     	        console.log(x);
 end                                                                 }
 ```
 
@@ -137,8 +137,8 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop i is 0 by i*2 while i is less than 10:                         for (let i = 0; i *= 2; i <10;) {
-    say i                                                     	        console.log(i);           
+loop number i is 0 by i*2 while i is less than 10:                         for (let i = 0; i *= 2; i <10;) {
+    say i;                                                     	        console.log(i);           
 end                                                                 }
 ```
 
@@ -146,7 +146,7 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop element through myList:                                        for (letelement of myArray) {
+loop element through myList:                                        for (let element of myArray) {
     say element                                               	        console.log(element);
 end                                                                 }
 ```
