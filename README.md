@@ -35,8 +35,7 @@ PAWVASCRIPT                                                       JAVASCRIPT
 say "Hello, World!"                                               console.log("Hello, World!")
 ```
 
-<br>
-Initialize variables by barking.
+<br>Initialize variables by barking.
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -56,8 +55,7 @@ bark number cuteness                                              let cuteness;
 cuteness is 100                                                   cuteness = 100;
 ```
 
-<br>
-Wanna compare stuff?
+<br>Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -74,8 +72,7 @@ x is at least y                                                   x >= y
 x is at most y                                                    x <= y  
 ```
 
-<br>
-Conditional Statements
+<br>Conditional Statements
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -96,8 +93,7 @@ else:                                                             else {
 end                                                               }
 ```
 
-<br>
-Let's write some comments
+<br>Let's write some comments
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -119,8 +115,7 @@ loop:                                                             while (true) {
 end                                                               }
 ```
 
-<br>
-Fixed Loop
+<br>Fixed Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -129,8 +124,7 @@ loop 5 times:                                                     for (let i = 0
 end                                                               }
 ```
 
-<br>
-While Loop
+<br>While Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -139,8 +133,7 @@ loop while x is at most 5:                                        while (x <= 5)
 end                         					  }
 ```
 
-<br>
-For Loop
+<br>For Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 
@@ -149,8 +142,7 @@ loop i is 0 by i*2 while i is less than 10:                       for (let i = 0
 end                                                               }
 ```
 
-<br>
-For Each Loop
+<br>For Each Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
 loop element through myList:                                      for (letelement of myArray) {
