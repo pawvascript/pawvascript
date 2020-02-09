@@ -148,7 +148,7 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 loop element through myList:                                        for (letelement of myArray) {
     say element                                               	        console.log(element);
-end						                                            }
+end                                                                 }
 ```
 
 ### Functions
