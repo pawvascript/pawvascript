@@ -5,7 +5,7 @@ PawvaScript {
                 | if Exp then ":" Block else ":" Block                                      --else
                 | if Exp then ":" Block						                                          --basic
     Loop        = loop Exp "times" ":" Block                                                --definedLoop
-                | loop "while" "(" Exp ")" ":" Block                                        --whileLoop
+                | loop "while" Exp ":" Block                                        --whileLoop
                 | loop id "through" id ":" Block                                            --through
                 | loop VarDec "by" Exp "while" Exp ":" Block                                --for
                 | loop ":" Block													        --infinite
@@ -64,5 +64,5 @@ PawvaScript {
     keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
-    comment     = "!!!" (~"!!" any)* "!!!"
+    comment     = "!!!" (~"!!!" any)* "!!!"
 }
