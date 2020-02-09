@@ -182,7 +182,7 @@ bark breed is Owner:                                              class Owner {
 	end                                                             }
 
 	bark func command fetches[string]:                              command() {
-		return Owner's dogName add ", stay!"				return `${this.dogName}, stay!`;
+		return Owner's dogName add ", stay!"                            return `${this.dogName}, stay!`;
 	end                                                             }
 end                                                                }
 
