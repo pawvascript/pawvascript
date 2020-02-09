@@ -130,7 +130,7 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 loop while x is at most 5:                                          while (x <= 5) {                                
     say x                                                     	        console.log(x);
-end                         					                    }
+end                                                                 }
 ```
 
 <br>For Loop
