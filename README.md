@@ -163,7 +163,7 @@ bark func gcd chases[number num1, number num2] fetches[number]:	    function gcd
     remainder is (a mod b)                              	        	    remainder = a % b;
         a is b                                                              a = b;	
         b is remainder                                                      b = remainder
-    end					                                                }
+    end                                                                 }
 end                                                                 }
 ```
 
