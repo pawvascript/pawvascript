@@ -53,7 +53,16 @@ const readmeExamples = [
                                   end`],
   ['Statement', 'for each loops', `loop element through myList:
                                     say element;
-                                  end`]                                                                                                                        
+                                  end`],
+  ['Declaration', 'function declaration', `bark func gcd chases[number:num1, number:num2] fetches number:
+                                            bark number remainder;
+
+                                            loop while (a mod b) is greater than 0:
+                                              remainder is (a mod b);
+                                              a is b;
+                                              b is remainder;
+                                            end
+                                          end`]                                                                                                                        
 ];
 
 describe('The syntax can match', () => {
