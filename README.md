@@ -156,13 +156,13 @@ Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark func gcd chases[number num1, number num2] fetches[number]:	    function gcd(num1, num2) {
-    bark number remainder                                               let remainder;
+bark func gcd chases[number:num1, number:num2] fetches number:	    function gcd(num1, num2) {
+    bark number remainder;                                              let remainder;
 
-    loop while (a mod b) is greater than 0:			  	                while ((num1 % num2) > 0) {
-    remainder is (a mod b)                              	        	    remainder = a % b;
-        a is b                                                              a = b;	
-        b is remainder                                                      b = remainder
+    loop while (a mod b) is greater than 0:			  	 while ((num1 % num2) > 0) {
+        remainder is (a mod b);                              	            remainder = a % b;
+        a is b;                                                             a = b;	
+        b is remainder;                                                     b = remainder;
     end                                                                 }
 end                                                                 }
 ```
