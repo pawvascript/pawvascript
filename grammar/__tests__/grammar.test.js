@@ -8,14 +8,17 @@
 const syntaxCheck = require('../syntax-checker');
 
 const examplePrograms = [
-  ['Statement', 'hello world', 'say "Hello, World!";']
+  ['Statement', 'hello world', 'say "Hello, World!";'],
+  ['Declaration', 'declare strings', 'bark string dogName is "Cece";'],
+  ['Declaration', 'declare numbers', 'bark number dogAge is 12;'],
+  ['Declaration', 'declare booleans', 'bark boolean isCute is true;']
 ];
 
-describe('The syntax checker matches', () => {
+describe('Programs can', () => {
   examplePrograms.forEach( ([startPoint, scenario, program]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(program, startPoint)).toBe(true);
       done();
     });
-  })
+  });
 });
