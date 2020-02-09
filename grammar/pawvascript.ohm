@@ -20,9 +20,11 @@ PawvaScript {
     Say         = say Exp
     Declaration = bark FuncDec                                                              --FuncDec
                 | bark VarDec ";"                                                           --VarDec
-    FuncDec     = func id "chases" Parameters ("fetches" type)? ":" Block end
+                | bark TypeDec                                                              --TypeDec
+    FuncDec     = func id ("chases" Parameters)? ("fetches" type)? ":" Block end
     VarDec      = type id Grouping? "is" Exp                                                --fullDec
                 | type id Grouping?                                                         --defaultDec
+    TypeDec     = "breed" id "is" ":" Block end                                             --typeDec
     Grouping    = "[" type (":" type)? "]"
     FuncCall    = id "(" (Exp ",")* Exp? ")"
     Parameters  = "[" (type ":" id)? ("," type ":" id)* "]"

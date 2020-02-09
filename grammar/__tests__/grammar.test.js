@@ -62,7 +62,14 @@ const readmeExamples = [
                                               a is b;
                                               b is remainder;
                                             end
-                                          end`]                                                                                                                        
+                                          end`]
+                                                                                                                          
+];
+
+const functions = [
+  ['Declaration', 'breed declaration', `bark breed Owner is:
+                                          bark string dogName;
+                                        end`]
 ];
 
 describe('The syntax can match', () => {
@@ -73,3 +80,12 @@ describe('The syntax can match', () => {
     });
   });
 });
+
+describe('Declarations can be', () => {
+  functions.forEach( ([startPoint, scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, startPoint)).toBe(true);
+      done();
+    });
+  })
+})

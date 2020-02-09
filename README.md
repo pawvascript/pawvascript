@@ -147,7 +147,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop element through myList:                                        for (let element of myArray) {
-    say element                                               	        console.log(element);
+    say element;                                               	        console.log(element);
 end                                                                 }
 ```
 
@@ -173,7 +173,7 @@ Let's make an owner object!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark breed is Owner:                                                class Owner {
+bark breed Owner is:                                                class Owner {
     bark string dogName                                                 constructor(dogName) {
                                                                             this.dogName = dogName;
     bark func Owner chases[string:dogName] fetches[Owner]               }
