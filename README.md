@@ -173,15 +173,15 @@ Let's make an owner object!
 PAWVASCRIPT                                                       JAVASCRIPT
 
 bark breed is Owner:                                              class Owner {
-    bark string dogName                    			 	constructor(dogName) {
-							                	this.dogName = dogName;
+    bark string dogName                                                 constructor(dogName) {
+                                                                                this.dogName = dogName;
 	bark func Owner chases[string:dogName] fetches[Owner]           }
 
 	bark func introduceDog:						introduceDog() {		
-		say "My dog's name is " add Owner's dogName         		console.log(`My dog's name is ${this.dogName}`);
+		say "My dog's name is " add Owner's dogName                     console.log(`My dog's name is ${this.dogName}`);
 	end                                                             }
 
-	bark func command fetches[string]:                           	command() {
+	bark func command fetches[string]:                              command() {
 		return Owner's dogName add ", stay!"				return `${this.dogName}, stay!`;
 	end                                                             }
 end                                                                }
