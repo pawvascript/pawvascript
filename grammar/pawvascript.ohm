@@ -20,7 +20,7 @@ PawvaScript {
     Say         = say Exp
     Declaration = bark FuncDec                                                              --FuncDec
                 | bark VarDec ";"                                                           --VarDec
-    FuncDec     = func id "chases" Parameters ("fetches" type)? ":" Block
+    FuncDec     = func id "chases" Parameters ("fetches" type)? ":" Block end
     VarDec      = type id Grouping? "is" Exp                                                --fullDec
                 | type id Grouping?                                                         --defaultDec
     Grouping    = "[" type (":" type)? "]"
@@ -35,7 +35,7 @@ PawvaScript {
                 | Term
     Term        = Term ("+" | "-") Factor                                                   --addOp
                 | Factor
-    Factor      = Factor ("*" | "/") Negation                                               --mulOp
+    Factor      = Factor ("*" | "/" | "mod") Negation                                               --mulOp
                 | Negation
     Negation    = "-"? Factorial
     Factorial   = Primary "!"?
