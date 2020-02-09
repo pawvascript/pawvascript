@@ -1,6 +1,6 @@
 PawvaScript {
-    Program 	= Block
-    Block 		= (Statement)*
+    Program 	  = Block
+    Block 		  = (Statement)*
     Conditional = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
                 | if Exp then ":" Block else ":" Block                                      --else
                 | if Exp then ":" Block						                                --basic
@@ -12,12 +12,12 @@ PawvaScript {
     Statement   = Declaration                                                               --declaration
                 | Assignment ";"                                                            --assignment
                 | FuncCall end                                                              --funcCall
-                | Say ";"			                                                        --say
+                | Say ";"			                                                              --say
                 | Loop end                                                                  --loop
                 | Conditional end                                                           --conditional
-                | Exp ";"			                                                        --expression
-    Assignment = id Grouping? "is" Exp
-    Say = say Exp
+                | Exp ";"			                                                              --expression
+    Assignment  = id Grouping? "is" Exp
+    Say         = say Exp
     Declaration = bark FuncDec                                                              --FuncDec
                 | bark VarDec ";"                                                           --VarDec
     FuncDec     = func id "chases" Parameters ("fetches" type)? ":" Block
@@ -31,7 +31,7 @@ PawvaScript {
     EqualityExp = RelopExp equalityop RelopExp                                              --equalityOp
                 | RelopExp
     RelopExp    = Term "is" relop "than" Term                                               --relOp
-                | Term "is" relop Term  			                                        --relEquOp
+                | Term "is" relop Term  			                                              --relEquOp
                 | Term
     Term        = Term ("+" | "-") Factor                                                   --addOp
                 | Factor
@@ -56,11 +56,11 @@ PawvaScript {
     loop        = "loop" ~alnum
     end         := "end" ~alnum
     else        = "else" ~alnum
-    bark = "bark" ~alnum
-    func = "func" ~alnum
-    say = "say" ~alnum
-    if = "if" ~alnum
-    then = "then" ~alnum
+    bark        = "bark" ~alnum
+    func        = "func" ~alnum
+    say         = "say" ~alnum
+    if          = "if" ~alnum
+    then        = "then" ~alnum
     keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
