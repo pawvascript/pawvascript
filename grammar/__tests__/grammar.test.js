@@ -22,12 +22,12 @@ const readmeExamples = [
   ['EqualityExp', 'less than comparators', 'x is less than y'],
   ['EqualityExp', 'greater or equals comparators', 'x is at least y'],
   ['EqualityExp', 'less or equals comparators', 'x is at most y'],
-  ['Statement', 'if, else statements', `if x is at least y then:
-                                            bark string dogName is "CeCe";
-                                          else:
-                                            bark string dogName is "Fluffy";
-                                              bark string dogAge is 12;
-                                          end`],
+  ['Statement', 'if, else statements',    `if x is at least y then:
+                                               bark string dogName is "CeCe";
+                                             else:
+                                               bark string dogName is "Fluffy";
+                                                 bark string dogAge is 12;
+                                             end`],
   ['Statement', 'if, else if statements', `if x not equals y then:
                                             say "CeCe is kinda cute";
                                           else if x is greater than y then:
@@ -38,7 +38,22 @@ const readmeExamples = [
                                             say "CeCe is the cutest of the cutest";
                                           end`],
   ['comment', 'one line comments', `!!! I'm a one line comment !!!`],
-  ['comment', 'multiline comments', `!!! I'm a \n multiline \n comment !!!`]
+  ['comment', 'multiline comments', `!!! I'm a \n multiline \n comment !!!`],
+  ['Statement', 'forever loops', `loop:
+                                    say "I run forever!";
+                                  end`],
+  ['Statement', 'fixed loops',   `loop 5 times:
+                                      say "Stay.";
+                                    end`],
+  ['Statement', 'while loops',   `loop while x is at most 5:
+                                      say x;
+                                  end`],
+  ['Statement', 'for loops',     `loop number i is 0 by i*2 while i is less than 10:
+                                    say i;
+                                  end`],
+  ['Statement', 'for each loops', `loop element through myList:
+                                    say element;
+                                  end`]                                                                                                                        
 ];
 
 describe('The syntax can match', () => {
