@@ -12,11 +12,11 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 * Static typing
 * 5 kinds of loops
 * 5 types
-	* string
-	* boolean
-	* number
-	* function
-	* breed (what we call objects)
+    * string
+    * boolean
+    * number
+    * function
+    * breed (what we call objects)
 * Conditional Statements
 * Lists
 * Maps
@@ -111,7 +111,7 @@ Forever Loop
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop:                                                               while (true) {
-	say "I run forever!"                                      	        console.log("I run forever!")
+    say "I run forever!"                                      	        console.log("I run forever!")
 end                                                                 }
 ```
 
@@ -120,7 +120,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop 5 times:                                                       for (let i = 0; i < 4; i++) {
-	say "Stay."                                              	        console.log("Stay.")
+    say "Stay."                                              	        console.log("Stay.")
 end                                                                 }
 ```
 
@@ -129,7 +129,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop while x is at most 5:                                          while (x <= 5) {                                
-	say x                                                     	        console.log(x);
+    say x                                                     	        console.log(x);
 end                         					                    }
 ```
 
@@ -138,7 +138,7 @@ end                         					                    }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop i is 0 by i*2 while i is less than 10:                         for (let i = 0; i *= 2; i <10;) {
-	say i                                                     	        console.log(i);           
+    say i                                                     	        console.log(i);           
 end                                                                 }
 ```
 
@@ -147,7 +147,7 @@ end                                                                 }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop element through myList:                                        for (letelement of myArray) {
-	say element                                               	        console.log(element);
+    say element                                               	        console.log(element);
 end						                                            }
 ```
 
@@ -157,14 +157,14 @@ Let's find the greatest common divisor between two numbers!
 PAWVASCRIPT                                                         JAVASCRIPT
 
 bark func gcd chases[number num1, number num2] fetches[number]:	    function gcd(num1, num2) {
-	bark number remainder                                               let remainder;
+    bark number remainder                                               let remainder;
 
-	loop while (a mod b) is greater than 0:			  	                while ((num1 % num2) > 0) {
-	remainder is (a mod b)                              	        	    remainder = a % b;
-		a is b                                                              a = b;	
-		b is remainder                                                      b = remainder
-	end					                                                }
-end                                                                }
+    loop while (a mod b) is greater than 0:			  	                while ((num1 % num2) > 0) {
+    remainder is (a mod b)                              	        	    remainder = a % b;
+        a is b                                                              a = b;	
+        b is remainder                                                      b = remainder
+    end					                                                }
+end                                                                 }
 ```
 
 ### Objects
@@ -176,15 +176,15 @@ PAWVASCRIPT                                                         JAVASCRIPT
 bark breed is Owner:                                                class Owner {
     bark string dogName                                                 constructor(dogName) {
                                                                             this.dogName = dogName;
-	bark func Owner chases[string:dogName] fetches[Owner]               }
+    bark func Owner chases[string:dogName] fetches[Owner]               }
 
-	bark func introduceDog:                                             introduceDog() {		
-		say "My dog's name is " add Owner's dogName                         console.log(`My dog's name is ${this.dogName}`);
-	end                                                                 }
+    bark func introduceDog:                                             introduceDog() {		
+        say "My dog's name is " add Owner's dogName                         console.log(`My dog's name is ${this.dogName}`);
+    end                                                                 }
 
-	bark func command fetches[string]:                                  command() {
-		return Owner's dogName add ", stay!"                                return `${this.dogName}, stay!`;
-	end                                                                 }
+    bark func command fetches[string]:                                  command() {
+        return Owner's dogName add ", stay!"                                return `${this.dogName}, stay!`;
+    end                                                                 }
 end                                                                 }
 
 bark Owner lucille is new Owner("Cece")                             let lucille = new Owner("Cece");
