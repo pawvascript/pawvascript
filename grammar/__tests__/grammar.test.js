@@ -1,7 +1,7 @@
 /*
  * Grammar Success Test
  *
- * These tests check that the PawvaScript grammar accepts a program that features all of
+ * These tests that the PawvaScript grammar accepts a program that features all of
  * syntactic forms of the language.
  */
 
@@ -9,22 +9,37 @@ const syntaxCheck = require('../syntax-checker');
 
 const examplePrograms = [
   ['Statement', 'hello world', 'say "Hello, World!";'],
-  ['Declaration', 'declare strings', 'bark string dogName is "Cece";'],
-  ['Declaration', 'declare numbers', 'bark number dogAge is 12;'],
-  ['Declaration', 'declare booleans', 'bark boolean isCute is true;'],
-  ['Declaration', 'declare lists', 'bark list dogNames[string] is ["Cece", "Fluffy"];'],
-  ['Declaration', 'declare maps', 'bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];'],
-  ['Declaration', 'declare uninitialized variables', 'bark number cuteness;'],
-  ['Assignment', 'assign uninitialized variables', 'cuteness is 100'],
-  ['EqualityExp', 'check equality', 'x equals y'],
-  ['EqualityExp', 'check inequaltiy', 'x not equals y'],
-  ['EqualityExp', 'check greater than', 'x is greater than y'],
-  ['EqualityExp', 'check less than', 'x is less than y'],
-  ['EqualityExp', 'check greater or equals', 'x is at least y'],
-  ['EqualityExp', 'check less or equals', 'x is at most y'],
+  ['Declaration', 'string declarations', 'bark string dogName is "CeCe";'],
+  ['Declaration', 'number declarations', 'bark number dogAge is 12;'],
+  ['Declaration', 'boolean declarations', 'bark boolean isCute is true;'],
+  ['Declaration', 'list declarations', 'bark list dogNames[string] is ["CeCe", "Fluffy"];'],
+  ['Declaration', 'map declarations', 'bark map dogAges[string:number] is ["CeCe": 1, "Fluffy": 2];'],
+  ['Declaration', 'uninitialized variable declarations', 'bark number cuteness;'],
+  ['Assignment', 'assigning uninitialized variables', 'cuteness is 100'],
+  ['EqualityExp', 'equality comparators', 'x equals y'],
+  ['EqualityExp', 'inequaltiy comparators', 'x not equals y'],
+  ['EqualityExp', 'greater than comparators', 'x is greater than y'],
+  ['EqualityExp', 'less than comparators', 'x is less than y'],
+  ['EqualityExp', 'greater or equals comparators', 'x is at least y'],
+  ['EqualityExp', 'less or equals comparators', 'x is at most y'],
+  ['Statement', 'if, else statements', `if x is at least y then:
+                                            bark string dogName is "CeCe";
+                                          else:
+                                            bark string dogName is "Fluffy";
+                                              bark string dogAge is 12;
+                                          end`],
+  ['Statement', 'if, else if statements', `if x not equals y then:
+                                            say "CeCe is kinda cute";
+                                          else if x is greater than y then:
+                                            say "CeCe is pretty cute";
+                                          else if x is less than y then:
+                                            say "Okay, CeCe is really cute";
+                                          else:
+                                            say "CeCe is the cutest of the cutest";
+                                          end`]
 ];
 
-describe('Programs can', () => {
+describe('The syntax can match', () => {
   examplePrograms.forEach( ([startPoint, scenario, program]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(program, startPoint)).toBe(true);

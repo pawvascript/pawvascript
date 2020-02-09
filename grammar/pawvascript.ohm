@@ -3,7 +3,7 @@ PawvaScript {
     Block 		  = (Statement)*
     Conditional = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
                 | if Exp then ":" Block else ":" Block                                      --else
-                | if Exp then ":" Block						                                --basic
+                | if Exp then ":" Block						                                          --basic
     Loop        = loop Exp "times" ":" Block                                                --definedLoop
                 | loop "while" "(" Exp ")" ":" Block                                        --whileLoop
                 | loop id "through" id ":" Block                                            --through
