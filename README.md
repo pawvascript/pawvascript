@@ -55,6 +55,15 @@ bark number cuteness                                              let cuteness;
 cuteness is 100                                                   cuteness = 100;
 ```
 
+<br>String interpolation and concetation
+```JavaScript
+PAWVASCRIPT                                                       JAVASCRIPT
+
+bark string dogName is "Ce" add "Ce"                              let dogName = "Ce" + "Ce";
+
+bark string sentence is "![dogName] is the best dog"              let sentence = `${dogName} is the best dog`;
+```
+
 <br>Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
@@ -145,7 +154,7 @@ end                                                               }
 <br>For Each Loop
 ```JavaScript
 PAWVASCRIPT                                                       JAVASCRIPT
-loop element through myList:                                      for (letelement of myArray) {
+loop element through myList:                                      for (let element of myArray) {
 	say element                                               	console.log(element);
 end						                  }
 ```
@@ -165,6 +174,8 @@ bark func gcd chases[number num1, number num2] fetches[number]:	  function gcd(n
 	end					                        }
 end                                                                }
 ```
+
+
 
 ### Objects
 
