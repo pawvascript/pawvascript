@@ -118,7 +118,7 @@ const ids = [
   ['end with _', 'hello_'],
   ['_s all over the place', '_oh_hey_there_'],
   ['has numbers', 'not100'],
-  ['start with keyword', 'isCool'],
+  ['start with keyword', 'barksLoudly'],
   ['one letter', 'm']
 ]
 
