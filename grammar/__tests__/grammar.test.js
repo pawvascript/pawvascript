@@ -62,7 +62,24 @@ const readmeExamples = [
                                               a is b;
                                               b is remainder;
                                             end
-                                          end`]
+                                          end`],
+  [undefined, 'object declaration and creation', `bark breed Owner is:
+                                                        bark string dogName;
+                                                          
+                                                          bark func Owner chases[string:dogName] fetches Owner;
+                                                          
+                                                          bark func introduceDog:
+                                                            say "My dog's name is " with Owner's dogName;
+                                                          end
+
+                                                          bark func command fetches string:
+                                                            give Owner's dogName with ", stay.";
+                                                          end
+                                                      end
+                                                      bark Owner lucille is Owner("Cece");
+                                                      lucille's introduceDog();  !!! output: "My dog's name is Cece" !!!
+                                                      say lucille's command(); !!! output: "Cece, stay." !!!
+                                                      `]
                                                                                                                           
 ];
 
@@ -81,7 +98,7 @@ const objects = [
                                               bark func Owner chases[string:dogName] fetches Owner;
                                               
                                               bark func introduceDog:
-                                                say "My dog's name is " + Owner's dogName;
+                                                say "My dog's name is " with Owner's dogName;
                                               end
 
                                               bark func command fetches string:

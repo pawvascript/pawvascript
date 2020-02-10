@@ -45,13 +45,13 @@ PawvaScript {
     Negation    = "-"? Factorial
     Factorial   = Primary "!"?
     Primary     = "(" Exp ")"                                                               --parens
-                | id "\'s" id                                                               --propertyOp
+                | id "\'s" Exp                                                               --propertyOp
                 | numlit
                 | strlit
                 | id
                 | "[" Exp? ("," Exp)* "]"					                                --list
                 | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]" --map
-    type = "number" | "string" | "boolean" | "list" | "map" | "breed"
+    type = "number" | "string" | "boolean" | "list" | "map" | "breed" | id
     numlit      = digit+ ("." digit+)?
     strlit      = "\"" (char | "'")* "\""
     char        = escape
@@ -67,7 +67,7 @@ PawvaScript {
     say         = "say" ~alnum
     if          = "if" ~alnum
     then        = "then" ~alnum
-    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give"
+    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give" | "with"
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
     comment     = "!!!" (~"!!!" any)* "!!!"

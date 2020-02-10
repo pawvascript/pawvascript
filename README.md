@@ -182,13 +182,13 @@ bark breed Owner is:                                                class Owner 
         say "My dog's name is " with Owner's dogName;                       console.log(`My dog's name is ${this.dogName}`);
     end                                                                 }
 
-    bark func command fetches[string]:                                  command() {
+    bark func command fetches string:                                   command() {
         give Owner's dogName with ", stay!";                                return `${this.dogName}, stay!`;
     end                                                                 }
 end                                                                 }
 
-bark Owner lucille is new Owner("Cece")                             let lucille = new Owner("Cece");
+bark Owner lucille is Owner("Cece")                                 let lucille = new Owner("Cece");
 lucille's introduceDog()  !output: "My dog's name is Cece"          lucille.introduceDog();
-say lucille's command()   !output: "Cece, stay!"                    console.log(lucille.command())
+say lucille's command()   !output: "Cece, stay."                    console.log(lucille.command())
 ```
 
