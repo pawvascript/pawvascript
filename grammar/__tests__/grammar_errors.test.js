@@ -19,6 +19,12 @@ const non_comments = [
   ['just characters without tags', 'hello I am the comment your mom told you to avoid']
 ];
 
+const non_ids = [
+  ['keyword', 'is'],
+  ['starts with number', '23jordan'],
+  ['no letters', '___888'],
+];
+
 describe('The syntax checker', () => {
   errors.forEach(([scenario, program, startPoint]) => {
     test(`detects the error ${scenario}`, (done) => {

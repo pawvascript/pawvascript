@@ -113,6 +113,15 @@ const comments = [
   ['all kinds of characters', '!!! @#$@#%^&{123456;}!!!']
 ];
 
+const ids = [
+  ['start with _', '_hello'],
+  ['end with _', 'hello_'],
+  ['_s all over the place', '_oh_hey_there_'],
+  ['has numbers', 'not100'],
+  ['start with keyword', 'isCool'],
+  ['one letter', 'm']
+]
+
 describe('The syntax can match', () => {
   readmeExamples.forEach( ([scenario, program, startPoint]) => {
     test(scenario, (done) => {
@@ -135,6 +144,15 @@ describe('comments match', () => {
   comments.forEach( ([scenario, snippet]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(snippet, 'comment')).toBe(true);
+      done();
+    });
+  })
+})
+
+describe('ids match', () => {
+  ids.forEach( ([scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, 'id')).toBe(true);
       done();
     });
   })
