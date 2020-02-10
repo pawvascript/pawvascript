@@ -44,8 +44,7 @@ PawvaScript {
     Factor          = Factor ("*" | "/" | "mod") Negation                                       --mulOp
                     | Negation
     Negation        = "-"? Factorial
-    Factorial       = Primary "!"?
-    Access          = Primary "[" Primary "]"                                                   
+    Factorial       = Primary "!"?                                                   
     Primary         = "(" Exp ")"                                                               --parens
                     | id "\'s" Exp                                                              --propertyOp
                     | numlit
