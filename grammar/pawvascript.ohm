@@ -38,7 +38,7 @@ PawvaScript {
     RelopExp    = Term "is" relop "than" Term                                               --relOp
                 | Term "is" relop Term  			                                              --relEquOp
                 | Term
-    Term        = Term ("+" | "-" | "with") Factor                                                   --addOp
+    Term        = Term ("+" | "-" | (~"without" "with") | "without") Factor                         --addOp
                 | Factor
     Factor      = Factor ("*" | "/" | "mod") Negation                                               --mulOp
                 | Negation
@@ -67,7 +67,7 @@ PawvaScript {
     say         = "say" ~alnum
     if          = "if" ~alnum
     then        = "then" ~alnum
-    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give" | "with"
+    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give" | "with" | "without"
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
     comment     = "!!!" (~"!!!" any)* "!!!"
