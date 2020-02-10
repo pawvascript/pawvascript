@@ -73,8 +73,8 @@ Lists are the PawvaScript equivalent of arrays in JavaScript:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark [string] goodDogs is ["CeCe", "Buster", "Muffin"];             let goodDogs = ["CeCe", "Buster", "Muffin"];
-bark [number] ages is [1, 1, 2];                                    let ages = [1, 1, 2];
+bark list goodDogs[string] is ["CeCe", "Buster", "Muffin"];         let goodDogs = ["CeCe", "Buster", "Muffin"];
+bark list ages[number] is [1, 1, 2];                                let ages = [1, 1, 2];
 ```
 
 ### Maps
@@ -83,12 +83,12 @@ Maps are data structures like Python dictionaries.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark [string:string] goodDogs is [                                  let goodDogs = {
+bark map goodDogs[string:string] is [                               let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
 	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
 	"Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-bark [string:number] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];     let ages = {CeCe: 1, Buster: 1, Mo: 5};
+bark map ages[string:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];  let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators 
@@ -97,17 +97,37 @@ Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-x equals y                                                          x === y
+bark boolean a is x equals y;                                       let a = x === y;
 
-x not equals y                                                      x !== y
+a is x not equals y;                                                a = x !== y;
 
-x is greater than y                                                 x > y
+a is x is greater than y;                                           a = x > y;
 
-x is less than y                                                    x < y
+a is x is less than y;                                              a = x < y;
 
-x is at least y                                                     x >= y
+a is x is at least y;                                               a = x >= y;
 
-x is at most y                                                      x <= y  
+a is x is at most y;                                                a = x <= y;  
+```
+
+### Arithmetic Operators
+
+```JavaScript
+PAWVASCRIPT                                                         JAVASCRIPT
+
+bark number a is x + y;                                             let a = x + y;
+
+a is x - y;                                                         a = x - y;
+
+a is x * y;                                                         a = x * y;
+
+a is x / y;                                                         a = x / y;
+
+a is x mod y;                                                       a = x % y;
+
+a is x!;                                                            a = x!;
+
+a is -x;                                                            a = -x;
 ```
 
 ### Conditional Statements
