@@ -7,9 +7,11 @@
 
 const syntaxCheck = require('../syntax-checker');
 
-const errors = [
-  ['does not say incorrect string literals', 'say "Hello, World!;', 'Statement']
-  // TODO: We need dozens more here....
+const miscellaneous_errors = [
+  ['does not say incorrect string literals', 'say "Hello, World!;', 'Statement'],
+  ['unknown operator', 'x := 2 ** 5', 'Statement'],
+  ['chained relational operators', '1 is less than 3 is less than 5', 'Statement'],
+  ['mismatched parentheses', '1 + (2 +3))', 'Statement']
 ];
 
 const non_comments = [
@@ -23,6 +25,7 @@ const non_ids = [
   ['keyword', 'is'],
   ['starts with number', '23jordan'],
   ['no letters', '___888'],
+  ['bad character', '$potato']
 ];
 
 const non_Primaries = [
@@ -40,7 +43,7 @@ const non_Terms = [
 ]
 
 describe('The syntax checker', () => {
-  errors.forEach(([scenario, program, startPoint]) => {
+  miscellaneous_errors.forEach(([scenario, program, startPoint]) => {
     test(`detects the error ${scenario}`, (done) => {
       expect(syntaxCheck(program, startPoint)).toBe(false);
       done();
