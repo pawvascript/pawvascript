@@ -8,12 +8,12 @@
 const syntaxCheck = require('../syntax-checker');
 
 const errors = [
-  ['Statement','does not say incorrect string literals', 'say "Hello, World!;']
+  ['does not say incorrect string literals', 'say "Hello, World!;', 'Statement']
   // TODO: We need dozens more here....
 ];
 
 describe('The syntax checker', () => {
-  errors.forEach(([startPoint, scenario, program]) => {
+  errors.forEach(([scenario, program, startPoint]) => {
     test(`detects the error ${scenario}`, (done) => {
       expect(syntaxCheck(program, startPoint)).toBe(false);
       done();
