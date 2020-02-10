@@ -118,10 +118,24 @@ const ids = [
   ['end with _', 'hello_'],
   ['_s all over the place', '_oh_hey_there_'],
   ['has numbers', 'not100'],
-  ['start with keyword', 'barksLoudly'],
   ['start with keyword', 'withoutDogs'],
+  ['contains keyword', 'living_with_dogs'],
+  ['end with keyword', 'never_barks'],
+  ['starts with type', 'numberOne'],
   ['one letter', 'm']
 ]
+
+const Primaries = [
+  ['apostrophe operator', "toal's hat"],
+  ['list', `["CeCe", "Fluffy", "Mr. Dog"]`],
+  ['one element list', `["CeCe"]`],
+  ['list within a list', `[["CeCe", "Fluffy"], ["Marvin"]]`],
+  ['empty list', `[]`],
+  ['map', `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"]`],
+  ['one element map', `["CeCe": "too cute"]`],
+  ['map within a map', `["Cece": ["cuteness": 100]]`],
+  ['list within a map', `["Marvin": ["bleh": "meh"]]`]
+];
 
 describe('The syntax can match', () => {
   readmeExamples.forEach( ([scenario, program, startPoint]) => {
@@ -154,6 +168,15 @@ describe('ids match', () => {
   ids.forEach( ([scenario, snippet]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(snippet, 'id')).toBe(true);
+      done();
+    });
+  })
+})
+
+describe('Primary matches', () => {
+  Primaries.forEach( ([scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, 'Primary')).toBe(true);
       done();
     });
   })

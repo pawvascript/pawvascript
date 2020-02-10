@@ -25,6 +25,14 @@ const non_ids = [
   ['no letters', '___888'],
 ];
 
+const non_Primaries = [
+  ['empty parens', '()'],
+  ['list with no closing ]', `["CeCe", "Fluffy", "Mr. Dog"`],
+  ['map with no closing ]', `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"`],
+  ['map with nothing on right', '["MyDog":]'],
+  ['map with nothing on left', '[:"MyDog"]']
+]
+
 describe('The syntax checker', () => {
   errors.forEach(([scenario, program, startPoint]) => {
     test(`detects the error ${scenario}`, (done) => {
@@ -35,9 +43,18 @@ describe('The syntax checker', () => {
 });
 
 describe('reject comments', () => {
-  errors.forEach(([scenario, program]) => {
+  non_comments.forEach(([scenario, program]) => {
     test(`${scenario}`, (done) => {
       expect(syntaxCheck(program, 'comment')).toBe(false);
+      done();
+    });
+  });
+});
+
+describe('reject Primary', () => {
+  non_Primaries.forEach(([scenario, program]) => {
+    test(`${scenario}`, (done) => {
+      expect(syntaxCheck(program, 'Primary')).toBe(false);
       done();
     });
   });
