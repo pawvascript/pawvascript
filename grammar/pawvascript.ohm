@@ -67,7 +67,7 @@ PawvaScript {
     say         = "say" ~alnum
     if          = "if" ~alnum
     then        = "then" ~alnum
-    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give" | "with" | "without"
+    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | " give " | " with " | " without "
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
     comment     = "!!!" (~"!!!" any)* "!!!"
