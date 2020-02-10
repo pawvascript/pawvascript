@@ -13,11 +13,13 @@ PawvaScript {
                 | Assignment ";"                                                            --assignment
                 | FuncCall end                                                              --funcCall
                 | Say ";"			                                                              --say
+                | "give" Exp ";"                                                          --give
                 | Loop end                                                                  --loop
                 | Conditional end                                                           --conditional
                 | Exp ";"			                                                              --expression
     Assignment  = id Grouping? "is" Exp
     Say         = say Exp
+    
     Declaration = bark FuncDec                                                              --FuncDec
                 | bark VarDec ";"                                                           --VarDec
                 | bark TypeDec                                                              --TypeDec
@@ -36,7 +38,7 @@ PawvaScript {
     RelopExp    = Term "is" relop "than" Term                                               --relOp
                 | Term "is" relop Term  			                                              --relEquOp
                 | Term
-    Term        = Term ("+" | "-") Factor                                                   --addOp
+    Term        = Term ("+" | "-" | "with") Factor                                                   --addOp
                 | Factor
     Factor      = Factor ("*" | "/" | "mod") Negation                                               --mulOp
                 | Negation
@@ -65,7 +67,7 @@ PawvaScript {
     say         = "say" ~alnum
     if          = "if" ~alnum
     then        = "then" ~alnum
-    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then
+    keyword     = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | "give"
     id          = ~keyword (letter | "_") (letter | digit | "_")*
     space       += comment
     comment     = "!!!" (~"!!!" any)* "!!!"

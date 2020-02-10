@@ -83,6 +83,10 @@ const objects = [
                                               bark func introduceDog:
                                                 say "My dog's name is " + Owner's dogName;
                                               end
+
+                                              bark func command fetches string:
+                                                give Owner's dogName with ", stay.";
+                                              end
                                           end`]                                                  
 ];
 
