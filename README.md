@@ -31,7 +31,7 @@ Let's start with the classing Hello, World:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-say "Hello, World!";                                                console.log("Hello, World!")
+say "Hello, World!";                                                console.log("Hello, World!");
 ```
 
 ### Variable Declaration and Assignment
@@ -46,9 +46,9 @@ bark number dogAge is 12;                                           let dogAge =
 
 bark boolean isCute is true;                                        let isCute = true;
 
-bark list dogNames[string] is ["Cece", "Fluffy"];                   let dogNames = ["Cece", "Fluffy"]
+bark list dogNames[string] is ["Cece", "Fluffy"];                   let dogNames = ["Cece", "Fluffy"];
 
-bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];        let dogAges = {"Cece": 1, "Fluffy": 2} 
+bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];        let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!! 
 bark number cuteness;                                               let cuteness; 
