@@ -144,6 +144,11 @@ const Terms = [
   ['operation before negation', '10 mod -88']
 ];
 
+const interpolation = [
+  ['single', `"Hello, my name is ![name]"`],
+  ['mulitple', `The time is ![hours] : ![minutes] : ![seconds]`]
+];
+
 describe('The syntax can match', () => {
   readmeExamples.forEach( ([scenario, program, startPoint]) => {
     test(scenario, (done) => {
@@ -193,6 +198,15 @@ describe('Term matches', () => {
   Terms.forEach( ([scenario, snippet]) => {
     test(scenario, (done) => {
       expect(syntaxCheck(snippet, 'Term')).toBe(true);
+      done();
+    });
+  });
+});
+
+describe('interpolation matches', () => {
+  Terms.forEach( ([scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, 'interpolation')).toBe(true);
       done();
     });
   });
