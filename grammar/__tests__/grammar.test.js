@@ -107,6 +107,12 @@ const objects = [
                                           end`]                                                  
 ];
 
+const comments = [
+  ['exclamation mark in comment', '!!! I should be a comment! !!!'],
+  ['tags on different lines', `!!!\nComment under tags\nlike so\n!!!`],
+  ['all kinds of characters', '!!! @#$@#%^&{123456;}!!!']
+];
+
 describe('The syntax can match', () => {
   readmeExamples.forEach( ([scenario, program, startPoint]) => {
     test(scenario, (done) => {
@@ -125,16 +131,11 @@ describe('Declarations can be', () => {
   })
 })
 
-
-//added property
-
-// bark breed Owner is:
-// 	bark string dogName;
-    
-//     bark func Owner chases[string:dogName] fetches Owner;
-    
-//     bark func introduceDog:
-//     	say "My dog's name is " add Owner 's dogName
-//     end
-// end
-    
+describe('comments match', () => {
+  comments.forEach( ([scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, 'comment')).toBe(true);
+      done();
+    });
+  })
+})
