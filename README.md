@@ -179,7 +179,7 @@ bark breed Owner is:                                                class Owner 
     bark func Owner chases[string:dogName] fetches Owner;               }
 
     bark func introduceDog:                                             introduceDog() {		
-        say "My dog's name is " add Owner's dogName                         console.log(`My dog's name is ${this.dogName}`);
+        say "My dog's name is " + Owner's dogName;                          console.log(`My dog's name is ${this.dogName}`);
     end                                                                 }
 
     bark func command fetches[string]:                                  command() {

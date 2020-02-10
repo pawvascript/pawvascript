@@ -74,7 +74,16 @@ const objects = [
                                                       bark string dogName;
                                                         
                                                         bark func Owner chases[string:dogName] fetches Owner;
-                                                    end`]
+                                                    end`],
+  ['Declaration', 'object with function', `bark breed Owner is:
+                                            bark string dogName;
+                                              
+                                              bark func Owner chases[string:dogName] fetches Owner;
+                                              
+                                              bark func introduceDog:
+                                                say "My dog's name is " + Owner's dogName;
+                                              end
+                                          end`]                                                  
 ];
 
 describe('The syntax can match', () => {
@@ -94,3 +103,17 @@ describe('Declarations can be', () => {
     });
   })
 })
+
+
+//added property
+
+// bark breed Owner is:
+// 	bark string dogName;
+    
+//     bark func Owner chases[string:dogName] fetches Owner;
+    
+//     bark func introduceDog:
+//     	say "My dog's name is " add Owner 's dogName
+//     end
+// end
+    

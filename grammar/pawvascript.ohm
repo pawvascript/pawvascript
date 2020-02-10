@@ -43,6 +43,7 @@ PawvaScript {
     Negation    = "-"? Factorial
     Factorial   = Primary "!"?
     Primary     = "(" Exp ")"                                                               --parens
+                | id "\'s" id                                                               --propertyOp
                 | numlit
                 | strlit
                 | id
