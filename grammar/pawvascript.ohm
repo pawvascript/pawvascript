@@ -1,52 +1,77 @@
 PawvaScript {
-    Program     = Block+
-    Block       = (Exp "\n")*
-                | Loop
-    Body        = ":" Block* end
-    Loop        = loop Exp "times" Body
-                | loop "while" "(" Exp ")" Body
-                | loop id "through" id Body
-                | loop VarDec "by" Exp "while" Exp Body
-                | loop Body
-    Exp         = Declaration                   --declaration
-                | FuncCall                      --funcCall
-    Declaration = bark (FuncDec | VarDec | ClassDec)
-    FuncDec     = func id "chases" Parameters ("fetches" type)? Body
-    VarDec      = type id Grouping? "is" Exp
-    Grouping    = "[" type (":" type)? "]"
-    ClassDec    = "breed" id Body
-    FuncCall    = id "(" (Exp ",")* Exp? ")"
-    Parameters  = "[" (type ":" id)? ("," type ":" id)* "]"
-    Exp         = id
-                | FuncCall
-                | RelopExp
-    EqualityExp = Term equalityop Term
-    RelopExp    = Term "is" relop "than" Term
-                | Term
-    Term        = Term ("+" | "-") Factor       --addOp
-                | Factor
-    Factor      = Factor ("*" | "/") Negation   --mulOp
-                | Negation
-    Negation    = "-"? Factorial
-    Factorial   = Primary "!"?
-    Primary     = "(" Exp ")"                   --parens
-                | numlit
-                | strlit
-                | "[" Exp? ("," Exp)* "]"
-                | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"
-    numlit      = digit+ ("." digit+)?
-    strlit      = "\"" (char | "'")* "\""
-    char        = escape
-                | ~"\\" ~"\"" ~"'" ~"\n" any
-    escape      = "\\\\" | "\\\"" | "\\'" | "\\n"
-    equalityop  = "equals" | "not equals"
-    relop       = "greater" | "at least" | "at most" | "less"
-    end         := "end" ~alnum
-    keyword     = end | equalityop | relop | "func" | "is" | "breed"
-    id          = ~keyword (letter "_") (letter | digit | "_")*
-    space       += comment
-	comment     = singlecom
-                |  multicom
-    singlecom   = ~"!!" "!" (~"!" ~"\n" any)* "\n"
-    multicom    = "!!" (~"!!" any)* "!!"
+    Program 	    = Block
+    Block 		    = (Statement)*
+    Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
+                    | if Exp then ":" Block else ":" Block                                      --else
+                    | if Exp then ":" Block						                                --basic
+    Loop            = loop Exp "times" ":" Block                                                --defined
+                    | loop "while" Exp ":" Block                                                --while
+                    | loop id "through" id ":" Block                                            --through
+                    | loop VarDec "by" Exp "while" Exp ":" Block                                --for
+                    | loop ":" Block													        --infinite
+    Statement       = Declaration                                                               --declaration
+                    | Assignment ";"                                                            --assignment
+                    | FuncCall end                                                              --funcCall
+                    | Say ";"			                                                        --say
+                    | "give" Exp ";"                                                            --give
+                    | Loop end                                                                  --loop
+                    | Conditional end                                                           --conditional
+                    | Exp ";"			                                                        --expression
+    Assignment      = id Grouping? "is" Exp
+    Say             = say Exp
+    
+    Declaration     = bark FuncDec                                                              --FuncDec
+                    | bark VarDec ";"                                                           --VarDec
+                    | bark TypeDec                                                              --TypeDec
+    FuncDec         = func id ("chases" Parameters)? ("fetches" type)? ":" Block end            --funcDec
+                    | func id ("chases" Parameters)? ("fetches" id) ";"                         --contructorDec
+    VarDec          = type id Grouping? "is" Exp                                                --fullDec
+                    | type id Grouping?                                                         --defaultDec
+    TypeDec         = "breed" id "is" ":" Block end                                             --typeDec
+    Grouping        = "[" type (":" type)? "]"
+    FuncCall        = id "(" (Exp ",")* Exp? ")"
+    Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
+    Exp             = FuncCall
+                    | EqualityExp
+    EqualityExp     = RelopExp equalityop RelopExp                                              --equalityOp
+                    | RelopExp
+    RelopExp        = Term "is" Term                                                            --assignment
+                    | Term "is" relop "than" Term                                               --relOp
+                    | Term "is" relop Term  			                                        --relEquOp
+                    | Term
+    Term            = Term ("+" | "-" | (~"without" "with") | "without") Factor                 --addOp
+                    | Factor
+    Factor          = Factor ("*" | "/" | "mod") Negation                                       --mulOp
+                    | Negation
+    Negation        = "-"? Factorial
+    Factorial       = Primary "!"?                                                   
+    Primary         = "(" Exp ")"                                                               --parens
+                    | id "\'s" Exp                                                              --propertyOp
+                    | numlit
+                    | strlit
+                    | id
+                    | "[" Exp? ("," Exp)* "]"					                                --list
+                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]" --map
+    type            = "number" | "string" | "boolean" | "list" | "map" | "breed" | id
+    numlit          = digit+ ("." digit+)?
+    strlit          = "\"" (char | "'")* "\""
+    char            = escape
+                    | interpolation
+                    | ~"\\" ~"\"" ~"'" ~"\n" any
+    interpolation   = "!" "[" id "]"
+    escape          = "\\\\" | "\\\"" | "\\'" | "\\n"
+    equalityop      = "equals" | "not equals"
+    relop           = "greater" | "at least" | "at most" | "less"
+    loop            = "loop" ~alnum
+    end             := "end" ~alnum
+    else            = "else" ~alnum
+    bark            = "bark" ~alnum
+    func            = "func" ~alnum
+    say             = "say" ~alnum
+    if              = "if" ~alnum
+    then            = "then" ~alnum
+    keyword         = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | " give " | " with " | " without "
+    id              = ~keyword (letter | "_") (letter | digit | "_")*
+    space           += comment
+    comment         = "!!!" (~"!!!" any)* "!!!"
 }
