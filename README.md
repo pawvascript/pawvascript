@@ -27,13 +27,16 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 
 ### The Basics
 
+Let's start with the classing Hello, World:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
 say "Hello, World!";                                                console.log("Hello, World!")
 ```
 
-<br>Initialize variables by barking.
+### Variable Declaration and Assignment
+
+<br>Declare variables by barking.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
@@ -53,16 +56,44 @@ bark number cuteness;                                               let cuteness
 cuteness is 100;                                                    cuteness = 100;
 ```
 
-<br>String interpolation and concetation
+### Strings
+
+String interpolation and concetation:
 ```JavaScript
-PAWVASCRIPT                                                       JAVASCRIPT
+PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Ce" with "Ce"                             let dogName = "Ce" + "Ce";
+bark string dogName is "Ce" with "Ce";                              let dogName = "Ce" + "Ce";
 
-bark string sentence is "![dogName] is the best dog"              let sentence = `${dogName} is the best dog`;
+bark string sentence is "![dogName] is the best dog";               let sentence = `${dogName} is the best dog`;
 ```
 
-<br>Wanna compare stuff?
+### Lists
+
+Lists are the PawvaScript equivalent of arrays in JavaScript:
+```JavaScript
+PAWVASCRIPT                                                         JAVASCRIPT
+
+bark [string] goodDogs is ["CeCe", "Buster", "Muffin"];             let goodDogs = ["CeCe", "Buster", "Muffin"];
+bark [number] ages is [1, 1, 2];                                    let ages = [1, 1, 2];
+```
+
+### Maps
+
+Maps are data structures like Python dictionaries.
+```JavaScript
+PAWVASCRIPT                                                         JAVASCRIPT
+
+bark [string:string] goodDogs is [                                  let goodDogs = {
+    "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
+	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
+	"Mo": "Potato"                                                      Mo: "Potato"
+];                                                                  };
+bark [string:number] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];     let ages = {CeCe: 1, Buster: 1, Mo: 5};
+```
+
+### Relational Operators 
+
+Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
@@ -79,7 +110,8 @@ x is at least y                                                     x >= y
 x is at most y                                                      x <= y  
 ```
 
-<br>Conditional Statements
+### Conditional Statements
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
@@ -100,7 +132,9 @@ else:                                                               else {
 end                                                                 }
 ```
 
-<br>Let's write some comments
+### Comments
+
+Let's write some comments!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
@@ -118,7 +152,7 @@ Forever Loop
 PAWVASCRIPT                                                         JAVASCRIPT
 
 loop:                                                               while (true) {
-    say "I run forever!";                                      	        console.log("I run forever!")
+    say "I run forever!";                                      	        console.log("I run forever!");
 end                                                                 }
 ```
 
@@ -126,8 +160,8 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop 5 times:                                                       for (let i = 0; i < 4; i++) {
-    say "Stay.";                                              	        console.log("Stay.")
+loop 5 times:                                                       for (let i = 0; i < 5; i++) {
+    say "Stay.";                                              	        console.log("Stay.");
 end                                                                 }
 ```
 
@@ -144,7 +178,7 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop number i is 0 by i*2 while i is less than 10:                  for (let i = 0; i *= 2; i <10;) {
+loop number i is 0 by i*2 while i is less than 10:                  for (let i = 0; i < 10; i *= 2) {
     say i;                                                     	        console.log(i);           
 end                                                                 }
 ```
@@ -159,6 +193,7 @@ end                                                                 }
 ```
 
 ### Functions
+
 Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT

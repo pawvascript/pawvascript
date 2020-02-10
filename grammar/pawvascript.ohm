@@ -51,7 +51,7 @@ PawvaScript {
                     | strlit
                     | id
                     | "[" Exp? ("," Exp)* "]"					                                --list
-                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]" --map
+                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --map
     type            = "number" | "string" | "boolean" | "list" | "map" | "breed" | id
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
