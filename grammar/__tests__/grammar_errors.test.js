@@ -65,3 +65,12 @@ describe('reject Primary', () => {
     });
   });
 });
+
+describe('reject Terms', () => {
+  non_Terms.forEach(([scenario, program]) => {
+    test(`${scenario}`, (done) => {
+      expect(syntaxCheck(program, 'Term')).toBe(false);
+      done();
+    });
+  });
+});
