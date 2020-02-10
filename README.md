@@ -5,7 +5,7 @@
 ## Introduction
 Ever wish that JavaScript had less symbols and more dogs? We did, so we made PawvaScript!
 
-PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clearer, readable-English terms, adds types to help with debugging, and throws in some dog related stuff just for fun.
+PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and readable terms, adds types to help with debugging, and throws in some dog related keywords just for fun.
 
 ## Features
 * Language for scripting
