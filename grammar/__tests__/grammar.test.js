@@ -126,6 +126,7 @@ const ids = [
 ]
 
 const Primaries = [
+  ['parenthesized expression', '(2 * id)'],
   ['apostrophe operator', "toal's hat"],
   ['list', `["CeCe", "Fluffy", "Mr. Dog"]`],
   ['one element list', `["CeCe"]`],
@@ -135,6 +136,12 @@ const Primaries = [
   ['one element map', `["CeCe": "too cute"]`],
   ['map within a map', `["Cece": ["cuteness": 100]]`],
   ['list within a map', `["Marvin": ["bleh": "meh"]]`]
+];
+
+const Terms = [
+  ['negated', '-9'],
+  ['factorial', '10!'],
+  ['operation before negation', '10 mod -88']
 ];
 
 describe('The syntax can match', () => {
@@ -152,8 +159,8 @@ describe('Declarations can be', () => {
       expect(syntaxCheck(snippet, startPoint)).toBe(true);
       done();
     });
-  })
-})
+  });
+});
 
 describe('comments match', () => {
   comments.forEach( ([scenario, snippet]) => {
@@ -161,8 +168,8 @@ describe('comments match', () => {
       expect(syntaxCheck(snippet, 'comment')).toBe(true);
       done();
     });
-  })
-})
+  });
+});
 
 describe('ids match', () => {
   ids.forEach( ([scenario, snippet]) => {
@@ -170,8 +177,8 @@ describe('ids match', () => {
       expect(syntaxCheck(snippet, 'id')).toBe(true);
       done();
     });
-  })
-})
+  });
+});
 
 describe('Primary matches', () => {
   Primaries.forEach( ([scenario, snippet]) => {
@@ -179,5 +186,14 @@ describe('Primary matches', () => {
       expect(syntaxCheck(snippet, 'Primary')).toBe(true);
       done();
     });
-  })
-})
+  });
+});
+
+describe('Term matches', () => {
+  Terms.forEach( ([scenario, snippet]) => {
+    test(scenario, (done) => {
+      expect(syntaxCheck(snippet, 'Term')).toBe(true);
+      done();
+    });
+  });
+});

@@ -33,6 +33,12 @@ const non_Primaries = [
   ['map with nothing on left', '[:"MyDog"]']
 ]
 
+const non_Terms = [
+  ['factorial with ! before number', '!23'],
+  ['binary operator before terms', '+ 8 9'],
+  ['two operators together', '8 + mod 9']
+]
+
 describe('The syntax checker', () => {
   errors.forEach(([scenario, program, startPoint]) => {
     test(`detects the error ${scenario}`, (done) => {
