@@ -74,6 +74,14 @@ Lists are the PawvaScript equivalent of arrays in JavaScript:
 PAWVASCRIPT                                                         JAVASCRIPT
 
 bark list goodDogs[string] is ["CeCe", "Buster", "Muffin"];         let goodDogs = ["CeCe", "Buster", "Muffin"];
+
+!!! The without keyword can remove elements from a list. !!!
+bark list bestDogs[string] is goodDogs without "Muffin";            let bestDogs = goodDogs;
+                                                                    const indexOfMuffin = goodDogs.indexOf("Muffin");
+                                                                    if (indexOfMuffin > -1) {
+                                                                        bestDogs.splice(indexOfMuffin, 1);
+                                                                    }
+
 bark list ages[number] is [1, 1, 2];                                let ages = [1, 1, 2];
 ```
 
