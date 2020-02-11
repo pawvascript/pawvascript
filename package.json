@@ -1,7 +1,7 @@
 {
   "name": "pawvascript",
   "version": "1.0.0",
-  "description": "<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>",
+  "description": "JavaScript with types, less symbols, and more dogs. That's PawvaScript.",
   "main": "index.js",
   "scripts": {
     "test": "jest"
