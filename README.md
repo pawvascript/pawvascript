@@ -14,14 +14,19 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 - Object-Oriented
 - Static typing
 - 5 types
-  - string
-  - boolean
-  - number
-  - function
-  - breed (what we call objects)
+  - leash (string)
+  - goodBoy (boolean)
+  - toeBeans (number)
+  - trick (function)
+  - breed (objects)
 - 5 kinds of loops
+  - Forever
+  - Fixed
+  - While
+  - For
+  - ForEach
 - Conditional Statements
-- Lists
+- Packs
 - Maps
 - Single and multi-line comments
 
@@ -48,23 +53,23 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 leash dogName is "Cece";                                            let dogName = "Cece";
 
-toebeans dogAge is 12;                                              let dogAge = 12;
+toeBeans dogAge is 12;                                              let dogAge = 12;
 
 goodDog isCute is true;                                             let isCute = true;
 
-list dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
+pack dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-map dogAges[leash:toebeans] is ["Cece": 1, "Fluffy": 2];            let dogAges = {"Cece": 1, "Fluffy": 2};
+map dogAges[leash:toeBeans] is ["Cece": 1, "Fluffy": 2];            let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
-toebeans cuteness;                                                  let cuteness;
+toeBeans cuteness;                                                  let cuteness;
 
 cuteness is 100;                                                    cuteness = 100;
 ```
 
-### Strings
+### Leashes
 
-String interpolation and concetation:
+Leash interpolation and concetation:
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -74,23 +79,23 @@ leash dogName is "Ce" with "Ce";                                    let dogName 
 leash sentence is "![dogName] is the best dog";                     let sentence = `${dogName} is the best dog`;
 ```
 
-### Lists
+### Packs
 
-Lists are the PawvaScript equivalent of arrays in JavaScript:
+Packs are the PawvaScript equivalent of arrays in JavaScript:
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-list goodDogs[leash] is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
+pack goodDogs[leash] is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
 
-!!! The without keyword can remove elements from a list. !!!
-list bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs = goodDogs;
+!!! The without keyword can remove elements from a pack. !!!
+pack bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs = goodDogs;
                                                                     const indexOfMuffin = goodDogs.indexOf("Muffin");
                                                                     if (indexOfMuffin > -1) {
                                                                          bestDogs.splice(indexOfMuffin, 1);
                                                                     }
 
-list ages[toebeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
+pack ages[toeBeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
 
 ### Maps
@@ -105,7 +110,7 @@ map goodDogs[leash:leash] is [                                      let goodDogs
     "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
     "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-map ages[leash:toebeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];      let ages = {CeCe: 1, Buster: 1, Mo: 5};
+map ages[leash:toeBeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];      let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators
@@ -133,7 +138,7 @@ a is x isAtMost y;                                                  a = x <= y;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-toebeans a is x + y;                                                a = x + y;
+toeBeans a is x + y;                                                a = x + y;
 
 a is x - y;                                                         a = x - y;
 
@@ -221,7 +226,7 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-chase toebeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+chase toeBeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
     woof i;                                                             console.log(i);
 tail                                                                }
 ```
@@ -231,20 +236,20 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-chase element through myList:                                       for (let element of myArray) {
+chase element through myPack:                                       for (let element of myArray) {
     woof element;                                                       console.log(element);
 tail                                                                }
 ```
 
-### Functions
+### Tricks
 
-Let's find the greatest common divisor between two numbers!
+Let's find the greatest common divisor between two toeBeans!
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:     function gcd(num1, num2) {
-    toebeans remainder;                                                 let remainder;
+trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:     function gcd(num1, num2) {
+    toeBeans remainder;                                                 let remainder;
 
     chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
         remainder is (a mod b);                                             remainder = a % b;
@@ -254,9 +259,9 @@ trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:     function gcd
     give a;                                                             return a;
 tail                                                                }
 
-toebeans a is 8;                                                    let a = 8;
-toebeans b is 12;                                                   let b = 12;
-toebeans c is gcd(a, b);                                            let c = gcd(a, b);
+toeBeans a is 8;                                                    let a = 8;
+toeBeans b is 12;                                                   let b = 12;
+toeBeans c is gcd(a, b);                                            let c = gcd(a, b);
 ```
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
@@ -264,7 +269,7 @@ The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick fib chews[toebeans:n] fetches toebeans:                       function fib(n) {
+trick fib chews[toeBeans:n] fetches toeBeans:                       function fib(n) {
     if n isAtMost 1 then:                                               if (n <=1) {
         give n;                                                             return n;
     else:                                                               } else {
@@ -275,9 +280,9 @@ tail                                                                }
 huzzah is fib(100);                                                 let huzzah = fib(100);
 ```
 
-### Objects
+### Breeds
 
-Let's make an owner object!
+Let's make an owner breed!
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -285,7 +290,7 @@ PAWVASCRIPT                                                         JAVASCRIPT
 breed Owner is:                                                     class Owner {
     leash dogName;                                                      constructor(dogName) {
                                                                             this.dogName = dogName;
-    trick Owner chases[leash:dogName] fetches Owner;                    }
+    trick Owner chases[leash:dogName] fetches breed;                    }
 
     trick introduceDog:                                                 introduceDog() {
         woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);
