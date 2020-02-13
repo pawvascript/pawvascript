@@ -4,73 +4,112 @@ PawvaScript {
     Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
                     | if Exp then ":" Block else ":" Block                                      --else
                     | if Exp then ":" Block						                                --basic
-    Loop            = loop Exp "times" ":" Block                                                --defined
-                    | loop "while" Exp ":" Block                                                --while
-                    | loop id "through" id ":" Block                                            --through
-                    | loop VarDec "by" Exp "while" Exp ":" Block                                --for
-                    | loop ":" Block													        --infinite
+    Chase           = chase Exp "times" ":" Block                                               --defined
+                    | chase "while" Exp ":" Block                                               --while
+                    | chase id "through" id ":" Block                                           --through
+                    | chase VarDec "by" Exp "while" Exp ":" Block                               --for
+                    | chase ":" Block													        --infinite
     Statement       = Declaration                                                               --declaration
                     | Assignment ";"                                                            --assignment
-                    | FuncCall end                                                              --funcCall
-                    | Say ";"			                                                        --say
+                    | FuncCall tail                                                             --funcCall
+                    | Woof ";"			                                                        --woof
+                    | Bark ";"			                                                        --bark
+                    | Howl ";"                                                                  --howl
                     | "give" Exp ";"                                                            --give
-                    | Loop end                                                                  --loop
-                    | Conditional end                                                           --conditional
+                    | Chase tail                                                                --chase
+                    | Conditional tail                                                          --conditional
                     | Exp ";"			                                                        --expression
-    Assignment      = id Grouping? "is" Exp
-    Say             = say Exp
-    
-    Declaration     = bark FuncDec                                                              --FuncDec
-                    | bark VarDec ";"                                                           --VarDec
-                    | bark TypeDec                                                              --TypeDec
-    FuncDec         = func id ("chases" Parameters)? ("fetches" type)? ":" Block end            --funcDec
-                    | func id ("chases" Parameters)? ("fetches" id) ";"                         --contructorDec
-    VarDec          = type id Grouping? "is" Exp                                                --fullDec
+    Assignment      = id Grouping? is Exp
+    Woof            = woof Exp
+    Bark            = bark Exp
+    Howl            = howl Exp
+    Declaration     = FuncDec                                                                   --FuncDec
+                    | VarDec ";"                                                                --VarDec
+                    | TypeDec                                                                   --TypeDec
+    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --funcDec
+                    | trick id (chews Parameters)? (fetches id) ";"                             --contructorDec
+    VarDec          = type id Grouping? is Exp                                                  --fullDec
                     | type id Grouping?                                                         --defaultDec
-    TypeDec         = "breed" id "is" ":" Block end                                             --typeDec
+    TypeDec         = breed id is ":" Block tail                                                --typeDec
     Grouping        = "[" type (":" type)? "]"
     FuncCall        = id "(" (Exp ",")* Exp? ")"
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
     Exp             = FuncCall
-                    | EqualityExp
-    EqualityExp     = RelopExp equalityop RelopExp                                              --equalityOp
                     | RelopExp
-    RelopExp        = Term "is" Term                                                            --assignment
-                    | Term "is" relop "than" Term                                               --relOp
-                    | Term "is" relop Term  			                                        --relEquOp
+    RelopExp        = Term is Term                                                              --assignment
+                    | Term relop Term                                                           --relop
                     | Term
-    Term            = Term ("+" | "-" | (~"without" "with") | "without") Factor                 --addOp
+    Term            = Term ("+" | "-" | (~without with) | without) Factor                       --addOp
                     | Factor
     Factor          = Factor ("*" | "/" | "mod") Negation                                       --mulOp
                     | Negation
-    Negation        = "-"? Factorial
+    Negation        = "-"? Factorial                                                            --arithmeticNeg
+                    | not Factorial                                                             --logicalNeg
     Factorial       = Primary "!"?                                                   
     Primary         = "(" Exp ")"                                                               --parens
                     | id "\'s" Exp                                                              --propertyOp
                     | numlit
                     | strlit
+                    | boolean
                     | id
                     | "[" Exp? ("," Exp)* "]"					                                --list
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --map
-    type            = "number" | "string" | "boolean" | "list" | "map" | "breed" | id
+    type            = toebeans | leash | goodBoy | list | map | breed | id
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
     char            = escape
                     | interpolation
                     | ~"\\" ~"\"" ~"'" ~"\n" any
-    interpolation   = "!" "[" id "]"
+    interpolation   = "![" id "]"
     escape          = "\\\\" | "\\\"" | "\\'" | "\\n"
-    equalityop      = "equals" | "not equals"
-    relop           = "greater" | "at least" | "at most" | "less"
-    loop            = "loop" ~alnum
-    end             := "end" ~alnum
+    boolean         = good | bad
+    relop           = "isGreaterThan" | "isAtLeast" | "isAtMost" | "isLessThan" | equalityop
+    equalityop      = "equals" | "notEquals"
+    is              = "is" ~alnum
+    toebeans        = "toebeans" ~alnum
+    leash           = "leash" ~alnum
+    goodBoy         = "goodBoy" ~alnum
+    list            = "list" ~alnum
+    map             = "map" ~alnum
+    chase           = "chase" ~alnum
+    tail            = "tail" ~alnum
     else            = "else" ~alnum
     bark            = "bark" ~alnum
-    func            = "func" ~alnum
-    say             = "say" ~alnum
+    woof            = "woof" ~alnum
+    howl            = "howl" ~alnum
+    trick           = "trick" ~alnum
     if              = "if" ~alnum
     then            = "then" ~alnum
-    keyword         = end | equalityop | relop | func | " is " | "breed " | bark | say | if | then | " give " | " with " | " without "
+    good            = "good" ~alnum
+    bad             = "bad" ~alnum 
+    chews           = "chews" ~alnum
+    fetches         = "fetches" ~alnum
+    give            = "give" ~alnum
+    breed           = "breed" ~alnum
+    with            = "with" ~alnum
+    without         = "without" ~alnum
+    not             = "not" ~alnum
+    keyword         = equalityop 
+                    | relop 
+                    | is 
+                    | chase 
+                    | tail 
+                    | else 
+                    | bark 
+                    | woof
+                    | howl
+                    | trick 
+                    | if 
+                    | then 
+                    | good 
+                    | bad 
+                    | chews 
+                    | fetches 
+                    | give 
+                    | breed 
+                    | with 
+                    | without 
+                    | not
     id              = ~keyword (letter | "_") (letter | digit | "_")*
     space           += comment
     comment         = "!!!" (~"!!!" any)* "!!!"
