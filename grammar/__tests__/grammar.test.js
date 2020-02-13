@@ -23,7 +23,7 @@ const readmeExamples = [
     'leash sentence is "![x] is a good girl";',
     "Statement"
   ],
-  ["toebeans declarations", "toebeans dogAge is 12;", "Declaration"],
+  ["toeBeans declarations", "toeBeans dogAge is 12;", "Declaration"],
   ["goodBoy declarations", "goodBoy isCute is good;", "Declaration"],
   [
     "list declarations",
@@ -37,10 +37,10 @@ const readmeExamples = [
   ],
   [
     "map declarations",
-    'map dogAges[leash:toebeans] is ["CeCe": 1, "Fluffy": 2];',
+    'map dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"
   ],
-  ["uninitialized variable declarations", "toebeans cuteness;", "Declaration"],
+  ["uninitialized variable declarations", "toeBeans cuteness;", "Declaration"],
   ["assigning uninitialized variables", "cuteness is 100", "Assignment"],
   ["equality comparators", "x equals y", "RelopExp"],
   ["inequaltiy comparators", "x notEquals y", "RelopExp"],
@@ -102,7 +102,7 @@ const readmeExamples = [
   ],
   [
     "for loops",
-    `chase toebeans i is 0 by i*2 while i isLessThan 10:
+    `chase toeBeans i is 0 by i*2 while i isLessThan 10:
         woof i;
     tail`,
     "Statement"
@@ -116,8 +116,8 @@ const readmeExamples = [
   ],
   [
     "function declaration",
-    `trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:
-        toebeans remainder;
+    `trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
+        toeBeans remainder;
         chase while (a mod b) isGreaterThan 0:
             remainder is (a mod b);
             a is b;
