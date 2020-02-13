@@ -221,9 +221,9 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop number i is 0 by i*2 while i is less than 10:                  for (let i = 0; i < 10; i *= 2) {
-    say i;                                                     	        console.log(i);
-end                                                                 }
+chase number i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+    woof i;                                                     	    console.log(i);
+tail                                                                }
 ```
 
 <br>For Each Loop
@@ -231,9 +231,9 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop element through myList:                                        for (let element of myArray) {
-    say element;                                               	        console.log(element);
-end                                                                 }
+chase element through myList:                                       for (let element of myArray) {
+    woof element;                                               	    console.log(element);
+tail                                                                }
 ```
 
 ### Functions
@@ -243,20 +243,20 @@ Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark func gcd chases[number:num1, number:num2] fetches number:	    function gcd(num1, num2) {
-    bark number remainder;                                              let remainder;
+trick gcd chews[number:num1, number:num2] fetches number:	    function gcd(num1, num2) {
+    number remainder;                                               let remainder;
 
-    loop while (a mod b) is greater than 0:                             while ((num1 % num2) > 0) {
-        remainder is (a mod b);                              	            remainder = a % b;
-        a is b;                                                             a = b;
-        b is remainder;                                                     b = remainder;
-	end                                                                 }
-	give a;                                                             return a;
-end                                                                 }
+    chases while (a mod b) isGreaterThan 0:                         while ((num1 % num2) > 0) {
+        remainder is (a mod b);                              	        remainder = a % b;
+        a is b;                                                         a = b;
+        b is remainder;                                                 b = remainder;
+	tail                                                            }
+	give a;                                                         return a;
+tail                                                            }
 
-bark number a is 8;                                                 let a = 8;
-bark number b is 12;                                                let b = 12;
-bark number c is gcd(a, b);                                         let c = gcd(a, b);
+number a is 8;                                                  let a = 8;
+number b is 12;                                                 let b = 12;
+number c is gcd(a, b);                                          let c = gcd(a, b);
 ```
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
@@ -264,15 +264,15 @@ The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark func fib chases[number:n] fetches number:                      function fib(n) {
-	if n is at most 1 then:                                             if (n <=1) {
+trick fib chews[number:n] fetches number:                           function fib(n) {
+	if n isAtMost 1 then:                                               if (n <=1) {
 		give n;                                                             return n;
 	else:                                                               } else {
 		give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
-	end                                                                 }
-end                                                                 }
+	tail                                                                }
+tail                                                                }
 
-bark huzzah is fib(100);                                            let huzzah = fib(100);
+huzzah is fib(100);                                                 let huzzah = fib(100);
 ```
 
 ### Objects
@@ -282,21 +282,21 @@ Let's make an owner object!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark breed Owner is:                                                class Owner {
-    bark string dogName;                                                constructor(dogName) {
+breed Owner is:                                                     class Owner {
+    leash dogName;                                                      constructor(dogName) {
                                                                             this.dogName = dogName;
-    bark func Owner chases[string:dogName] fetches Owner;               }
+    trick Owner chases[string:dogName] fetches Owner;                   }
 
-    bark func introduceDog:                                             introduceDog() {
-        say "My dog's name is " with Owner's dogName;                       console.log(`My dog's name is ${this.dogName}`);
-    end                                                                 }
+    trick introduceDog:                                                 introduceDog() {
+        woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);
+    tail                                                                }
 
-    bark func command fetches string:                                   command() {
+    trick command fetches string:                                       command() {
         give Owner's dogName with ", stay!";                                return `${this.dogName}, stay!`;
-    end                                                                 }
-end                                                                 }
+    tail                                                                }
+tail                                                                }
 
-bark Owner lucille is Owner("Cece")                                 let lucille = new Owner("Cece");
+Owner lucille is Owner("Cece")                                      let lucille = new Owner("Cece");
 lucille's introduceDog() !!! output: "My dog's name is Cece" !!!    lucille.introduceDog();
-say lucille's command()  !!! output: "Cece, stay." !!!              console.log(lucille.command());
+woof lucille's command()  !!! output: "Cece, stay." !!!             console.log(lucille.command());
 ```
