@@ -243,11 +243,11 @@ Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick gcd chews[number:num1, number:num2] fetches number:	        function gcd(num1, num2) {
+trick gcd chews[number:num1, number:num2] fetches number:           function gcd(num1, num2) {
     number remainder;                                                   let remainder;
 
     chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
-        remainder is (a mod b);                              	            remainder = a % b;
+        remainder is (a mod b);                                             remainder = a % b;
         a is b;                                                             a = b;
         b is remainder;                                                     b = remainder;
     tail                                                                }
