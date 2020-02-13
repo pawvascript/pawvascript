@@ -167,7 +167,7 @@ else if x isLessThan y then:                                        else if (x <
     woof "Okay, CeCe is really cute";                                   console.log("Okay, CeCe is really cute");
 else:                                                               else {
     woof "CeCe is the cutest of the cutest";                            console.log("CeCe is the cutest of the cutest");
-tail                                                                 }
+tail                                                                }
 ```
 
 ### Comments
@@ -243,20 +243,20 @@ Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick gcd chews[number:num1, number:num2] fetches number:	    function gcd(num1, num2) {
-    number remainder;                                               let remainder;
+trick gcd chews[number:num1, number:num2] fetches number:	        function gcd(num1, num2) {
+    number remainder;                                                   let remainder;
 
-    chases while (a mod b) isGreaterThan 0:                         while ((num1 % num2) > 0) {
-        remainder is (a mod b);                              	        remainder = a % b;
-        a is b;                                                         a = b;
-        b is remainder;                                                 b = remainder;
-	tail                                                            }
-	give a;                                                         return a;
-tail                                                            }
+    chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
+        remainder is (a mod b);                              	            remainder = a % b;
+        a is b;                                                             a = b;
+        b is remainder;                                                     b = remainder;
+    tail                                                                }
+    give a;                                                             return a;
+tail                                                                }
 
-number a is 8;                                                  let a = 8;
-number b is 12;                                                 let b = 12;
-number c is gcd(a, b);                                          let c = gcd(a, b);
+number a is 8;                                                      let a = 8;
+number b is 12;                                                     let b = 12;
+number c is gcd(a, b);                                              let c = gcd(a, b);
 ```
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
@@ -265,11 +265,11 @@ The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 PAWVASCRIPT                                                         JAVASCRIPT
 
 trick fib chews[number:n] fetches number:                           function fib(n) {
-	if n isAtMost 1 then:                                               if (n <=1) {
-		give n;                                                             return n;
-	else:                                                               } else {
-		give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
-	tail                                                                }
+    if n isAtMost 1 then:                                               if (n <=1) {
+        give n;                                                             return n;
+    else:                                                               } else {
+        give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
+    tail                                                                }
 tail                                                                }
 
 huzzah is fib(100);                                                 let huzzah = fib(100);
