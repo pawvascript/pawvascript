@@ -69,9 +69,9 @@ String interpolation and concetation:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Ce" with "Ce";                              let dogName = "Ce" + "Ce";
+leash dogName is "Ce" with "Ce";                                    let dogName = "Ce" + "Ce";
 
-bark string sentence is "![dogName] is the best dog";               let sentence = `${dogName} is the best dog`;
+leash sentence is "![dogName] is the best dog";                     let sentence = `${dogName} is the best dog`;
 ```
 
 ### Lists
@@ -81,16 +81,16 @@ Lists are the PawvaScript equivalent of arrays in JavaScript:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark list goodDogs[string] is ["CeCe", "Buster", "Muffin"];         let goodDogs = ["CeCe", "Buster", "Muffin"];
+list goodDogs[string] is ["CeCe", "Buster", "Muffin"];              let goodDogs = ["CeCe", "Buster", "Muffin"];
 
 !!! The without keyword can remove elements from a list. !!!
-bark list bestDogs[string] is goodDogs without "Muffin";            let bestDogs = goodDogs;
+list bestDogs[string] is goodDogs without "Muffin";                 let bestDogs = goodDogs;
                                                                     const indexOfMuffin = goodDogs.indexOf("Muffin");
                                                                     if (indexOfMuffin > -1) {
-                                                                        bestDogs.splice(indexOfMuffin, 1);
+                                                                         bestDogs.splice(indexOfMuffin, 1);
                                                                     }
 
-bark list ages[number] is [1, 1, 2];                                let ages = [1, 1, 2];
+list ages[number] is [1, 1, 2];                                     let ages = [1, 1, 2];
 ```
 
 ### Maps
@@ -100,12 +100,12 @@ Maps are data structures like Python dictionaries.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark map goodDogs[string:string] is [                               let goodDogs = {
+map goodDogs[string:string] is [                                    let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
 	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
 	"Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-bark map ages[string:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];  let ages = {CeCe: 1, Buster: 1, Mo: 5};
+map ages[string:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];       let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators
@@ -115,17 +115,17 @@ Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark boolean a is x equals y;                                       let a = x === y;
+boolean a is x equals y;                                            let a = x === y;
 
-a is x not equals y;                                                a = x !== y;
+a is x notEquals y;                                                a = x !== y;
 
-a is x is greater than y;                                           a = x > y;
+a is x isGreaterThan y;                                           a = x > y;
 
-a is x is less than y;                                              a = x < y;
+a is x isLessThan y;                                              a = x < y;
 
-a is x is at least y;                                               a = x >= y;
+a is x isAtLeast y;                                               a = x >= y;
 
-a is x is at most y;                                                a = x <= y;
+a is x isAtMost y;                                                a = x <= y;
 ```
 
 ### Arithmetic Operators
