@@ -46,18 +46,18 @@ howl "uh-oh"                                                        console.erro
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Cece";                                      let dogName = "Cece";
+leash dogName is "Cece";                                            let dogName = "Cece";
 
-bark number dogAge is 12;                                           let dogAge = 12;
+number dogAge is 12;                                                let dogAge = 12;
 
-bark boolean isCute is true;                                        let isCute = true;
+goodDog isCute is true;                                             let isCute = true;
 
-bark list dogNames[string] is ["Cece", "Fluffy"];                   let dogNames = ["Cece", "Fluffy"];
+list dogNames[string] is ["Cece", "Fluffy"];                        let dogNames = ["Cece", "Fluffy"];
 
-bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];        let dogAges = {"Cece": 1, "Fluffy": 2};
+map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];             let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
-bark number cuteness;                                               let cuteness;
+number cuteness;                                                    let cuteness;
 
 cuteness is 100;                                                    cuteness = 100;
 ```
