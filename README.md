@@ -52,9 +52,9 @@ number dogAge is 12;                                                let dogAge =
 
 goodDog isCute is true;                                             let isCute = true;
 
-list dogNames[string] is ["Cece", "Fluffy"];                        let dogNames = ["Cece", "Fluffy"];
+list dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];             let dogAges = {"Cece": 1, "Fluffy": 2};
+map dogAges[leash:number] is ["Cece": 1, "Fluffy": 2];              let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
 number cuteness;                                                    let cuteness;
@@ -81,10 +81,10 @@ Lists are the PawvaScript equivalent of arrays in JavaScript:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-list goodDogs[string] is ["CeCe", "Buster", "Muffin"];              let goodDogs = ["CeCe", "Buster", "Muffin"];
+list goodDogs[leash] is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
 
 !!! The without keyword can remove elements from a list. !!!
-list bestDogs[string] is goodDogs without "Muffin";                 let bestDogs = goodDogs;
+list bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs = goodDogs;
                                                                     const indexOfMuffin = goodDogs.indexOf("Muffin");
                                                                     if (indexOfMuffin > -1) {
                                                                          bestDogs.splice(indexOfMuffin, 1);
@@ -100,12 +100,12 @@ Maps are data structures like Python dictionaries.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-map goodDogs[string:string] is [                                    let goodDogs = {
+map goodDogs[leash:leash] is [                                      let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
 	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
 	"Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-map ages[string:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];       let ages = {CeCe: 1, Buster: 1, Mo: 5};
+map ages[leash:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];        let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators
@@ -117,15 +117,15 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 boolean a is x equals y;                                            let a = x === y;
 
-a is x notEquals y;                                                a = x !== y;
+a is x notEquals y;                                                 a = x !== y;
 
-a is x isGreaterThan y;                                           a = x > y;
+a is x isGreaterThan y;                                             a = x > y;
 
-a is x isLessThan y;                                              a = x < y;
+a is x isLessThan y;                                                a = x < y;
 
-a is x isAtLeast y;                                               a = x >= y;
+a is x isAtLeast y;                                                 a = x >= y;
 
-a is x isAtMost y;                                                a = x <= y;
+a is x isAtMost y;                                                  a = x <= y;
 ```
 
 ### Arithmetic Operators
@@ -133,7 +133,7 @@ a is x isAtMost y;                                                a = x <= y;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark number a is x + y;                                             let a = x + y;
+number a is x + y;                                                  a = x + y;
 
 a is x - y;                                                         a = x - y;
 
@@ -153,21 +153,21 @@ a is -x;                                                            a = -x;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-if x is at least y then:                                            if (x <= y) {
-    bark string dogName is "CeCe";                                      let dogName = "CeCe";
+if x isAtLeast y then:                                              if (x <= y) {
+    leash dogName is "CeCe";                                            let dogName = "CeCe";
 else:                                                               else {
-    bark string dogName is "Buster";                                    let dogName = "Buster";
-end                                                                 }
+    leash dogName is "Buster";                                          let dogName = "Buster";
+tail                                                                }
 
-if x not equals y then:                                             if (x !== y) {
-    say "CeCe is kinda cute";                                           console.log("CeCe is kinda cute");
-else if x is greater than y then:                                   else if (x > y) {
-    say "CeCe is pretty cute";                                          console.log("CeCe is pretty cute");
-else if x is less than y then:                                      else if (x < y) {
-    say "Okay, CeCe is really cute";                                    console.log("Okay, CeCe is really cute");
+if x notEquals y then:                                              if (x !== y) {
+    woof "CeCe is kinda cute";                                          console.log("CeCe is kinda cute");
+else if x isGreaterThan y then:                                     else if (x > y) {
+    woof "CeCe is pretty cute";                                         console.log("CeCe is pretty cute");
+else if x isLessThan y then:                                        else if (x < y) {
+    woof "Okay, CeCe is really cute";                                   console.log("Okay, CeCe is really cute");
 else:                                                               else {
-    say "CeCe is the cutest of the cutest";                             console.log("CeCe is the cutest of the cutest");
-end                                                                 }
+    woof "CeCe is the cutest of the cutest";                            console.log("CeCe is the cutest of the cutest");
+tail                                                                 }
 ```
 
 ### Comments
@@ -191,9 +191,9 @@ Forever Loop
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop:                                                               while (true) {
-    say "I run forever!";                                      	        console.log("I run forever!");
-end                                                                 }
+chase:                                                              while (true) {
+    woof "I run forever!";                                      	    console.log("I run forever!");
+tail                                                                }
 ```
 
 <br>Fixed Loop
@@ -201,9 +201,9 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop 5 times:                                                       for (let i = 0; i < 5; i++) {
-    say "Stay.";                                              	        console.log("Stay.");
-end                                                                 }
+chase 5 times:                                                      for (let i = 0; i < 5; i++) {
+    woof "Stay.";                                              	        console.log("Stay.");
+tail                                                                }
 ```
 
 <br>While Loop
@@ -211,9 +211,9 @@ end                                                                 }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop while x is at most 5:                                          while (x <= 5) {
-    say x;                                                     	        console.log(x);
-end                                                                 }
+chase while x isAtMost 5:                                           while (x <= 5) {
+    woof x;                                                     	    console.log(x);
+tail                                                                }
 ```
 
 <br>For Loop
