@@ -115,7 +115,7 @@ Wanna compare stuff?
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-boolean a is x equals y;                                            let a = x === y;
+goodBoy a is x equals y;                                            let a = x === y;
 
 a is x notEquals y;                                                 a = x !== y;
 
