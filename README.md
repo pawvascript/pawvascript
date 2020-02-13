@@ -3,55 +3,61 @@
 <img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
 
 ## Introduction
+
 Ever wish that JavaScript had less symbols and more dogs? We did, so we made PawvaScript!
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and readable terms, adds types to help with debugging, and throws in some dog related keywords just for fun.
 
 ## Features
-* Language for scripting
-* Object-Oriented 
-* Static typing
-* 5 types
-    * string
-    * boolean
-    * number
-    * function
-    * breed (what we call objects)
-* 5 kinds of loops
-* Conditional Statements
-* Lists
-* Maps
-* Single and multi-line comments
+
+- Language for scripting
+- Object-Oriented
+- Static typing
+- 5 types
+  - string
+  - boolean
+  - number
+  - function
+  - breed (what we call objects)
+- 5 kinds of loops
+- Conditional Statements
+- Lists
+- Maps
+- Single and multi-line comments
 
 ## Example Programs
 
 ### The Basics
 
 Let's start with the classing Hello, World:
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-say "Hello, World!";                                                console.log("Hello, World!");
+woof "Hello, World!";                                               console.log("Hello, World!");
+bark "my ball!";                                                    console.log("my ball".toUpperCase());
+howl "uh-oh"                                                        console.error("uh-oh");
 ```
 
 ### Variable Declaration and Assignment
 
 <br>Declare variables by barking.
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Cece";                                      let dogName = "Cece";
+leash dogName is "Cece";                                            let dogName = "Cece";
 
-bark number dogAge is 12;                                           let dogAge = 12;
+toebeans dogAge is 12;                                              let dogAge = 12;
 
-bark boolean isCute is true;                                        let isCute = true;
+goodDog isCute is true;                                             let isCute = true;
 
-bark list dogNames[string] is ["Cece", "Fluffy"];                   let dogNames = ["Cece", "Fluffy"];
+list dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-bark map dogAges[string:number] is ["Cece": 1, "Fluffy": 2];        let dogAges = {"Cece": 1, "Fluffy": 2};
+map dogAges[leash:toebeans] is ["Cece": 1, "Fluffy": 2];            let dogAges = {"Cece": 1, "Fluffy": 2};
 
-!!! this has a default initialization of 0 !!! 
-bark number cuteness;                                               let cuteness; 
+!!! this has a default initialization of 0 !!!
+toebeans cuteness;                                                  let cuteness;
 
 cuteness is 100;                                                    cuteness = 100;
 ```
@@ -59,63 +65,67 @@ cuteness is 100;                                                    cuteness = 1
 ### Strings
 
 String interpolation and concetation:
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark string dogName is "Ce" with "Ce";                              let dogName = "Ce" + "Ce";
+leash dogName is "Ce" with "Ce";                                    let dogName = "Ce" + "Ce";
 
-bark string sentence is "![dogName] is the best dog";               let sentence = `${dogName} is the best dog`;
+leash sentence is "![dogName] is the best dog";                     let sentence = `${dogName} is the best dog`;
 ```
 
 ### Lists
 
 Lists are the PawvaScript equivalent of arrays in JavaScript:
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark list goodDogs[string] is ["CeCe", "Buster", "Muffin"];         let goodDogs = ["CeCe", "Buster", "Muffin"];
+list goodDogs[leash] is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
 
 !!! The without keyword can remove elements from a list. !!!
-bark list bestDogs[string] is goodDogs without "Muffin";            let bestDogs = goodDogs;
+list bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs = goodDogs;
                                                                     const indexOfMuffin = goodDogs.indexOf("Muffin");
                                                                     if (indexOfMuffin > -1) {
-                                                                        bestDogs.splice(indexOfMuffin, 1);
+                                                                         bestDogs.splice(indexOfMuffin, 1);
                                                                     }
 
-bark list ages[number] is [1, 1, 2];                                let ages = [1, 1, 2];
+list ages[toebeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
 
 ### Maps
 
 Maps are data structures like Python dictionaries.
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark map goodDogs[string:string] is [                               let goodDogs = {
+map goodDogs[leash:leash] is [                                      let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
-	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
-	"Mo": "Potato"                                                      Mo: "Potato"
+    "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
+    "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-bark map ages[string:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];  let ages = {CeCe: 1, Buster: 1, Mo: 5};
+map ages[leash:toebeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];      let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
-### Relational Operators 
+### Relational Operators
 
 Wanna compare stuff?
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark boolean a is x equals y;                                       let a = x === y;
+goodBoy a is x equals y;                                            let a = x === y;
 
-a is x not equals y;                                                a = x !== y;
+a is x notEquals y;                                                 a = x !== y;
 
-a is x is greater than y;                                           a = x > y;
+a is x isGreaterThan y;                                             a = x > y;
 
-a is x is less than y;                                              a = x < y;
+a is x isLessThan y;                                                a = x < y;
 
-a is x is at least y;                                               a = x >= y;
+a is x isAtLeast y;                                                 a = x >= y;
 
-a is x is at most y;                                                a = x <= y;  
+a is x isAtMost y;                                                  a = x <= y;
 ```
 
 ### Arithmetic Operators
@@ -123,7 +133,7 @@ a is x is at most y;                                                a = x <= y;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark number a is x + y;                                             let a = x + y;
+toebeans a is x + y;                                                a = x + y;
 
 a is x - y;                                                         a = x - y;
 
@@ -143,32 +153,33 @@ a is -x;                                                            a = -x;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-if x is at least y then:                                            if (x <= y) {
-    bark string dogName is "CeCe";                                      let dogName = "CeCe";
+if x isAtLeast y then:                                              if (x <= y) {
+    leash dogName is "CeCe";                                            let dogName = "CeCe";
 else:                                                               else {
-    bark string dogName is "Buster";                                    let dogName = "Buster";
-end                                                                 }  
+    leash dogName is "Buster";                                          let dogName = "Buster";
+tail                                                                }
 
-if x not equals y then:                                             if (x !== y) {
-    say "CeCe is kinda cute";                                           console.log("CeCe is kinda cute");
-else if x is greater than y then:                                   else if (x > y) {
-    say "CeCe is pretty cute";                                          console.log("CeCe is pretty cute");
-else if x is less than y then:                                      else if (x < y) {
-    say "Okay, CeCe is really cute";                                    console.log("Okay, CeCe is really cute");
+if x notEquals y then:                                              if (x !== y) {
+    woof "CeCe is kinda cute";                                          console.log("CeCe is kinda cute");
+else if x isGreaterThan y then:                                     else if (x > y) {
+    woof "CeCe is pretty cute";                                         console.log("CeCe is pretty cute");
+else if x isLessThan y then:                                        else if (x < y) {
+    woof "Okay, CeCe is really cute";                                   console.log("Okay, CeCe is really cute");
 else:                                                               else {
-    say "CeCe is the cutest of the cutest";                             console.log("CeCe is the cutest of the cutest");
-end                                                                 }
+    woof "CeCe is the cutest of the cutest";                            console.log("CeCe is the cutest of the cutest");
+tail                                                                }
 ```
 
 ### Comments
 
 Let's write some comments!
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
 !!! I'm a one line comment !!!                                      // I'm a comment
 
-!!! I'm a                                                           /* I'm a                                        
+!!! I'm a                                                           /* I'm a
 multiline                                                           multiline
 comment !!!                                                         comment */
 ```
@@ -176,109 +187,116 @@ comment !!!                                                         comment */
 ### Loops
 
 Forever Loop
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop:                                                               while (true) {
-    say "I run forever!";                                      	        console.log("I run forever!");
-end                                                                 }
+chase:                                                              while (true) {
+    woof "I run forever!";                                              console.log("I run forever!");
+tail                                                                }
 ```
 
 <br>Fixed Loop
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop 5 times:                                                       for (let i = 0; i < 5; i++) {
-    say "Stay.";                                              	        console.log("Stay.");
-end                                                                 }
+chase 5 times:                                                      for (let i = 0; i < 5; i++) {
+    woof "Stay.";                                                       console.log("Stay.");
+tail                                                                }
 ```
 
 <br>While Loop
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop while x is at most 5:                                          while (x <= 5) {                                
-    say x;                                                     	        console.log(x);
-end                                                                 }
+chase while x isAtMost 5:                                           while (x <= 5) {
+    woof x;                                                             console.log(x);
+tail                                                                }
 ```
 
 <br>For Loop
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop number i is 0 by i*2 while i is less than 10:                  for (let i = 0; i < 10; i *= 2) {
-    say i;                                                     	        console.log(i);           
-end                                                                 }
+chase toebeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+    woof i;                                                             console.log(i);
+tail                                                                }
 ```
 
 <br>For Each Loop
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-loop element through myList:                                        for (let element of myArray) {
-    say element;                                               	        console.log(element);
-end                                                                 }
+chase element through myList:                                       for (let element of myArray) {
+    woof element;                                                       console.log(element);
+tail                                                                }
 ```
 
 ### Functions
 
 Let's find the greatest common divisor between two numbers!
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark func gcd chases[number:num1, number:num2] fetches number:	    function gcd(num1, num2) {
-    bark number remainder;                                              let remainder;
+trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:     function gcd(num1, num2) {
+    toebeans remainder;                                                 let remainder;
 
-    loop while (a mod b) is greater than 0:                             while ((num1 % num2) > 0) {
-        remainder is (a mod b);                              	            remainder = a % b;
-        a is b;                                                             a = b;	
+    chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
+        remainder is (a mod b);                                             remainder = a % b;
+        a is b;                                                             a = b;
         b is remainder;                                                     b = remainder;
-	end                                                                 }
-	give a;                                                             return a;
-end                                                                 }
+    tail                                                                }
+    give a;                                                             return a;
+tail                                                                }
 
-bark number a is 8;                                                 let a = 8;
-bark number b is 12;                                                let b = 12;
-bark number c is gcd(a, b);                                         let c = gcd(a, b);
+toebeans a is 8;                                                    let a = 8;
+toebeans b is 12;                                                   let b = 12;
+toebeans c is gcd(a, b);                                            let c = gcd(a, b);
 ```
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark func fib chases[number:n] fetches number:                      function fib(n) {
-	if n is at most 1 then:                                             if (n <=1) {
-		give n;                                                             return n;
-	else:                                                               } else {
-		give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
-	end                                                                 }
-end                                                                 }
+trick fib chews[toebeans:n] fetches toebeans:                       function fib(n) {
+    if n isAtMost 1 then:                                               if (n <=1) {
+        give n;                                                             return n;
+    else:                                                               } else {
+        give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
+    tail                                                                }
+tail                                                                }
 
-bark huzzah is fib(100);                                            let huzzah = fib(100);
+huzzah is fib(100);                                                 let huzzah = fib(100);
 ```
 
 ### Objects
 
 Let's make an owner object!
+
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-bark breed Owner is:                                                class Owner {
-    bark string dogName;                                                constructor(dogName) {
+breed Owner is:                                                     class Owner {
+    leash dogName;                                                      constructor(dogName) {
                                                                             this.dogName = dogName;
-    bark func Owner chases[string:dogName] fetches Owner;               }
+    trick Owner chases[leash:dogName] fetches Owner;                    }
 
-    bark func introduceDog:                                             introduceDog() {		
-        say "My dog's name is " with Owner's dogName;                       console.log(`My dog's name is ${this.dogName}`);
-    end                                                                 }
+    trick introduceDog:                                                 introduceDog() {
+        woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);
+    tail                                                                }
 
-    bark func command fetches string:                                   command() {
+    trick command fetches leash:                                        command() {
         give Owner's dogName with ", stay!";                                return `${this.dogName}, stay!`;
-    end                                                                 }
-end                                                                 }
+    tail                                                                }
+tail                                                                }
 
-bark Owner lucille is Owner("Cece")                                 let lucille = new Owner("Cece");
+Owner lucille is Owner("Cece")                                      let lucille = new Owner("Cece");
 lucille's introduceDog() !!! output: "My dog's name is Cece" !!!    lucille.introduceDog();
-say lucille's command()  !!! output: "Cece, stay." !!!              console.log(lucille.command());
+woof lucille's command()  !!! output: "Cece, stay." !!!             console.log(lucille.command());
 ```
-
