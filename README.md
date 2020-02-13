@@ -102,8 +102,8 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 map goodDogs[leash:leash] is [                                      let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
-	"Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
-	"Mo": "Potato"                                                      Mo: "Potato"
+    "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
+    "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
 map ages[leash:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];        let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
