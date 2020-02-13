@@ -23,24 +23,24 @@ const readmeExamples = [
     'leash sentence is "![x] is a good girl";',
     "Statement"
   ],
-  ["toebeans declarations", "toebeans dogAge is 12;", "Declaration"],
+  ["toeBeans declarations", "toeBeans dogAge is 12;", "Declaration"],
   ["goodBoy declarations", "goodBoy isCute is good;", "Declaration"],
   [
-    "list declarations",
-    'list dogNames[leash] is ["CeCe", "Fluffy"];',
+    "pack declarations",
+    'pack dogNames[leash] is ["CeCe", "Fluffy"];',
     "Declaration"
   ],
   [
-    "list using without keyword",
-    'list dogNames[leash] is ["CeCe", "Fluffy"] without "CeCe";',
+    "pack using without keyword",
+    'pack dogNames[leash] is ["CeCe", "Fluffy"] without "CeCe";',
     "Declaration"
   ],
   [
     "map declarations",
-    'map dogAges[leash:toebeans] is ["CeCe": 1, "Fluffy": 2];',
+    'map dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"
   ],
-  ["uninitialized variable declarations", "toebeans cuteness;", "Declaration"],
+  ["uninitialized variable declarations", "toeBeans cuteness;", "Declaration"],
   ["assigning uninitialized variables", "cuteness is 100", "Assignment"],
   ["equality comparators", "x equals y", "RelopExp"],
   ["inequaltiy comparators", "x notEquals y", "RelopExp"],
@@ -102,22 +102,22 @@ const readmeExamples = [
   ],
   [
     "for loops",
-    `chase toebeans i is 0 by i*2 while i isLessThan 10:
+    `chase toeBeans i is 0 by i*2 while i isLessThan 10:
         woof i;
     tail`,
     "Statement"
   ],
   [
     "for each loops",
-    `chase element through myList:
+    `chase element through mypack:
         woof element;
     tail`,
     "Statement"
   ],
   [
     "function declaration",
-    `trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:
-        toebeans remainder;
+    `trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
+        toeBeans remainder;
         chase while (a mod b) isGreaterThan 0:
             remainder is (a mod b);
             a is b;
@@ -198,14 +198,14 @@ const ids = [
 const Primaries = [
   ["parenthesized expression", "(2 * id)"],
   ["apostrophe operator", "toal's hat"],
-  ["list", `["CeCe", "Fluffy", "Mr. Dog"]`],
-  ["one element list", `["CeCe"]`],
-  ["list within a list", `[["CeCe", "Fluffy"], ["Marvin"]]`],
-  ["empty list", `[]`],
+  ["pack", `["CeCe", "Fluffy", "Mr. Dog"]`],
+  ["one element pack", `["CeCe"]`],
+  ["pack within a pack", `[["CeCe", "Fluffy"], ["Marvin"]]`],
+  ["empty pack", `[]`],
   ["map", `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"]`],
   ["one element map", `["CeCe": "too cute"]`],
   ["map within a map", `["Cece": ["cuteness": 100]]`],
-  ["list within a map", `["Marvin": ["bleh": "meh"]]`]
+  ["pack within a map", `["Marvin": ["bleh": "meh"]]`]
 ];
 
 const Terms = [

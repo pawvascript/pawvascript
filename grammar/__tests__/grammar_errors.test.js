@@ -40,7 +40,7 @@ const non_ids = [
 
 const non_Primaries = [
   ["empty parens", "()"],
-  ["list with no closing ]", `["CeCe", "Fluffy", "Mr. Dog"`],
+  ["pack with no closing ]", `["CeCe", "Fluffy", "Mr. Dog"`],
   [
     "map with no closing ]",
     `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"`
