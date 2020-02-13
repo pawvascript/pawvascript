@@ -6,7 +6,7 @@
 
 Ever wish that JavaScript had less symbols and more dogs? We did, so we made PawvaScript!
 
-PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and readable terms, adds types to help with debugging, and throws in some dog related keywords just for fun.
+PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and readable terms, adds types (like TypeScript) to help with debugging, and throws in some dog related keywords just for fun and tail wags.
 
 ## Features
 
@@ -14,22 +14,23 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 - Object-Oriented
 - Static typing
 - 5 types
-  - string
-  - boolean
-  - number
-  - function
+  - leash (string)
+  - goodBoy (boolean)
+  - toebeans (number)
+  - trick (function)
   - breed (what we call objects)
+  - packs (lists)
+  - maps
 - 5 kinds of loops
+- Higher-order functions
 - Conditional Statements
-- Lists
-- Maps
 - Single and multi-line comments
 
 ## Example Programs
 
 ### The Basics
 
-Let's start with the classing Hello, World:
+Let's start with the classic Hello, World:
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -39,9 +40,23 @@ bark "my ball!";                                                    console.log(
 howl "uh-oh"                                                        console.error("uh-oh");
 ```
 
+### Types
+
+PawvaScript's primitive types are similar to JavaScripts, and it also has data structures like Python's lists and dictionaries.
+
+| PawvaScript | Javascript/Python |
+| ----------- | ----------------- |
+| goodBoy     | boolean           |
+| leash       | string            |
+| toebeans    | number            |
+| trick       | function          |
+| pack        | array/list        |
+| TODO        | map/dictionary    |
+| breed       | class/object      |
+
 ### Variable Declaration and Assignment
 
-<br>Declare variables by barking.
+Variables are declared with their type.
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -50,7 +65,7 @@ leash dogName is "Cece";                                            let dogName 
 
 toebeans dogAge is 12;                                              let dogAge = 12;
 
-goodDog isCute is true;                                             let isCute = true;
+goodBoy isCute is true;                                             let isCute = true;
 
 list dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
@@ -62,9 +77,9 @@ toebeans cuteness;                                                  let cuteness
 cuteness is 100;                                                    cuteness = 100;
 ```
 
-### Strings
+### Leashes/Strings
 
-String interpolation and concetation:
+PawvaScript supports string interpolation and concetation:
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -74,9 +89,9 @@ leash dogName is "Ce" with "Ce";                                    let dogName 
 leash sentence is "![dogName] is the best dog";                     let sentence = `${dogName} is the best dog`;
 ```
 
-### Lists
+### Packs/Lists
 
-Lists are the PawvaScript equivalent of arrays in JavaScript:
+Packs are the PawvaScript equivalent of lists in Python or arrays in JavaScript:
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
@@ -245,7 +260,6 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:     function gcd(num1, num2) {
     toebeans remainder;                                                 let remainder;
-
     chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
         remainder is (a mod b);                                             remainder = a % b;
         a is b;                                                             a = b;
