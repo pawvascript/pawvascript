@@ -53,7 +53,7 @@ const non_Terms = [
   ["factorial with ! before number", "!23"],
   ["binary operator before terms", "+ 8 9"],
   ["unary operator treated as a binary operator", "6 ! 3"],
-  [("two operators together", "8 + mod 9")]
+  ["two operators together", "8 + mod 9"]
 ];
 
 describe("The syntax checker", () => {
