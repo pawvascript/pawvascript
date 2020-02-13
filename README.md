@@ -192,7 +192,7 @@ Forever Loop
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase:                                                              while (true) {
-    woof "I run forever!";                                      	    console.log("I run forever!");
+    woof "I run forever!";                                              console.log("I run forever!");
 tail                                                                }
 ```
 
@@ -212,7 +212,7 @@ tail                                                                }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase while x isAtMost 5:                                           while (x <= 5) {
-    woof x;                                                     	    console.log(x);
+    woof x;                                                             console.log(x);
 tail                                                                }
 ```
 
@@ -222,7 +222,7 @@ tail                                                                }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase number i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
-    woof i;                                                     	    console.log(i);
+    woof i;                                                             console.log(i);
 tail                                                                }
 ```
 
@@ -232,7 +232,7 @@ tail                                                                }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase element through myList:                                       for (let element of myArray) {
-    woof element;                                               	    console.log(element);
+    woof element;                                                       console.log(element);
 tail                                                                }
 ```
 
