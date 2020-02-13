@@ -26,13 +26,13 @@ const readmeExamples = [
   ["toeBeans declarations", "toeBeans dogAge is 12;", "Declaration"],
   ["goodBoy declarations", "goodBoy isCute is good;", "Declaration"],
   [
-    "list declarations",
-    'list dogNames[leash] is ["CeCe", "Fluffy"];',
+    "pack declarations",
+    'pack dogNames[leash] is ["CeCe", "Fluffy"];',
     "Declaration"
   ],
   [
-    "list using without keyword",
-    'list dogNames[leash] is ["CeCe", "Fluffy"] without "CeCe";',
+    "pack using without keyword",
+    'pack dogNames[leash] is ["CeCe", "Fluffy"] without "CeCe";',
     "Declaration"
   ],
   [
@@ -109,7 +109,7 @@ const readmeExamples = [
   ],
   [
     "for each loops",
-    `chase element through myList:
+    `chase element through mypack:
         woof element;
     tail`,
     "Statement"
@@ -198,14 +198,14 @@ const ids = [
 const Primaries = [
   ["parenthesized expression", "(2 * id)"],
   ["apostrophe operator", "toal's hat"],
-  ["list", `["CeCe", "Fluffy", "Mr. Dog"]`],
-  ["one element list", `["CeCe"]`],
-  ["list within a list", `[["CeCe", "Fluffy"], ["Marvin"]]`],
-  ["empty list", `[]`],
+  ["pack", `["CeCe", "Fluffy", "Mr. Dog"]`],
+  ["one element pack", `["CeCe"]`],
+  ["pack within a pack", `[["CeCe", "Fluffy"], ["Marvin"]]`],
+  ["empty pack", `[]`],
   ["map", `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"]`],
   ["one element map", `["CeCe": "too cute"]`],
   ["map within a map", `["Cece": ["cuteness": 100]]`],
-  ["list within a map", `["Marvin": ["bleh": "meh"]]`]
+  ["pack within a map", `["Marvin": ["bleh": "meh"]]`]
 ];
 
 const Terms = [
