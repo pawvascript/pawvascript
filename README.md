@@ -48,16 +48,16 @@ PAWVASCRIPT                                                         JAVASCRIPT
 
 leash dogName is "Cece";                                            let dogName = "Cece";
 
-number dogAge is 12;                                                let dogAge = 12;
+toebeans dogAge is 12;                                              let dogAge = 12;
 
 goodDog isCute is true;                                             let isCute = true;
 
 list dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-map dogAges[leash:number] is ["Cece": 1, "Fluffy": 2];              let dogAges = {"Cece": 1, "Fluffy": 2};
+map dogAges[leash:toebeans] is ["Cece": 1, "Fluffy": 2];            let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
-number cuteness;                                                    let cuteness;
+toebeans cuteness;                                                  let cuteness;
 
 cuteness is 100;                                                    cuteness = 100;
 ```
@@ -90,7 +90,7 @@ list bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs
                                                                          bestDogs.splice(indexOfMuffin, 1);
                                                                     }
 
-list ages[number] is [1, 1, 2];                                     let ages = [1, 1, 2];
+list ages[toebeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
 
 ### Maps
@@ -105,7 +105,7 @@ map goodDogs[leash:leash] is [                                      let goodDogs
     "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
     "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-map ages[leash:number] is ["CeCe": 1, "Buster": 1, "Mo": 5];        let ages = {CeCe: 1, Buster: 1, Mo: 5};
+map ages[leash:toebeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];      let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators
@@ -133,7 +133,7 @@ a is x isAtMost y;                                                  a = x <= y;
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-number a is x + y;                                                  a = x + y;
+toebeans a is x + y;                                                a = x + y;
 
 a is x - y;                                                         a = x - y;
 
@@ -202,7 +202,7 @@ tail                                                                }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase 5 times:                                                      for (let i = 0; i < 5; i++) {
-    woof "Stay.";                                              	        console.log("Stay.");
+    woof "Stay.";                                                       console.log("Stay.");
 tail                                                                }
 ```
 
@@ -221,7 +221,7 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-chase number i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+chase toebeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
     woof i;                                                             console.log(i);
 tail                                                                }
 ```
@@ -243,8 +243,8 @@ Let's find the greatest common divisor between two numbers!
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick gcd chews[number:num1, number:num2] fetches number:           function gcd(num1, num2) {
-    number remainder;                                                   let remainder;
+trick gcd chews[toebeans:num1, toebeans:num2] fetches toebeans:     function gcd(num1, num2) {
+    toebeans remainder;                                                 let remainder;
 
     chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
         remainder is (a mod b);                                             remainder = a % b;
@@ -254,9 +254,9 @@ trick gcd chews[number:num1, number:num2] fetches number:           function gcd
     give a;                                                             return a;
 tail                                                                }
 
-number a is 8;                                                      let a = 8;
-number b is 12;                                                     let b = 12;
-number c is gcd(a, b);                                              let c = gcd(a, b);
+toebeans a is 8;                                                    let a = 8;
+toebeans b is 12;                                                   let b = 12;
+toebeans c is gcd(a, b);                                            let c = gcd(a, b);
 ```
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
@@ -264,7 +264,7 @@ The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-trick fib chews[number:n] fetches number:                           function fib(n) {
+trick fib chews[toebeans:n] fetches toebeans:                       function fib(n) {
     if n isAtMost 1 then:                                               if (n <=1) {
         give n;                                                             return n;
     else:                                                               } else {
@@ -285,13 +285,13 @@ PAWVASCRIPT                                                         JAVASCRIPT
 breed Owner is:                                                     class Owner {
     leash dogName;                                                      constructor(dogName) {
                                                                             this.dogName = dogName;
-    trick Owner chases[string:dogName] fetches Owner;                   }
+    trick Owner chases[leash:dogName] fetches Owner;                    }
 
     trick introduceDog:                                                 introduceDog() {
         woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);
     tail                                                                }
 
-    trick command fetches string:                                       command() {
+    trick command fetches leash:                                        command() {
         give Owner's dogName with ", stay!";                                return `${this.dogName}, stay!`;
     tail                                                                }
 tail                                                                }
