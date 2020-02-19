@@ -71,7 +71,9 @@ leash dogName is "Cece";                                            let dogName 
 
 toeBeans dogAge is 12;                                              let dogAge = 12;
 
-goodBoy isCute is true;                                             let isCute = true;
+goodBoy isGoodBoy is good;                                          let isGoodBoy = true;
+
+goodBoy isNaughtyDoggo is bad;                                      let isNaughtyDoggo = false;
 
 pack dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
@@ -253,7 +255,7 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-chase toeBeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+chase toeBeans i is 0 by i*2 while i isLessThan 10:                 for (let i = 0; i < 10; i *= 2) {
     woof i;                                                             console.log(i);
 tail                                                                }
 ```
@@ -303,7 +305,7 @@ trick fib chews[toeBeans:n] fetches toeBeans:                       function fib
     tail                                                                }
 tail                                                                }
 
-toeBeans huzzah is fib(100);                                                 let huzzah = fib(100);
+toeBeans huzzah is fib(100);                                        let huzzah = fib(100);
 ```
 
 ### Breeds
