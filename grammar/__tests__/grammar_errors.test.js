@@ -42,6 +42,14 @@ const non_Primaries = [
   ["empty parens", "()"],
   ["pack with no closing ]", `["CeCe", "Fluffy", "Mr. Dog"`],
   [
+    "pack with bad peanutButter syntax (missing Pack Expression)",
+    `[peanutButter, "Fluffy", "Mr. Dog"]`
+  ],
+  [
+    "pack with bad peanutButter syntax (too many peanutButters)",
+    `[peanutButter peanutButter sm0lDogs, "Fluffy", "Mr. Dog"]`
+  ],
+  [
     "map with no closing ]",
     `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"`
   ],

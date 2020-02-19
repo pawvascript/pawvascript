@@ -36,6 +36,11 @@ const readmeExamples = [
     "Declaration"
   ],
   [
+    "pack using peanutButter keyword",
+    'pack allTheDogs[leash] is [peanutButter sm0lDogs, "Fluffy"];',
+    "Declaration"
+  ],
+  [
     "map declarations",
     'map dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"

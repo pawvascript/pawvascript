@@ -29,6 +29,7 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
   - ForEach
 - Higher-order functions
 - Conditional Statements
+- Spread/peanutButter syntax
 - Single and multi-line comments
 
 ## Example Programs
@@ -109,6 +110,17 @@ pack bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs
                                                                     if (indexOfMuffin > -1) {
                                                                          bestDogs.splice(indexOfMuffin, 1);
                                                                     }
+
+!!! The peanutButter keyword is the equivalent of JavaScript's spread syntax. !!!
+pack sm0lDogs[leash] is ["Tiny", "Teenie", "Boo"];                  let sm0lDogs = ["Tiny", "Teenie", "Boo"];
+pack b1gDogs[leash] is ["Boofer", "Woofer," "Mo"];                  let b1gDogs = ["Boofer", "Woofer," "Mo"];
+pack allTheDogs[leash] is [                                         let allTheDogs = [
+    peanutButter sm0lDogs,                                              ...sm0lDogs,
+    peanutButter b1gDogs                                                ...b1gDogs
+];                                                                  ];
+
+woof allTheDogs;                                                    console.log(allTheDogs);
+!!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] !!!         /* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] */
 
 pack ages[toeBeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
