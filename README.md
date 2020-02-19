@@ -20,7 +20,7 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
   - trick (function)
   - breed (what we call objects)
   - packs (lists)
-  - maps
+  - kennels (maps)
 - 5 kinds of loops
   - Forever
   - Fixed
@@ -57,7 +57,7 @@ PawvaScript's primitive types are similar to JavaScripts, and it also has data s
 | toebeans    | number            |
 | trick       | function          |
 | pack        | array/list        |
-| TODO        | map/dictionary    |
+| kennel      | map/dictionary    |
 | breed       | class/object      |
 
 ### Variable Declaration and Assignment
@@ -75,7 +75,7 @@ goodBoy isCute is true;                                             let isCute =
 
 pack dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-map dogAges[leash:toeBeans] is ["Cece": 1, "Fluffy": 2];            let dogAges = {"Cece": 1, "Fluffy": 2};
+kennel dogAges[leash:toeBeans] is ["Cece": 1, "Fluffy": 2];         let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
 toeBeans cuteness;                                                  let cuteness;
@@ -125,19 +125,19 @@ woof allTheDogs;                                                    console.log(
 pack ages[toeBeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
 
-### Maps
+### Kennels/Maps
 
-Maps are data structures like Python dictionaries.
+Kennels are data structures like Python dictionaries.
 
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-map goodDogs[leash:leash] is [                                      let goodDogs = {
+kennel goodDogs[leash:leash] is [                                   let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
     "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
     "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-map ages[leash:toeBeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];      let ages = {CeCe: 1, Buster: 1, Mo: 5};
+kennel ages[leash:toeBeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];   let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators

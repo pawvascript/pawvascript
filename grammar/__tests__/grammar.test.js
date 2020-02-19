@@ -41,8 +41,8 @@ const readmeExamples = [
     "Declaration"
   ],
   [
-    "map declarations",
-    'map dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
+    "kennel declarations",
+    'kennel dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"
   ],
   ["uninitialized variable declarations", "toeBeans cuteness;", "Declaration"],
@@ -207,10 +207,10 @@ const Primaries = [
   ["one element pack", `["CeCe"]`],
   ["pack within a pack", `[["CeCe", "Fluffy"], ["Marvin"]]`],
   ["empty pack", `[]`],
-  ["map", `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"]`],
-  ["one element map", `["CeCe": "too cute"]`],
-  ["map within a map", `["Cece": ["cuteness": 100]]`],
-  ["pack within a map", `["Marvin": ["bleh": "meh"]]`]
+  ["kennel", `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"]`],
+  ["one element kennel", `["CeCe": "too cute"]`],
+  ["kennel within a kennel", `["Cece": ["cuteness": 100]]`],
+  ["pack within a kennel", `["Marvin": ["bleh": "meh"]]`]
 ];
 
 const Terms = [

@@ -53,8 +53,8 @@ PawvaScript {
                     | boolean
                     | id
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
-                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --map
-    type            = toeBeans | leash | goodBoy | pack | map | breed | id
+                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
+    type            = toeBeans | leash | goodBoy | pack | kennel | breed | id
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
     char            = escape
@@ -70,7 +70,7 @@ PawvaScript {
     leash           = "leash" ~alnum
     goodBoy         = "goodBoy" ~alnum
     pack            = "pack" ~alnum
-    map             = "map" ~alnum
+    kennel          = "kennel" ~alnum
     breed           = "breed" ~alnum
     chase           = "chase" ~alnum
     tail            = "tail" ~alnum

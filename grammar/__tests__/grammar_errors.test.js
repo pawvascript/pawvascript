@@ -50,11 +50,11 @@ const non_Primaries = [
     `[peanutButter peanutButter sm0lDogs, "Fluffy", "Mr. Dog"]`
   ],
   [
-    "map with no closing ]",
+    "kennel with no closing ]",
     `["CeCe": "cutest", "Marcy": "cute", "Marvin": "barely passing"`
   ],
-  ["map with nothing on right", '["MyDog":]'],
-  ["map with nothing on left", '[:"MyDog"]']
+  ["kennel with nothing on right", '["MyDog":]'],
+  ["kennel with nothing on left", '[:"MyDog"]']
 ];
 
 const non_Terms = [
