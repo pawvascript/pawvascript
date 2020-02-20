@@ -15,7 +15,17 @@ const miscellaneous_errors = [
   ],
   ["unknown operator", "x := 2 ** 5", "Statement"],
   ["chained relational operators", "1 isLessThan 3 isLessThan 5", "Statement"],
-  ["mismatched parentheses", "1 + (2 +3))", "Statement"]
+  ["mismatched parentheses", "1 + (2 +3))", "Statement"],
+  [
+    "variable declaration inside a variable declartion",
+    `leash dogeName is leash pupperName is "CeCe"`,
+    "Statement"
+  ],
+  [
+    "variable declaration inside another statement",
+    `if leash dogeName is "CeCe" equals "CeCe" then: woof "yay!"; tail`,
+    "Statement"
+  ]
 ];
 
 const non_comments = [
