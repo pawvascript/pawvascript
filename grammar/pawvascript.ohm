@@ -11,13 +11,14 @@ PawvaScript {
                     | chase ":" Block                                                           --infinite
     Statement       = Declaration                                                               --declaration
                     | Assignment ";"                                                            --assignment
-                    | FuncCall tail                                                             --funcCall
+                    | FuncCall ";"                                                             --funcCall
                     | Woof ";"                                                                  --woof
                     | Bark ";"                                                                  --bark
                     | Howl ";"                                                                  --howl
                     | give Exp ";"                                                              --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
+                    | Primary ";"                                                               --primary
     Assignment      = id Grouping? is Exp
     Woof            = woof Exp
     Bark            = bark Exp
@@ -58,7 +59,7 @@ PawvaScript {
     strlit          = "\"" (char | "'")* "\""
     char            = escape
                     | interpolation
-                    | ~"\\" ~"\"" ~"'" ~"\n" any
+                    | ~"\\" ~"\"" ~"'" ~"\n" ~"!" any
     interpolation   = "![" id "]"
     escape          = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\!"
     boolean         = good | bad

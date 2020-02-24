@@ -8,18 +8,18 @@
 const syntaxCheck = require("../syntax-checker");
 
 const readmeExamples = [
-  ["hello world", 'woof "Hello, World!";', "Statement"],
-  ["HELLO WORLD", 'bark "Hello, World!";', "Statement"],
+  ["hello world", 'woof "Hello, World\\!";', "Statement"],
+  ["HELLO WORLD", 'bark "Hello, World\\!";', "Statement"],
   ["howl errors", 'howl "Error Message";', "Statement"],
   ["leash declarations", 'leash dogName is "CeCe";', "Declaration"],
   [
     "leash with escapes",
-    'leash sentence is "CeCe is the best\\ and I \n love her!";',
+    'leash sentence is "CeCe is the best and I \\n love her\\!";',
     "Declaration"
   ],
   [
     "leash declarations with exclamation points",
-    'leash dogName is "CeCe!!!!!!!!!!!";',
+    'leash dogName is "CeCe\\!\\!\\!\\!\\!\\!\\!\\!\\!\\!\\!";',
     "Declaration"
   ],
   ["leash concatenation", 'leash dogName is "Ce" with "Ce";', "Statement"],
@@ -94,7 +94,7 @@ const readmeExamples = [
   [
     "forever loops",
     `chase:
-        woof "I run forever!";
+        woof "I run forever\\!";
     tail`
   ],
   [
