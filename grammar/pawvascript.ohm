@@ -1,24 +1,24 @@
 PawvaScript {
-    Program 	    = Block
-    Block 		    = (Statement)*
+    Program         = Block
+    Block           = (Statement)*
     Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
                     | if Exp then ":" Block else ":" Block                                      --else
-                    | if Exp then ":" Block						                                --basic
-    Chase           = chase Exp "times" ":" Block                                               --defined
-                    | chase "while" Exp ":" Block                                               --while
-                    | chase id "through" id ":" Block                                           --through
-                    | chase VarDec "by" Exp "while" Exp ":" Block                               --for
-                    | chase ":" Block													        --infinite
+                    | if Exp then ":" Block                                                     --basic
+    Chase           = chase Exp times ":" Block                                                 --defined
+                    | chase while Exp ":" Block                                                 --while
+                    | chase id through id ":" Block                                             --through
+                    | chase VarDec by Exp "while" Exp ":" Block                                 --for
+                    | chase ":" Block                                                           --infinite
     Statement       = Declaration                                                               --declaration
                     | Assignment ";"                                                            --assignment
                     | FuncCall tail                                                             --funcCall
-                    | Woof ";"			                                                        --woof
-                    | Bark ";"			                                                        --bark
+                    | Woof ";"                                                                  --woof
+                    | Bark ";"                                                                  --bark
                     | Howl ";"                                                                  --howl
-                    | "give" Exp ";"                                                            --give
+                    | give Exp ";"                                                              --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
-                    | Exp ";"			                                                        --expression
+                    | Exp ";"                                                                   --expression
     Assignment      = id Grouping? is Exp
     Woof            = woof Exp
     Bark            = bark Exp
@@ -41,7 +41,7 @@ PawvaScript {
                     | Term
     Term            = Term ("+" | "-" | (~without with) | without) Factor                       --addOp
                     | Factor
-    Factor          = Factor ("*" | "/" | "mod") Negation                                       --mulOp
+    Factor          = Factor ("*" | "/" | mod) Negation                                         --mulOp
                     | Negation
     Negation        = "-"? Factorial                                                            --arithmeticNeg
                     | not Factorial                                                             --logicalNeg
@@ -90,6 +90,11 @@ PawvaScript {
     without         = "without" ~alnum
     not             = "not" ~alnum
     peanutButter    = "peanutButter" ~alnum
+    times           = "times" ~alnum
+    while           = "while" ~alnum
+    through         = "through" ~alnum
+    by              = "by" ~alnum
+    mod             = "mod" ~alnum
     keyword         = equalityop 
                     | relop 
                     | type
@@ -112,6 +117,11 @@ PawvaScript {
                     | without 
                     | not
                     | peanutButter
+                    | times
+                    | while
+                    | through
+                    | by
+                    | mod
     id              = ~keyword (letter | "_") (letter | digit | "_")*
     space           += comment
     comment         = "!!!" (~"!!!" any)* "!!!"
