@@ -6,7 +6,7 @@
 
 Ever wish that JavaScript had less symbols and more dogs? We did, so we made PawvaScript!
 
-PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and readable terms, adds types (like TypeScript) to help with debugging, and throws in some dog related keywords just for fun and tail wags.
+PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
 ## Features
 
@@ -19,8 +19,8 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
   - toeBeans (number)
   - trick (function)
   - breed (what we call objects)
-  - packs (lists)
-  - kennels (maps)
+  - pack (list)
+  - kennel (map)
 - 5 kinds of loops
   - Forever
   - Fixed
@@ -54,7 +54,7 @@ PawvaScript's primitive types are similar to JavaScripts, and it also has data s
 | ----------- | ----------------- |
 | goodBoy     | boolean           |
 | leash       | string            |
-| toebeans    | number            |
+| toeBeans    | number            |
 | trick       | function          |
 | pack        | array/list        |
 | kennel      | map/dictionary    |
@@ -71,7 +71,9 @@ leash dogName is "Cece";                                            let dogName 
 
 toeBeans dogAge is 12;                                              let dogAge = 12;
 
-goodBoy isCute is true;                                             let isCute = true;
+goodBoy isGoodBoy is good;                                          let isGoodBoy = true;
+
+goodBoy isNaughtyDoggo is bad;                                      let isNaughtyDoggo = false;
 
 pack dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
@@ -253,7 +255,7 @@ tail                                                                }
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-chase toeBeans i is 0 by i*2 while i isLessThan 10:                   for (let i = 0; i < 10; i *= 2) {
+chase toeBeans i is 0 by i*2 while i isLessThan 10:                 for (let i = 0; i < 10; i *= 2) {
     woof i;                                                             console.log(i);
 tail                                                                }
 ```
@@ -303,7 +305,7 @@ trick fib chews[toeBeans:n] fetches toeBeans:                       function fib
     tail                                                                }
 tail                                                                }
 
-huzzah is fib(100);                                                 let huzzah = fib(100);
+toeBeans huzzah is fib(100);                                        let huzzah = fib(100);
 ```
 
 ### Breeds
