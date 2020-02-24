@@ -13,6 +13,11 @@ const readmeExamples = [
   ["howl errors", 'howl "Error Message";', "Statement"],
   ["leash declarations", 'leash dogName is "CeCe";', "Declaration"],
   [
+    "leash with escapes",
+    'leash sentence is "CeCe is the best\\ and I \n love her!";',
+    "Declaration"
+  ],
+  [
     "leash declarations with exclamation points",
     'leash dogName is "CeCe!!!!!!!!!!!";',
     "Declaration"
@@ -145,7 +150,7 @@ const readmeExamples = [
         tail
     tail
     Owner lucille is Owner("Cece");
-    lucille's introduceDog();  !!! output: "My dog's name is Cece" !!!
+    lucille's introduceDog();  !!! THIS LINE IS PROBLEMATIC output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
   ]

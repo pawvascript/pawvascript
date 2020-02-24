@@ -18,7 +18,6 @@ PawvaScript {
                     | give Exp ";"                                                              --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
-                    | Exp ";"                                                                   --expression
     Assignment      = id Grouping? is Exp
     Woof            = woof Exp
     Bark            = bark Exp
@@ -61,7 +60,7 @@ PawvaScript {
                     | interpolation
                     | ~"\\" ~"\"" ~"'" ~"\n" any
     interpolation   = "![" id "]"
-    escape          = "\\\\" | "\\\"" | "\\'" | "\\n"
+    escape          = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\!"
     boolean         = good | bad
     relop           = "isGreaterThan" | "isAtLeast" | "isAtMost" | "isLessThan" | equalityop
     equalityop      = "equals" | "notEquals"
