@@ -18,7 +18,7 @@ PawvaScript {
                     | give Exp ";"                                                              --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
-                    | Primary ";"                                                               --primary
+                    | Property ";"                                                              --primary
     Assignment      = id Grouping? is Exp
     Woof            = woof Exp
     Bark            = bark Exp
@@ -47,13 +47,14 @@ PawvaScript {
                     | not Factorial                                                             --logicalNeg
     Factorial       = Primary "!"?                                                   
     Primary         = "(" Exp ")"                                                               --parens
-                    | id "\'s" Exp                                                              --propertyOp
+                    | Property                                                                  --propertyOp
                     | numlit
                     | strlit
                     | boolean
                     | id
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
+    Property        = id "\'s" Exp
     type            = toeBeans | leash | goodBoy | pack | kennel | breed | id
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
