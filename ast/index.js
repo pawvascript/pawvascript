@@ -47,14 +47,14 @@ class FixedLoopStatement {
 }
 
 class VariableDeclaration {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  constructor(id, type, keyType = null, valueType = null) {
+    Object.assign(this, { id, type, keyType, valueType });
   }
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, type) {
-    Object.assign(this, { id, parameters, type });
+  constructor(id, parameters, returnType) {
+    Object.assign(this, { id, parameters, returnType });
   }
 }
 
@@ -115,9 +115,10 @@ class GiveStatement {
 
 class Expression {}
 
+// TODO: change name of Grouping to something like VariableTypeMapping
 class Grouping {
-  constructor(types) {
-    this.types = types;
+  constructor(keyType, valueType) {
+    Object.assign(this, { keyType, valueType });
   }
 }
 
