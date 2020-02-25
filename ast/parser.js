@@ -52,6 +52,17 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Block(s) {
     return new Block(s.ast());
   },
+  Stmt_VariableDeclaration(type, id, group, _1, expression) {
+    return new VariableDeclaration(
+      type.ast(),
+      id.ast(),
+      group.ast(),
+      expression.ast()
+    );
+  },
+  Stmt_TypeDeclaration(_1, id, _2, _colon, body, _3) {
+    return new TypeDeclaration(id.ast(), body.ast());
+  },
   // Stmt_declaration(_1, id, _2, type) {
   //    return new VariableDeclaration(id.sourceString, type.ast());
   // },
