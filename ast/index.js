@@ -16,31 +16,31 @@ class ConditionalStatement {
   }
 }
 
-class InfiniteChaseStatement {
+class InfiniteLoopStatement {
   constructor(body) {
     this.body = body;
   }
 }
 
-class ForChaseStatement {
+class ForLoopStatement {
   constructor(localVar, loopExp, condition, body) {
     Object.assign(this, { localVar, loopExp, condition, body });
   }
 }
 
-class ThroughChaseStatement {
+class ThroughLoopStatement {
   constructor(localVar, group, body) {
     Object.assign(this, { localVar, group, body });
   }
 }
 
-class WhileChaseStatement {
+class WhileLoopStatement {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
   }
 }
 
-class DefinedChaseStatement {
+class FixedLoopStatement {
   constructor(expression, body) {
     Object.assign(this, { expression, body });
   }
@@ -173,11 +173,11 @@ module.exports = {
   Program,
   Block,
   ConditionalStatement,
-  InfiniteChaseStatement,
-  ForChaseStatement,
-  ThroughChaseStatement,
-  WhileChaseStatement,
-  DefinedChaseStatement,
+  InfiniteLoopStatement,
+  ForLoopStatement,
+  ThroughLoopStatement,
+  WhileLoopStatement,
+  FixedLoopStatement,
   VariableDeclaration,
   Type,
   FunctionDeclaration,
