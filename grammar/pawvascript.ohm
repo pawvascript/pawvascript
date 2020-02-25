@@ -27,7 +27,7 @@ PawvaScript {
                     | VarDec ";"                                                                --VarDec
                     | TypeDec                                                                   --TypeDec
     FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --funcDec
-                    | trick id (chews Parameters)? (fetches id) ";"                             --contructorDec
+                    | trick id (chews Parameters)? (fetches type) ";"                           --constructorDec
     VarDec          = type id Grouping? is Exp                                                  --fullDec
                     | type id Grouping?                                                         --defaultDec
     TypeDec         = breed id is ":" Block tail                                                --typeDec

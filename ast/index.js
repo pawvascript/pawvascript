@@ -52,6 +52,20 @@ class VariableDeclaration {
   }
 }
 
+//TODO
+class FunctionDeclaration {
+  constructor(id, type) {
+    Object.assign(this, { id, type });
+  }
+}
+
+//TODO
+class TypeDeclaration {
+  constructor(id, type) {
+    Object.assign(this, { id, type });
+  }
+}
+
 class Type {
   constructor(name) {
     this.name = name;
@@ -90,6 +104,12 @@ class BarkStatement {
 }
 
 class HowlStatement {
+  constructor(expression) {
+    this.expression = expression;
+  }
+}
+
+class GiveStatement {
   constructor(expression) {
     this.expression = expression;
   }
