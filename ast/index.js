@@ -11,16 +11,38 @@ class Block {
 }
 
 class ConditionalStatement {
-  // ??? how do we do if/elseif/elseif/else?
+  constructor(condition, body, otherwise) {
+    Object.assign(this, { condition, body, otherwise });
+  }
+}
+
+class InfiniteChaseStatement {
+  constructor(body) {
+    this.body = body;
+  }
+}
+
+class ForChaseStatement {
+  constructor(localVar, loopExp, condition, body) {
+    Object.assign(this, { localVar, loopExp, condition, body });
+  }
+}
+
+class ThroughStatement {
+  constructor(localVar, group, body) {
+    Object.assign(this, { localVar, group, body });
+  }
+}
+
+class WhileChaseStatement {
   constructor(condition, body) {
     Object.assign(this, { condition, body });
   }
 }
 
-class ChaseStatement {
-  // ????????? we have so many kinds lol, do we do a separate class for each?
-  constructor(condition, body) {
-    Object.assign(this, { condition, body });
+class DefinedChaseStatement {
+  constructor(expression, body) {
+    Object.assign(this, { expression, body });
   }
 }
 
