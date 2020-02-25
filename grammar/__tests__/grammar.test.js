@@ -150,7 +150,7 @@ const readmeExamples = [
         tail
     tail
     Owner lucille is Owner("Cece");
-    lucille's introduceDog();  !!! THIS LINE IS PROBLEMATIC output: "My dog's name is Cece" !!! 
+    lucille's introduceDog();  !!! output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
   ]
