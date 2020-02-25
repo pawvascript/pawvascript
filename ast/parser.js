@@ -10,11 +10,11 @@ const {
   Program,
   Block,
   ConditionalStatement,
-  InfiniteChaseStatement,
-  ForChaseStatement,
-  ThroughChaseStatement,
-  WhileChaseStatement,
-  DefinedChaseStatement,
+  InfiniteLoopStatement,
+  ForLoopStatement,
+  ThroughLoopStatement,
+  WhileLoopStatement,
+  DefinedLoopStatement,
   VariableDeclaration,
   Type,
   FunctionDeclaration,
@@ -42,14 +42,14 @@ const {
   BinaryExpression
 } = require(".");
 
-const grammar = ohm.grammar(fs.readFileSync("./grammar/iki.ohm"));
+const grammar = ohm.grammar(fs.readFileSync("./grammar/pawvascript.ohm"));
 
 /* eslint-disable no-unused-vars */
 const astBuilder = grammar.createSemantics().addOperation("ast", {
   Program(b) {
     return new Program(b.ast());
   },
-  Block(s, _) {
+  Block(s) {
     return new Block(s.ast());
   },
   // Stmt_declaration(_1, id, _2, type) {
@@ -58,11 +58,25 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   // Stmt_assignment(varexp, _, exp) {
   //   return new AssignmentStatement(varexp.ast(), exp.ast());
   // },
-  Stmt_InfChase(_1, _colon, body) {
-    return new Block(body.ast());
-  }
-  Stmt_ForChase(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
-    return; //TODO
+  Stmt_InfLoop(_1, _colon, body) {
+    return new InfiniteLoopStatement(body.ast());
+  },
+  Stmt_ForLoop(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
+    return new ForLoopStatement(
+      localVar.ast(),
+      loopExp.ast(),
+      condition.ast(),
+      body.ast()
+    );
+  },
+  Stmt_ThroughLoop(_1, localVar, _2, group, _colon, body) {
+    return new ThroughLoopStatement(localVar.ast(), group.ast(), body.ast());
+  },
+  Stmt_WhileLoop(_1, _2, expression, _colon, body) {
+    return new WhileLoopStatement(expression.ast(), body.ast());
+  },
+  Stmt_DefinedLoop(_1, expression, _2, _colon, body) {
+    return DefinedLoopStatement(expression.ast(), body.ast());
   }
   // Stmt_read(_1, v, _2, more) {
   //   return new ReadStatement([v.ast(), ...more.ast()]);
