@@ -7,38 +7,63 @@ const ohm = require("ohm-js");
 const fs = require("fs");
 
 const {
-  // Program,
-  // Block,
-  // IntType,
-  // BoolType,
-  // VariableDeclaration,
-  // AssignmentStatement,
-  // ReadStatement,
-  // WriteStatement,
-  // WhileStatement,
-  // IntegerLiteral,
-  // BooleanLiteral,
-  // VariableExpression,
-  // BinaryExpression,
-  // UnaryExpression
+  Program,
+  Block,
+  ConditionalStatement,
+  InfiniteChaseStatement,
+  ForChaseStatement,
+  ThroughChaseStatement,
+  WhileChaseStatement,
+  DefinedChaseStatement,
+  VariableDeclaration,
+  Type,
+  FunctionDeclaration,
+  TypeDeclaration,
+  IntType,
+  BoolType,
+  StringType,
+  ArrayType,
+  DictType,
+  ObjectType,
+  AssignmentStatement,
+  FunctionCallStatement,
+  WoofStatement,
+  BarkStatement,
+  HowlStatement,
+  GiveStatement,
+  Expression,
+  Grouping,
+  Parameters,
+  BooleanLiteral,
+  IntegerLiteral,
+  StringLiteral,
+  VariableExpression,
+  UnaryExpression,
+  BinaryExpression
 } = require(".");
 
 const grammar = ohm.grammar(fs.readFileSync("./grammar/iki.ohm"));
 
 /* eslint-disable no-unused-vars */
 const astBuilder = grammar.createSemantics().addOperation("ast", {
-  // Program(b) {
-  //   return new Program(b.ast());
-  // },
-  // Block(s, _) {
-  //   return new Block(s.ast());
-  // },
+  Program(b) {
+    return new Program(b.ast());
+  },
+  Block(s, _) {
+    return new Block(s.ast());
+  },
   // Stmt_declaration(_1, id, _2, type) {
-  //   return new VariableDeclaration(id.sourceString, type.ast());
+  //    return new VariableDeclaration(id.sourceString, type.ast());
   // },
   // Stmt_assignment(varexp, _, exp) {
   //   return new AssignmentStatement(varexp.ast(), exp.ast());
   // },
+  Stmt_InfChase(_1, _colon, body) {
+    return new Block(body.ast());
+  }
+  Stmt_ForChase(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
+    return; //TODO
+  }
   // Stmt_read(_1, v, _2, more) {
   //   return new ReadStatement([v.ast(), ...more.ast()]);
   // },

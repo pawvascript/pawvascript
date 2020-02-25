@@ -28,7 +28,7 @@ class ForChaseStatement {
   }
 }
 
-class ThroughStatement {
+class ThroughChaseStatement {
   constructor(localVar, group, body) {
     Object.assign(this, { localVar, group, body });
   }
@@ -52,17 +52,15 @@ class VariableDeclaration {
   }
 }
 
-//TODO
 class FunctionDeclaration {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  constructor(id, parameters, type) {
+    Object.assign(this, { id, parameters, type });
   }
 }
 
-//TODO
 class TypeDeclaration {
-  constructor(id, type) {
-    Object.assign(this, { id, type });
+  constructor(id, block) {
+    Object.assign(this, { id, block });
   }
 }
 
@@ -115,19 +113,19 @@ class GiveStatement {
   }
 }
 
-class ReadStatement {
-  constructor(varexps) {
-    this.varexps = varexps;
-  }
-}
-
-class WriteStatement {
-  constructor(expressions) {
-    this.expressions = expressions;
-  }
-}
-
 class Expression {}
+
+class Grouping {
+  constructor(types) {
+    this.types = types;
+  }
+}
+
+class Parameters {
+  constructor(types, ids) {
+    Object.assign(this, { types, ids });
+  }
+}
 
 class BooleanLiteral extends Expression {
   constructor(value) {
@@ -137,6 +135,13 @@ class BooleanLiteral extends Expression {
 }
 
 class IntegerLiteral extends Expression {
+  constructor(value) {
+    super();
+    this.value = value;
+  }
+}
+
+class StringLiteral extends Expression {
   constructor(value) {
     super();
     this.value = value;
@@ -167,17 +172,34 @@ class BinaryExpression extends Expression {
 module.exports = {
   Program,
   Block,
+  ConditionalStatement,
+  InfiniteChaseStatement,
+  ForChaseStatement,
+  ThroughChaseStatement,
+  WhileChaseStatement,
+  DefinedChaseStatement,
   VariableDeclaration,
   Type,
+  FunctionDeclaration,
+  TypeDeclaration,
   IntType,
   BoolType,
+  StringType,
+  ArrayType,
+  DictType,
+  ObjectType,
   AssignmentStatement,
-  ReadStatement,
-  WriteStatement,
-  WhileStatement,
+  FunctionCallStatement,
+  WoofStatement,
+  BarkStatement,
+  HowlStatement,
+  GiveStatement,
   Expression,
+  Grouping,
+  Parameters,
   BooleanLiteral,
   IntegerLiteral,
+  StringLiteral,
   VariableExpression,
   UnaryExpression,
   BinaryExpression

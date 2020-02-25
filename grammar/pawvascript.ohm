@@ -7,7 +7,7 @@ PawvaScript {
     Chase           = chase Exp times ":" Block                                                 --defined
                     | chase while Exp ":" Block                                                 --while
                     | chase id through id ":" Block                                             --through
-                    | chase VarDec by Exp "while" Exp ":" Block                                 --for
+                    | chase VarDec by Exp while Exp ":" Block                                 --for
                     | chase ":" Block                                                           --infinite
     Statement       = Declaration                                                               --declaration
                     | Assignment ";"                                                            --assignment
