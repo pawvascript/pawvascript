@@ -71,6 +71,12 @@ class AssignmentStatement {
   }
 }
 
+class FunctionCallStatement {
+  constructor(id, arguments) {
+    Object.assign(this, { id, arguments });
+  }
+}
+
 class ReadStatement {
   constructor(varexps) {
     this.varexps = varexps;
