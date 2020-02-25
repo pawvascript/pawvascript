@@ -15,7 +15,7 @@ PawvaScript {
                     | Woof ";"                                                                  --woof
                     | Bark ";"                                                                  --bark
                     | Howl ";"                                                                  --howl
-                    | give Exp ";"                                                              --give
+                    | give Exp? ";"                                                              --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
                     | Property ";"                                                              --primary
@@ -28,8 +28,7 @@ PawvaScript {
                     | TypeDec                                                                   --TypeDec
     FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --funcDec
                     | trick id (chews Parameters)? (fetches type) ";"                           --constructorDec
-    VarDec          = type id Grouping? is Exp                                                  --fullDec
-                    | type id Grouping?                                                         --defaultDec
+    VarDec          = type id Grouping? (is Exp)?
     TypeDec         = breed id is ":" Block tail                                                --typeDec
     Grouping        = "[" type (":" type)? "]"
     FuncCall        = id "(" (Exp ",")* Exp? ")"

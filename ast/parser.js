@@ -44,6 +44,10 @@ const {
 
 const grammar = ohm.grammar(fs.readFileSync("./grammar/pawvascript.ohm"));
 
+function arrayToNullable(a) {
+  return a.length === 0 ? null : a[0];
+}
+
 /* eslint-disable no-unused-vars */
 const astBuilder = grammar.createSemantics().addOperation("ast", {
   Program(b) {
@@ -56,8 +60,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new VariableDeclaration(
       type.ast(),
       id.ast(),
-      group.ast(),
-      expression.ast()
+      arrayToNullable(group.ast()),
+      arrayToNullable(expression.ast())
     );
   },
   Stmt_TypeDeclaration(_1, id, _2, _colon, body, _3) {
@@ -91,6 +95,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   Stmt_Conditional(_1, condition, _2, _colon, body, _else, otherwise) {
     return new ConditionalStatement(condition.ast(), body.ast());
+  },
+  Group(_open, key, _colon, value, _close) {
+    return new Grouping(key, value);
   }
   // Stmt_read(_1, v, _2, more) {
   //   return new ReadStatement([v.ast(), ...more.ast()]);
