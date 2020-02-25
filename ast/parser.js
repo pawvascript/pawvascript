@@ -76,7 +76,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new WhileLoopStatement(expression.ast(), body.ast());
   },
   Stmt_DefinedLoop(_1, expression, _2, _colon, body) {
-    return DefinedLoopStatement(expression.ast(), body.ast());
+    return new DefinedLoopStatement(expression.ast(), body.ast());
+  },
+  Stmt_Conditional(_1, condition, _2, _colon, body, _else, otherwise) {
+    return new ConditionalStatement(condition.ast(), body.ast());
   }
   // Stmt_read(_1, v, _2, more) {
   //   return new ReadStatement([v.ast(), ...more.ast()]);
