@@ -58,8 +58,12 @@ class Type {
   }
 }
 
-const IntType = new Type("int");
-const BoolType = new Type("bool");
+const IntType = new Type("toeBeans");
+const BoolType = new Type("goodBoy");
+const StringType = new Type("leash");
+const ArrayType = new Type("pack");
+const DictType = new Type("kennel");
+const ObjectType = new Type("breed");
 
 class AssignmentStatement {
   constructor(target, source) {
