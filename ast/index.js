@@ -77,6 +77,24 @@ class FunctionCallStatement {
   }
 }
 
+class WoofStatement {
+  constructor(expression) {
+    this.expression = expression;
+  }
+}
+
+class BarkStatement {
+  constructor(expression) {
+    this.expression = expression;
+  }
+}
+
+class HowlStatement {
+  constructor(expression) {
+    this.expression = expression;
+  }
+}
+
 class ReadStatement {
   constructor(varexps) {
     this.varexps = varexps;
