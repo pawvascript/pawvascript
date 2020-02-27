@@ -7,15 +7,15 @@ PawvaScript {
     Chase           = chase Exp times ":" Block                                                 --defined
                     | chase while Exp ":" Block                                                 --while
                     | chase id through id ":" Block                                             --through
-                    | chase VarDec by Exp while Exp ":" Block                                 --for
+                    | chase VarDec by Exp while Exp ":" Block                                   --for
                     | chase ":" Block                                                           --infinite
     Statement       = Declaration                                                               --declaration
                     | Assignment ";"                                                            --assignment
-                    | FuncCall ";"                                                             --funcCall
+                    | FuncCall ";"                                                              --funcCall
                     | Woof ";"                                                                  --woof
                     | Bark ";"                                                                  --bark
                     | Howl ";"                                                                  --howl
-                    | give Exp? ";"                                                              --give
+                    | give Exp? ";"                                                             --give
                     | Chase tail                                                                --chase
                     | Conditional tail                                                          --conditional
                     | Property ";"                                                              --primary
@@ -23,17 +23,17 @@ PawvaScript {
     Woof            = woof Exp
     Bark            = bark Exp
     Howl            = howl Exp
-    Declaration     = FuncDec                                                                   --FuncDec
-                    | VarDec ";"                                                                --VarDec
-                    | TypeDec                                                                   --TypeDec
-    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --funcDec
-                    | trick id (chews Parameters)? (fetches type) ";"                           --constructorDec
+    Declaration     = FuncDec                                                                   --funcDec
+                    | VarDec ";"                                                                --varDec
+                    | TypeDec                                                                   --typeDec
+    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --basic
+                    | trick id (chews Parameters)? (fetches type) ";"                           --constructor
     VarDec          = type id Grouping? (is Exp)?
-    TypeDec         = breed id is ":" Block tail                                                --typeDec
+    TypeDec         = breed id is ":" Block tail
     Grouping        = "[" type (":" type)? "]"
     FuncCall        = id "(" (Exp ",")* Exp? ")"
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
-    Exp             = FuncCall
+    Exp             = FuncCall                                                                  --funcCall
                     | RelopExp
     RelopExp        = Term is Term                                                              --assignment
                     | Term relop Term                                                           --relop

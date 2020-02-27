@@ -48,65 +48,118 @@ function arrayToNullable(a) {
   return a.length === 0 ? null : a[0];
 }
 
-/* eslint-disable no-unused-vars */
 const astBuilder = grammar.createSemantics().addOperation("ast", {
   Program(b) {
     return new Program(b.ast());
   },
   Block(s) {
-    return new Block(s.ast());
+    return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
   },
-  Stmt_ConstructorDeclaration(_1, id, _2, arguments, _3, type) {
-    return new FunctionDeclaration(
+  Statement_assignment(a, _) {
+    // ?????????????
+  },
+  Statement_funcCall(f, _) {
+    // ???????????????
+  },
+  // TODO collapse woof bark howl into print with 3 options
+  Statement_woof(w, _) {
+    // return new WoofStatement(w.ast());
+  },
+  Statement_bark(b, _) {
+    // return new BarkStatement(b.ast());
+  },
+  Statement_howl(h, _) {
+    // return new HowlStatement(h.ast());
+  },
+  Statement_give(_1, exp, _2) {
+    return new GiveStatement(arrayToNullable(exp.ast()));
+  },
+  Statement_chase(c, _) {
+    // ???????????????
+  },
+  Statement_conditional(c, _) {
+    // ???????????
+  },
+  Statement_primary(p, _) {
+    // ???????????
+    return new Property(p.ast());
+  },
+  Assignment(id, grouping, _, exp) {
+    return new AssignmentStatement(
       id.ast(),
-      arrayToNullable(arguments).ast(),
-      type.ast()
+      arrayToNullable(grouping.ast()),
+      exp.ast()
     );
   },
-  Stmt_FunctionDeclaration() {},
-  Stmt_VariableDeclaration(type, id, group, _1, expression) {
-    return new VariableDeclaration(
-      type.ast(),
-      id.ast(),
-      arrayToNullable(group).ast(),
-      arrayToNullable(expression).ast()
-    );
+  Woof(_, exp) {
+    return new WoofStatement(exp.ast());
   },
-  Stmt_TypeDeclaration(_1, id, _2, _colon, body, _3) {
-    return new TypeDeclaration(id.ast(), body.ast());
-  },
+  Bark() {},
+  Howl() {},
+  Declaration_funcDec() {},
+  Declaration_varDec() {},
+  Declaration_typeDec() {},
+  FuncDec_basic() {},
+  FuncDec_constructor() {},
+  VarDec() {},
+  TypeDec() {},
+  Grouping() {},
+  FuncCall() {},
+  Parameters() {},
+  Exp_funcCall() {},
+  Exp() {}
+  //   Stmt_ConstructorDeclaration(_1, id, _2, arguments, _3, type) {
+  //     return new FunctionDeclaration(
+  //       id.ast(),
+  //       arrayToNullable(arguments).ast(),
+  //       type.ast()
+  //     );
+  //   },
+  //   Stmt_FunctionDeclaration() {},
+  //   Stmt_VariableDeclaration(type, id, group, _1, expression) {
+  //     return new VariableDeclaration(
+  //       type.ast(),
+  //       id.ast(),
+  //       arrayToNullable(group).ast(),
+  //       arrayToNullable(expression).ast()
+  //     );
+  //   },
+  //   Stmt_TypeDeclaration(_1, id, _2, _colon, body, _3) {
+  //     return new TypeDeclaration(id.ast(), body.ast());
+  //   },
   // Stmt_declaration(_1, id, _2, type) {
   //    return new VariableDeclaration(id.sourceString, type.ast());
   // },
   // Stmt_assignment(varexp, _, exp) {
   //   return new AssignmentStatement(varexp.ast(), exp.ast());
   // },
-  Stmt_InfLoop(_1, _colon, body) {
-    return new InfiniteLoopStatement(body.ast());
-  },
-  Stmt_ForLoop(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
-    return new ForLoopStatement(
-      localVar.ast(),
-      loopExp.ast(),
-      condition.ast(),
-      body.ast()
-    );
-  },
-  Stmt_ThroughLoop(_1, localVar, _2, group, _colon, body) {
-    return new ThroughLoopStatement(localVar.ast(), group.ast(), body.ast());
-  },
-  Stmt_WhileLoop(_1, _2, expression, _colon, body) {
-    return new WhileLoopStatement(expression.ast(), body.ast());
-  },
-  Stmt_DefinedLoop(_1, expression, _2, _colon, body) {
-    return new DefinedLoopStatement(expression.ast(), body.ast());
-  },
-  Stmt_Conditional(_1, condition, _2, _colon, body, _else, otherwise) {
-    return new ConditionalStatement(condition.ast(), body.ast());
-  },
-  Group(_open, key, _colon, value, _close) {
-    return new Grouping(key, value);
-  }
+  //   Stmt_InfLoop(_1, _colon, body) {
+  //     return new InfiniteLoopStatement(body.ast());
+  //   },
+  //   Stmt_ForLoop(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
+  //     return new ForLoopStatement(
+  //       localVar.ast(),
+  //       loopExp.ast(),
+  //       condition.ast(),
+  //       body.ast()
+  //     );
+  //   },
+  //   Stmt_ThroughLoop(_1, localVar, _2, group, _colon, body) {
+  //     return new ThroughLoopStatement(localVar.ast(), group.ast(), body.ast());
+  //   },
+  //   Stmt_WhileLoop(_1, _2, expression, _colon, body) {
+  //     return new WhileLoopStatement(expression.ast(), body.ast());
+  //   },
+  //   Stmt_DefinedLoop(_1, expression, _2, _colon, body) {
+  //     return new DefinedLoopStatement(expression.ast(), body.ast());
+  //   },
+  //   Stmt_Conditional(_1, condition, _2, _colon, body, _else, otherwise) {
+  //     return new ConditionalStatement(condition.ast(), body.ast());
+  //   },
+  //   Group(_open, key, _colon, value, _close) {
+  //     return new Grouping(key, value);
+  //   }
+
   // Stmt_read(_1, v, _2, more) {
   //   return new ReadStatement([v.ast(), ...more.ast()]);
   // },

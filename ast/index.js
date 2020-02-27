@@ -10,8 +10,11 @@ class Block {
   }
 }
 
-class ConditionalStatement {
+class Statement {}
+
+class ConditionalStatement extends Statement {
   constructor(condition, body, otherwise) {
+    super();
     Object.assign(this, { condition, body, otherwise });
   }
 }
@@ -78,8 +81,8 @@ const DictType = new Type("kennel");
 const ObjectType = new Type("breed");
 
 class AssignmentStatement {
-  constructor(target, source) {
-    Object.assign(this, { target, source });
+  constructor(target, grouping = null, source) {
+    Object.assign(this, { target, grouping, source });
   }
 }
 
