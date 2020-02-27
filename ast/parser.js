@@ -55,34 +55,11 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Block(s) {
     return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
   },
-  Statement_assignment(a, _) {
-    // ?????????????
-  },
-  Statement_funcCall(f, _) {
-    // ???????????????
-  },
-  // TODO collapse woof bark howl into print with 3 options
-  Statement_woof(w, _) {
-    // return new WoofStatement(w.ast());
-  },
-  Statement_bark(b, _) {
-    // return new BarkStatement(b.ast());
-  },
-  Statement_howl(h, _) {
-    // return new HowlStatement(h.ast());
+  Statement(a, semicolonOrTail) {
+    return a.ast();
   },
   Statement_give(_1, exp, _2) {
     return new GiveStatement(arrayToNullable(exp.ast()));
-  },
-  Statement_chase(c, _) {
-    // ???????????????
-  },
-  Statement_conditional(c, _) {
-    // ???????????
-  },
-  Statement_primary(p, _) {
-    // ???????????
-    return new Property(p.ast());
   },
   Assignment(id, grouping, _, exp) {
     return new AssignmentStatement(
@@ -94,13 +71,26 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Woof(_, exp) {
     return new WoofStatement(exp.ast());
   },
-  Bark() {},
-  Howl() {},
-  Declaration_funcDec() {},
-  Declaration_varDec() {},
-  Declaration_typeDec() {},
-  FuncDec_basic() {},
-  FuncDec_constructor() {},
+  Bark(_, exp) {
+    return new BarkStatement(exp.ast());
+  },
+  Howl(_, exp) {
+    return new HowlStatement(exp.ast());
+  },
+  Declaration_varDec(v, _) {
+    return v.ast();
+  },
+  FuncDec_basic(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
+    return new FunctionDeclaration(
+      id.ast(),
+      arrayToNullable(parameters.ast()),
+      arrayToNullable(returnType.ast())
+    );
+  },
+  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
+    // TODO CONSTRUCTOR CLASS
+    return new Constructor();
+  },
   VarDec() {},
   TypeDec() {},
   Grouping() {},

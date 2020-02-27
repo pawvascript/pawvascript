@@ -9,23 +9,23 @@ PawvaScript {
                     | chase id through id ":" Block                                             --through
                     | chase VarDec by Exp while Exp ":" Block                                   --for
                     | chase ":" Block                                                           --infinite
-    Statement       = Declaration                                                               --declaration
-                    | Assignment ";"                                                            --assignment
-                    | FuncCall ";"                                                              --funcCall
-                    | Woof ";"                                                                  --woof
-                    | Bark ";"                                                                  --bark
-                    | Howl ";"                                                                  --howl
+    Statement       = Declaration
+                    | Assignment ";"
+                    | FuncCall ";"
+                    | Woof ";"                                                                  
+                    | Bark ";"                                                                  
+                    | Howl ";"                                                                  
                     | give Exp? ";"                                                             --give
-                    | Chase tail                                                                --chase
-                    | Conditional tail                                                          --conditional
-                    | Property ";"                                                              --primary
+                    | Chase tail
+                    | Conditional tail
+                    | Property ";"
     Assignment      = id Grouping? is Exp
     Woof            = woof Exp
     Bark            = bark Exp
     Howl            = howl Exp
-    Declaration     = FuncDec                                                                   --funcDec
+    Declaration     = FuncDec
+                    | TypeDec
                     | VarDec ";"                                                                --varDec
-                    | TypeDec                                                                   --typeDec
     FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --basic
                     | trick id (chews Parameters)? (fetches type) ";"                           --constructor
     VarDec          = type id Grouping? (is Exp)?
