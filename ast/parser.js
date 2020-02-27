@@ -91,10 +91,18 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     // TODO CONSTRUCTOR CLASS
     return new Constructor();
   },
-  VarDec() {},
-  TypeDec() {},
-  Grouping() {},
-  FuncCall() {},
+  VarDec(type, id, grouping, _, exp) {
+    return new VariableDeclaration(id.ast(), type.ast(), grouping.ast());
+  },
+  TypeDec(_1, id, _2, _3, body, _4) {
+    return new TypeDeclaration(id, body);
+  },
+  Grouping(_1, keyType, _2, valueType, _3) {
+    return new Grouping(arrayToNullable(keyType), valueType);
+  },
+  FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
+    //TODO: change grammar so that it's just a list of Exp's
+  },
   Parameters() {},
   Exp_funcCall() {},
   Exp() {}

@@ -30,8 +30,8 @@ PawvaScript {
                     | trick id (chews Parameters)? (fetches type) ";"                           --constructor
     VarDec          = type id Grouping? (is Exp)?
     TypeDec         = breed id is ":" Block tail
-    Grouping        = "[" type (":" type)? "]"
-    FuncCall        = id "(" (Exp ",")* Exp? ")"
+    Grouping        = "[" (type ":")? type "]"
+    FuncCall        = id "(" Exp? ("," Exp)* ")"
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
     Exp             = FuncCall                                                                  --funcCall
                     | RelopExp

@@ -50,8 +50,11 @@ class FixedLoopStatement {
 }
 
 class VariableDeclaration {
-  constructor(id, type, keyType = null, valueType = null) {
-    Object.assign(this, { id, type, keyType, valueType });
+  //   constructor(id, type, keyType = null, valueType = null) {
+  //     Object.assign(this, { id, type, keyType, valueType });
+  //   }
+  constructor(id, type, grouping = null) {
+    Object.assign(this, { id, type, grouping });
   }
 }
 
