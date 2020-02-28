@@ -14,7 +14,7 @@ const {
   ForLoopStatement,
   ThroughLoopStatement,
   WhileLoopStatement,
-  DefinedLoopStatement,
+  FixedLoopStatement,
   VariableDeclaration,
   Type,
   FunctionDeclaration,
@@ -55,6 +55,43 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Block(s) {
     return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
   },
+  Conditional_basic(_1, condition, _2, _3, body) {
+    return new ConditionalStatement(condition.ast(), body.ast(), null);
+  },
+  Conditional_else(_1, condition, _2, _3, body, _4, _5, otherwise) {
+    return new ConditionalStatement(
+      condition.ast(),
+      body.ast(),
+      otherwise.ast()
+    );
+  },
+  Conditional_elseif(
+    _1,
+    condition,
+    _2,
+    _3,
+    body,
+    _4,
+    _5,
+    moreConditions,
+    _6,
+    _7,
+    moreBodies,
+    _8,
+    otherwise
+  ) {
+    // USE A WHILE LOOP TO CREATE NESTED CONDITIONAL STATEMENTS THAT WILL BECOME THE OTHERWISE, THEN RETURN FINAL CONDITIONAL STATEMENT
+    // const otherwise = new
+    // return new ConditionalStatement(condition, body);
+  },
+  // TODO: change all of these to While_defined etc in both this file and the grammar
+  Chase_defined(_1, exp, _2, _3, body) {
+    return new FixedLoopStatement(exp.ast(), body.ast());
+  },
+  Chase_while() {},
+  Chase_through() {},
+  Chase_for() {},
+  Chase_infinite() {},
   Statement(a, semicolonOrTail) {
     return a.ast();
   },
@@ -88,7 +125,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
-    // TODO CONSTRUCTOR CLASS
+    // TODO maybe make a constructor class?
     return new Constructor();
   },
   VarDec(type, id, grouping, _, exp) {
@@ -101,9 +138,17 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new Grouping(arrayToNullable(keyType), valueType);
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
-    //TODO: change grammar so that it's just a list of Exp's
+    // do we need a separate class for function calls instead of function call statements?
+    return new FunctionCallStatement(id.ast(), [
+      arrayToNullable(firstArg.ast()),
+      ...moreArgs.ast() // no idea if this is the right syntax for this
+    ]);
   },
-  Parameters() {},
+  Parameters(_1, firstType, _2, firstId, _3, moreTypes, _4, moreIds, _5) {
+    const types = [arrayToNullable(firstType.ast())].concat(moreTypes.ast());
+    const ids = [arrayToNullable(firstId.ast())].concat(moreIds.ast());
+    return new Parameters(types, ids);
+  },
   Exp_funcCall() {},
   Exp() {}
   //   Stmt_ConstructorDeclaration(_1, id, _2, arguments, _3, type) {
