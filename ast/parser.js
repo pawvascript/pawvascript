@@ -32,7 +32,7 @@ const {
   Grouping,
   Parameters,
   BooleanLiteral,
-  IntegerLiteral,
+  NumberLiteral,
   StringLiteral,
   PackLiteral,
   KennelLiteral,
@@ -93,21 +93,20 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       nestedConditional
     );
   },
-  // TODO: change all of these to While_defined etc in both this file and the grammar
-  Chase_defined(_1, exp, _2, _3, body) {
+  Loop_defined(_1, exp, _2, _3, body) {
     return new FixedLoopStatement(exp.ast(), body.ast());
   },
-  Chase_while(_1, _2, test, _3, body) {
+  Loop_while(_1, _2, test, _3, body) {
     return new WhileLoopStatement(test.ast(), body.ast());
   },
-  Chase_through(_1, elementId, _2, collectionId, _3, body) {
+  Loop_through(_1, elementId, _2, collectionId, _3, body) {
     return new ThroughLoopStatement(
       elementId.ast(),
       collectionId.ast(),
       body.ast()
     );
   },
-  Chase_for(_1, varDec, _2, updateExp, _3, test, _4, body) {
+  Loop_for(_1, varDec, _2, updateExp, _3, test, _4, body) {
     return new ForLoopStatement(
       varDec.ast(),
       updateExp.ast(),
@@ -115,9 +114,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       body.ast()
     );
   },
-  Chase_infinite(_1, _2, body) {
+  Loop_infinite(_1, _2, body) {
     return new InfiniteLoopStatement(body.ast());
-    // TODO ADD A BREAK STATEMENT
   },
   Statement(a, semicolonOrTail) {
     return a.ast();
@@ -241,8 +239,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new BooleanLiteral(this.sourceString === "good");
   },
   numlit(_1, _2, _3) {
-    //rename as NumberLiteral not integer
-    return new IntegerLiteral(this.sourceString);
+    return new NumberLiteral(this.sourceString);
   },
   strlit(_1, chars, _2) {
     // ??????? not sure if right

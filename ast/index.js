@@ -130,7 +130,7 @@ class BooleanLiteral extends Expression {
   }
 }
 
-class IntegerLiteral extends Expression {
+class NumberLiteral extends Expression {
   constructor(value) {
     super();
     this.value = value;
@@ -207,7 +207,7 @@ module.exports = {
   Grouping,
   Parameters,
   BooleanLiteral,
-  IntegerLiteral,
+  NumberLiteral,
   StringLiteral,
   PackLiteral,
   KennelLiteral,

@@ -4,7 +4,7 @@ PawvaScript {
     Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
                     | if Exp then ":" Block else ":" Block                                      --else
                     | if Exp then ":" Block                                                     --basic
-    Chase           = chase Exp times ":" Block                                                 --defined
+    Loop            = chase Exp times ":" Block                                                 --defined
                     | chase while Exp ":" Block                                                 --while
                     | chase id through id ":" Block                                             --through
                     | chase VarDec by Exp while Exp ":" Block                                   --for
@@ -12,9 +12,11 @@ PawvaScript {
     Statement       = Declaration
                     | Assignment ";"
                     | FuncCall ";"
-                    | Print ";"                                                                  
+                    | Print ";"
+                    | break ";"
+                    | continue ";"
                     | give Exp? ";"                                                             --give
-                    | Chase tail
+                    | Loop tail
                     | Conditional tail
                     | Property ";"
     Assignment      = id Grouping? is Exp
@@ -34,7 +36,7 @@ PawvaScript {
     RelopExp        = Term is Term                                                              --assignment
                     | Term relop Term                                                           --relop
                     | Term
-    Term            = Term (addOp | (~without with) | without) Factor                       --addOp
+    Term            = Term (addOp | (~without with) | without) Factor                           --addOp
                     | Factor
     Factor          = Factor ("*" | "/" | mod) Negation                                         --mulOp
                     | Negation
@@ -93,6 +95,8 @@ PawvaScript {
     through         = "through" ~alnum
     by              = "by" ~alnum
     mod             = "mod" ~alnum
+    break           = "break" ~alnum
+    continue        = "continue" ~alnum
     keyword         = equalityop 
                     | relop 
                     | type
@@ -120,6 +124,8 @@ PawvaScript {
                     | through
                     | by
                     | mod
+                    | break
+                    | continue
     id              = ~keyword (letter | "_") (letter | digit | "_")*
     space           += comment
     comment         = "!!!" (~"!!!" any)* "!!!"
