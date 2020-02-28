@@ -26,8 +26,8 @@ class InfiniteLoopStatement {
 }
 
 class ForLoopStatement {
-  constructor(localVar, loopExp, condition, body) {
-    Object.assign(this, { localVar, loopExp, condition, body });
+  constructor(localVarDec, loopExp, condition, body) {
+    Object.assign(this, { localVarDec, loopExp, condition, body });
   }
 }
 
@@ -59,8 +59,8 @@ class VariableDeclaration {
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, returnType) {
-    Object.assign(this, { id, parameters, returnType });
+  constructor(id, parameters, returnType = null, body = null) {
+    Object.assign(this, { id, parameters, returnType, body });
   }
 }
 
@@ -155,7 +155,22 @@ class StringLiteral extends Expression {
   }
 }
 
+class PackLiteral extends Expression {
+  constructor(elements) {
+    super();
+    this.elements = elements;
+  }
+}
+
+class KennelLiteral extends Expression {
+  constructor(keys, values) {
+    super();
+    Object.assign(this, { keys, values });
+  }
+}
+
 class VariableExpression extends Expression {
+  // what is this for???
   constructor(name) {
     super();
     this.name = name;
@@ -207,6 +222,8 @@ module.exports = {
   BooleanLiteral,
   IntegerLiteral,
   StringLiteral,
+  PackLiteral,
+  KennelLiteral,
   VariableExpression,
   UnaryExpression,
   BinaryExpression

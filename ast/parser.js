@@ -31,13 +31,14 @@ const {
   BarkStatement,
   HowlStatement,
   GiveStatement,
-  Expression,
   Grouping,
   Parameters,
   BooleanLiteral,
   IntegerLiteral,
   StringLiteral,
-  VariableExpression,
+  PackLiteral,
+  KennelLiteral,
+  //   VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
 } = require(".");
@@ -80,18 +81,46 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     _8,
     otherwise
   ) {
-    // USE A WHILE LOOP TO CREATE NESTED CONDITIONAL STATEMENTS THAT WILL BECOME THE OTHERWISE, THEN RETURN FINAL CONDITIONAL STATEMENT
-    // const otherwise = new
-    // return new ConditionalStatement(condition, body);
+    let nestedConditional = otherwise.ast();
+    while (moreConditions.length > 0) {
+      nestedConditional = new ConditionalStatement(
+        moreConditions.pop().ast(),
+        moreBodies.pop().ast(),
+        nestedConditional
+      );
+    }
+    return new ConditionalStatement(
+      condition.ast(),
+      body.ast(),
+      nestedConditional
+    );
   },
   // TODO: change all of these to While_defined etc in both this file and the grammar
   Chase_defined(_1, exp, _2, _3, body) {
     return new FixedLoopStatement(exp.ast(), body.ast());
   },
-  Chase_while() {},
-  Chase_through() {},
-  Chase_for() {},
-  Chase_infinite() {},
+  Chase_while(_1, _2, test, _3, body) {
+    return new WhileLoopStatement(test.ast(), body.ast());
+  },
+  Chase_through(_1, elementId, _2, collectionId, _3, body) {
+    return new ThroughLoopStatement(
+      elementId.ast(),
+      collectionId.ast(),
+      body.ast()
+    );
+  },
+  Chase_for(_1, varDec, _2, updateExp, _3, test, _4, body) {
+    return new ForLoopStatement(
+      varDec.ast(),
+      updateExp.ast(),
+      test.ast(),
+      body.ast()
+    );
+  },
+  Chase_infinite(_1, _2, body) {
+    return new InfiniteLoopStatement(body.ast());
+    // TODO ADD A BREAK STATEMENT
+  },
   Statement(a, semicolonOrTail) {
     return a.ast();
   },
@@ -121,12 +150,18 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new FunctionDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
-      arrayToNullable(returnType.ast())
+      arrayToNullable(returnType.ast()),
+      body.ast()
     );
   },
   FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
     // TODO maybe make a constructor class?
-    return new Constructor();
+    // return new Constructor();
+    return new FunctionDeclaration(
+      id.ast(),
+      arrayToNullable(parameters.ast()),
+      returnType.ast()
+    );
   },
   VarDec(type, id, grouping, _, exp) {
     return new VariableDeclaration(id.ast(), type.ast(), grouping.ast());
@@ -135,6 +170,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new TypeDeclaration(id, body);
   },
   Grouping(_1, keyType, _2, valueType, _3) {
+    // a grouping probably would not be a node in the abstract syntax tree,
+    // so do we maybe want to get rid of this class and absorb it into var/type decs?
     return new Grouping(arrayToNullable(keyType), valueType);
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
@@ -149,104 +186,98 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     const ids = [arrayToNullable(firstId.ast())].concat(moreIds.ast());
     return new Parameters(types, ids);
   },
-  Exp_funcCall() {},
-  Exp() {}
-  //   Stmt_ConstructorDeclaration(_1, id, _2, arguments, _3, type) {
-  //     return new FunctionDeclaration(
-  //       id.ast(),
-  //       arrayToNullable(arguments).ast(),
-  //       type.ast()
-  //     );
-  //   },
-  //   Stmt_FunctionDeclaration() {},
-  //   Stmt_VariableDeclaration(type, id, group, _1, expression) {
-  //     return new VariableDeclaration(
-  //       type.ast(),
-  //       id.ast(),
-  //       arrayToNullable(group).ast(),
-  //       arrayToNullable(expression).ast()
-  //     );
-  //   },
-  //   Stmt_TypeDeclaration(_1, id, _2, _colon, body, _3) {
-  //     return new TypeDeclaration(id.ast(), body.ast());
-  //   },
-  // Stmt_declaration(_1, id, _2, type) {
-  //    return new VariableDeclaration(id.sourceString, type.ast());
-  // },
-  // Stmt_assignment(varexp, _, exp) {
-  //   return new AssignmentStatement(varexp.ast(), exp.ast());
-  // },
-  //   Stmt_InfLoop(_1, _colon, body) {
-  //     return new InfiniteLoopStatement(body.ast());
-  //   },
-  //   Stmt_ForLoop(_1, localVar, _2, loopExp, _3, condition, _colon, body) {
-  //     return new ForLoopStatement(
-  //       localVar.ast(),
-  //       loopExp.ast(),
-  //       condition.ast(),
-  //       body.ast()
-  //     );
-  //   },
-  //   Stmt_ThroughLoop(_1, localVar, _2, group, _colon, body) {
-  //     return new ThroughLoopStatement(localVar.ast(), group.ast(), body.ast());
-  //   },
-  //   Stmt_WhileLoop(_1, _2, expression, _colon, body) {
-  //     return new WhileLoopStatement(expression.ast(), body.ast());
-  //   },
-  //   Stmt_DefinedLoop(_1, expression, _2, _colon, body) {
-  //     return new DefinedLoopStatement(expression.ast(), body.ast());
-  //   },
-  //   Stmt_Conditional(_1, condition, _2, _colon, body, _else, otherwise) {
-  //     return new ConditionalStatement(condition.ast(), body.ast());
-  //   },
-  //   Group(_open, key, _colon, value, _close) {
-  //     return new Grouping(key, value);
-  //   }
-
-  // Stmt_read(_1, v, _2, more) {
-  //   return new ReadStatement([v.ast(), ...more.ast()]);
-  // },
-  // Stmt_write(_1, e, _2, more) {
-  //   return new WriteStatement([e.ast(), ...more.ast()]);
-  // },
-  // Stmt_while(_1, e, _2, b, _3) {
-  //   return new WhileStatement(e.ast(), b.ast());
-  // },
-  // Type(typeName) {
-  //   return typeName.sourceString === "int" ? IntType : BoolType;
-  // },
-  // Exp_binary(e1, _, e2) {
-  //   return new BinaryExpression("or", e1.ast(), e2.ast());
-  // },
-  // Exp1_binary(e1, _, e2) {
-  //   return new BinaryExpression("and", e1.ast(), e2.ast());
-  // },
-  // Exp2_binary(e1, op, e2) {
-  //   return new BinaryExpression(op.sourceString, e1.ast(), e2.ast());
-  // },
-  // Exp3_binary(e1, op, e2) {
-  //   return new BinaryExpression(op.sourceString, e1.ast(), e2.ast());
-  // },
-  // Exp4_binary(e1, op, e2) {
-  //   return new BinaryExpression(op.sourceString, e1.ast(), e2.ast());
-  // },
-  // Exp5_unary(op, e) {
-  //   return new UnaryExpression(op.sourceString, e.ast());
-  // },
-  // Exp6_parens(_1, e, _2) {
-  //   return e.ast();
-  // },
-  // boollit(_) {
-  //   return new BooleanLiteral(this.sourceString === "true");
-  // },
-  // intlit(_) {
-  //   return new IntegerLiteral(this.sourceString);
-  // },
-  // VarExp(_) {
-  //   return new VariableExpression(this.sourceString);
-  // }
+  RelopExp_assignment(term1, _, term2) {
+    // why do we need this grammar rule? do we need a new kind of node?
+    return new AssignmentStatement(term1.ast(), null, term2.ast());
+  },
+  RelopExp_relop(term1, relop, term2) {
+    return new BinaryExpression(relop.ast(), term1.ast(), term2.ast());
+  },
+  Term_addOp(term, op, factor) {
+    return new BinaryExpression(op.ast(), term.ast(), factor.ast());
+  },
+  Factor_mulOp(factor, op, negation) {
+    return new BinaryExpression(op.ast(), factor.ast(), negation.ast());
+  },
+  Negation(prefixOp, factorial) {
+    return new UnaryExpression(
+      arrayToNullable(prefixOp.ast()),
+      factorial.ast()
+    );
+  },
+  Factorial(primary, postfixOp) {
+    return new UnaryExpression(arrayToNullable(postfixOp.ast()), primary.ast());
+  },
+  Primary_parens(_1, exp, _2) {
+    return exp.ast();
+  },
+  Primary_pack(_1, spreadOp, firstElem, _2, moreSpreadOps, moreElems, _3) {
+    let elements = [];
+    const concatElements = (spread, element) => {
+      if (arrayToNullable(spread.ast())) {
+        // do I need to do arrayToNullable(arrayToNullable(spread.ast())) twice because it was an optional in an optional?
+        elements.concat(...element.ast());
+      } else {
+        elements.concat(arrayToNullable(element.ast()));
+      }
+    };
+    concatElements(spreadOp, firstElem);
+    while (moreElems.length > 0) {
+      concatElements(moreSpreadOps.shift(), moreElems.shift());
+    }
+    return new PackLiteral(elements);
+  },
+  Primary_kennel(_1, firstKey, _2, firstVal, _3, moreKeys, _4, moreVals, _5) {
+    let keys = [];
+    let values = [];
+    const concatKeysValues = (key, value) => {
+      if (arrayToNullable(key.ast())) {
+        keys.concat(key.ast());
+        values.concat(value.ast());
+      }
+    };
+    concatKeysValues(firstKey, firstVal);
+    while (moreKeys.length > 0) {
+      concatKeysValues(moreKeys.shift(), moreVals.shift());
+    }
+    return new KennelLiteral(keys, values);
+  },
+  Property(id, _, exp) {
+    return; // ????????????
+  },
+  boolean(_) {
+    return new BooleanLiteral(this.sourceString === "good");
+  },
+  numlit(_1, _2, _3) {
+    //rename as NumberLiteral not integer
+    return new IntegerLiteral(this.sourceString);
+  },
+  strlit(_1, chars, _2) {
+    // ??????? not sure if right
+    return new StringLiteral(chars.ast());
+  },
+  id(_1, _2) {
+    return this.sourceString;
+  },
+  type(typeName) {
+    switch (typeName) {
+      case "toeBeans":
+        return IntType;
+      case "leash":
+        return StringType;
+      case "goodBoy":
+        return BoolType;
+      case "pack":
+        return ArrayType;
+      case "kennel":
+        return DictType;
+      case "breed":
+        return ObjectType;
+    }
+    // what about types that are an ID??
+    return new Type(typeName);
+  }
 });
-/* eslint-enable no-unused-vars */
 
 module.exports = text => {
   const match = grammar.match(text);

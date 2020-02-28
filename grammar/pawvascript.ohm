@@ -33,20 +33,19 @@ PawvaScript {
     Grouping        = "[" (type ":")? type "]"
     FuncCall        = id "(" Exp? ("," Exp)* ")"
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
-    Exp             = FuncCall                                                                  --funcCall
+    Exp             = FuncCall
                     | RelopExp
     RelopExp        = Term is Term                                                              --assignment
                     | Term relop Term                                                           --relop
                     | Term
-    Term            = Term ("+" | "-" | (~without with) | without) Factor                       --addOp
+    Term            = Term (addOp | (~without with) | without) Factor                       --addOp
                     | Factor
     Factor          = Factor ("*" | "/" | mod) Negation                                         --mulOp
                     | Negation
-    Negation        = "-"? Factorial                                                            --arithmeticNeg
-                    | not Factorial                                                             --logicalNeg
-    Factorial       = Primary "!"?                                                   
+    Negation        = prefixOp? Factorial
+    Factorial       = Primary postfixOp?                                                   
     Primary         = "(" Exp ")"                                                               --parens
-                    | Property                                                                  --propertyOp
+                    | Property
                     | numlit
                     | strlit
                     | boolean
@@ -54,6 +53,9 @@ PawvaScript {
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
     Property        = id "\'s" Exp
+    addOp           = "+" | "-"
+    prefixOp        = "-" | not
+    postfixOp       = "!"
     type            = toeBeans | leash | goodBoy | pack | kennel | breed | id
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
