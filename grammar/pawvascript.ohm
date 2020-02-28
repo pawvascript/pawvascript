@@ -12,17 +12,13 @@ PawvaScript {
     Statement       = Declaration
                     | Assignment ";"
                     | FuncCall ";"
-                    | Woof ";"                                                                  
-                    | Bark ";"                                                                  
-                    | Howl ";"                                                                  
+                    | Print ";"                                                                  
                     | give Exp? ";"                                                             --give
                     | Chase tail
                     | Conditional tail
                     | Property ";"
     Assignment      = id Grouping? is Exp
-    Woof            = woof Exp
-    Bark            = bark Exp
-    Howl            = howl Exp
+    Print           = (woof | bark | howl) Exp
     Declaration     = FuncDec
                     | TypeDec
                     | VarDec ";"                                                                --varDec

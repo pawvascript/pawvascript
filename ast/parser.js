@@ -27,9 +27,7 @@ const {
   ObjectType,
   AssignmentStatement,
   FunctionCallStatement,
-  WoofStatement,
-  BarkStatement,
-  HowlStatement,
+  PrintStatement,
   GiveStatement,
   Grouping,
   Parameters,
@@ -134,14 +132,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       exp.ast()
     );
   },
-  Woof(_, exp) {
-    return new WoofStatement(exp.ast());
-  },
-  Bark(_, exp) {
-    return new BarkStatement(exp.ast());
-  },
-  Howl(_, exp) {
-    return new HowlStatement(exp.ast());
+  Print(flavor, exp) {
+    return new PrintStatement(flavor.ast(), exp.ast());
   },
   Declaration_varDec(v, _) {
     return v.ast();

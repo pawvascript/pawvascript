@@ -95,21 +95,10 @@ class FunctionCallStatement {
   }
 }
 
-class WoofStatement {
-  constructor(expression) {
-    this.expression = expression;
-  }
-}
-
-class BarkStatement {
-  constructor(expression) {
-    this.expression = expression;
-  }
-}
-
-class HowlStatement {
-  constructor(expression) {
-    this.expression = expression;
+class PrintStatement {
+  constructor(flavor, expression) {
+    // flavor can be woof, bark, or howl
+    Object.assign(this, { flavor, expression });
   }
 }
 
@@ -212,9 +201,7 @@ module.exports = {
   ObjectType,
   AssignmentStatement,
   FunctionCallStatement,
-  WoofStatement,
-  BarkStatement,
-  HowlStatement,
+  PrintStatement,
   GiveStatement,
   Expression,
   Grouping,
