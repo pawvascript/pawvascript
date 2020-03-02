@@ -83,8 +83,10 @@ kennel dogAges[leash:toeBeans] is ["Cece": 1, "Fluffy": 2];         let dogAges 
 
 !!! this has a default initialization of 0 !!!
 toeBeans cuteness;                                                  let cuteness;
-
 cuteness is 100;                                                    cuteness = 100;
+
+!!! cat is the equivalent of null; any type can have the value cat. !!!
+leash theBestestDog is cat;                                         let theBestestDog = null;
 ```
 
 ### Leashes/Strings
@@ -268,6 +270,21 @@ tail                                                                }
 PAWVASCRIPT                                                         JAVASCRIPT
 
 chase element through myPack:                                       for (let element of myArray) {
+    woof element;                                                       console.log(element);
+tail                                                                }
+```
+
+<br>Use `poop` and `walkies` to `break` and `continue`, respectively.
+
+```JavaScript
+PAWVASCRIPT                                                         JAVASCRIPT
+
+chase element through myPack:                                       for (let element of myArray) {
+    if element equals cat then:                                         if (element === null) {
+        poop;                                                               break;
+    else if element equals "CeCe" then:                                 } else if (element === "CeCe") {
+        walkies;                                                            continue;
+    tail;                                                               }
     woof element;                                                       console.log(element);
 tail                                                                }
 ```

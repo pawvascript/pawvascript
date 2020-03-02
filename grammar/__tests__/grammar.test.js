@@ -50,6 +50,11 @@ const readmeExamples = [
     'kennel dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"
   ],
+  [
+    "variable declaration with null/cat value",
+    "leash theBestDog is cat;",
+    "Declaration"
+  ],
   ["uninitialized variable declarations", "toeBeans cuteness;", "Declaration"],
   ["assigning uninitialized variables", "cuteness is 100;", "Assignment"],
   ["equality comparators", "x equals y", "RelopExp"],
@@ -125,6 +130,22 @@ const readmeExamples = [
     "Statement"
   ],
   [
+    "loops with a break/poop statement",
+    `chase:
+        woof "I run forever\\!";
+        poop;
+    tail`
+  ],
+  [
+    "loops with a continue/walkies statement",
+    `chase toeBeans i is 0 by i*2 while i isLessThan 10:
+        if i mod 2 equals 0 then:
+            walkies;
+        tail
+        woof i;
+    tail`
+  ],
+  [
     "function declaration",
     `trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
         toeBeans remainder;
@@ -153,50 +174,50 @@ const readmeExamples = [
     lucille's introduceDog();  !!! output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
-  ],
-  [
-    "functions/constructors that take in packs and/or kennels",
-    `breed Professor is:
-        leash name;
-        pack students[Student];
-        kennel grades[Student:toeBeans];
-        trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
-    tail
-   `
-  ],
-  [
-    "nested objects",
-    `breed Professor is:
-        leash name;
-        pack students[Student];
-        trick Professor chews[leash:name, pack[Student]:students] fetches Professor;
-    tail
-    breed Student is:
-        leash name;
-        Dog dogger;
-        trick Student chews[leash:name, Dog:dogger] fetches Student;
-    tail
-    breed Dog is:
-        leash name;
-        trick Dog chews[leash:name] fetches Dog;
-        trick bark:
-            woof "I am a dog and my name is " with Dog's name;
-        tail
-    tail
-   `
-  ],
-  [
-    "qualified id's with nested objects",
-    `Dog cc is Dog("CeCe");
-    Student lucille is Student("Lucille", cc);
-    Professor rToal is Professor("Dr. Toal", [lucille]);
-
-    !!! These should all do the same thing. !!!
-    cc's bark();
-    lucille's dogger's bark();
-    rtoal's students's 0's dogger's bark();
-   `
   ]
+  //   [
+  //     "functions/constructors that take in packs and/or kennels",
+  //     `breed Professor is:
+  //         leash name;
+  //         pack students[Student];
+  //         kennel grades[Student:toeBeans];
+  //         trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
+  //     tail
+  //    `
+  //   ],
+  //   [
+  //     "nested objects",
+  //     `breed Professor is:
+  //         leash name;
+  //         pack students[Student];
+  //         trick Professor chews[leash:name, pack[Student]:students] fetches Professor;
+  //     tail
+  //     breed Student is:
+  //         leash name;
+  //         Dog dogger;
+  //         trick Student chews[leash:name, Dog:dogger] fetches Student;
+  //     tail
+  //     breed Dog is:
+  //         leash name;
+  //         trick Dog chews[leash:name] fetches Dog;
+  //         trick bark:
+  //             woof "I am a dog and my name is " with Dog's name;
+  //         tail
+  //     tail
+  //    `
+  //   ],
+  //   [
+  //     "qualified id's with nested objects",
+  //     `Dog cc is Dog("CeCe");
+  //     Student lucille is Student("Lucille", cc);
+  //     Professor rToal is Professor("Dr. Toal", [lucille]);
+
+  //     !!! These should all do the same thing. !!!
+  //     cc's bark();
+  //     lucille's dogger's bark();
+  //     rtoal's students's 0's dogger's bark();
+  //    `
+  //   ]
 ];
 
 const objects = [

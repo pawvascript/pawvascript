@@ -2,13 +2,13 @@ PawvaScript {
     Program         = Block
     Block           = (Statement)*
     Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block tail --elseif
-                    | if Exp then ":" Block else ":" Block tail                                 --else
-                    | if Exp then ":" Block tail                                                --basic
-    Loop            = chase Exp times ":" Block tail                                            --defined
-                    | chase while Exp ":" Block tail                                            --while
-                    | chase id through id ":" Block tail                                        --through
-                    | chase VarDec by Exp while Exp ":" Block tail                              --for
-                    | chase ":" Block tail                                                      --infinite
+                    | if Exp then ":" Block else ":" Block tail                                  --else
+                    | if Exp then ":" Block tail                                                 --basic
+    Loop            = chase Exp times ":" Block tail                                             --defined
+                    | chase while Exp ":" Block tail                                             --while
+                    | chase id through id ":" Block tail                                         --through
+                    | chase VarDec by Exp while Exp ":" Block tail                               --for
+                    | chase ":" Block tail                                                       --infinite
     Statement       = Declaration
                     | Assignment                    
                     | Print          
@@ -17,17 +17,17 @@ PawvaScript {
                     | Loop                    
                     | Conditional                
                     | Give                         
-                    | FuncCall ";"                                                              --funccall
+                    | FuncCall ";"                                                               --funccall
     Assignment      = id Grouping? is Exp ";"
     Print           = (woof | bark | howl) Exp ";"
-    Break           = break ";"
-    Continue        = continue ";"
+    Break           = poop ";"
+    Continue        = walkies ";"
     Give            = give Exp? ";"
     Declaration     = FuncDec
                     | TypeDec
-                    | VarDec ";"                                                                --varDec
-    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail               --basic
-                    | trick id (chews Parameters)? (fetches type) ";"                           --constructor
+                    | VarDec ";"                                                                 --varDec
+    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail                --basic
+                    | trick id (chews Parameters)? (fetches type) ";"                            --constructor
     VarDec          = type id Grouping? (is Exp)?
     TypeDec         = breed id is ":" Block tail
     Grouping        = "[" (type ":")? type "]"
@@ -35,23 +35,24 @@ PawvaScript {
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
     Exp             = FuncCall
                     | RelopExp
-    RelopExp        = Term relop Term                                                           --relop
+    RelopExp        = Term relop Term                                                            --relop
                     | Term
-    Term            = Term (addOp | (~without with) | without) Factor                           --addOp
+    Term            = Term (addOp | (~without with) | without) Factor                            --addOp
                     | Factor
-    Factor          = Factor ("*" | "/" | mod) Negation                                         --mulOp
+    Factor          = Factor ("*" | "/" | mod) Negation                                          --mulOp
                     | Negation
     Negation        = prefixOp? Factorial
     Factorial       = Primary postfixOp?                                                   
-    Primary         = "(" Exp ")"                                                               --parens
+    Primary         = "(" Exp ")"                                                                --parens
                     | QualifiedId
                     | numlit
                     | strlit
                     | boolean
                     | id
-                    | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
-                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
-    QualifiedId     = QualifiedId "\'s" id                                                      --property
+                    | cat
+                    | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                      --pack
+                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                      --kennel
+    QualifiedId     = QualifiedId "\'s" id                                                       --property
                     | id 
     addOp           = "+" | "-"
     prefixOp        = "-" | not
@@ -97,8 +98,9 @@ PawvaScript {
     through         = "through" ~alnum
     by              = "by" ~alnum
     mod             = "mod" ~alnum
-    break           = "break" ~alnum
-    continue        = "continue" ~alnum
+    poop            = "poop" ~alnum
+    walkies         = "walkies" ~alnum
+    cat             = "cat" ~alnum
     keyword         = equalityop 
                     | relop 
                     | type
@@ -126,8 +128,9 @@ PawvaScript {
                     | through
                     | by
                     | mod
-                    | break
-                    | continue
+                    | poop
+                    | walkies
+                    | cat
     id              = ~keyword (letter | "_") (letter | digit | "_")*
     space           += comment
     comment         = "!!!" (~"!!!" any)* "!!!"
