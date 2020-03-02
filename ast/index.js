@@ -53,8 +53,8 @@ class VariableDeclaration {
   //   constructor(id, type, keyType = null, valueType = null) {
   //     Object.assign(this, { id, type, keyType, valueType });
   //   }
-  constructor(id, type, grouping = null) {
-    Object.assign(this, { id, type, grouping });
+  constructor(id, type, grouping = null, exp) {
+    Object.assign(this, { id, type, grouping, exp });
   }
 }
 
@@ -76,6 +76,7 @@ class Type {
   }
 }
 
+//TODO RENAME TO NUMTYPE
 const IntType = new Type("toeBeans");
 const BoolType = new Type("goodBoy");
 const StringType = new Type("leash");

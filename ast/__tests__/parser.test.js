@@ -30,34 +30,29 @@ const {
   ObjectType,
   AssignmentStatement,
   FunctionCallStatement,
-  WoofStatement,
-  BarkStatement,
-  HowlStatement,
+  PrintStatement,
   GiveStatement,
-  Expression,
   Grouping,
   Parameters,
   BooleanLiteral,
-  IntegerLiteral,
+  NumberLiteral,
   StringLiteral,
-  VariableExpression,
+  PackLiteral,
+  KennelLiteral,
+  //   VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
 } = require("..");
 
 const fixture = {
-  hello: [
-    String.raw`toeBeans number is 5;`
-    /*new Program(
-      new Block([
-        new WriteStatement([
-          new IntegerLiteral("0"),
-          new VariableExpression("x")
-        ])
-      ])
-    )*/
-  ]
-
+  //   numberVariableDeclaration: [
+  //     String.raw`toeBeans CeCeAge is 1;`,
+  //     new Program(
+  //       new Block([
+  //         new VariableDeclaration("CeCeAge", IntType, null, NumberLiteral(1))
+  //       ])
+  //     )
+  //   ]
   /*whiles: [
     String.raw`while false loop x = 3; end;`,
     new Program(

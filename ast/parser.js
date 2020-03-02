@@ -54,10 +54,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Block(s) {
     return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
   },
-  Conditional_basic(_1, condition, _2, _3, body) {
+  Conditional_basic(_1, condition, _2, _3, body, _4) {
     return new ConditionalStatement(condition.ast(), body.ast(), null);
   },
-  Conditional_else(_1, condition, _2, _3, body, _4, _5, otherwise) {
+  Conditional_else(_1, condition, _2, _3, body, _4, _5, otherwise, _6) {
     return new ConditionalStatement(
       condition.ast(),
       body.ast(),
@@ -78,7 +78,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     moreBodies,
     _8,
     _9,
-    otherwise
+    otherwise,
+    _10
   ) {
     let nestedConditional = otherwise.ast();
     while (moreConditions.length > 0) {
@@ -94,20 +95,20 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       nestedConditional
     );
   },
-  Loop_defined(_1, exp, _2, _3, body) {
+  Loop_defined(_1, exp, _2, _3, body, _4) {
     return new FixedLoopStatement(exp.ast(), body.ast());
   },
-  Loop_while(_1, _2, test, _3, body) {
+  Loop_while(_1, _2, test, _3, body, _4) {
     return new WhileLoopStatement(test.ast(), body.ast());
   },
-  Loop_through(_1, elementId, _2, collectionId, _3, body) {
+  Loop_through(_1, elementId, _2, collectionId, _3, body, _4) {
     return new ThroughLoopStatement(
       elementId.ast(),
       collectionId.ast(),
       body.ast()
     );
   },
-  Loop_for(_1, varDec, _2, updateExp, _3, test, _4, body) {
+  Loop_for(_1, varDec, _2, updateExp, _3, test, _4, body, _5) {
     return new ForLoopStatement(
       varDec.ast(),
       updateExp.ast(),
@@ -115,48 +116,57 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       body.ast()
     );
   },
-  Loop_infinite(_1, _2, body) {
+  Loop_infinite(_1, _2, body, _3) {
     return new InfiniteLoopStatement(body.ast());
   },
-  Statement(a) {
-    return a.ast();
-  },
-  Statement_assignment(a, semicolonOrTail) {
-    return a.ast();
-  },
+  //   Statement(a) {
+  //     return a.ast();
+  //   },
+  //   Statement_assignment(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
   Statement_funccall(a, semicolonOrTail) {
     return a.ast();
   },
-  Statement_print(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_break(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_continue(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_loop(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_conditional(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_property(a, semicolonOrTail) {
-    return a.ast();
-  },
-  Statement_give(_1, exp, _2) {
-    return new GiveStatement(arrayToNullable(exp.ast()));
-  },
-  Assignment(id, grouping, _, exp) {
+  //   Statement_print(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_break(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_continue(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_loop(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_conditional(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_property(a, semicolonOrTail) {
+  //     return a.ast();
+  //   },
+  //   Statement_give(_1, exp, _2) {
+  //     return new GiveStatement(arrayToNullable(exp.ast()));
+  //   },
+  Assignment(id, grouping, _, exp, _) {
     return new AssignmentStatement(
       id.ast(),
       arrayToNullable(grouping.ast()),
       exp.ast()
     );
   },
-  Print(flavor, exp) {
+  Print(flavor, exp, _) {
     return new PrintStatement(flavor.ast(), exp.ast());
+  },
+  Break(breakKwd, _) {
+    return breakKwd.ast();
+  },
+  Continue(continueKwd, _) {
+    return continueKwd.ast();
+  },
+  Give(_1, exp, _2) {
+    return new GiveStatement(arrayToNullable(exp.ast()));
   },
   Declaration_varDec(v, _) {
     return v.ast();
@@ -179,7 +189,12 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   VarDec(type, id, grouping, _, exp) {
-    return new VariableDeclaration(id.ast(), type.ast(), grouping.ast());
+    return new VariableDeclaration(
+      id.ast(),
+      type.ast(),
+      grouping.ast(),
+      exp.ast()
+    );
   },
   TypeDec(_1, id, _2, _3, body, _4) {
     return new TypeDeclaration(id, body);
