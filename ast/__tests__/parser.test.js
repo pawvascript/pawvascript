@@ -47,18 +47,18 @@ const {
 
 const fixture = {
   hello: [
-    String.raw`write 0, x;`,
-    new Program(
+    String.raw`toeBeans number is 5;`
+    /*new Program(
       new Block([
         new WriteStatement([
           new IntegerLiteral("0"),
           new VariableExpression("x")
         ])
       ])
-    )
-  ],
+    )*/
+  ]
 
-  whiles: [
+  /*whiles: [
     String.raw`while false loop x = 3; end;`,
     new Program(
       new Block([
@@ -129,7 +129,7 @@ const fixture = {
         ])
       ])
     )
-  ]
+  ]*/
 };
 
 describe("The parser", () => {
