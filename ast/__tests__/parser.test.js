@@ -49,7 +49,7 @@ const fixture = {
     String.raw`toeBeans CeCeAge is 1;`,
     new Program(
       new Block([
-        new VariableDeclaration("CeCeAge", NumType, null, new NumberLiteral(1))
+        new VariableDeclaration("CeCeAge", NumType, new NumberLiteral(1))
       ])
     )
   ]

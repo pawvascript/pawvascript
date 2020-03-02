@@ -53,19 +53,13 @@ class VariableDeclaration {
   //   constructor(id, type, keyType = null, valueType = null) {
   //     Object.assign(this, { id, type, keyType, valueType });
   //   }
-  constructor(id, type, grouping = null, exp) {
-    Object.assign(this, { id, type, grouping, exp });
+  constructor(id, type, exp) {
+    Object.assign(this, { id, type, exp });
   }
 }
 
 class FunctionDeclaration {
-  constructor(
-    id,
-    parameters,
-    returnType = null,
-    returnGroup = null,
-    body = null
-  ) {
+  constructor(id, parameters, returnType = null, body = null) {
     Object.assign(this, { id, parameters, returnType, body });
   }
 }
@@ -90,8 +84,8 @@ const DictType = new Type("kennel");
 const ObjectType = new Type("breed");
 
 class AssignmentStatement {
-  constructor(target, grouping = null, source) {
-    Object.assign(this, { target, grouping, source });
+  constructor(target, source) {
+    Object.assign(this, { target, source });
   }
 }
 

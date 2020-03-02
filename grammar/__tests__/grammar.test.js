@@ -32,22 +32,22 @@ const readmeExamples = [
   ["goodBoy declarations", "goodBoy isCute is good;", "Declaration"],
   [
     "pack declarations",
-    'pack dogNames[leash] is ["CeCe", "Fluffy"];',
+    'pack[leash] dogNames is ["CeCe", "Fluffy"];',
     "Declaration"
   ],
   [
     "pack using without keyword",
-    'pack dogNames[leash] is ["CeCe", "Fluffy"] without "CeCe";',
+    'pack[leash] dogNames is ["CeCe", "Fluffy"] without "CeCe";',
     "Declaration"
   ],
   [
     "pack using peanutButter keyword",
-    'pack allTheDogs[leash] is [peanutButter sm0lDogs, "Fluffy"];',
+    'pack[leash] allTheDogs is [peanutButter sm0lDogs, "Fluffy"];',
     "Declaration"
   ],
   [
     "kennel declarations",
-    'kennel dogAges[leash:toeBeans] is ["CeCe": 1, "Fluffy": 2];',
+    'kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];',
     "Declaration"
   ],
   [
@@ -171,7 +171,7 @@ const readmeExamples = [
         tail
     tail
     Owner lucille is Owner("Cece");
-    lucille's introduceDog();  !!! output: "My dog's name is Cece" !!! 
+    (lucille's introduceDog)();  !!! output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
   ],
@@ -179,8 +179,8 @@ const readmeExamples = [
     "functions/constructors that take in packs and/or kennels",
     `breed Professor is:
         leash name;
-        pack students[Student];
-        kennel grades[Student:toeBeans];
+        pack[Student] students;
+        kennel[Student:toeBeans] grades;
         trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
     tail
     `
