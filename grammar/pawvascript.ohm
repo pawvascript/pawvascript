@@ -51,8 +51,8 @@ PawvaScript {
                     | id
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
-    QualifiedId     = Property | id 
-    Property        = id "\'s" Exp
+    QualifiedId     = QualifiedId "\'s" id                                                      --property
+                    | id 
     addOp           = "+" | "-"
     prefixOp        = "-" | not
     postfixOp       = "!"
