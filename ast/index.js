@@ -90,8 +90,8 @@ class AssignmentStatement {
 }
 
 class FunctionCallStatement {
-  constructor(id, arguments) {
-    Object.assign(this, { id, arguments });
+  constructor(id, args) {
+    Object.assign(this, { id, args });
   }
 }
 
