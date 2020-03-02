@@ -153,6 +153,49 @@ const readmeExamples = [
     lucille's introduceDog();  !!! output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
+  ],
+  [
+    "functions/constructors that take in packs and/or kennels",
+    `breed Professor is:
+        leash name;
+        pack students[Student];
+        kennel grades[Student:toeBeans];
+        trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
+    tail
+   `
+  ],
+  [
+    "nested objects",
+    `breed Professor is:
+        leash name;
+        pack students[Student];
+        trick Professor chews[leash:name, pack[Student]:students] fetches Professor;
+    tail
+    breed Student is:
+        leash name;
+        Dog dogger;
+        trick Student chews[leash:name, Dog:dogger] fetches Student;
+    tail
+    breed Dog is:
+        leash name;
+        trick Dog chews[leash:name] fetches Dog;
+        trick bark:
+            woof "I am a dog and my name is " with Dog's name;
+        tail
+    tail
+   `
+  ],
+  [
+    "qualified id's with nested objects",
+    `Dog cc is Dog("CeCe");
+    Student lucille is Student("Lucille", cc);
+    Professor rToal is Professor("Dr. Toal", [lucille]);
+
+    !!! These should all do the same thing. !!!
+    cc's bark();
+    lucille's dogger's bark();
+    rtoal's students's 0's dogger's bark();
+   `
   ]
 ];
 
