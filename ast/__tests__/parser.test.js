@@ -45,14 +45,14 @@ const {
 } = require("..");
 
 const fixture = {
-  //   numberVariableDeclaration: [
-  //     String.raw`toeBeans CeCeAge is 1;`,
-  //     new Program(
-  //       new Block([
-  //         new VariableDeclaration("CeCeAge", IntType, null, NumberLiteral(1))
-  //       ])
-  //     )
-  //   ]
+  numberVariableDeclaration: [
+    String.raw`toeBeans CeCeAge is 1;`,
+    new Program(
+      new Block([
+        new VariableDeclaration("CeCeAge", IntType, null, new NumberLiteral(1))
+      ])
+    )
+  ]
   /*whiles: [
     String.raw`while false loop x = 3; end;`,
     new Program(

@@ -19,14 +19,14 @@ const {
   Type,
   FunctionDeclaration,
   TypeDeclaration,
-  IntType,
+  NumType,
   BoolType,
   StringType,
   ArrayType,
   DictType,
   ObjectType,
   AssignmentStatement,
-  FunctionCallStatement,
+  FunctionCall,
   PrintStatement,
   GiveStatement,
   Grouping,
@@ -125,7 +125,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   //   Statement_assignment(a, semicolonOrTail) {
   //     return a.ast();
   //   },
-  Statement_funccall(a, semicolonOrTail) {
+  Statement_funccall(a, _) {
     return a.ast();
   },
   //   Statement_print(a, semicolonOrTail) {
@@ -149,7 +149,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   //   Statement_give(_1, exp, _2) {
   //     return new GiveStatement(arrayToNullable(exp.ast()));
   //   },
-  Assignment(id, grouping, _, exp, _) {
+  Assignment(id, grouping, _1, exp, _2) {
     return new AssignmentStatement(
       id.ast(),
       arrayToNullable(grouping.ast()),
@@ -159,13 +159,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Print(flavor, exp, _) {
     return new PrintStatement(flavor.ast(), exp.ast());
   },
-  Break(breakKwd, _) {
-    return breakKwd.ast();
+  Break(keyword, _) {
+    return keyword.ast();
   },
-  Continue(continueKwd, _) {
-    return continueKwd.ast();
+  Continue(keyword, _) {
+    return keyword.ast();
   },
-  Give(_1, exp, _2) {
+  Return(_1, exp, _2) {
     return new GiveStatement(arrayToNullable(exp.ast()));
   },
   Declaration_varDec(v, _) {
@@ -206,7 +206,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
     // do we need a separate class for function calls instead of function call statements?
-    return new FunctionCallStatement(id.ast(), [
+    return new FunctionCall(id.ast(), [
       arrayToNullable(firstArg.ast()),
       ...moreArgs.ast() // no idea if this is the right syntax for this
     ]);
@@ -215,10 +215,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     const types = [arrayToNullable(firstType.ast())].concat(moreTypes.ast());
     const ids = [arrayToNullable(firstId.ast())].concat(moreIds.ast());
     return new Parameters(types, ids);
-  },
-  RelopExp_assignment(term1, _, term2) {
-    // why do we need this grammar rule? do we need a new kind of node?
-    return new AssignmentStatement(term1.ast(), null, term2.ast());
   },
   RelopExp_relop(term1, relop, term2) {
     return new BinaryExpression(relop.ast(), term1.ast(), term2.ast());
@@ -272,10 +268,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     }
     return new KennelLiteral(keys, values);
   },
-  Property(id, _, exp) {
-    return new BinaryExpression(_, id, exp); // ????????????
+  QualifiedId_property(qualifiedId, _, id) {
+    return new BinaryExpression(_, qualifiedId, id); // ????????????
   },
-  boolean(_) {
+  nullval(_) {
+    return null;
+  },
+  booleanlit(_) {
     return new BooleanLiteral(this.sourceString === "good");
   },
   numlit(_1, _2, _3) {
@@ -291,7 +290,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   type(typeName) {
     switch (typeName) {
       case "toeBeans":
-        return IntType;
+        return NumType;
       case "leash":
         return StringType;
       case "goodBoy":

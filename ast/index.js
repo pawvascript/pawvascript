@@ -76,8 +76,7 @@ class Type {
   }
 }
 
-//TODO RENAME TO NUMTYPE
-const IntType = new Type("toeBeans");
+const NumType = new Type("toeBeans");
 const BoolType = new Type("goodBoy");
 const StringType = new Type("leash");
 const ArrayType = new Type("pack");
@@ -90,7 +89,7 @@ class AssignmentStatement {
   }
 }
 
-class FunctionCallStatement {
+class FunctionCall {
   constructor(id, args) {
     Object.assign(this, { id, args });
   }
@@ -194,14 +193,14 @@ module.exports = {
   Type,
   FunctionDeclaration,
   TypeDeclaration,
-  IntType,
+  NumType,
   BoolType,
   StringType,
   ArrayType,
   DictType,
   ObjectType,
   AssignmentStatement,
-  FunctionCallStatement,
+  FunctionCall,
   PrintStatement,
   GiveStatement,
   Expression,

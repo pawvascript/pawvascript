@@ -16,13 +16,13 @@ PawvaScript {
                     | Continue                      
                     | Loop                    
                     | Conditional                
-                    | Give                         
+                    | Return                         
                     | FuncCall ";"                                                               --funccall
     Assignment      = id Grouping? is Exp ";"
     Print           = (woof | bark | howl) Exp ";"
     Break           = poop ";"
     Continue        = walkies ";"
-    Give            = give Exp? ";"
+    Return          = give Exp? ";"
     Declaration     = FuncDec
                     | TypeDec
                     | VarDec ";"                                                                 --varDec
@@ -47,9 +47,8 @@ PawvaScript {
                     | QualifiedId
                     | numlit
                     | strlit
-                    | boolean
-                    | id
-                    | cat
+                    | booleanlit
+                    | nullval
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                      --pack
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                      --kennel
     QualifiedId     = QualifiedId "\'s" id                                                       --property
@@ -58,6 +57,8 @@ PawvaScript {
     prefixOp        = "-" | not
     postfixOp       = "!"
     type            = toeBeans | leash | goodBoy | pack | kennel | breed | id
+    nullval         = cat
+    booleanlit      = good | bad
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (char | "'")* "\""
     char            = escape
@@ -65,7 +66,6 @@ PawvaScript {
                     | ~"\\" ~"\"" ~"'" ~"\n" ~"!" any
     interpolation   = "![" id "]"
     escape          = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\!"
-    boolean         = good | bad
     relop           = "isGreaterThan" | "isAtLeast" | "isAtMost" | "isLessThan" | equalityop
     equalityop      = "equals" | "notEquals"
     is              = "is" ~alnum
