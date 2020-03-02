@@ -9,16 +9,16 @@ PawvaScript {
                     | chase id through id ":" Block                                             --through
                     | chase VarDec by Exp while Exp ":" Block                                   --for
                     | chase ":" Block                                                           --infinite
-    Statement       = Assignment ";" --a
-                    | FuncCall ";" --b
-                    | Print ";" --c
-                    | break ";" --d
-                    | continue ";" --e
-                    | Loop tail --f
-                    | Conditional tail --g
-                    | Property ";" --h
+    Statement       = Declaration
+                    | Assignment ";"                                                            --assignment
+                    | FuncCall ";"                                                              --funccall
+                    | Print ";"                                                                 --print
+                    | break ";"                                                                 --break
+                    | continue ";"                                                              --continue
+                    | Loop tail                                                                 --loop
+                    | Conditional tail                                                          --conditional
+                    | Property ";"                                                              --property
                     | give Exp? ";"                                                             --give
-                    | Declaration                                                               --declaration
     Assignment      = id Grouping? is Exp
     Print           = (woof | bark | howl) Exp
     Declaration     = FuncDec
@@ -33,8 +33,7 @@ PawvaScript {
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
     Exp             = FuncCall
                     | RelopExp
-    RelopExp        = Term is Term                                                              --assignment
-                    | Term relop Term                                                           --relop
+    RelopExp        = Term relop Term                                                           --relop
                     | Term
     Term            = Term (addOp | (~without with) | without) Factor                           --addOp
                     | Factor
