@@ -37,7 +37,7 @@ PawvaScript {
                     | RelopExp
     RelopExp        = Term relop Term                                                            --relop
                     | Term
-    Term            = Term (addOp | (~without with) | without) Factor                            --addOp
+    Term            = Term (addOp | without | with) Factor                            --addOp
                     | Factor
     Factor          = Factor ("*" | "/" | mod) Negation                                          --mulOp
                     | Negation
