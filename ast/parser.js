@@ -119,10 +119,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new InfiniteLoopStatement(body.ast());
   },
   Statement(a) {
-    return new Statement(a.ast());
+    return a.ast();
   },
   Statement_assignment(a, semicolonOrTail) {
-    return new AssignmentStatement(a.ast());
+    return a.ast();
   },
   Statement_funccall(a, semicolonOrTail) {
     return a.ast();
