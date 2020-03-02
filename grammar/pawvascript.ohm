@@ -1,26 +1,28 @@
 PawvaScript {
     Program         = Block
     Block           = (Statement)*
-    Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block     --elseif
-                    | if Exp then ":" Block else ":" Block                                      --else
-                    | if Exp then ":" Block                                                     --basic
-    Loop            = chase Exp times ":" Block                                                 --defined
-                    | chase while Exp ":" Block                                                 --while
-                    | chase id through id ":" Block                                             --through
-                    | chase VarDec by Exp while Exp ":" Block                                   --for
-                    | chase ":" Block                                                           --infinite
+    Conditional     = if Exp then ":" Block (else if Exp then ":" Block)+ (else ":")? Block tail --elseif
+                    | if Exp then ":" Block else ":" Block tail                                 --else
+                    | if Exp then ":" Block tail                                                --basic
+    Loop            = chase Exp times ":" Block tail                                            --defined
+                    | chase while Exp ":" Block tail                                            --while
+                    | chase id through id ":" Block tail                                        --through
+                    | chase VarDec by Exp while Exp ":" Block tail                              --for
+                    | chase ":" Block tail                                                      --infinite
     Statement       = Declaration
-                    | Assignment ";"                                                            --assignment
+                    | Assignment                    
+                    | Print          
+                    | Break                    
+                    | Continue                      
+                    | Loop                    
+                    | Conditional                
+                    | Give                         
                     | FuncCall ";"                                                              --funccall
-                    | Print ";"                                                                 --print
-                    | break ";"                                                                 --break
-                    | continue ";"                                                              --continue
-                    | Loop tail                                                                 --loop
-                    | Conditional tail                                                          --conditional
-                    | Property ";"                                                              --property
-                    | give Exp? ";"                                                             --give
-    Assignment      = id Grouping? is Exp
-    Print           = (woof | bark | howl) Exp
+    Assignment      = id Grouping? is Exp ";"
+    Print           = (woof | bark | howl) Exp ";"
+    Break           = break ";"
+    Continue        = continue ";"
+    Give            = give Exp? ";"
     Declaration     = FuncDec
                     | TypeDec
                     | VarDec ";"                                                                --varDec
@@ -29,7 +31,7 @@ PawvaScript {
     VarDec          = type id Grouping? (is Exp)?
     TypeDec         = breed id is ":" Block tail
     Grouping        = "[" (type ":")? type "]"
-    FuncCall        = id "(" Exp? ("," Exp)* ")"
+    FuncCall        = QualifiedId "(" (Exp ("," Exp)*)? ")" 
     Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
     Exp             = FuncCall
                     | RelopExp
@@ -42,13 +44,14 @@ PawvaScript {
     Negation        = prefixOp? Factorial
     Factorial       = Primary postfixOp?                                                   
     Primary         = "(" Exp ")"                                                               --parens
-                    | Property
+                    | QualifiedId
                     | numlit
                     | strlit
                     | boolean
                     | id
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"                     --pack
                     | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                                     --kennel
+    QualifiedId     = Property | id 
     Property        = id "\'s" Exp
     addOp           = "+" | "-"
     prefixOp        = "-" | not
