@@ -77,6 +77,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     _7,
     moreBodies,
     _8,
+    _9,
     otherwise
   ) {
     let nestedConditional = otherwise.ast();
@@ -117,7 +118,31 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Loop_infinite(_1, _2, body) {
     return new InfiniteLoopStatement(body.ast());
   },
-  Statement(a, semicolonOrTail) {
+  Statement(a) {
+    return new Statement(a.ast());
+  },
+  Statement_assignment(a, semicolonOrTail) {
+    return new AssignmentStatement(a.ast());
+  },
+  Statement_funccall(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_print(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_break(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_continue(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_loop(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_conditional(a, semicolonOrTail) {
+    return a.ast();
+  },
+  Statement_property(a, semicolonOrTail) {
     return a.ast();
   },
   Statement_give(_1, exp, _2) {
@@ -233,7 +258,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new KennelLiteral(keys, values);
   },
   Property(id, _, exp) {
-    return; // ????????????
+    return new BinaryExpression(_, id, exp); // ????????????
   },
   boolean(_) {
     return new BooleanLiteral(this.sourceString === "good");
