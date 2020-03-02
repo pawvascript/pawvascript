@@ -26,13 +26,13 @@ PawvaScript {
     Declaration     = FuncDec
                     | TypeDec
                     | VarDec ";"                                                                 --varDec
-    FuncDec         = trick id (chews Parameters)? (fetches type)? ":" Block tail                --basic
-                    | trick id (chews Parameters)? (fetches type) ";"                            --constructor
+    FuncDec         = trick id (chews Parameters)? (fetches type Grouping?)? ":" Block tail                --basic
+                    | trick id (chews Parameters)? (fetches type Grouping?) ";"                            --constructor
     VarDec          = type id Grouping? (is Exp)?
     TypeDec         = breed id is ":" Block tail
     Grouping        = "[" (type ":")? type "]"
     FuncCall        = QualifiedId "(" (Exp ("," Exp)*)? ")" 
-    Parameters      = "[" (type ":" id)? ("," type ":" id)* "]"
+    Parameters      = "[" (type Grouping? ":" id)? ("," type Grouping? ":" id)* "]"
     Exp             = FuncCall
                     | RelopExp
     RelopExp        = Term relop Term                                                            --relop
@@ -41,8 +41,10 @@ PawvaScript {
                     | Factor
     Factor          = Factor ("*" | "/" | mod) Negation                                          --mulOp
                     | Negation
-    Negation        = prefixOp? Factorial
-    Factorial       = Primary postfixOp?                                                   
+    Negation        = prefixOp Factorial                                                         --preFix
+                    | Factorial
+    Factorial       = Primary postfixOp                                                          --postFix
+                    | Primary                                                   
     Primary         = "(" Exp ")"                                                                --parens
                     | QualifiedId
                     | numlit

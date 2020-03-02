@@ -171,21 +171,34 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Declaration_varDec(v, _) {
     return v.ast();
   },
-  FuncDec_basic(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
+  FuncDec_basic(
+    _1,
+    id,
+    _2,
+    parameters,
+    _3,
+    returnType,
+    returnGroup,
+    _4,
+    body,
+    _5
+  ) {
     return new FunctionDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
       arrayToNullable(returnType.ast()),
+      arrayToNullable(returnGroup.ast()),
       body.ast()
     );
   },
-  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
+  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, returnGroup, _4) {
     // TODO maybe make a constructor class?
     // return new Constructor();
     return new FunctionDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
-      returnType.ast()
+      returnType.ast(),
+      arrayToNullable(returnGroup.ast())
     );
   },
   VarDec(type, id, grouping, _, exp) {
@@ -225,13 +238,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Factor_mulOp(factor, op, negation) {
     return new BinaryExpression(op.ast(), factor.ast(), negation.ast());
   },
-  Negation(prefixOp, factorial) {
+  Negation_preFix(prefixOp, factorial) {
     return new UnaryExpression(
       arrayToNullable(prefixOp.ast()),
       factorial.ast()
     );
   },
-  Factorial(primary, postfixOp) {
+  Factorial_postFix(primary, postfixOp) {
     return new UnaryExpression(arrayToNullable(postfixOp.ast()), primary.ast());
   },
   Primary_parens(_1, exp, _2) {
@@ -278,7 +291,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new BooleanLiteral(this.sourceString === "good");
   },
   numlit(_1, _2, _3) {
-    return new NumberLiteral(this.sourceString);
+    return new NumberLiteral(+this.sourceString);
   },
   strlit(_1, chars, _2) {
     // ??????? not sure if right
@@ -288,7 +301,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return this.sourceString;
   },
   type(typeName) {
-    switch (typeName) {
+    switch (typeName.sourceString) {
       case "toeBeans":
         return NumType;
       case "leash":
@@ -303,7 +316,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
         return ObjectType;
     }
     // what about types that are an ID??
-    return new Type(typeName);
+    return new Type(typeName.sourceString);
   }
 });
 

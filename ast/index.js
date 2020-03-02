@@ -59,7 +59,13 @@ class VariableDeclaration {
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, returnType = null, body = null) {
+  constructor(
+    id,
+    parameters,
+    returnType = null,
+    returnGroup = null,
+    body = null
+  ) {
     Object.assign(this, { id, parameters, returnType, body });
   }
 }

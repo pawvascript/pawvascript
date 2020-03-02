@@ -174,17 +174,17 @@ const readmeExamples = [
     lucille's introduceDog();  !!! output: "My dog's name is Cece" !!! 
     woof lucille's command(); !!! output: "Cece, stay." !!!
    `
+  ],
+  [
+    "functions/constructors that take in packs and/or kennels",
+    `breed Professor is:
+        leash name;
+        pack students[Student];
+        kennel grades[Student:toeBeans];
+        trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
+    tail
+    `
   ]
-  //   [
-  //     "functions/constructors that take in packs and/or kennels",
-  //     `breed Professor is:
-  //         leash name;
-  //         pack students[Student];
-  //         kennel grades[Student:toeBeans];
-  //         trick Professor chews[leash:name, pack[Student]:students, kennel[Student:toeBeans]:grades] fetches Professor;
-  //     tail
-  //    `
-  //   ],
   //   [
   //     "nested objects",
   //     `breed Professor is:
