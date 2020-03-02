@@ -192,8 +192,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new VariableDeclaration(
       id.ast(),
       type.ast(),
-      grouping.ast(),
-      exp.ast()
+      arrayToNullable(grouping.ast()),
+      arrayToNullable(exp.ast())
     );
   },
   TypeDec(_1, id, _2, _3, body, _4) {
