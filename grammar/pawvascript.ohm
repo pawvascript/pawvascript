@@ -46,19 +46,20 @@ PawvaScript {
                     | AtExp
     AtExp           = OfExp "at" OfExp                                              --array_index
                     | OfExp
-    OfExp           = Primary "of" Primary                                          --dictionary_lookup
+    OfExp           = FuncExp "of" FuncExp                                          --dictionary_lookup
+                    | FuncExp
+    FuncExp         = FuncCall 
                     | Primary
     Primary         = "(" Exp ")"                                                   --parens
                     | Primary "'s" id                                               --class_member_access
-                    | FuncCall
                     | id
                     | numlit
                     | strlit
                     | booleanlit
                     | nullval
-                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                         --kennel
                     | "[" (peanutButter? Exp)? ("," peanutButter? Exp)* "]"         --pack
-    FuncCall        = Primary "(" (Exp ("," Exp)*)? ")" 
+                    | "[" (Exp":"Exp)? ("," Exp":"Exp)* "]"                         --kennel
+    FuncCall        = Primary  "(" (Exp ("," Exp)*)? ")" 
     addOp           = "+" | "-"
     prefixOp        = "-" | not
     postfixOp       = "!"
