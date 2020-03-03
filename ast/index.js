@@ -79,9 +79,20 @@ class Type {
 const NumType = new Type("toeBeans");
 const BoolType = new Type("goodBoy");
 const StringType = new Type("leash");
-const ArrayType = new Type("pack");
-const DictType = new Type("kennel");
-const ObjectType = new Type("breed");
+
+class ListType extends Type {
+  constructor(grouping) {
+    super("pack");
+    this.grouping = grouping;
+  }
+}
+
+class DictType extends Type {
+  constructor(grouping) {
+    super("kennel");
+    this.grouping = grouping;
+  }
+}
 
 class AssignmentStatement {
   constructor(target, source) {
@@ -196,9 +207,8 @@ module.exports = {
   NumType,
   BoolType,
   StringType,
-  ArrayType,
+  ListType,
   DictType,
-  ObjectType,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,

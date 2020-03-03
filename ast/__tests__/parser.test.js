@@ -25,9 +25,8 @@ const {
   NumType,
   BoolType,
   StringType,
-  ArrayType,
+  ListType,
   DictType,
-  ObjectType,
   AssignmentStatement,
   FunctionCallStatement,
   PrintStatement,
@@ -50,6 +49,30 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration("CeCeAge", NumType, new NumberLiteral(1))
+      ])
+    )
+  ],
+  emptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is [];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new ListType(new Grouping(null, StringType)),
+          new PackLiteral([])
+        )
+      ])
+    )
+  ],
+  emptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is [];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new DictType(new Grouping(StringType, NumType)),
+          new KennelLiteral([], [])
+        )
       ])
     )
   ]

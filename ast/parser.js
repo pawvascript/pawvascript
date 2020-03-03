@@ -22,9 +22,8 @@ const {
   NumType,
   BoolType,
   StringType,
-  ArrayType,
+  ListType,
   DictType,
-  ObjectType,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,
@@ -45,6 +44,28 @@ const grammar = ohm.grammar(fs.readFileSync("./grammar/pawvascript.ohm"));
 
 function arrayToNullable(a) {
   return a.length === 0 ? null : a[0];
+}
+
+function getType(typeName) {
+  switch (typeName) {
+    case "toeBeans":
+      return NumType;
+    case "leash":
+      return StringType;
+    case "goodBoy":
+      return BoolType;
+  }
+  const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
+  if (foundPack) {
+    return new ListType(new Grouping(null, getType(foundPack[1])));
+  }
+  const foundKennel = typeName.match(/^(?:kennel)(?:\[)(.+)(?::)(.+)(?:\])$/);
+  if (foundKennel) {
+    return new DictType(
+      new Grouping(getType(foundKennel[1]), getType(foundKennel[2]))
+    );
+  }
+  return new Type(typeName);
 }
 
 const astBuilder = grammar.createSemantics().addOperation("ast", {
@@ -222,10 +243,12 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     const concatElements = (spread, element) => {
       if (arrayToNullable(spread.ast())) {
         // do I need to do arrayToNullable(arrayToNullable(spread.ast())) twice because it was an optional in an optional?
-        elements.concat(...element.ast());
+        console.log("");
+        elements = elements.concat(...element.ast());
       } else {
-        elements.concat(arrayToNullable(element.ast()));
+        elements = elements.concat(arrayToNullable(element.ast()));
       }
+      console.log("ELEMENTS: " + elements);
     };
     concatElements(spreadOp, firstElem);
     while (moreElems.length > 0) {
@@ -264,23 +287,11 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   id(_1, _2) {
     return this.sourceString;
   },
-  Type(typeName) {
-    switch (typeName.sourceString) {
-      case "toeBeans":
-        return NumType;
-      case "leash":
-        return StringType;
-      case "goodBoy":
-        return BoolType;
-      case "pack":
-        return ArrayType;
-      case "kennel":
-        return DictType;
-      case "breed":
-        return ObjectType;
-    }
-    // what about types that are an ID??
-    return new Type(typeName.sourceString);
+  Type(t) {
+    return getType(t.sourceString);
+  },
+  _terminal() {
+    return this.sourceString;
   }
 });
 
