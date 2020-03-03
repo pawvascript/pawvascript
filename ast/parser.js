@@ -243,10 +243,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     const concatElements = (spread, element) => {
       if (arrayToNullable(spread.ast())) {
         // do I need to do arrayToNullable(arrayToNullable(spread.ast())) twice because it was an optional in an optional?
-        console.log("");
+        console.log("POTATO");
         elements = elements.concat(...element.ast());
       } else {
-        elements = elements.concat(arrayToNullable(element.ast()));
+        console.log("TOMATO");
+        if (arrayToNullable(element.ast())) {
+          elements = elements.concat(element.ast());
+        }
       }
       console.log("ELEMENTS: " + elements);
     };
@@ -261,8 +264,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let values = [];
     const concatKeysValues = (key, value) => {
       if (arrayToNullable(key.ast())) {
-        keys.concat(key.ast());
-        values.concat(value.ast());
+        keys = keys.concat(key.ast());
+        values = values.concat(value.ast());
       }
     };
     concatKeysValues(firstKey, firstVal);
