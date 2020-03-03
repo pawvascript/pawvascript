@@ -65,7 +65,7 @@ const fixture = {
     )
   ],
   emptyDictVariableDeclaration: [
-    String.raw`kennel[leash:toeBeans] dogs is [];`,
+    String.raw`kennel[leash:toeBeans] dogs is [:];`,
     new Program(
       new Block([
         new VariableDeclaration(
