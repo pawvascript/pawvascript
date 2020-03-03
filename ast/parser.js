@@ -275,6 +275,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     }
     return new KennelLiteral(keys, values);
   },
+  Primary_empty_kennel(_1, _colon, _2) {
+    return new KennelLiteral([], []);
+  },
   nullval(_) {
     return null;
   },
