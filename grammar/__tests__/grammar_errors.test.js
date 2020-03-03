@@ -13,11 +13,16 @@ const miscellaneous_errors = [
     'woof "Hello, World!;',
     "Statement"
   ],
+  [
+    "does not woof incorrect string no escape char before doublequote",
+    'woof "Hello, "";',
+    "Statement"
+  ],
   ["unknown operator", "x := 2 ** 5", "Statement"],
   ["chained relational operators", "1 isLessThan 3 isLessThan 5", "Statement"],
   ["mismatched parentheses", "1 + (2 +3))", "Statement"],
   [
-    "variable declaration inside a variable declartion",
+    "variable declaration inside a variable declaration",
     `leash dogeName is leash pupperName is "CeCe"`,
     "Statement"
   ],

@@ -54,17 +54,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Block(s) {
     return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
   },
-  Conditional_basic(_1, condition, _2, _3, body, _4) {
-    return new ConditionalStatement(condition.ast(), body.ast(), null);
-  },
-  Conditional_else(_1, condition, _2, _3, body, _4, _5, otherwise, _6) {
-    return new ConditionalStatement(
-      condition.ast(),
-      body.ast(),
-      otherwise.ast()
-    );
-  },
-  Conditional_elseif(
+  Conditional(
     _1,
     condition,
     _2,
@@ -149,12 +139,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   //   Statement_give(_1, exp, _2) {
   //     return new GiveStatement(arrayToNullable(exp.ast()));
   //   },
-  Assignment(id, grouping, _1, exp, _2) {
-    return new AssignmentStatement(
-      id.ast(),
-      arrayToNullable(grouping.ast()),
-      exp.ast()
-    );
+  Assignment(id, _1, exp, _2) {
+    return new AssignmentStatement(id.ast(), exp.ast());
   },
   Print(flavor, exp, _) {
     return new PrintStatement(flavor.ast(), exp.ast());
@@ -171,51 +157,32 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Declaration_varDec(v, _) {
     return v.ast();
   },
-  FuncDec_basic(
-    _1,
-    id,
-    _2,
-    parameters,
-    _3,
-    returnType,
-    returnGroup,
-    _4,
-    body,
-    _5
-  ) {
+  FuncDec_basic(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
     return new FunctionDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
       arrayToNullable(returnType.ast()),
-      arrayToNullable(returnGroup.ast()),
       body.ast()
     );
   },
-  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, returnGroup, _4) {
+  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
     // TODO maybe make a constructor class?
     // return new Constructor();
     return new FunctionDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
-      returnType.ast(),
-      arrayToNullable(returnGroup.ast())
+      returnType.ast()
     );
   },
-  VarDec(type, id, grouping, _, exp) {
+  VarDec(type, id, _is, exp) {
     return new VariableDeclaration(
       id.ast(),
       type.ast(),
-      arrayToNullable(grouping.ast()),
       arrayToNullable(exp.ast())
     );
   },
   TypeDec(_1, id, _2, _3, body, _4) {
     return new TypeDeclaration(id, body);
-  },
-  Grouping(_1, keyType, _2, valueType, _3) {
-    // a grouping probably would not be a node in the abstract syntax tree,
-    // so do we maybe want to get rid of this class and absorb it into var/type decs?
-    return new Grouping(arrayToNullable(keyType), valueType);
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
     // do we need a separate class for function calls instead of function call statements?
@@ -281,9 +248,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     }
     return new KennelLiteral(keys, values);
   },
-  QualifiedId_property(qualifiedId, _, id) {
-    return new BinaryExpression(_, qualifiedId, id); // ????????????
-  },
   nullval(_) {
     return null;
   },
@@ -300,7 +264,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   id(_1, _2) {
     return this.sourceString;
   },
-  type(typeName) {
+  Type(typeName) {
     switch (typeName.sourceString) {
       case "toeBeans":
         return NumType;

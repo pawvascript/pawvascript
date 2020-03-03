@@ -77,12 +77,12 @@ goodBoy isGoodBoy is good;                                          let isGoodBo
 
 goodBoy isNaughtyDoggo is bad;                                      let isNaughtyDoggo = false;
 
-pack dogNames[leash] is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
+pack[leash] dogNames is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
 
-kennel dogAges[leash:toeBeans] is ["Cece": 1, "Fluffy": 2];         let dogAges = {"Cece": 1, "Fluffy": 2};
+kennel[leash:toeBeans] dogAges is ["Cece": 1, "Fluffy": 2];         let dogAges = {"Cece": 1, "Fluffy": 2};
 
 !!! this has a default initialization of 0 !!!
-toeBeans cuteness;                                                  let cuteness;
+toeBeans cuteness;                                                  let cuteness = 0;
 cuteness is 100;                                                    cuteness = 100;
 
 !!! cat is the equivalent of null; any type can have the value cat. !!!
@@ -108,19 +108,19 @@ Packs are the PawvaScript equivalent of lists in Python or arrays in JavaScript:
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-pack goodDogs[leash] is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
+pack[leash] goodDogs is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
 
 !!! The without keyword can remove elements from a pack. !!!
-pack bestDogs[leash] is goodDogs without "Muffin";                  let bestDogs = goodDogs;
+pack[leash] bestDogs is goodDogs without "Muffin";                  let bestDogs = goodDogs;
                                                                     const indexOfMuffin = goodDogs.indexOf("Muffin");
                                                                     if (indexOfMuffin > -1) {
                                                                          bestDogs.splice(indexOfMuffin, 1);
                                                                     }
 
 !!! The peanutButter keyword is the equivalent of JavaScript's spread syntax. !!!
-pack sm0lDogs[leash] is ["Tiny", "Teenie", "Boo"];                  let sm0lDogs = ["Tiny", "Teenie", "Boo"];
-pack b1gDogs[leash] is ["Boofer", "Woofer," "Mo"];                  let b1gDogs = ["Boofer", "Woofer," "Mo"];
-pack allTheDogs[leash] is [                                         let allTheDogs = [
+pack[leash] sm0lDogs is ["Tiny", "Teenie", "Boo"];                  let sm0lDogs = ["Tiny", "Teenie", "Boo"];
+pack[leash] b1gDogs is ["Boofer", "Woofer," "Mo"];                  let b1gDogs = ["Boofer", "Woofer," "Mo"];
+pack[leash] allTheDogs is [                                         let allTheDogs = [
     peanutButter sm0lDogs,                                              ...sm0lDogs,
     peanutButter b1gDogs                                                ...b1gDogs
 ];                                                                  ];
@@ -128,7 +128,7 @@ pack allTheDogs[leash] is [                                         let allTheDo
 woof allTheDogs;                                                    console.log(allTheDogs);
 !!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] !!!         /* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] */
 
-pack ages[toeBeans] is [1, 1, 2];                                   let ages = [1, 1, 2];
+pack[toeBeans] ages is [1, 1, 2];                                   let ages = [1, 1, 2];
 ```
 
 ### Kennels/Maps
@@ -138,12 +138,12 @@ Kennels are data structures like Python dictionaries.
 ```JavaScript
 PAWVASCRIPT                                                         JAVASCRIPT
 
-kennel goodDogs[leash:leash] is [                                   let goodDogs = {
+kennel[leash:leash] goodDogs is [                                   let goodDogs = {
     "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
     "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
     "Mo": "Potato"                                                      Mo: "Potato"
 ];                                                                  };
-kennel ages[leash:toeBeans] is ["CeCe": 1, "Buster": 1, "Mo": 5];   let ages = {CeCe: 1, Buster: 1, Mo: 5};
+kennel[leash:toeBeans] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];   let ages = {CeCe: 1, Buster: 1, Mo: 5};
 ```
 
 ### Relational Operators
@@ -349,7 +349,7 @@ breed Owner is:                                                     class Owner 
 tail                                                                }
 
 Owner lucille is Owner("Cece")                                      let lucille = new Owner("Cece");
-lucille's introduceDog() !!! output: "My dog's name is Cece" !!!    lucille.introduceDog();
+(lucille's introduceDog)() !!! output: "My dog's name is Cece" !!!    lucille.introduceDog();
 woof lucille's command()  !!! output: "Cece, stay." !!!             console.log(lucille.command());
 ```
 
