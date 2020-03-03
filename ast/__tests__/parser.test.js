@@ -77,7 +77,7 @@ const fixture = {
     )
   ],
   nonEmptyListVariableDeclaration: [
-    String.raw`pack[leash] dogs is ["CeCe", "Buster"];`,
+    String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
     new Program(
       new Block([
         new VariableDeclaration(
@@ -85,22 +85,27 @@ const fixture = {
           new ListType(new Grouping(null, StringType)),
           new PackLiteral([
             new StringLiteral("CeCe"),
-            new StringLiteral("Buster")
+            new StringLiteral("Buster"),
+            new StringLiteral("Dumpling")
           ])
         )
       ])
     )
   ],
   nonEmptyDictVariableDeclaration: [
-    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2];`,
+    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Dumpling":3];`,
     new Program(
       new Block([
         new VariableDeclaration(
           "dogs",
           new DictType(new Grouping(StringType, NumType)),
           new KennelLiteral(
-            [new StringLiteral("CeCe"), new StringLiteral("Buster")],
-            [new NumberLiteral(1), new NumberLiteral(2)]
+            [
+              new StringLiteral("CeCe"),
+              new StringLiteral("Buster"),
+              new StringLiteral("Dumpling")
+            ],
+            [new NumberLiteral(1), new NumberLiteral(2), new NumberLiteral(3)]
           )
         )
       ])

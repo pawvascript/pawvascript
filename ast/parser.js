@@ -264,14 +264,19 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let keys = [];
     let values = [];
     const concatKeysValues = (key, value) => {
-      if (arrayToNullable(key.ast())) {
-        keys = keys.concat(key.ast());
-        values = values.concat(value.ast());
+      if (key) {
+        keys = keys.concat(key);
+        values = values.concat(value);
       }
     };
-    concatKeysValues(firstKey, firstVal);
-    while (moreKeys.length > 0) {
-      concatKeysValues(moreKeys.shift(), moreVals.shift());
+    concatKeysValues(
+      arrayToNullable(firstKey.ast()),
+      arrayToNullable(firstVal.ast())
+    );
+    remainingKeys = moreKeys.ast();
+    remainingValues = moreVals.ast();
+    while (remainingKeys.length > 0) {
+      concatKeysValues(remainingKeys.shift(), remainingValues.shift());
     }
     return new KennelLiteral(keys, values);
   },
