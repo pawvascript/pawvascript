@@ -241,21 +241,22 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Primary_pack(_1, spreadOp, firstElem, _2, moreSpreadOps, moreElems, _3) {
     let elements = [];
     const concatElements = (spread, element) => {
-      if (arrayToNullable(spread.ast())) {
-        // do I need to do arrayToNullable(arrayToNullable(spread.ast())) twice because it was an optional in an optional?
-        console.log("POTATO");
-        elements = elements.concat(...element.ast());
-      } else {
-        console.log("TOMATO");
-        if (arrayToNullable(element.ast())) {
-          elements = elements.concat(element.ast());
-        }
+      console.log("CALLED concatElements");
+      if (spread) {
+        elements = elements.concat(...element);
+      } else if (element) {
+        elements = elements.concat(element);
       }
-      console.log("ELEMENTS: " + elements);
     };
-    concatElements(spreadOp, firstElem);
-    while (moreElems.length > 0) {
-      concatElements(moreSpreadOps.shift(), moreElems.shift());
+    concatElements(
+      arrayToNullable(spreadOp.ast()),
+      arrayToNullable(firstElem.ast())
+    );
+    remainingElems = moreElems.ast();
+    remainingSpreads = moreSpreadOps.ast();
+    while (remainingElems.length > 0) {
+      console.log("LABS WITH ABS");
+      concatElements(remainingSpreads.shift(), remainingElems.shift());
     }
     return new PackLiteral(elements);
   },
@@ -285,7 +286,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   strlit(_1, chars, _2) {
     // ??????? not sure if right
-    return new StringLiteral(chars.ast());
+    return new StringLiteral(chars.ast().join(""));
   },
   id(_1, _2) {
     return this.sourceString;

@@ -75,6 +75,36 @@ const fixture = {
         )
       ])
     )
+  ],
+  nonEmptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is ["CeCe", "Buster"];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new ListType(new Grouping(null, StringType)),
+          new PackLiteral([
+            new StringLiteral("CeCe"),
+            new StringLiteral("Buster")
+          ])
+        )
+      ])
+    )
+  ],
+  nonEmptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new DictType(new Grouping(StringType, NumType)),
+          new KennelLiteral(
+            [new StringLiteral("CeCe"), new StringLiteral("Buster")],
+            [new NumberLiteral(1), new NumberLiteral(2)]
+          )
+        )
+      ])
+    )
   ]
   /*whiles: [
     String.raw`while false loop x = 3; end;`,
