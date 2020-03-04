@@ -162,10 +162,22 @@ class PackLiteral extends Expression {
   }
 }
 
+class ListElement {
+  constructor(hasSpread, value) {
+    Object.assign(this, { hasSpread, value });
+  }
+}
+
 class KennelLiteral extends Expression {
-  constructor(keys, values) {
+  constructor(keyValuePairs) {
     super();
-    Object.assign(this, { keys, values });
+    this.keyValuePairs = keyValuePairs;
+  }
+}
+
+class KeyValuePair {
+  constructor(key, value) {
+    Object.assign(this, { key, value });
   }
 }
 
@@ -220,7 +232,9 @@ module.exports = {
   NumberLiteral,
   StringLiteral,
   PackLiteral,
+  ListElement,
   KennelLiteral,
+  KeyValuePair,
   VariableExpression,
   UnaryExpression,
   BinaryExpression

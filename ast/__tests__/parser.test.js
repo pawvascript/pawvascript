@@ -37,7 +37,9 @@ const {
   NumberLiteral,
   StringLiteral,
   PackLiteral,
+  ListElement,
   KennelLiteral,
+  KeyValuePair,
   //   VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
@@ -84,29 +86,26 @@ const fixture = {
           "dogs",
           new ListType(new Grouping(null, StringType)),
           new PackLiteral([
-            new StringLiteral("CeCe"),
-            new StringLiteral("Buster"),
-            new StringLiteral("Dumpling")
+            new ListElement(false, new StringLiteral("CeCe")),
+            new ListElement(false, new StringLiteral("Buster")),
+            new ListElement(false, new StringLiteral("Dumpling"))
           ])
         )
       ])
     )
   ],
   nonEmptyDictVariableDeclaration: [
-    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Dumpling":3];`,
+    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
     new Program(
       new Block([
         new VariableDeclaration(
           "dogs",
           new DictType(new Grouping(StringType, NumType)),
-          new KennelLiteral(
-            [
-              new StringLiteral("CeCe"),
-              new StringLiteral("Buster"),
-              new StringLiteral("Dumpling")
-            ],
-            [new NumberLiteral(1), new NumberLiteral(2), new NumberLiteral(3)]
-          )
+          new KennelLiteral([
+            new KeyValuePair(new StringLiteral("CeCe"), new NumberLiteral(1)),
+            new KeyValuePair(new StringLiteral("Buster"), new NumberLiteral(2)),
+            new KeyValuePair(new StringLiteral("Mo"), new NumberLiteral(3))
+          ])
         )
       ])
     )

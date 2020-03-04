@@ -58,8 +58,12 @@ PawvaScript {
                     | booleanlit
                     | nullval
                     | "[" ":" "]"                                                                              --empty_kennel
-                    | "[" (peanutButter? Exp ("," peanutButter? Exp)*)? "]"         --pack
-                    | "[" (Exp ":" Exp ("," Exp ":" Exp)*)? "]"                                    --kennel
+                    | "[" ListElems? "]"         --pack
+                    | "[" KeyValPairs "]"                                    --kennel
+    ListElems       = ListElem ("," ListElem)*
+    ListElem        = peanutButter? Exp
+    KeyValPairs     = KeyValPair ("," KeyValPair)*
+    KeyValPair      = Exp ":" Exp
     FuncCall        = Primary  "(" (Exp ("," Exp)*)? ")" 
     addOp           = "+" | "-"
     prefixOp        = "-" | not

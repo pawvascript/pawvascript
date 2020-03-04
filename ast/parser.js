@@ -34,7 +34,9 @@ const {
   NumberLiteral,
   StringLiteral,
   PackLiteral,
+  ListElement,
   KennelLiteral,
+  KeyValuePair,
   //   VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
@@ -238,47 +240,62 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Primary_parens(_1, exp, _2) {
     return exp.ast();
   },
-  Primary_pack(_1, spreadOp, firstElem, _2, moreSpreadOps, moreElems, _3) {
-    let elements = [];
-    const concatElements = (spread, element) => {
-      console.log("CALLED concatElements");
-      if (spread) {
-        elements = elements.concat(...element);
-      } else if (element) {
-        elements = elements.concat(element);
-      }
-    };
-    concatElements(
-      arrayToNullable(spreadOp.ast()),
-      arrayToNullable(firstElem.ast())
+  Primary_pack(_1, elements, _2) {
+    // let elements = [];
+    // const concatElements = (spread, element) => {
+    //   console.log("CALLED concatElements");
+    //   if (spread) {
+    //     elements = elements.concat(...element);
+    //   } else if (element) {
+    //     elements = elements.concat(element);
+    //   }
+    // };
+    // concatElements(
+    //   arrayToNullable(spreadOp.ast()),
+    //   arrayToNullable(firstElem.ast())
+    // );
+    // remainingElems = moreElems.ast();
+    // remainingSpreads = moreSpreadOps.ast();
+    // while (remainingElems.length > 0) {
+    //   console.log("LABS WITH ABS");
+    //   concatElements(remainingSpreads.shift(), remainingElems.shift());
+    // }
+    return new PackLiteral(
+      elements.ast().length === 0 ? [] : elements.ast()[0]
     );
-    remainingElems = moreElems.ast();
-    remainingSpreads = moreSpreadOps.ast();
-    while (remainingElems.length > 0) {
-      console.log("LABS WITH ABS");
-      concatElements(remainingSpreads.shift(), remainingElems.shift());
-    }
-    return new PackLiteral(elements);
   },
-  Primary_kennel(_1, firstKey, _2, firstVal, _3, moreKeys, _4, moreVals, _5) {
-    let keys = [];
-    let values = [];
-    const concatKeysValues = (key, value) => {
-      if (key) {
-        keys = keys.concat(key);
-        values = values.concat(value);
-      }
-    };
-    concatKeysValues(
-      arrayToNullable(firstKey.ast()),
-      arrayToNullable(firstVal.ast())
-    );
-    remainingKeys = moreKeys.ast();
-    remainingValues = moreVals.ast();
-    while (remainingKeys.length > 0) {
-      concatKeysValues(remainingKeys.shift(), remainingValues.shift());
-    }
-    return new KennelLiteral(keys, values);
+  ListElems(firstElem, _, moreElems) {
+    return [firstElem.ast(), ...moreElems.ast()];
+  },
+  ListElem(spreadOp, exp) {
+    return new ListElement(spreadOp.ast().length > 0, exp.ast());
+  },
+  Primary_kennel(_1, pairs, _2) {
+    // let keys = [];
+    // let values = [];
+    // const concatKeysValues = (key, value) => {
+    //   if (key) {
+    //     keys = keys.concat(key);
+    //     values = values.concat(value);
+    //   }
+    // };
+    // concatKeysValues(
+    //   arrayToNullable(firstKey.ast()),
+    //   arrayToNullable(firstVal.ast())
+    // );
+    // remainingKeys = moreKeys.ast();
+    // remainingValues = moreVals.ast();
+    // while (remainingKeys.length > 0) {
+    //   concatKeysValues(remainingKeys.shift(), remainingValues.shift());
+    // }
+    // return new KennelLiteral(keys, values);
+    return new KennelLiteral(pairs.ast());
+  },
+  KeyValPairs(firstPair, _, morePairs) {
+    return [firstPair.ast(), ...morePairs.ast()];
+  },
+  KeyValPair(key, _, val) {
+    return new KeyValuePair(key.ast(), val.ast());
   },
   Primary_empty_kennel(_1, _colon, _2) {
     return new KennelLiteral([], []);
