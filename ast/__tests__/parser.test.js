@@ -46,11 +46,31 @@ const {
 } = require("..");
 
 const fixture = {
+  uninitializedVariableDeclaration: [
+    String.raw`leash dogName;`,
+    new Program(
+      new Block([new VariableDeclaration("dogName", StringType, null)])
+    )
+  ],
+  variableDeclarationInitializedToNull: [
+    String.raw`leash dogName is cat;`,
+    new Program(
+      new Block([new VariableDeclaration("dogName", StringType, null)])
+    )
+  ],
   numberVariableDeclaration: [
     String.raw`toeBeans CeCeAge is 1;`,
     new Program(
       new Block([
         new VariableDeclaration("CeCeAge", NumType, new NumberLiteral(1))
+      ])
+    )
+  ],
+  stringVariableDeclaration: [
+    String.raw`leash name is "CeCe";`,
+    new Program(
+      new Block([
+        new VariableDeclaration("name", StringType, new StringLiteral("CeCe"))
       ])
     )
   ],
@@ -94,6 +114,42 @@ const fixture = {
       ])
     )
   ],
+  listVariableDeclarationWithSpreads: [
+    String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new ListType(new Grouping(null, new Type("Dog"))),
+          new PackLiteral([
+            new ListElement(false, "dog1"),
+            new ListElement(false, "dog2"),
+            new ListElement(true, "otherDogs")
+          ])
+        )
+      ])
+    )
+  ],
+  listVariableDeclarationUsingWithout: [
+    String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogs",
+          new ListType(new Grouping(null, new Type("Dog"))),
+          new BinaryExpression(
+            "without",
+            new PackLiteral([
+              new ListElement(false, "dog1"),
+              new ListElement(false, "dog2"),
+              new ListElement(false, "dog3")
+            ]),
+            "dog1"
+          )
+        )
+      ])
+    )
+  ],
   nonEmptyDictVariableDeclaration: [
     String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
     new Program(
@@ -109,7 +165,60 @@ const fixture = {
         )
       ])
     )
+  ],
+  leashConcatenation: [
+    String.raw`leash dogName is "Ce" with "Ce";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "dogName",
+          StringType,
+          new BinaryExpression(
+            "with",
+            new StringLiteral("Ce"),
+            new StringLiteral("Ce")
+          )
+        )
+      ])
+    )
+  ],
+  leashInterpolation: [
+    // TODO HELP
+    String.raw`leash sentence is "![x] is a good girl";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "sentence",
+          StringType,
+          new StringLiteral("![x] is a good girl")
+        )
+      ])
+    )
+  ],
+  variableAssignment: [
+    String.raw`cuteness is 100;`,
+    new Program(
+      new Block([new AssignmentStatement("cuteness", new NumberLiteral(100))])
+    )
+  ],
+  equalityOperators: [
+    String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "testBool1",
+          BoolType,
+          new BinaryExpression("equals", "x", "y")
+        ),
+        new VariableDeclaration(
+          "testBool2",
+          BoolType,
+          new BinaryExpression("notEquals", "x", "y")
+        )
+      ])
+    )
   ]
+
   /*whiles: [
     String.raw`while false loop x = 3; end;`,
     new Program(

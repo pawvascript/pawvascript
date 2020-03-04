@@ -313,6 +313,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     // ??????? not sure if right
     return new StringLiteral(chars.ast().join(""));
   },
+  interpolation(_1, id, _2) {
+    // I HAVE NO IDEA WHAT THIS SHOULD RETURN SO I JUST RETURNED ITSELF LMFAO
+    return `${_1.ast()}${id.ast()}${_2.ast()}`;
+  },
   id(_1, _2) {
     return this.sourceString;
   },
