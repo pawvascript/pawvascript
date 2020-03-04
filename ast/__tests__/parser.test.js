@@ -217,26 +217,22 @@ const fixture = {
         )
       ])
     )
-  ]
+  ],
 
-  /*whiles: [
-    String.raw`while false loop x = 3; end;`,
+  whiles: [
+    String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
       new Block([
-        new WhileStatement(
-          new BooleanLiteral(false),
+        new InfiniteLoopStatement(
           new Block([
-            new AssignmentStatement(
-              new VariableExpression("x"),
-              new IntegerLiteral("3")
-            )
+            new PrintStatement("woof", new StringLiteral("I run forever\\!"))
           ])
         )
       ])
     )
-  ],
+  ]
 
-  declarations: [
+  /*declarations: [
     String.raw`var x: int; var y: bool;`,
     new Program(
       new Block([
