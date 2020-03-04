@@ -219,7 +219,7 @@ const fixture = {
     )
   ],
 
-  whiles: [
+  infiniteLoop: [
     String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
       new Block([
@@ -227,6 +227,17 @@ const fixture = {
           new Block([
             new PrintStatement("woof", new StringLiteral("I run forever\\!"))
           ])
+        )
+      ])
+    )
+  ],
+  fixedLoop: [
+    String.raw`chase 5 times: woof "Stay"; tail`,
+    new Program(
+      new Block([
+        new FixedLoopStatement(
+          new NumberLiteral(5),
+          new Block([new PrintStatement("woof", new StringLiteral("Stay"))])
         )
       ])
     )
