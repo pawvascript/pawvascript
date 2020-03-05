@@ -36,6 +36,7 @@ const {
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
+  TemplateLiteral,
   PackLiteral,
   ListElement,
   KennelLiteral,
@@ -70,7 +71,11 @@ const fixture = {
     String.raw`leash name is "CeCe";`,
     new Program(
       new Block([
-        new VariableDeclaration("name", StringType, new StringLiteral("CeCe"))
+        new VariableDeclaration(
+          "name",
+          StringType,
+          new TemplateLiteral([new StringLiteral("CeCe")], null)
+        )
       ])
     )
   ],
@@ -106,9 +111,18 @@ const fixture = {
           "dogs",
           new ListType(new Grouping(null, StringType)),
           new PackLiteral([
-            new ListElement(false, new StringLiteral("CeCe")),
-            new ListElement(false, new StringLiteral("Buster")),
-            new ListElement(false, new StringLiteral("Dumpling"))
+            new ListElement(
+              false,
+              new TemplateLiteral([new StringLiteral("CeCe")], null)
+            ),
+            new ListElement(
+              false,
+              new TemplateLiteral([new StringLiteral("Buster")], null)
+            ),
+            new ListElement(
+              false,
+              new TemplateLiteral([new StringLiteral("Dumpling")], null)
+            )
           ])
         )
       ])
@@ -158,9 +172,18 @@ const fixture = {
           "dogs",
           new DictType(new Grouping(StringType, NumType)),
           new KennelLiteral([
-            new KeyValuePair(new StringLiteral("CeCe"), new NumberLiteral(1)),
-            new KeyValuePair(new StringLiteral("Buster"), new NumberLiteral(2)),
-            new KeyValuePair(new StringLiteral("Mo"), new NumberLiteral(3))
+            new KeyValuePair(
+              new TemplateLiteral([new StringLiteral("CeCe")], null),
+              new NumberLiteral(1)
+            ),
+            new KeyValuePair(
+              new TemplateLiteral([new StringLiteral("Buster")], null),
+              new NumberLiteral(2)
+            ),
+            new KeyValuePair(
+              new TemplateLiteral([new StringLiteral("Mo")], null),
+              new NumberLiteral(3)
+            )
           ])
         )
       ])
@@ -175,8 +198,8 @@ const fixture = {
           StringType,
           new BinaryExpression(
             "with",
-            new StringLiteral("Ce"),
-            new StringLiteral("Ce")
+            new TemplateLiteral([new StringLiteral("Ce")], null),
+            new TemplateLiteral([new StringLiteral("Ce")], null)
           )
         )
       ])
@@ -190,7 +213,10 @@ const fixture = {
         new VariableDeclaration(
           "sentence",
           StringType,
-          new StringLiteral("![x] is a good girl")
+          new TemplateLiteral(
+            [new StringLiteral(""), new StringLiteral(" is a good girl")],
+            [new VariableExpression("x")]
+          )
         )
       ])
     )
@@ -299,7 +325,10 @@ ifElseIfStatement: [
       new Block([
         new InfiniteLoopStatement(
           new Block([
-            new PrintStatement("woof", new StringLiteral("I run forever\\!"))
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
+            )
           ])
         )
       ])
@@ -311,7 +340,12 @@ ifElseIfStatement: [
       new Block([
         new FixedLoopStatement(
           new NumberLiteral(5),
-          new Block([new PrintStatement("woof", new StringLiteral("Stay"))])
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral([new StringLiteral("Stay")], null)
+            )
+          ])
         )
       ])
     )
