@@ -253,6 +253,53 @@ const fixture = {
     ])
   )
 ]
+  
+  /*forLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+  new Program(
+    new Block([      
+      )
+    ])
+  )
+],*/
+
+/*forEachLoop: [
+  String.raw `chase element through mypack:
+  woof element;
+tail`,
+new Program(
+  New Block([
+
+  ])
+)
+],*/
+
+/*poopLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+new Program(
+  New Block([
+  ])
+)
+],*/
+
+/*walkiesLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+new Program(
+  New Block([
+
+  ])
+)
+],/*
 
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
