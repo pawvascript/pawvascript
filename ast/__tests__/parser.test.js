@@ -241,7 +241,18 @@ const fixture = {
         )
       ])
     )
-  ]
+  ],
+  whileLoop: [
+  String.raw`chase while x isAtMost 5: woof x; tail`,
+  new Program(
+    new Block([
+      new WhileLoopStatement(
+        new NumberLiteral(5),
+        new Block([new PrintStatement("woof", new VariableExpression("x"))])
+      )
+    ])
+  )
+]
 
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
