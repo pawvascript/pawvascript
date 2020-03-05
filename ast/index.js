@@ -156,9 +156,9 @@ class StringLiteral extends Expression {
 }
 
 class TemplateLiteral extends Expression {
-  constructor(members, exps) {
+  constructor(members) {
     super();
-    Object.assign(this, { members, exps });
+    Object.assign(this, { members });
   }
 }
 
