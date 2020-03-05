@@ -316,6 +316,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     // const re = /!\[(.+?)\]/g;
     let membersAST = chars.ast().length === 0 ? null : chars.ast();
     let members = [];
+    let exps = [];
     let toAdd = "";
     membersAST.forEach(checkForInterpolation);
     function checkForInterpolation(item) {
@@ -324,11 +325,11 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       } else {
         members.push(new StringLiteral(toAdd));
         toAdd = "";
-        members.push(item);
+        exps.push(item);
       }
     }
     members.push(new StringLiteral(toAdd));
-    return new TemplateLiteral(members);
+    return new TemplateLiteral(members, exps);
   },
   interpolation(_1, id, _2) {
     // I HAVE NO IDEA WHAT THIS SHOULD RETURN SO I JUST RETURNED ITSELF LMFAO
