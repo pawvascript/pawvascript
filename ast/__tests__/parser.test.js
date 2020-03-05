@@ -253,6 +253,9 @@ ifElseIfStatement: [
 ]
 */
   
+ /* add one line comments
+ add multiline comments */
+  
   infiniteLoop: [
     String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
