@@ -40,7 +40,7 @@ const {
   ListElement,
   KennelLiteral,
   KeyValuePair,
-  //   VariableExpression, // ??? what's this for
+  VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
 } = require("..");
@@ -218,45 +218,45 @@ const fixture = {
       ])
     )
   ],
-  
-  greaterThanLessThanComparators: [
-      String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
-      new Program(
-        new Block([
-          new VariableDeclaration(
-            "testGreater",
-            BoolType,
-            new BinaryExpression("isGreaterThan", "x", "y")
-          ),
-          new VariableDeclaration(
-            "testLess",
-            BoolType,
-            new BinaryExpression("isLessThan", "x", "y")
-          )
-        ])
-      )
-    ], 
 
-    greaterThanLessThanOrEqualToComparators: [
-      String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
-      new Program(
-        new Block([
-          new VariableDeclaration(
-            "testAtLeast",
-            BoolType,
-            new BinaryExpression("isAtLeast", "x", "y")
-          ),
-          new VariableDeclaration(
-            "testAtMost",
-            BoolType,
-            new BinaryExpression("isAtMost", "x", "y")
-          )
-        ])
-      )
-    ], 
-  
- /*logical negation*/
-/*
+  greaterThanLessThanComparators: [
+    String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "testGreater",
+          BoolType,
+          new BinaryExpression("isGreaterThan", "x", "y")
+        ),
+        new VariableDeclaration(
+          "testLess",
+          BoolType,
+          new BinaryExpression("isLessThan", "x", "y")
+        )
+      ])
+    )
+  ],
+
+  greaterThanLessThanOrEqualToComparators: [
+    String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "testAtLeast",
+          BoolType,
+          new BinaryExpression("isAtLeast", "x", "y")
+        ),
+        new VariableDeclaration(
+          "testAtMost",
+          BoolType,
+          new BinaryExpression("isAtMost", "x", "y")
+        )
+      ])
+    )
+  ],
+
+  /*logical negation*/
+  /*
 ifElseStatement : [
   String.raw.`if x isAtLeast y then: 
       leash dogName is "CeCe; 
@@ -289,10 +289,10 @@ ifElseIfStatement: [
   )
 ]
 */
-  
- /* add one line comments
+
+  /* add one line comments
  add multiline comments */
-  
+
   infiniteLoop: [
     String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
@@ -331,43 +331,16 @@ ifElseIfStatement: [
         new VariableDeclaration(
           "a",
           NumType,
-          new BinaryExpression(
-            "+", "x", "y"
-          )
+          new BinaryExpression("+", "x", "y")
         ),
-        new AssignmentStatement(
-          "a", 
-          new BinaryExpression(
-            "-", "x", "y"
-          )
-        ),
-        new AssignmentStatement(
-          "a", 
-          new BinaryExpression(
-            "*", "x", "y"
-          )
-        ),
-        new AssignmentStatement(
-          "a", 
-          new BinaryExpression(
-            "/", "x", "y"
-          )
-        ),
-        new AssignmentStatement(
-          "a", 
-          new BinaryExpression(
-            "%", "x", "y"
-          )
-        ),
-        new AssignmentStatement(
-          "a", 
-          new UnaryExpression(
-            "x", "!"
-          )
-        )
+        new AssignmentStatement("a", new BinaryExpression("-", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("*", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("/", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("mod", "x", "y")),
+        new AssignmentStatement("a", new UnaryExpression("!", "x")),
+        new AssignmentStatement("a", new UnaryExpression("-", "x"))
       ])
     )
-
   ],
   //maybe create separate constructor type?
   //needs constructor and function call for method?
@@ -414,19 +387,19 @@ ifElseIfStatement: [
       ])
     )
   ], */
- whileLoop: [
-  String.raw`chase while x isAtMost 5: woof x; tail`,
-  new Program(
-    new Block([
-      new WhileLoopStatement(
-        new NumberLiteral(5),
-        new Block([new PrintStatement("woof", new VariableExpression("x"))])
-      )
-    ])
-  )
- ]
-  
- /*forLoop: [
+  whileLoop: [
+    String.raw`chase while x isAtMost 5: woof x; tail`,
+    new Program(
+      new Block([
+        new WhileLoopStatement(
+          new NumberLiteral(5),
+          new Block([new PrintStatement("woof", new VariableExpression("x"))])
+        )
+      ])
+    )
+  ]
+
+  /*forLoop: [
   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
   new Program(
     new Block([      
