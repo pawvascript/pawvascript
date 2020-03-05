@@ -4,7 +4,8 @@
   "description": "JavaScript with types, less symbols, and more dogs. That's PawvaScript.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --collect-coverage",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
