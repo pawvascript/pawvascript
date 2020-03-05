@@ -329,10 +329,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       }
     }
     members.push(new StringLiteral(toAdd));
-    return new TemplateLiteral(members, exps);
+    return new TemplateLiteral(
+      members.length === 0 ? null : members,
+      exps.length === 0 ? null : exps
+    );
   },
   interpolation(_1, id, _2) {
-    // I HAVE NO IDEA WHAT THIS SHOULD RETURN SO I JUST RETURNED ITSELF LMFAO
+    // Either return variable expression OR string of variable
     return new VariableExpression(id.ast());
   },
   id(_1, _2) {
