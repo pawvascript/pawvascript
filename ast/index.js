@@ -155,6 +155,13 @@ class StringLiteral extends Expression {
   }
 }
 
+class TemplateLiteral extends Expression {
+  constructor(members, exps) {
+    super();
+    Object.assign(this, { members, exps });
+  }
+}
+
 class PackLiteral extends Expression {
   constructor(elements) {
     super();
@@ -231,6 +238,7 @@ module.exports = {
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
+  TemplateLiteral,
   PackLiteral,
   ListElement,
   KennelLiteral,

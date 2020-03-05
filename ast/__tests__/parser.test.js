@@ -40,7 +40,7 @@ const {
   ListElement,
   KennelLiteral,
   KeyValuePair,
-  //   VariableExpression, // ??? what's this for
+  VariableExpression, // ??? what's this for
   UnaryExpression,
   BinaryExpression
 } = require("..");
@@ -217,26 +217,235 @@ const fixture = {
         )
       ])
     )
-  ]
+  ],
 
-  /*whiles: [
-    String.raw`while false loop x = 3; end;`,
+  greaterThanLessThanComparators: [
+    String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
     new Program(
       new Block([
-        new WhileStatement(
-          new BooleanLiteral(false),
-          new Block([
-            new AssignmentStatement(
-              new VariableExpression("x"),
-              new IntegerLiteral("3")
-            )
-          ])
+        new VariableDeclaration(
+          "testGreater",
+          BoolType,
+          new BinaryExpression("isGreaterThan", "x", "y")
+        ),
+        new VariableDeclaration(
+          "testLess",
+          BoolType,
+          new BinaryExpression("isLessThan", "x", "y")
         )
       ])
     )
   ],
 
-  declarations: [
+  greaterThanLessThanOrEqualToComparators: [
+    String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "testAtLeast",
+          BoolType,
+          new BinaryExpression("isAtLeast", "x", "y")
+        ),
+        new VariableDeclaration(
+          "testAtMost",
+          BoolType,
+          new BinaryExpression("isAtMost", "x", "y")
+        )
+      ])
+    )
+  ],
+
+  /*logical negation*/
+  /*
+ifElseStatement : [
+  String.raw.`if x isAtLeast y then: 
+      leash dogName is "CeCe; 
+  else: 
+      leash dogName is Fluffy; 
+      leash dogAge is 12; tail`,
+  new Program(
+    new Block([
+      new ConditionalStatement(
+      )
+    ])
+  )
+]
+
+ifElseIfStatement: [
+  String.raw`if x notEquals y then:
+        woof "CeCe is kinda cute";
+    else if x isGreaterThan y then:
+        woof "CeCe is pretty cute";
+    else if x isLessThan y then:
+        woof "Okay, CeCe is really cute";
+    else:
+        woof "CeCe is the cutest of the cutest";
+    tail`,
+  New Program(
+    New Block([
+       new ConditionalStatement(
+       )
+    ])
+  )
+]
+*/
+
+  /* add one line comments
+ add multiline comments */
+
+  infiniteLoop: [
+    String.raw`chase: woof "I run forever\!"; tail`,
+    new Program(
+      new Block([
+        new InfiniteLoopStatement(
+          new Block([
+            new PrintStatement("woof", new StringLiteral("I run forever\\!"))
+          ])
+        )
+      ])
+    )
+  ],
+  fixedLoop: [
+    String.raw`chase 5 times: woof "Stay"; tail`,
+    new Program(
+      new Block([
+        new FixedLoopStatement(
+          new NumberLiteral(5),
+          new Block([new PrintStatement("woof", new StringLiteral("Stay"))])
+        )
+      ])
+    )
+  ],
+  //Arithmetic Operators Section
+  // I kept the same format for binary expression but using variable expression is
+  /* new BinaryExpression(
+    "op",
+    new VariableExpression(""),
+    new VariableExpression("")
+  )*/
+  arithmeticOperators: [
+    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
+    a is x mod y; a is x!; a is -x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "a",
+          NumType,
+          new BinaryExpression("+", "x", "y")
+        ),
+        new AssignmentStatement("a", new BinaryExpression("-", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("*", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("/", "x", "y")),
+        new AssignmentStatement("a", new BinaryExpression("mod", "x", "y")),
+        new AssignmentStatement("a", new UnaryExpression("!", "x")),
+        new AssignmentStatement("a", new UnaryExpression("-", "x"))
+      ])
+    )
+  ],
+  //maybe create separate constructor type?
+  //needs constructor and function call for method?
+  /*
+  breedDeclaration: [
+    String.raw`
+    breed Owner is:
+      leash dogName;
+      trick Owner chews[leash:dogName] fetches Owner;
+      trick introduceDog:
+        woof "My dog's name is " with Owner's dogName;
+      tail
+      trick command fetches leash:
+        give Owner's dogName with ", stay.";
+      tail
+    tail
+    
+    Owner lucille is Owner("Cece");
+    (lucille's introduceDog)();  !!! output: "My dog's name is Cece" !!! 
+    woof lucille's command(); !!! output: "Cece, stay." !!!`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          "Owner",
+          new Block([
+            new VariableDeclaration(
+              "dogName",
+              StringType,
+              null
+            ),
+            new FunctionDeclaration(
+              "Owner",
+              new VariableDeclaration(
+                "dogName",
+                StringType,
+                new StringLiteral("")
+              )
+            ),
+
+          ])
+          
+        )
+
+      ])
+    )
+  ], */
+  whileLoop: [
+    String.raw`chase while x isAtMost 5: woof x; tail`,
+    new Program(
+      new Block([
+        new WhileLoopStatement(
+          new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
+          new Block([new PrintStatement("woof", new VariableExpression("x"))])
+        )
+      ])
+    )
+  ]
+
+  /*forLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+  new Program(
+    new Block([      
+      )
+    ])
+  )
+],
+
+ forEachLoop: [
+  String.raw `chase element through mypack:
+  woof element;
+tail`,
+new Program(
+  New Block([
+
+  ])
+)
+],
+
+ poopLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+ new Program(
+  New Block([
+  ])
+ )
+],
+
+walkiesLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+new Program(
+  New Block([
+  ])
+ )
+],/*
+
+  /*declarations: [
     String.raw`var x: int; var y: bool;`,
     new Program(
       new Block([
