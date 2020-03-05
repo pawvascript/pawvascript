@@ -370,6 +370,8 @@ ifElseIfStatement: [
 
   ],
   //maybe create separate constructor type?
+  //needs constructor and function call for method?
+  /*
   breedDeclaration: [
     String.raw`
     breed Owner is:
@@ -391,6 +393,11 @@ ifElseIfStatement: [
         new TypeDeclaration(
           "Owner",
           new Block([
+            new VariableDeclaration(
+              "dogName",
+              StringType,
+              null
+            ),
             new FunctionDeclaration(
               "Owner",
               new VariableDeclaration(
@@ -398,14 +405,15 @@ ifElseIfStatement: [
                 StringType,
                 new StringLiteral("")
               )
-            )
+            ),
+
           ])
           
         )
 
       ])
     )
-  ],
+  ], */
  whileLoop: [
   String.raw`chase while x isAtMost 5: woof x; tail`,
   new Program(
