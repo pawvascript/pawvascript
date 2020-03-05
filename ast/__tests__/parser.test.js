@@ -392,7 +392,7 @@ ifElseIfStatement: [
     new Program(
       new Block([
         new WhileLoopStatement(
-          new NumberLiteral(5),
+          new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
           new Block([new PrintStatement("woof", new VariableExpression("x"))])
         )
       ])
