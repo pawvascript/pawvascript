@@ -337,7 +337,7 @@ PAWVASCRIPT                                                         JAVASCRIPT
 breed Owner is:                                                     class Owner {
     leash dogName;                                                      constructor(dogName) {
                                                                             this.dogName = dogName;
-    trick Owner chases[leash:dogName] fetches breed;                    }
+    trick Owner chases[leash:dogName] fetches Owner;                    }
 
     trick introduceDog:                                                 introduceDog() {
         woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);

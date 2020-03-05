@@ -218,7 +218,81 @@ const fixture = {
       ])
     )
   ],
+  
+  greaterThanLessThanComparators: [
+      String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            "testGreater",
+            BoolType,
+            new BinaryExpression("isGreaterThan", "x", "y")
+          ),
+          new VariableDeclaration(
+            "testLess",
+            BoolType,
+            new BinaryExpression("isLessThan", "x", "y")
+          )
+        ])
+      )
+    ], 
 
+    greaterThanLessThanOrEqualToComparators: [
+      String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            "testAtLeast",
+            BoolType,
+            new BinaryExpression("isAtLeast", "x", "y")
+          ),
+          new VariableDeclaration(
+            "testAtMost",
+            BoolType,
+            new BinaryExpression("isAtMost", "x", "y")
+          )
+        ])
+      )
+    ], 
+  
+ /*logical negation*/
+/*
+ifElseStatement : [
+  String.raw.`if x isAtLeast y then: 
+      leash dogName is "CeCe; 
+  else: 
+      leash dogName is Fluffy; 
+      leash dogAge is 12; tail`,
+  new Program(
+    new Block([
+      new ConditionalStatement(
+      )
+    ])
+  )
+]
+
+ifElseIfStatement: [
+  String.raw`if x notEquals y then:
+        woof "CeCe is kinda cute";
+    else if x isGreaterThan y then:
+        woof "CeCe is pretty cute";
+    else if x isLessThan y then:
+        woof "Okay, CeCe is really cute";
+    else:
+        woof "CeCe is the cutest of the cutest";
+    tail`,
+  New Program(
+    New Block([
+       new ConditionalStatement(
+       )
+    ])
+  )
+]
+*/
+  
+ /* add one line comments
+ add multiline comments */
+  
   infiniteLoop: [
     String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
@@ -331,7 +405,64 @@ const fixture = {
 
       ])
     )
-  ]
+  ],
+ whileLoop: [
+  String.raw`chase while x isAtMost 5: woof x; tail`,
+  new Program(
+    new Block([
+      new WhileLoopStatement(
+        new NumberLiteral(5),
+        new Block([new PrintStatement("woof", new VariableExpression("x"))])
+      )
+    ])
+  )
+ ]
+  
+ /*forLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+  new Program(
+    new Block([      
+      )
+    ])
+  )
+],
+
+ forEachLoop: [
+  String.raw `chase element through mypack:
+  woof element;
+tail`,
+new Program(
+  New Block([
+
+  ])
+)
+],
+
+ poopLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+ new Program(
+  New Block([
+  ])
+ )
+],
+
+walkiesLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+new Program(
+  New Block([
+  ])
+ )
+],/*
 
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
