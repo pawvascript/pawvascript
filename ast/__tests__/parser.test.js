@@ -219,6 +219,43 @@ const fixture = {
     )
   ],
   
+  greaterThanLessThanComparators: [
+      String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            "testGreater",
+            BoolType,
+            new BinaryExpression("isGreaterThan", "x", "y")
+          ),
+          new VariableDeclaration(
+            "testLess",
+            BoolType,
+            new BinaryExpression("isLessThan", "x", "y")
+          )
+        ])
+      )
+    ], 
+
+    greaterThanLessThanOrEqualToComparators: [
+      String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            "testAtLeast",
+            BoolType,
+            new BinaryExpression("isAtLeast", "x", "y")
+          ),
+          new VariableDeclaration(
+            "testAtMost",
+            BoolType,
+            new BinaryExpression("isAtMost", "x", "y")
+          )
+        ])
+      )
+    ], 
+  
+ /*logical negation*/
 /*
 ifElseStatement : [
   String.raw.`if x isAtLeast y then: 
