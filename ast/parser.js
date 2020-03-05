@@ -335,7 +335,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   interpolation(_1, id, _2) {
-    // I HAVE NO IDEA WHAT THIS SHOULD RETURN SO I JUST RETURNED ITSELF LMFAO
+    // Either return variable expression OR string of variable
     return new VariableExpression(id.ast());
   },
   id(_1, _2) {
