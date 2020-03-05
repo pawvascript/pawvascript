@@ -33,6 +33,7 @@ const {
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
+  TemplateLiteral,
   PackLiteral,
   ListElement,
   KennelLiteral,
@@ -311,11 +312,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   strlit(_1, chars, _2) {
     // ??????? not sure if right
-    return new StringLiteral(chars.ast().join(""));
+    //console.log(chars.ast());
+    // const re = /!\[(.+?)\]/g;
+    //return new TemplateLiteral();
   },
   interpolation(_1, id, _2) {
     // I HAVE NO IDEA WHAT THIS SHOULD RETURN SO I JUST RETURNED ITSELF LMFAO
-    return `${_1.ast()}${id.ast()}${_2.ast()}`;
+    return new VariableExpression(id.ast());
   },
   id(_1, _2) {
     return this.sourceString;
