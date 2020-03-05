@@ -58,7 +58,7 @@ const readmeExamples = [
   ["uninitialized variable declarations", "toeBeans cuteness;", "Declaration"],
   ["assigning uninitialized variables", "cuteness is 100;", "Assignment"],
   ["equality comparators", "x equals y", "RelopExp"],
-  ["inequaltiy comparators", "x notEquals y", "RelopExp"],
+  ["inequality comparators", "x notEquals y", "RelopExp"],
   ["greater than comparators", "x isGreaterThan y", "RelopExp"],
   ["less than comparators", "x isLessThan y", "RelopExp"],
   ["greater than or equal to comparators", "x isAtLeast y", "RelopExp"],

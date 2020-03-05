@@ -241,6 +241,96 @@ const fixture = {
         )
       ])
     )
+  ],
+  //Arithmetic Operators Section
+  // I kept the same format for binary expression but using variable expression is
+  /* new BinaryExpression(
+    "op",
+    new VariableExpression(""),
+    new VariableExpression("")
+  )*/
+  arithmeticOperators: [
+    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
+    a is x mod y; a is x!; a is -x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          "a",
+          NumType,
+          new BinaryExpression(
+            "+", "x", "y"
+          )
+        ),
+        new AssignmentStatement(
+          "a", 
+          new BinaryExpression(
+            "-", "x", "y"
+          )
+        ),
+        new AssignmentStatement(
+          "a", 
+          new BinaryExpression(
+            "*", "x", "y"
+          )
+        ),
+        new AssignmentStatement(
+          "a", 
+          new BinaryExpression(
+            "/", "x", "y"
+          )
+        ),
+        new AssignmentStatement(
+          "a", 
+          new BinaryExpression(
+            "%", "x", "y"
+          )
+        ),
+        new AssignmentStatement(
+          "a", 
+          new UnaryExpression(
+            "x", "!"
+          )
+        )
+      ])
+    )
+
+  ],
+  //maybe create separate constructor type?
+  breedDeclaration: [
+    String.raw`
+    breed Owner is:
+      leash dogName;
+      trick Owner chews[leash:dogName] fetches Owner;
+      trick introduceDog:
+        woof "My dog's name is " with Owner's dogName;
+      tail
+      trick command fetches leash:
+        give Owner's dogName with ", stay.";
+      tail
+    tail
+    
+    Owner lucille is Owner("Cece");
+    (lucille's introduceDog)();  !!! output: "My dog's name is Cece" !!! 
+    woof lucille's command(); !!! output: "Cece, stay." !!!`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          "Owner",
+          new Block([
+            new FunctionDeclaration(
+              "Owner",
+              new VariableDeclaration(
+                "dogName",
+                StringType,
+                new StringLiteral("")
+              )
+            )
+          ])
+          
+        )
+
+      ])
+    )
   ]
 
   /*declarations: [
