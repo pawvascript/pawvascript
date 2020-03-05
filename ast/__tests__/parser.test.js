@@ -218,7 +218,41 @@ const fixture = {
       ])
     )
   ],
+  
+/*
+ifElseStatement : [
+  String.raw.`if x isAtLeast y then: 
+      leash dogName is "CeCe; 
+  else: 
+      leash dogName is Fluffy; 
+      leash dogAge is 12; tail`,
+  new Program(
+    new Block([
+      new ConditionalStatement(
+      )
+    ])
+  )
+]
 
+ifElseIfStatement: [
+  String.raw`if x notEquals y then:
+        woof "CeCe is kinda cute";
+    else if x isGreaterThan y then:
+        woof "CeCe is pretty cute";
+    else if x isLessThan y then:
+        woof "Okay, CeCe is really cute";
+    else:
+        woof "CeCe is the cutest of the cutest";
+    tail`,
+  New Program(
+    New Block([
+       new ConditionalStatement(
+       )
+    ])
+  )
+]
+*/
+  
   infiniteLoop: [
     String.raw`chase: woof "I run forever\!"; tail`,
     new Program(
