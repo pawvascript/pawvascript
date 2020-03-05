@@ -279,7 +279,7 @@ ifElseIfStatement: [
       ])
     )
   ],
-  whileLoop: [
+ whileLoop: [
   String.raw`chase while x isAtMost 5: woof x; tail`,
   new Program(
     new Block([
@@ -289,18 +289,18 @@ ifElseIfStatement: [
       )
     ])
   )
-]
+ ]
   
-  /*forLoop: [
+ /*forLoop: [
   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
   new Program(
     new Block([      
       )
     ])
   )
-],*/
+],
 
-/*forEachLoop: [
+ forEachLoop: [
   String.raw `chase element through mypack:
   woof element;
 tail`,
@@ -309,9 +309,22 @@ new Program(
 
   ])
 )
-],*/
+],
 
-/*poopLoop: [
+ poopLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  if i mod 2 equals 0 then:
+      walkies;
+  tail
+  woof i;
+tail`,
+ new Program(
+  New Block([
+  ])
+ )
+],
+
+walkiesLoop: [
   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
   if i mod 2 equals 0 then:
       walkies;
@@ -321,21 +334,7 @@ tail`,
 new Program(
   New Block([
   ])
-)
-],*/
-
-/*walkiesLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  if i mod 2 equals 0 then:
-      walkies;
-  tail
-  woof i;
-tail`,
-new Program(
-  New Block([
-
-  ])
-)
+ )
 ],/*
 
   /*declarations: [
