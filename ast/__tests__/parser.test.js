@@ -466,21 +466,22 @@ ifElseIfStatement: [
       ])
     )
   ],
-/*
+
  forEachLoop: [
-String.raw `chase element through mypack:
+  String.raw `chase element through mypack:
         woof element;
     tail`,
   new Program(
     new Block([
       new ThroughLoopStatement(
-          new VariableDeclaration
-///chase id through Exp ":" Block tail
+        new VariableExpression("element"),
+        new VariableExpression("mypack"),
+        new Block([new PrintStatement("woof", new VariableExpression("element"))])
       )
     ])
   )
 ],
-
+/*
 poopLoop: [
 String.raw`
      chase:
