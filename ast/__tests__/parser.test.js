@@ -471,29 +471,57 @@ String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
 ],
 
  forEachLoop: [
-  String.raw `chase element through mypack: woof element; tail`,
-    new Program(
-      New Block([
+String.raw `chase element through mypack:
+        woof element;
+    tail`,
+  new Program(
+    new Block([
+      new ThroughLoopStatement(
+          new VariableDeclaration
+///chase id through Exp ":" Block tail
+      )
+    ])
+  )
+],
 
-      ])
-    )
-  ],
-
- poopLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: if i mod 2 equals 0 then: walkies; tail woof i; tail`,
-    new Program(
-      New Block([
-      ])
-    )
-  ],
+poopLoop: [
+String.raw`
+     chase:
+        woof "I run forever\\!";
+        poop;
+    tail`,
+  new Program(
+    new Block([
+      new ForLoopStatement(
+        new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+       ////by i*2 ???
+           new WhileLoopStatement(
+             new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+           )
+      )
+    ])
+  )
+],
 
 walkiesLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: if i mod 2 equals 0 then: walkies; tail woof i; tail`,
-    new Program(
-      New Block([
-      ])
-    )
- ],
+String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+        if i mod 2 equals 0 then:
+            walkies;
+        tail
+        woof i;
+    tail`,
+  new Program(
+    new Block([
+      new ForLoopStatement(
+        new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+       ////by i*2 ???
+           new WhileLoopStatement(
+             new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+           )
+      )
+    ])
+  )
+],
 
 
 ///declarations
