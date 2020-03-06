@@ -296,7 +296,49 @@ const fixture = {
     )
   ],
 
-  /*logical negation*/
+  logicalNegation: [
+    String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            new VariableExpression("testNegation1"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("x"), new UnaryExpression("n", new VariableExpression("y")))
+          ),
+          new VariableDeclaration(
+            new VariableExpression("testNegation2"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("y"), new UnaryExpression("n", new VariableExpression("x"))) 
+            )
+        ])
+      )
+   ],
+   //Arithmetic Operators Section
+  // I kept the same format for binary expression but using variable expression is
+  /* new BinaryExpression(
+    "op",
+    new VariableExpression(""),
+    new VariableExpression("")
+  )*/
+  arithmeticOperators: [
+    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
+    a is x mod y; a is x!; a is -x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("a"),
+          NumType,
+          new BinaryExpression("+", new VariableExpression("x"), new VariableExpression("y"))
+        ),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("-", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("*", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("/", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("mod", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("!", new VariableExpression("x"))),
+        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("-", new VariableExpression("x")))
+      ])
+    )
+  ],
   ifStatement: [
     String.raw`if x then: x is y; tail`,
     new Program(
@@ -356,6 +398,26 @@ ifElseIfStatement: [
   /* add one line comments
  add multiline comments */
 
+ /*If Else and If Else If ? */
+  oneLineComment: [
+    String.raw`!!! I'm a one line comment !!!`,
+      new Program(
+        new Block([
+          new PrintStatement("!!! I'm a one line comment !!!")
+        ])
+      )
+  ],    
+  multiLineComment: [
+    String.raw`!!! I'm a \n multiline \n comment !!!`,
+      new Program(
+        new Block([
+          new PrintStatement("!!! I'm a \n multiline \n comment !!!")
+        ])
+      )
+  ],
+  
+  ////loops 
+  
   infiniteLoop: [
     String.raw`chase: woof "I run forever"; tail`,
     new Program(
@@ -386,33 +448,57 @@ ifElseIfStatement: [
         )
       ])
     )
-  ],
-  //Arithmetic Operators Section
-  // I kept the same format for binary expression but using variable expression is
-  /* new BinaryExpression(
-    "op",
-    new VariableExpression(""),
-    new VariableExpression("")
-  )*/
-  arithmeticOperators: [
-    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
-    a is x mod y; a is x!; a is -x;`,
+  ]
+  /*
+  whileLoop: [
+    String.raw`chase while x isAtMost 5: woof x; tail`,
+     new Program(
+       new Block([
+        new WhileLoopStatement(
+           new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
+           new Block([new PrintStatement("woof", new VariableExpression("x"))])
+         )
+       ])
+     )
+   ]
+
+ forLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
     new Program(
-      new Block([
-        new VariableDeclaration(
-          new VariableExpression("a"),
-          NumType,
-          new BinaryExpression("+", new VariableExpression("x"), new VariableExpression("y"))
-        ),
-        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("-", new VariableExpression("x"), new VariableExpression("y"))),
-        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("*", new VariableExpression("x"), new VariableExpression("y"))),
-        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("/", new VariableExpression("x"), new VariableExpression("y"))),
-        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("mod", new VariableExpression("x"), new VariableExpression("y"))),
-        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("!", new VariableExpression("x"))),
-        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("-", new VariableExpression("x")))
+     new Block([      
+        )
       ])
     )
   ],
+
+ forEachLoop: [
+  String.raw `chase element through mypack: woof element; tail`,
+    new Program(
+      New Block([
+
+      ])
+    )
+  ],
+
+ poopLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: if i mod 2 equals 0 then: walkies; tail woof i; tail`,
+    new Program(
+      New Block([
+      ])
+    )
+  ],
+
+walkiesLoop: [
+  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: if i mod 2 equals 0 then: walkies; tail woof i; tail`,
+    new Program(
+      New Block([
+      ])
+    )
+ ],
+
+
+///declarations
+
   //maybe create separate constructor type?
   //needs constructor and function call for method?
   /*
@@ -457,65 +543,7 @@ ifElseIfStatement: [
 
       ])
     )
-  ], */
-  // whileLoop: [
-  //   String.raw`chase while x isAtMost 5: woof x; tail`,
-  //   new Program(
-  //     new Block([
-  //       new WhileLoopStatement(
-  //         new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
-  //         new Block([new PrintStatement("woof", new VariableExpression("x"))])
-  //       )
-  //     ])
-  //   )
-  // ]
-
-  /*forLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
-  new Program(
-    new Block([      
-      )
-    ])
-  )
-],
-
- forEachLoop: [
-  String.raw `chase element through mypack:
-  woof element;
-tail`,
-new Program(
-  New Block([
-
-  ])
-)
-],
-
- poopLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  if i mod 2 equals 0 then:
-      walkies;
-  tail
-  woof i;
-tail`,
- new Program(
-  New Block([
-  ])
- )
-],
-
-walkiesLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  if i mod 2 equals 0 then:
-      walkies;
-  tail
-  woof i;
-tail`,
-new Program(
-  New Block([
-  ])
- )
-],/*
-
+  ], 
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
     new Program(

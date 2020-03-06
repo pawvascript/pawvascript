@@ -38,7 +38,7 @@ const {
   ListElement,
   KennelLiteral,
   KeyValuePair,
-  VariableExpression, // ??? what's this for
+  VariableExpression,
   UnaryExpression,
   BinaryExpression
 } = require(".");
