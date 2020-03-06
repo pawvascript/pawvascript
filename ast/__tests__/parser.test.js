@@ -205,7 +205,7 @@ const fixture = {
       ])
     )
   ],
-  leashInterpolation: [
+  stringInterpolation: [
     // TODO HELP
     String.raw`leash sentence is "![x] is a good girl";`,
     new Program(
@@ -214,8 +214,23 @@ const fixture = {
           new VariableExpression("sentence"),
           StringType,
           new TemplateLiteral(
-            [new StringLiteral(""), new StringLiteral(" is a good girl")],
+            [new StringLiteral(" is a good girl")],
             [new VariableExpression("x")]
+          )
+        )
+      ])
+    )
+  ],
+  stringInterpolationInMiddleOfString: [
+    String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("phrase"),
+          StringType,
+          new TemplateLiteral(
+            [new StringLiteral("Come back here, "), new StringLiteral(". Good girl.")],
+            [new VariableExpression("name")]
           )
         )
       ])
@@ -335,14 +350,14 @@ ifElseIfStatement: [
  add multiline comments */
 
   infiniteLoop: [
-    String.raw`chase: woof "I run forever\!"; tail`,
+    String.raw`chase: woof "I run forever"; tail`,
     new Program(
       new Block([
         new InfiniteLoopStatement(
           new Block([
             new PrintStatement(
               "woof",
-              new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
+              new TemplateLiteral([new StringLiteral("I run forever")], null)
             )
           ])
         )

@@ -78,7 +78,7 @@ PawvaScript {
     booleanlit      = good | bad
     numlit          = digit+ ("." digit+)?
     strlit          = "\"" (escape | interpolation | charseries | "'")* "\""
-    charseries      = ~"\\" ~"\"" ~"'" ~"\n" ~"!" any
+    charseries      = (~"\\" ~"\"" ~"'" ~"\n" ~"!" any)+
     interpolation   = "![" id "]"
     escape          = "\\\\" | "\\\"" | "\\'" | "\\n" | "\\!"
     logop           = "&" | "|"
