@@ -402,17 +402,13 @@ ifElseIfStatement: [
   oneLineComment: [
     String.raw`!!! I'm a one line comment !!!`,
       new Program(
-        new Block([
-          new PrintStatement("!!! I'm a one line comment !!!")
-        ])
+        new Block([])
       )
   ],    
   multiLineComment: [
     String.raw`!!! I'm a \n multiline \n comment !!!`,
       new Program(
-        new Block([
-          new PrintStatement("!!! I'm a \n multiline \n comment !!!")
-        ])
+        new Block([])
       )
   ],
   
