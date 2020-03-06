@@ -50,20 +50,20 @@ const fixture = {
   uninitializedVariableDeclaration: [
     String.raw`leash dogName;`,
     new Program(
-      new Block([new VariableDeclaration("dogName", StringType, null)])
+      new Block([new VariableDeclaration(new VariableExpression("dogName"), StringType, null)])
     )
   ],
   variableDeclarationInitializedToNull: [
     String.raw`leash dogName is cat;`,
     new Program(
-      new Block([new VariableDeclaration("dogName", StringType, null)])
+      new Block([new VariableDeclaration(new VariableExpression("dogName"), StringType, null)])
     )
   ],
   numberVariableDeclaration: [
     String.raw`toeBeans CeCeAge is 1;`,
     new Program(
       new Block([
-        new VariableDeclaration("CeCeAge", NumType, new NumberLiteral(1))
+        new VariableDeclaration(new VariableExpression("CeCeAge"), NumType, new NumberLiteral(1))
       ])
     )
   ],
@@ -72,7 +72,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "name",
+          new VariableExpression("name"),
           StringType,
           new TemplateLiteral([new StringLiteral("CeCe")], null)
         )
@@ -84,7 +84,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new ListType(new Grouping(null, StringType)),
           new PackLiteral([])
         )
@@ -96,7 +96,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new DictType(new Grouping(StringType, NumType)),
           new KennelLiteral([], [])
         )
@@ -108,7 +108,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new ListType(new Grouping(null, StringType)),
           new PackLiteral([
             new ListElement(
@@ -133,12 +133,12 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new ListType(new Grouping(null, new Type("Dog"))),
           new PackLiteral([
-            new ListElement(false, "dog1"),
-            new ListElement(false, "dog2"),
-            new ListElement(true, "otherDogs")
+            new ListElement(false, new VariableExpression("dog1")),
+            new ListElement(false, new VariableExpression("dog2")),
+            new ListElement(true, new VariableExpression("otherDogs"))
           ])
         )
       ])
@@ -149,16 +149,16 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new ListType(new Grouping(null, new Type("Dog"))),
           new BinaryExpression(
             "without",
             new PackLiteral([
-              new ListElement(false, "dog1"),
-              new ListElement(false, "dog2"),
-              new ListElement(false, "dog3")
+              new ListElement(false, new VariableExpression("dog1")),
+              new ListElement(false, new VariableExpression("dog2")),
+              new ListElement(false, new VariableExpression("dog3"))
             ]),
-            "dog1"
+            new VariableExpression("dog1")
           )
         )
       ])
@@ -169,7 +169,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogs",
+          new VariableExpression("dogs"),
           new DictType(new Grouping(StringType, NumType)),
           new KennelLiteral([
             new KeyValuePair(
@@ -194,7 +194,7 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "dogName",
+          new VariableExpression("dogName"),
           StringType,
           new BinaryExpression(
             "with",
@@ -205,17 +205,32 @@ const fixture = {
       ])
     )
   ],
-  leashInterpolation: [
+  stringInterpolation: [
     // TODO HELP
     String.raw`leash sentence is "![x] is a good girl";`,
     new Program(
       new Block([
         new VariableDeclaration(
-          "sentence",
+          new VariableExpression("sentence"),
           StringType,
           new TemplateLiteral(
-            [new StringLiteral(""), new StringLiteral(" is a good girl")],
+            [new StringLiteral(" is a good girl")],
             [new VariableExpression("x")]
+          )
+        )
+      ])
+    )
+  ],
+  stringInterpolationInMiddleOfString: [
+    String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("phrase"),
+          StringType,
+          new TemplateLiteral(
+            [new StringLiteral("Come back here, "), new StringLiteral(". Good girl.")],
+            [new VariableExpression("name")]
           )
         )
       ])
@@ -224,7 +239,7 @@ const fixture = {
   variableAssignment: [
     String.raw`cuteness is 100;`,
     new Program(
-      new Block([new AssignmentStatement("cuteness", new NumberLiteral(100))])
+      new Block([new AssignmentStatement(new VariableExpression("cuteness"), new NumberLiteral(100))])
     )
   ],
   equalityOperators: [
@@ -232,14 +247,14 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "testBool1",
+          new VariableExpression("testBool1"),
           BoolType,
-          new BinaryExpression("equals", "x", "y")
+          new BinaryExpression("equals", new VariableExpression("x"), new VariableExpression("y"))
         ),
         new VariableDeclaration(
-          "testBool2",
+          new VariableExpression("testBool2"),
           BoolType,
-          new BinaryExpression("notEquals", "x", "y")
+          new BinaryExpression("notEquals", new VariableExpression("x"), new VariableExpression("y"))
         )
       ])
     )
@@ -250,14 +265,14 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "testGreater",
+          new VariableExpression("testGreater"),
           BoolType,
-          new BinaryExpression("isGreaterThan", "x", "y")
+          new BinaryExpression("isGreaterThan", new VariableExpression("x"), new VariableExpression("y"))
         ),
         new VariableDeclaration(
-          "testLess",
+          new VariableExpression("testLess"),
           BoolType,
-          new BinaryExpression("isLessThan", "x", "y")
+          new BinaryExpression("isLessThan", new VariableExpression("x"), new VariableExpression("y"))
         )
       ])
     )
@@ -268,35 +283,99 @@ const fixture = {
     new Program(
       new Block([
         new VariableDeclaration(
-          "testAtLeast",
+          new VariableExpression("testAtLeast"),
           BoolType,
-          new BinaryExpression("isAtLeast", "x", "y")
+          new BinaryExpression("isAtLeast", new VariableExpression("x"), new VariableExpression("y"))
         ),
         new VariableDeclaration(
-          "testAtMost",
+          new VariableExpression("testAtMost"),
           BoolType,
-          new BinaryExpression("isAtMost", "x", "y")
+          new BinaryExpression("isAtMost", new VariableExpression("x"), new VariableExpression("y"))
         )
       ])
     )
   ],
 
-  /*logical negation*/
-  /*
-ifElseStatement : [
-  String.raw.`if x isAtLeast y then: 
-      leash dogName is "CeCe; 
-  else: 
-      leash dogName is Fluffy; 
-      leash dogAge is 12; tail`,
-  new Program(
-    new Block([
-      new ConditionalStatement(
+  logicalNegation: [
+    String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            new VariableExpression("testNegation1"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("x"), new UnaryExpression("n", new VariableExpression("y")))
+          ),
+          new VariableDeclaration(
+            new VariableExpression("testNegation2"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("y"), new UnaryExpression("n", new VariableExpression("x"))) 
+            )
+        ])
       )
-    ])
-  )
-]
-
+   ],
+   //Arithmetic Operators Section
+  // I kept the same format for binary expression but using variable expression is
+  /* new BinaryExpression(
+    "op",
+    new VariableExpression(""),
+    new VariableExpression("")
+  )*/
+  arithmeticOperators: [
+    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
+    a is x mod y; a is x!; a is -x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("a"),
+          NumType,
+          new BinaryExpression("+", new VariableExpression("x"), new VariableExpression("y"))
+        ),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("-", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("*", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("/", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new BinaryExpression("mod", new VariableExpression("x"), new VariableExpression("y"))),
+        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("!", new VariableExpression("x"))),
+        new AssignmentStatement(new VariableExpression("a"), new UnaryExpression("-", new VariableExpression("x")))
+      ])
+    )
+  ],
+  ifStatement: [
+    String.raw`if x then: x is y; tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new VariableExpression("x"),
+          new Block([
+            new AssignmentStatement(new VariableExpression("x"), new VariableExpression("y"))
+          ]),
+          []
+        )
+      ])
+    )
+  ],
+  ifElseStatement: [
+    String.raw`if x isAtLeast y then: 
+        leash dogName is "CeCe"; 
+    else: 
+        leash dogName is "Fluffy"; 
+        toeBeans dogAge is 12; 
+    tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new BinaryExpression("isAtLeast", new VariableExpression("x"), new VariableExpression("y")),
+          new Block([
+            new VariableDeclaration(new VariableExpression("dogName"), StringType, new TemplateLiteral([new StringLiteral("CeCe")], null))
+          ]),
+          [new Block([
+            new VariableDeclaration(new VariableExpression("dogName"), StringType, new TemplateLiteral([new StringLiteral("Fluffy")], null)),
+            new VariableDeclaration(new VariableExpression("dogAge"), NumType, new NumberLiteral(12))
+          ])]
+        )
+      ])
+    )
+  ],
+/*
 ifElseIfStatement: [
   String.raw`if x notEquals y then:
         woof "CeCe is kinda cute";
@@ -315,19 +394,30 @@ ifElseIfStatement: [
   )
 ]
 */
-
-  /* add one line comments
- add multiline comments */
-
+  oneLineComment: [
+    String.raw`!!! I'm a one line comment !!!`,
+      new Program(
+        new Block([])
+      )
+  ],    
+  multiLineComment: [
+    String.raw`!!! I'm a \n multiline \n comment !!!`,
+      new Program(
+        new Block([])
+      )
+  ],
+  
+  ////loops 
+  
   infiniteLoop: [
-    String.raw`chase: woof "I run forever\!"; tail`,
+    String.raw`chase: woof "I run forever"; tail`,
     new Program(
       new Block([
         new InfiniteLoopStatement(
           new Block([
             new PrintStatement(
               "woof",
-              new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
+              new TemplateLiteral([new StringLiteral("I run forever")], null)
             )
           ])
         )
@@ -349,33 +439,93 @@ ifElseIfStatement: [
         )
       ])
     )
-  ],
-  //Arithmetic Operators Section
-  // I kept the same format for binary expression but using variable expression is
-  /* new BinaryExpression(
-    "op",
-    new VariableExpression(""),
-    new VariableExpression("")
-  )*/
-  arithmeticOperators: [
-    String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
-    a is x mod y; a is x!; a is -x;`,
-    new Program(
-      new Block([
-        new VariableDeclaration(
-          "a",
-          NumType,
-          new BinaryExpression("+", "x", "y")
-        ),
-        new AssignmentStatement("a", new BinaryExpression("-", "x", "y")),
-        new AssignmentStatement("a", new BinaryExpression("*", "x", "y")),
-        new AssignmentStatement("a", new BinaryExpression("/", "x", "y")),
-        new AssignmentStatement("a", new BinaryExpression("mod", "x", "y")),
-        new AssignmentStatement("a", new UnaryExpression("!", "x")),
-        new AssignmentStatement("a", new UnaryExpression("-", "x"))
-      ])
-    )
-  ],
+  ]
+  /*
+  whileLoop: [
+    String.raw`chase while x isAtMost 5: woof x; tail`,
+     new Program(
+       new Block([
+        new WhileLoopStatement(
+           new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
+           new Block([new PrintStatement("woof", new VariableExpression("x"))])
+         )
+       ])
+     )
+   ]
+
+forLoop: [
+String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+  new Program(
+   new Block([      
+     new ForLoopStatement(
+         new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+        ////by i*2 ???
+            new WhileLoopStatement(
+              new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+              new Block([new PrintStatement("woof i")])
+            )
+         
+       )
+   ])
+  )
+],
+
+ forEachLoop: [
+String.raw `chase element through mypack:
+        woof element;
+    tail`,
+  new Program(
+    new Block([
+      new ThroughLoopStatement(
+          new VariableDeclaration
+///chase id through Exp ":" Block tail
+      )
+    ])
+  )
+],
+
+poopLoop: [
+String.raw`
+     chase:
+        woof "I run forever\\!";
+        poop;
+    tail`,
+  new Program(
+    new Block([
+      new ForLoopStatement(
+        new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+       ////by i*2 ???
+           new WhileLoopStatement(
+             new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+           )
+      )
+    ])
+  )
+],
+
+walkiesLoop: [
+String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+        if i mod 2 equals 0 then:
+            walkies;
+        tail
+        woof i;
+    tail`,
+  new Program(
+    new Block([
+      new ForLoopStatement(
+        new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+       ////by i*2 ???
+           new WhileLoopStatement(
+             new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+           )
+      )
+    ])
+  )
+],
+
+
+///declarations
+
   //maybe create separate constructor type?
   //needs constructor and function call for method?
   /*
@@ -420,65 +570,7 @@ ifElseIfStatement: [
 
       ])
     )
-  ], */
-  whileLoop: [
-    String.raw`chase while x isAtMost 5: woof x; tail`,
-    new Program(
-      new Block([
-        new WhileLoopStatement(
-          new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
-          new Block([new PrintStatement("woof", new VariableExpression("x"))])
-        )
-      ])
-    )
-  ]
-
-  /*forLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
-  new Program(
-    new Block([      
-      )
-    ])
-  )
-],
-
- forEachLoop: [
-  String.raw `chase element through mypack:
-  woof element;
-tail`,
-new Program(
-  New Block([
-
-  ])
-)
-],
-
- poopLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  if i mod 2 equals 0 then:
-      walkies;
-  tail
-  woof i;
-tail`,
- new Program(
-  New Block([
-  ])
- )
-],
-
-walkiesLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  if i mod 2 equals 0 then:
-      walkies;
-  tail
-  woof i;
-tail`,
-new Program(
-  New Block([
-  ])
- )
-],/*
-
+  ], 
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
     new Program(

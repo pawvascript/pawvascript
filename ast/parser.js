@@ -38,7 +38,7 @@ const {
   ListElement,
   KennelLiteral,
   KeyValuePair,
-  VariableExpression, // ??? what's this for
+  VariableExpression,
   UnaryExpression,
   BinaryExpression
 } = require(".");
@@ -315,20 +315,17 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     //console.log(chars.ast());
     // const re = /!\[(.+?)\]/g;
     let membersAST = chars.ast().length === 0 ? null : chars.ast();
+    // console.log(membersAST);
     let members = [];
     let exps = [];
-    let toAdd = "";
     membersAST.forEach(checkForInterpolation);
     function checkForInterpolation(item) {
-      if (typeof item === "string") {
-        toAdd = toAdd + item;
+      if (Array.isArray(item)) {
+        members.push(new StringLiteral(item.join("")));
       } else {
-        members.push(new StringLiteral(toAdd));
-        toAdd = "";
         exps.push(item);
       }
     }
-    members.push(new StringLiteral(toAdd));
     return new TemplateLiteral(
       members.length === 0 ? null : members,
       exps.length === 0 ? null : exps
@@ -336,10 +333,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   interpolation(_1, id, _2) {
     // Either return variable expression OR string of variable
-    return new VariableExpression(id.ast());
+    return id.ast();
   },
   id(_1, _2) {
-    return this.sourceString;
+    return new VariableExpression(this.sourceString);
   },
   Type(t) {
     return getType(t.sourceString);
