@@ -296,7 +296,24 @@ const fixture = {
     )
   ],
 
-  /*logical negation*/
+  logicalNegation: [
+    String.raw`goodBoy testNegation1 is x equals not y; goodboy testNegation2 is y equals not x`,
+      new Program(
+        new Block([
+          new VariableDeclaration(
+            new VariableExpression("testNegation1"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("x"), new VariableExpression("-y"))
+          ),
+          new VariableDeclaration(
+            new VariableExpression("testNegation2"),
+            BoolType,
+            new BinaryExpression("equals", new VariableExpression("y"), new VariableExpression("-x")) 
+            )
+        ])
+      )
+   ], 
+  
   ifStatement: [
     String.raw`if x then: x is y; tail`,
     new Program(
@@ -311,6 +328,7 @@ const fixture = {
       ])
     )
   ],
+  
   /*
 
 ifElseStatement : [
