@@ -459,7 +459,7 @@ ifElseIfStatement: [
       new Block([      
         new ForLoopStatement(
           new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0)),
-          new BinaryExpression("*", new VariableExpression("x"), new NumberLiteral(2)),
+          new BinaryExpression("*", new VariableExpression("i"), new NumberLiteral(2)),
           new BinaryExpression("isLessThan", new VariableExpression("i"), new NumberLiteral(10)),
           new Block([new PrintStatement("woof", new VariableExpression("i"))])         
         )
