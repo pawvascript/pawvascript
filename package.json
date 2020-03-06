@@ -19,7 +19,8 @@
   "homepage": "https://github.com/pawvascript/pawvascript#readme",
   "dependencies": {
     "fs": "0.0.1-security",
-    "ohm-js": "^0.14.0"
+    "ohm-js": "^0.14.0",
+    "yargs": "^15.1.0"
   },
   "devDependencies": {
     "jest": "^25.1.0",
