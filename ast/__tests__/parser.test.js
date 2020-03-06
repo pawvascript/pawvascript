@@ -394,11 +394,6 @@ ifElseIfStatement: [
   )
 ]
 */
-
-  /* add one line comments
- add multiline comments */
-
- /*If Else and If Else If ? */
   oneLineComment: [
     String.raw`!!! I'm a one line comment !!!`,
       new Program(
