@@ -28,6 +28,8 @@ const {
   FunctionCall,
   PrintStatement,
   GiveStatement,
+  BreakStatement,
+  ContinueStatement,
   Grouping,
   Parameters,
   BooleanLiteral,
@@ -169,11 +171,11 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Print(flavor, exp, _) {
     return new PrintStatement(flavor.ast(), exp.ast());
   },
-  Break(keyword, _) {
-    return keyword.ast();
+  Break(_keyword, _) {
+    return new BreakStatement();
   },
-  Continue(keyword, _) {
-    return keyword.ast();
+  Continue(_keyword, _) {
+    return new ContinueStatement();
   },
   Return(_1, exp, _2) {
     return new GiveStatement(arrayToNullable(exp.ast()));
