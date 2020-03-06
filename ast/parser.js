@@ -336,10 +336,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   interpolation(_1, id, _2) {
     // Either return variable expression OR string of variable
-    return new VariableExpression(id.ast());
+    return id.ast();
   },
   id(_1, _2) {
-    return this.sourceString;
+     return new VariableExpression(this.sourceString);
   },
   Type(t) {
     return getType(t.sourceString);
