@@ -282,21 +282,42 @@ const fixture = {
   ],
 
   /*logical negation*/
+  ifElseStatement: [
+    String.raw`if x isAtLeast y then: leash dogName is "CeCe"; else: leash dogName is "Fluffy"; toeBeans dogAge is 12; tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new BinaryExpression(
+            "isAtLeast",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          ),
+          new Block([
+            new VariableDeclaration(
+              new VariableExpression("dogName"),
+              StringType,
+              new TemplateLiteral([new StringLiteral("CeCe")], null)
+            )
+          ]),
+          [
+            new Block([
+              new VariableDeclaration(
+                new VariableExpression("dogName"),
+                StringType,
+                new TemplateLiteral([new StringLiteral("Fluffy")], null)
+              ),
+              new VariableDeclaration(
+                new VariableExpression("dogAge"),
+                NumType,
+                new NumberLiteral(12)
+              )
+            ])
+          ]
+        )
+      ])
+    )
+  ],
   /*
-ifElseStatement : [
-  String.raw.`if x isAtLeast y then: 
-      leash dogName is "CeCe; 
-  else: 
-      leash dogName is Fluffy; 
-      leash dogAge is 12; tail`,
-  new Program(
-    new Block([
-      new ConditionalStatement(
-      )
-    ])
-  )
-]
-
 ifElseIfStatement: [
   String.raw`if x notEquals y then:
         woof "CeCe is kinda cute";
