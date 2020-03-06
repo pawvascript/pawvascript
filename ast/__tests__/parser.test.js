@@ -453,14 +453,22 @@ ifElseIfStatement: [
      )
    ]
 
- forLoop: [
-  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
-    new Program(
-     new Block([      
-        )
-      ])
-    )
-  ],
+forLoop: [
+String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+  new Program(
+   new Block([      
+     new ForLoopStatement(
+         new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
+        ////by i*2 ???
+            new WhileLoopStatement(
+              new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
+              new Block([new PrintStatement("woof i")])
+            )
+         
+       )
+   ])
+  )
+],
 
  forEachLoop: [
   String.raw `chase element through mypack: woof element; tail`,
