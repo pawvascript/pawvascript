@@ -439,37 +439,34 @@ ifElseIfStatement: [
         )
       ])
     )
-  ]
-  /*
+  ],
+  
   whileLoop: [
     String.raw`chase while x isAtMost 5: woof x; tail`,
-     new Program(
-       new Block([
+    new Program(
+      new Block([
         new WhileLoopStatement(
-           new BinaryExpression("isAtMost", "x", new NumberLiteral(5)),
-           new Block([new PrintStatement("woof", new VariableExpression("x"))])
-         )
-       ])
-     )
-   ]
+          new BinaryExpression("isAtMost", new VariableExpression("x"), new NumberLiteral(5)),
+          new Block([new PrintStatement("woof", new VariableExpression("x"))])
+        )
+      ])
+    )
+  ],
 
-forLoop: [
-String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
-  new Program(
-   new Block([      
-     new ForLoopStatement(
-         new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
-        ////by i*2 ???
-            new WhileLoopStatement(
-              new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
-              new Block([new PrintStatement("woof i")])
-            )
-         
-       )
-   ])
-  )
-],
-
+  forLoop: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+    new Program(
+      new Block([      
+        new ForLoopStatement(
+          new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0)),
+          new BinaryExpression("*", new VariableExpression("x"), new NumberLiteral(2)),
+          new BinaryExpression("isLessThan", new VariableExpression("i"), new NumberLiteral(10)),
+          new Block([new PrintStatement("woof", new VariableExpression("i"))])         
+        )
+      ])
+    )
+  ],
+/*
  forEachLoop: [
 String.raw `chase element through mypack:
         woof element;
