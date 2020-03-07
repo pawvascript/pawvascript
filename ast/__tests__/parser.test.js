@@ -729,12 +729,72 @@ const fixture = {
         )
       ])
     )
-  ]
+  ],
 
   ///declarations
 
   //maybe create separate constructor type?
   //needs constructor and function call for method?
+  functionDeclaration: [
+    String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
+        toeBeans remainder;
+        chase while (a mod b) isGreaterThan 0:
+            remainder is (a mod b);
+            a is b;
+            b is remainder;
+        tail
+        give a;
+    tail`,
+    new Program(
+      new Block([
+        new FunctionDeclaration(
+          new VariableExpression("gcd"),
+          new Parameters(
+            [NumType, NumType],
+            [new VariableExpression("num1"), new VariableExpression("num2")]
+          ),
+          NumType,
+          new Block([
+            new VariableDeclaration(
+              new VariableExpression("remainder"),
+              NumType,
+              null
+            ),
+            new WhileLoopStatement(
+              new BinaryExpression(
+                "isGreaterThan",
+                new BinaryExpression(
+                  "mod",
+                  new VariableExpression("a"),
+                  new VariableExpression("b")
+                ),
+                new NumberLiteral(0)
+              ),
+              new Block([
+                new AssignmentStatement(
+                  new VariableExpression("remainder"),
+                  new BinaryExpression(
+                    "mod",
+                    new VariableExpression("a"),
+                    new VariableExpression("b")
+                  )
+                ),
+                new AssignmentStatement(
+                  new VariableExpression("a"),
+                  new VariableExpression("b")
+                ),
+                new AssignmentStatement(
+                  new VariableExpression("b"),
+                  new VariableExpression("remainder")
+                )
+              ])
+            ),
+            new GiveStatement(new VariableExpression("a"))
+          ])
+        )
+      ])
+    )
+  ]
   /*
   breedDeclaration: [
     String.raw`
