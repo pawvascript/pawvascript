@@ -97,7 +97,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     otherwise,
     _10
   ) {
-    let nestedConditional = otherwise.ast();
+    let nestedConditional =
+      otherwise.ast().length === 0 ? null : otherwise.ast();
     while (moreConditions.length > 0) {
       nestedConditional = new ConditionalStatement(
         moreConditions.pop().ast(),
