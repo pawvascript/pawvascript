@@ -28,7 +28,7 @@ const {
   ListType,
   DictType,
   AssignmentStatement,
-  FunctionCallStatement,
+  FunctionCall,
   PrintStatement,
   GiveStatement,
   BreakStatement,
@@ -744,7 +744,8 @@ const fixture = {
             b is remainder;
         tail
         give a;
-    tail`,
+    tail
+    toeBeans greatestCommonDivisor is gcd(21, 49);`,
     new Program(
       new Block([
         new FunctionDeclaration(
@@ -790,6 +791,14 @@ const fixture = {
               ])
             ),
             new GiveStatement(new VariableExpression("a"))
+          ])
+        ),
+        new VariableDeclaration(
+          new VariableExpression("greatestCommonDivisor"),
+          NumType,
+          new FunctionCall(new VariableExpression("gcd"), [
+            new NumberLiteral(21),
+            new NumberLiteral(49)
           ])
         )
       ])

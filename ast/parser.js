@@ -227,7 +227,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     // do we need a separate class for function calls instead of function call statements?
     return new FunctionCall(id.ast(), [
       arrayToNullable(firstArg.ast()),
-      ...moreArgs.ast() // no idea if this is the right syntax for this
+      arrayToNullable(...moreArgs.ast()) // no idea if this is the right syntax for this
     ]);
   },
   Parameters(_1, firstType, _2, firstId, _3, moreTypes, _4, moreIds, _5) {
