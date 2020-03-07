@@ -934,61 +934,6 @@ const fixture = {
       ])
     )
   ]
-  /*declarations: [
-    String.raw`var x: int; var y: bool;`,
-    new Program(
-      new Block([
-        new VariableDeclaration("x", IntType),
-        new VariableDeclaration("y", BoolType)
-      ])
-    )
-  ],
-
-  math: [
-    String.raw`read x, y; write 2 * (-5 > 7+1);`,
-    new Program(
-      new Block([
-        new ReadStatement([
-          new VariableExpression("x"),
-          new VariableExpression("y")
-        ]),
-        new WriteStatement([
-          new BinaryExpression(
-            "*",
-            new IntegerLiteral("2"),
-            new BinaryExpression(
-              ">",
-              new UnaryExpression("-", new IntegerLiteral("5")),
-              new BinaryExpression(
-                "+",
-                new IntegerLiteral("7"),
-                new IntegerLiteral("1")
-              )
-            )
-          )
-        ])
-      ])
-    )
-  ],
-
-  logic: [
-    String.raw`write x and (not y or x);`,
-    new Program(
-      new Block([
-        new WriteStatement([
-          new BinaryExpression(
-            "and",
-            new VariableExpression("x"),
-            new BinaryExpression(
-              "or",
-              new UnaryExpression("not", new VariableExpression("y")),
-              new VariableExpression("x")
-            )
-          )
-        ])
-      ])
-    )
-  ]*/
 };
 
 describe("The parser", () => {
