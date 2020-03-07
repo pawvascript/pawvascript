@@ -98,7 +98,7 @@ class AssignmentStatement {
 }
 
 class FunctionCall {
-  constructor(id, args) {
+  constructor(id, args = null) {
     Object.assign(this, { id, args });
   }
 }
