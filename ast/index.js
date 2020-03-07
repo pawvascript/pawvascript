@@ -119,6 +119,10 @@ class GiveStatement {
   }
 }
 
+class BreakStatement {}
+
+class ContinueStatement {}
+
 class Expression {}
 
 // TODO: change name of Grouping to something like VariableTypeMapping
@@ -232,6 +236,8 @@ module.exports = {
   FunctionCall,
   PrintStatement,
   GiveStatement,
+  BreakStatement,
+  ContinueStatement,
   Expression,
   Grouping,
   Parameters,
