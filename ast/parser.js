@@ -279,10 +279,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   strlit(_1, chars, _2) {
     // ??????? not sure if right
-    //console.log(chars.ast());
-    // const re = /!\[(.+?)\]/g;
     let membersAST = checkForEmptyArray(chars.ast());
-    // console.log(membersAST);
     let members = [];
     let exps = [];
     membersAST.forEach(checkForInterpolation);
