@@ -188,7 +188,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       body.ast()
     );
   },
-  //TODO Not sure we need this
   FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
     // TODO maybe make a constructor class?
     // return new Constructor();
@@ -209,7 +208,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new TypeDeclaration(id.ast(), body.ast());
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
-    // do we need a separate class for function calls instead of function call statements?
     if (firstArg.ast().length === 0 && moreArgs.ast().length == 0) {
       return new FunctionCall(id.ast());
     }

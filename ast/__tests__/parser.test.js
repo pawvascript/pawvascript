@@ -49,6 +49,7 @@ const {
 } = require("..");
 
 const fixture = {
+  /* Basic Declarations */
   uninitializedVariableDeclaration: [
     String.raw`leash dogName;`,
     new Program(
@@ -105,18 +106,6 @@ const fixture = {
           new VariableExpression("name"),
           StringType,
           new TemplateLiteral([new StringLiteral("CeCe")], null)
-        )
-      ])
-    )
-  ],
-  booleanVariableDeclaration: [
-    String.raw`goodBoy doggo is good;`,
-    new Program(
-      new Block([
-        new VariableDeclaration(
-          new VariableExpression("doggo"),
-          BoolType,
-          new BooleanLiteral(true)
         )
       ])
     )
@@ -231,6 +220,7 @@ const fixture = {
       ])
     )
   ],
+  /* String Operations */
   leashConcatenation: [
     String.raw`leash dogName is "Ce" with "Ce";`,
     new Program(
@@ -248,7 +238,6 @@ const fixture = {
     )
   ],
   stringInterpolation: [
-    // TODO HELP
     String.raw`leash sentence is "![x] is a good girl";`,
     new Program(
       new Block([
@@ -281,6 +270,7 @@ const fixture = {
       ])
     )
   ],
+  /* Assignment */
   variableAssignment: [
     String.raw`cuteness is 100;`,
     new Program(
@@ -292,6 +282,7 @@ const fixture = {
       ])
     )
   ],
+  /* Relops */
   equalityOperators: [
     String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
     new Program(
@@ -317,7 +308,6 @@ const fixture = {
       ])
     )
   ],
-
   greaterThanLessThanComparators: [
     String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
     new Program(
@@ -343,7 +333,6 @@ const fixture = {
       ])
     )
   ],
-
   greaterThanLessThanOrEqualToComparators: [
     String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
     new Program(
@@ -369,7 +358,6 @@ const fixture = {
       ])
     )
   ],
-
   logicalNegation: [
     String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
     new Program(
@@ -395,13 +383,7 @@ const fixture = {
       ])
     )
   ],
-  //Arithmetic Operators Section
-  // I kept the same format for binary expression but using variable expression is
-  /* new BinaryExpression(
-    "op",
-    new VariableExpression(""),
-    new VariableExpression("")
-  )*/
+  /* Arithmetic */
   arithmeticOperators: [
     String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
     a is x mod y; a is x!; a is -x;`,
@@ -459,6 +441,7 @@ const fixture = {
       ])
     )
   ],
+  /* Conditionals */
   ifStatement: [
     String.raw`if x then: x is y; tail`,
     new Program(
@@ -586,6 +569,7 @@ const fixture = {
       ])
     )
   ],
+  /* Comments */
   oneLineComment: [
     String.raw`!!! I'm a one line comment !!!`,
     new Program(new Block([]))
@@ -594,9 +578,7 @@ const fixture = {
     String.raw`!!! I'm a \n multiline \n comment !!!`,
     new Program(new Block([]))
   ],
-
-  ////loops
-
+  /* Loops */
   infiniteLoop: [
     String.raw`chase: woof "I run forever"; tail`,
     new Program(
@@ -628,7 +610,6 @@ const fixture = {
       ])
     )
   ],
-
   whileLoop: [
     String.raw`chase while x isAtMost 5: woof x; tail`,
     new Program(
@@ -644,7 +625,6 @@ const fixture = {
       ])
     )
   ],
-
   forLoop: [
     String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
     new Program(
@@ -670,7 +650,6 @@ const fixture = {
       ])
     )
   ],
-
   forEachLoop: [
     String.raw`chase element through mypack:
         woof element;
@@ -687,8 +666,7 @@ const fixture = {
       ])
     )
   ],
-
-  poopLoop: [
+  loopWithPoopStatement: [
     String.raw`
      chase:
         woof "I run forever\!";
@@ -708,8 +686,7 @@ const fixture = {
       ])
     )
   ],
-
-  walkiesLoop: [
+  loopWithWalkiesStatement: [
     String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
           if i mod 2 equals 0 then:
               walkies;
@@ -754,11 +731,7 @@ const fixture = {
       ])
     )
   ],
-
-  ///declarations
-
-  //maybe create separate constructor type?
-  //needs constructor and function call for method?
+  /* Function Declarations */
   functionDeclaration: [
     String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
         toeBeans remainder;
@@ -828,6 +801,7 @@ const fixture = {
       ])
     )
   ],
+  /* Breed Declarations */
   breedDeclaration: [
     String.raw`
     breed Owner is:

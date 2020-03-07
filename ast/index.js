@@ -122,7 +122,6 @@ class ContinueStatement {}
 
 class Expression {}
 
-// TODO: change name of Grouping to something like VariableTypeMapping
 class Grouping {
   constructor(keyType, valueType) {
     Object.assign(this, { keyType, valueType });
