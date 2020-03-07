@@ -815,8 +815,7 @@ const fixture = {
         )
       ])
     )
-  ]
-  /*
+  ],
   breedDeclaration: [
     String.raw`
     breed Owner is:
@@ -829,36 +828,100 @@ const fixture = {
         give Owner's dogName with ", stay.";
       tail
     tail
-    
-    Owner lucille is Owner("Cece");
-    (lucille's introduceDog)();  !!! output: "My dog's name is Cece" !!! 
-    woof lucille's command(); !!! output: "Cece, stay." !!!`,
+
+    Owner lucille is Owner("CeCe");
+    lucille's introduceDog();  !!! output: "My dog's name is CeCe" !!!
+    woof lucille's command(); !!! output: "CeCe, stay." !!!`,
     new Program(
       new Block([
         new TypeDeclaration(
-          "Owner",
+          new VariableExpression("Owner"),
           new Block([
             new VariableDeclaration(
-              "dogName",
+              new VariableExpression("dogName"),
               StringType,
               null
             ),
             new FunctionDeclaration(
-              "Owner",
-              new VariableDeclaration(
-                "dogName",
-                StringType,
-                new StringLiteral("")
-              )
+              new VariableExpression("Owner"),
+              new Parameters([StringType], [new VariableExpression("dogName")]),
+              new Type("Owner"),
+              null
             ),
-
+            new FunctionDeclaration(
+              new VariableExpression("introduceDog"),
+              null,
+              null,
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new BinaryExpression(
+                    "with",
+                    new TemplateLiteral(
+                      [new StringLiteral("My dog's name is ")],
+                      null
+                    ),
+                    new BinaryExpression(
+                      "'s",
+                      new VariableExpression("Owner"),
+                      new VariableExpression("dogName")
+                    )
+                  )
+                )
+              ])
+            ),
+            new FunctionDeclaration(
+              new VariableExpression("command"),
+              null,
+              StringType,
+              new Block([
+                new GiveStatement(
+                  new BinaryExpression(
+                    "with",
+                    new BinaryExpression(
+                      "'s",
+                      new VariableExpression("Owner"),
+                      new VariableExpression("dogName")
+                    ),
+                    new TemplateLiteral([new StringLiteral(", stay.")], null)
+                  )
+                )
+              ])
+            )
           ])
-          
+        ),
+        //Owner lucille is Owner("Cece");
+        new VariableDeclaration(
+          new VariableExpression("lucille"),
+          new Type("Owner"),
+          new FunctionCall(new VariableExpression("Owner"), [
+            new TemplateLiteral([new StringLiteral("CeCe")], null)
+          ])
+        ),
+        //lucille's introduceDog();
+        new FunctionCall(
+          new BinaryExpression(
+            "'s",
+            new VariableExpression("lucille"),
+            new VariableExpression("introduceDog")
+          ),
+          null
+        ),
+        // woof lucille's command();
+        new PrintStatement(
+          "woof",
+          new FunctionCall(
+            new BinaryExpression(
+              "'s",
+              new VariableExpression("lucille"),
+              new VariableExpression("command")
+            ),
+            null
+          )
         )
-
       ])
     )
-  ], 
+  ]
   /*declarations: [
     String.raw`var x: int; var y: bool;`,
     new Program(

@@ -204,6 +204,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       body.ast()
     );
   },
+  //TODO Not sure we need this
   FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
     // TODO maybe make a constructor class?
     // return new Constructor();
@@ -221,14 +222,22 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   TypeDec(_1, id, _2, _3, body, _4) {
-    return new TypeDeclaration(id, body);
+    return new TypeDeclaration(id.ast(), body.ast());
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
     // do we need a separate class for function calls instead of function call statements?
-    return new FunctionCall(id.ast(), [
-      arrayToNullable(firstArg.ast()),
-      arrayToNullable(...moreArgs.ast()) // no idea if this is the right syntax for this
-    ]);
+    console.log(moreArgs.ast().length === 0 ? null : moreArgs.ast());
+    if (firstArg.ast().length === 0 && moreArgs.ast().length == 0) {
+      return new FunctionCall(id.ast());
+    }
+    return new FunctionCall(
+      id.ast(),
+      //arrayToNullable(
+      [arrayToNullable(firstArg.ast())].concat(
+        moreArgs.ast().length === 0 ? null : moreArgs.ast()[0]
+        //)
+      )
+    );
   },
   Parameters(_1, firstType, _2, firstId, _3, moreTypes, _4, moreIds, _5) {
     const types = [arrayToNullable(firstType.ast())].concat(moreTypes.ast());
@@ -255,6 +264,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   Primary_parens(_1, exp, _2) {
     return exp.ast();
+  },
+  Primary_class_member_access(primary, op, id) {
+    return new BinaryExpression(op.ast(), primary.ast(), id.ast());
   },
   Primary_pack(_1, elements, _2) {
     // let elements = [];
