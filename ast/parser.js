@@ -207,18 +207,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
     // do we need a separate class for function calls instead of function call statements?
-    console.log(moreArgs.ast().length === 0 ? null : moreArgs.ast());
     if (firstArg.ast().length === 0 && moreArgs.ast().length == 0) {
       return new FunctionCall(id.ast());
     }
-    return new FunctionCall(
-      id.ast(),
-      //arrayToNullable(
-      [arrayToNullable(firstArg.ast())].concat(
-        moreArgs.ast().length === 0 ? null : moreArgs.ast()[0]
-        //)
-      )
+    let argsArray = [arrayToNullable(firstArg.ast())].concat(
+      moreArgs.ast().length === 0 ? null : moreArgs.ast()[0]
     );
+    return new FunctionCall(id.ast(), argsArray);
   },
   Parameters(_1, firstType, _2, firstId, _3, moreTypes, _4, moreIds, _5) {
     const types = [arrayToNullable(firstType.ast())].concat(moreTypes.ast());
