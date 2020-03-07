@@ -28,7 +28,7 @@ const {
   ListType,
   DictType,
   AssignmentStatement,
-  FunctionCallStatement,
+  FunctionCall,
   PrintStatement,
   GiveStatement,
   BreakStatement,
@@ -43,7 +43,7 @@ const {
   ListElement,
   KennelLiteral,
   KeyValuePair,
-  VariableExpression, // ??? what's this for
+  VariableExpression,
   UnaryExpression,
   BinaryExpression
 } = require("..");
@@ -81,6 +81,18 @@ const fixture = {
           new VariableExpression("CeCeAge"),
           NumType,
           new NumberLiteral(1)
+        )
+      ])
+    )
+  ],
+  booleanVariableDeclaration: [
+    String.raw`goodBoy isGoodBoy is good;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("isGoodBoy"),
+          BoolType,
+          new BooleanLiteral(true)
         )
       ])
     )

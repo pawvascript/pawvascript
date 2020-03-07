@@ -50,9 +50,6 @@ class FixedLoopStatement {
 }
 
 class VariableDeclaration {
-  //   constructor(id, type, keyType = null, valueType = null) {
-  //     Object.assign(this, { id, type, keyType, valueType });
-  //   }
   constructor(id, type, exp) {
     Object.assign(this, { id, type, exp });
   }
@@ -193,7 +190,6 @@ class KeyValuePair {
 }
 
 class VariableExpression extends Expression {
-  // what is this for???
   constructor(name) {
     super();
     this.name = name;
