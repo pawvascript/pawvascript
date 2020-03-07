@@ -447,7 +447,7 @@ const fixture = {
               new VariableExpression("y")
             )
           ]),
-          []
+          null
         )
       ])
     )
@@ -632,30 +632,55 @@ ifElseIfStatement: [
         )
       ])
     )
+  ],
+
+  walkiesLoop: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+          if i mod 2 equals 0 then:
+              walkies;
+          tail
+          woof i;
+      tail`,
+    new Program(
+      new Block([
+        new ForLoopStatement(
+          new VariableDeclaration(
+            new VariableExpression("i"),
+            NumType,
+            new NumberLiteral(0)
+          ),
+          new BinaryExpression(
+            "*",
+            new VariableExpression("i"),
+            new NumberLiteral(2)
+          ),
+          new BinaryExpression(
+            "isLessThan",
+            new VariableExpression("i"),
+            new NumberLiteral(10)
+          ),
+          new Block([
+            new ConditionalStatement(
+              new BinaryExpression(
+                "equals",
+                new BinaryExpression(
+                  "mod",
+                  new VariableExpression("i"),
+                  new NumberLiteral(2)
+                ),
+                new NumberLiteral(0)
+              ),
+              new Block([new ContinueStatement()]),
+              null
+            ),
+            new PrintStatement("woof", new VariableExpression("i"))
+          ])
+        )
+      ])
+    )
   ]
-  /*
-walkiesLoop: [
-String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-        if i mod 2 equals 0 then:
-            walkies;
-        tail
-        woof i;
-    tail`,
-  new Program(
-    new Block([
-      new ForLoopStatement(
-        new VariableDeclaration(new VariableExpression("i"), NumType, new NumberLiteral(0))
-       ////by i*2 ???
-           new WhileLoopStatement(
-             new BinaryExpression("isLessThan", "i", new NumberLiteral(10))
-           )
-      )
-    ])
-  )
-],
 
-
-///declarations
+  ///declarations
 
   //maybe create separate constructor type?
   //needs constructor and function call for method?
