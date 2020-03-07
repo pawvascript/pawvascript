@@ -58,6 +58,9 @@ const grammar = ohm.grammar(fs.readFileSync("./grammar/pawvascript.ohm"));
 function arrayToNullable(a) {
   return a.length === 0 ? null : a[0];
 }
+function checkForEmptyArray(item) {
+  return item.length === 0 ? null : item;
+}
 
 function getType(typeName) {
   switch (typeName) {
@@ -211,7 +214,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       return new FunctionCall(id.ast());
     }
     let argsArray = [arrayToNullable(firstArg.ast())].concat(
-      moreArgs.ast().length === 0 ? null : moreArgs.ast()[0]
+      checkForEmptyArray(moreArgs.ast())[0]
     );
     return new FunctionCall(id.ast(), argsArray);
   },
@@ -280,7 +283,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     // ??????? not sure if right
     //console.log(chars.ast());
     // const re = /!\[(.+?)\]/g;
-    let membersAST = chars.ast().length === 0 ? null : chars.ast();
+    let membersAST = checkForEmptyArray(chars.ast());
     // console.log(membersAST);
     let members = [];
     let exps = [];
@@ -293,8 +296,8 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       }
     }
     return new TemplateLiteral(
-      members.length === 0 ? null : members,
-      exps.length === 0 ? null : exps
+      checkForEmptyArray(members),
+      checkForEmptyArray(exps)
     );
   },
   interpolation(_1, id, _2) {
