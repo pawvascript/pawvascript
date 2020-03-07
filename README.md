@@ -14,13 +14,15 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 
 - Language for scripting
 - Object-Oriented
+  - breeds are what we call classes!
 - Static typing
-- 5 types
+- Functions
+  - we call them tricks!
+  - higher-order functions
+- 5 basic types
   - leash (string)
   - goodBoy (boolean)
   - toeBeans (number)
-  - trick (function)
-  - breed (what we call objects)
   - pack (list)
   - kennel (map)
 - 5 kinds of loops
@@ -29,7 +31,6 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
   - While
   - For
   - ForEach
-- Higher-order functions
 - Conditional Statements
 - Spread/peanutButter syntax
 - Single and multi-line comments
