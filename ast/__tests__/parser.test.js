@@ -474,43 +474,94 @@ const fixture = {
               new TemplateLiteral([new StringLiteral("CeCe")], null)
             )
           ]),
-          [
-            new Block([
-              new VariableDeclaration(
-                new VariableExpression("dogName"),
-                StringType,
-                new TemplateLiteral([new StringLiteral("Fluffy")], null)
-              ),
-              new VariableDeclaration(
-                new VariableExpression("dogAge"),
-                NumType,
-                new NumberLiteral(12)
-              )
-            ])
-          ]
+          new Block([
+            new VariableDeclaration(
+              new VariableExpression("dogName"),
+              StringType,
+              new TemplateLiteral([new StringLiteral("Fluffy")], null)
+            ),
+            new VariableDeclaration(
+              new VariableExpression("dogAge"),
+              NumType,
+              new NumberLiteral(12)
+            )
+          ])
         )
       ])
     )
   ],
-  /*
-ifElseIfStatement: [
-  String.raw`if x notEquals y then:
-        woof "CeCe is kinda cute";
-    else if x isGreaterThan y then:
-        woof "CeCe is pretty cute";
-    else if x isLessThan y then:
-        woof "Okay, CeCe is really cute";
-    else:
-        woof "CeCe is the cutest of the cutest";
-    tail`,
-  New Program(
-    New Block([
-       new ConditionalStatement(
-       )
-    ])
-  )
-]
-*/
+  ifElseIfStatement: [
+    String.raw`if x notEquals y then:
+          woof "CeCe is kinda cute";
+      else if x isGreaterThan y then:
+          woof "CeCe is pretty cute";
+      else if x isLessThan y then:
+          woof "Okay, CeCe is really cute";
+      else:
+          woof "CeCe is the cutest of the cutest";
+      tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new BinaryExpression(
+            "notEquals",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          ),
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral(
+                [new StringLiteral("CeCe is kinda cute")],
+                null
+              )
+            )
+          ]),
+          new ConditionalStatement(
+            new BinaryExpression(
+              "isGreaterThan",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            ),
+            new Block([
+              new PrintStatement(
+                "woof",
+                new TemplateLiteral(
+                  [new StringLiteral("CeCe is pretty cute")],
+                  null
+                )
+              )
+            ]),
+            new ConditionalStatement(
+              new BinaryExpression(
+                "isLessThan",
+                new VariableExpression("x"),
+                new VariableExpression("y")
+              ),
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new TemplateLiteral(
+                    [new StringLiteral("Okay, CeCe is really cute")],
+                    null
+                  )
+                )
+              ]),
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new TemplateLiteral(
+                    [new StringLiteral("CeCe is the cutest of the cutest")],
+                    null
+                  )
+                )
+              ])
+            )
+          )
+        )
+      ])
+    )
+  ],
   oneLineComment: [
     String.raw`!!! I'm a one line comment !!!`,
     new Program(new Block([]))
