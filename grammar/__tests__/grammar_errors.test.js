@@ -49,7 +49,6 @@ const non_comments = [
 const non_ids = [
   ["keyword", "is"],
   ["starts with number", "23jordan"],
-  ["no letters", "___888"],
   ["bad character", "$potato"]
 ];
 
@@ -92,6 +91,15 @@ describe("reject bad comments", () => {
   non_comments.forEach(([scenario, program]) => {
     test(`${scenario}`, done => {
       expect(syntaxCheck(program, "comment")).toBe(false);
+      done();
+    });
+  });
+});
+
+describe("reject bad ids", () => {
+  non_ids.forEach(([scenario, program]) => {
+    test(`${scenario}`, done => {
+      expect(syntaxCheck(program, "id")).toBe(false);
       done();
     });
   });
