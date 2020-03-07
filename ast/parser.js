@@ -97,20 +97,32 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     otherwise,
     _10
   ) {
-    let nestedConditional =
-      otherwise.ast().length === 0 ? null : otherwise.ast();
-    while (moreConditions.length > 0) {
-      nestedConditional = new ConditionalStatement(
-        moreConditions.pop().ast(),
-        moreBodies.pop().ast(),
-        nestedConditional
-      );
+    let nestedConditional = arrayToNullable(moreConditions.ast());
+    function generateConditional(moreCond, moreBody, nest) {
+      if (moreCond.length === 0) {
+        nest.push(arrayToNullable(otherwise.ast()));
+        for (i = nest.length - 1; i >= 1; i--) {
+          nest[i - 1].otherwise = nest[i];
+        }
+        return nest[0];
+      }
+      nest.push(new ConditionalStatement(moreCond.shift(), moreBody.shift()));
+      return generateConditional(moreCond, moreBody, nest);
     }
-    return new ConditionalStatement(
-      condition.ast(),
-      body.ast(),
-      nestedConditional
-    );
+    if (nestedConditional === null) {
+      return new ConditionalStatement(
+        condition.ast(),
+        body.ast(),
+        arrayToNullable(otherwise.ast())
+      );
+    } else {
+      nestedConditional = new ConditionalStatement(
+        condition.ast(),
+        body.ast(),
+        generateConditional(moreConditions.ast(), moreBodies.ast(), [])
+      );
+      return nestedConditional;
+    }
   },
   Loop_defined(_1, exp, _2, _3, body, _4) {
     return new FixedLoopStatement(exp.ast(), body.ast());
