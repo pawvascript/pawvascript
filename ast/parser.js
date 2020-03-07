@@ -1,7 +1,15 @@
-// Parser module
-//
-//   const parse = require('./parser');
-//   const ast = parse(sourceCodeString);
+/* eslint-disable no-unused-vars */
+
+/*
+ * Parser module for PawvaScript
+ *
+ * Usage:
+ *   const parse = require('./parser');
+ *   const ast = parse(sourceCodeString);
+ *       Returns the abstract syntax tree for the given program text. This function
+ *       will first match against an Ohm grammar, then apply AST generation rules.
+ *       If there are any errors, this function will throw an error.
+ */
 
 const ohm = require("ohm-js");
 const fs = require("fs");
@@ -78,7 +86,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new Program(b.ast());
   },
   Block(s) {
-    return new Block(s.ast()); // TOAL QUESTION: do we break this up into [...s] because it comes in as a list of statements?
+    return new Block(s.ast());
   },
   Conditional(
     _1,
@@ -101,7 +109,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     function generateConditional(moreCond, moreBody, nest) {
       if (moreCond.length === 0) {
         nest.push(arrayToNullable(otherwise.ast()));
-        for (i = nest.length - 1; i >= 1; i--) {
+        for (let i = nest.length - 1; i >= 1; i--) {
           nest[i - 1].otherwise = nest[i];
         }
         return nest[0];
@@ -148,36 +156,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Loop_infinite(_1, _2, body, _3) {
     return new InfiniteLoopStatement(body.ast());
   },
-  //   Statement(a) {
-  //     return a.ast();
-  //   },
-  //   Statement_assignment(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
   Statement_funccall(a, _) {
     return a.ast();
   },
-  //   Statement_print(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_break(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_continue(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_loop(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_conditional(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_property(a, semicolonOrTail) {
-  //     return a.ast();
-  //   },
-  //   Statement_give(_1, exp, _2) {
-  //     return new GiveStatement(arrayToNullable(exp.ast()));
-  //   },
   Assignment(id, _1, exp, _2) {
     return new AssignmentStatement(id.ast(), exp.ast());
   },
@@ -257,25 +238,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return exp.ast();
   },
   Primary_pack(_1, elements, _2) {
-    // let elements = [];
-    // const concatElements = (spread, element) => {
-    //   console.log("CALLED concatElements");
-    //   if (spread) {
-    //     elements = elements.concat(...element);
-    //   } else if (element) {
-    //     elements = elements.concat(element);
-    //   }
-    // };
-    // concatElements(
-    //   arrayToNullable(spreadOp.ast()),
-    //   arrayToNullable(firstElem.ast())
-    // );
-    // remainingElems = moreElems.ast();
-    // remainingSpreads = moreSpreadOps.ast();
-    // while (remainingElems.length > 0) {
-    //   console.log("LABS WITH ABS");
-    //   concatElements(remainingSpreads.shift(), remainingElems.shift());
-    // }
     return new PackLiteral(
       elements.ast().length === 0 ? [] : elements.ast()[0]
     );
@@ -287,24 +249,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new ListElement(spreadOp.ast().length > 0, exp.ast());
   },
   Primary_kennel(_1, pairs, _2) {
-    // let keys = [];
-    // let values = [];
-    // const concatKeysValues = (key, value) => {
-    //   if (key) {
-    //     keys = keys.concat(key);
-    //     values = values.concat(value);
-    //   }
-    // };
-    // concatKeysValues(
-    //   arrayToNullable(firstKey.ast()),
-    //   arrayToNullable(firstVal.ast())
-    // );
-    // remainingKeys = moreKeys.ast();
-    // remainingValues = moreVals.ast();
-    // while (remainingKeys.length > 0) {
-    //   concatKeysValues(remainingKeys.shift(), remainingValues.shift());
-    // }
-    // return new KennelLiteral(keys, values);
     return new KennelLiteral(pairs.ast());
   },
   KeyValPairs(firstPair, _, morePairs) {
@@ -347,7 +291,6 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   interpolation(_1, id, _2) {
-    // Either return variable expression OR string of variable
     return id.ast();
   },
   id(_1, _2) {
