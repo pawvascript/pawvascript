@@ -56,7 +56,7 @@ class VariableDeclaration {
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, returnType, body) {
+  constructor(id, parameters, returnType, body = null) {
     Object.assign(this, { id, parameters, returnType, body });
   }
 }
