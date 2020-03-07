@@ -97,6 +97,18 @@ const fixture = {
       ])
     )
   ],
+  booleanVariableDeclaration: [
+    String.raw`goodBoy doggo is good;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("doggo"),
+          BoolType,
+          new BooleanLiteral(true)
+        )
+      ])
+    )
+  ],
   emptyListVariableDeclaration: [
     String.raw`pack[leash] dogs is [];`,
     new Program(
