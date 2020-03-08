@@ -58,8 +58,8 @@ PawvaScript {
                     | booleanlit
                     | nullval
                     | "[" ":" "]"                                                                              --empty_kennel
-                    | "[" ListElems? "]"         --pack
-                    | "[" KeyValPairs "]"                                    --kennel
+                    | "[" ListElems? "]"                                            --pack
+                    | "[" KeyValPairs "]"                                           --kennel
     ListElems       = ListElem ("," ListElem)*
     ListElem        = peanutButter? Exp
     KeyValPairs     = KeyValPair ("," KeyValPair)*

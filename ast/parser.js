@@ -27,6 +27,7 @@ const {
   Type,
   FunctionDeclaration,
   TypeDeclaration,
+  ConstructorDeclaration,
   NumType,
   BoolType,
   StringType,
@@ -38,7 +39,7 @@ const {
   GiveStatement,
   BreakStatement,
   ContinueStatement,
-  Grouping,
+  TypeGrouping,
   Parameters,
   BooleanLiteral,
   NumberLiteral,
@@ -73,12 +74,12 @@ function getType(typeName) {
   }
   const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
   if (foundPack) {
-    return new ListType(new Grouping(null, getType(foundPack[1])));
+    return new ListType(new TypeGrouping(null, getType(foundPack[1])));
   }
   const foundKennel = typeName.match(/^(?:kennel)(?:\[)(.+)(?::)(.+)(?:\])$/);
   if (foundKennel) {
     return new DictType(
-      new Grouping(getType(foundKennel[1]), getType(foundKennel[2]))
+      new TypeGrouping(getType(foundKennel[1]), getType(foundKennel[2]))
     );
   }
   return new Type(typeName);
@@ -189,9 +190,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     );
   },
   FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
-    // TODO maybe make a constructor class?
-    // return new Constructor();
-    return new FunctionDeclaration(
+    return new ConstructorDeclaration(
       id.ast(),
       arrayToNullable(parameters.ast()),
       returnType.ast()
@@ -278,20 +277,19 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new NumberLiteral(+this.sourceString);
   },
   strlit(_1, chars, _2) {
-    // ??????? not sure if right
     let membersAST = checkForEmptyArray(chars.ast());
-    let members = [];
+    let quasis = [];
     let exps = [];
     membersAST.forEach(checkForInterpolation);
     function checkForInterpolation(item) {
       if (Array.isArray(item)) {
-        members.push(new StringLiteral(item.join("")));
+        quasis.push(new StringLiteral(item.join("")));
       } else {
         exps.push(item);
       }
     }
     return new TemplateLiteral(
-      checkForEmptyArray(members),
+      checkForEmptyArray(quasis),
       checkForEmptyArray(exps)
     );
   },
