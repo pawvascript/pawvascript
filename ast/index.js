@@ -56,7 +56,7 @@ class VariableDeclaration {
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, returnType, body = null) {
+  constructor(id, parameters, returnType, body) {
     Object.assign(this, { id, parameters, returnType, body });
   }
 }
@@ -64,6 +64,12 @@ class FunctionDeclaration {
 class TypeDeclaration {
   constructor(id, block) {
     Object.assign(this, { id, block });
+  }
+}
+
+class ConstructorDeclaration {
+  constructor(id, parameters, returnType) {
+    Object.assign(this, { id, parameters, returnType });
   }
 }
 
@@ -78,16 +84,16 @@ const BoolType = new Type("goodBoy");
 const StringType = new Type("leash");
 
 class ListType extends Type {
-  constructor(grouping) {
+  constructor(typeGrouping) {
     super("pack");
-    this.grouping = grouping;
+    this.typeGrouping = typeGrouping;
   }
 }
 
 class DictType extends Type {
-  constructor(grouping) {
+  constructor(typeGrouping) {
     super("kennel");
-    this.grouping = grouping;
+    this.typeGrouping = typeGrouping;
   }
 }
 
@@ -122,7 +128,7 @@ class ContinueStatement {}
 
 class Expression {}
 
-class Grouping {
+class TypeGrouping {
   constructor(keyType, valueType) {
     Object.assign(this, { keyType, valueType });
   }
@@ -222,6 +228,7 @@ module.exports = {
   Type,
   FunctionDeclaration,
   TypeDeclaration,
+  ConstructorDeclaration,
   NumType,
   BoolType,
   StringType,
@@ -234,7 +241,7 @@ module.exports = {
   BreakStatement,
   ContinueStatement,
   Expression,
-  Grouping,
+  TypeGrouping,
   Parameters,
   BooleanLiteral,
   NumberLiteral,

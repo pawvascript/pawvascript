@@ -22,6 +22,7 @@ const {
   Type,
   FunctionDeclaration,
   TypeDeclaration,
+  ConstructorDeclaration,
   NumType,
   BoolType,
   StringType,
@@ -33,7 +34,7 @@ const {
   GiveStatement,
   BreakStatement,
   ContinueStatement,
-  Grouping,
+  TypeGrouping,
   Parameters,
   BooleanLiteral,
   NumberLiteral,
@@ -116,7 +117,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new ListType(new Grouping(null, StringType)),
+          new ListType(new TypeGrouping(null, StringType)),
           new PackLiteral([])
         )
       ])
@@ -128,7 +129,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new DictType(new Grouping(StringType, NumType)),
+          new DictType(new TypeGrouping(StringType, NumType)),
           new KennelLiteral([], [])
         )
       ])
@@ -140,7 +141,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new ListType(new Grouping(null, StringType)),
+          new ListType(new TypeGrouping(null, StringType)),
           new PackLiteral([
             new ListElement(
               false,
@@ -165,7 +166,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new ListType(new Grouping(null, new Type("Dog"))),
+          new ListType(new TypeGrouping(null, new Type("Dog"))),
           new PackLiteral([
             new ListElement(false, new VariableExpression("dog1")),
             new ListElement(false, new VariableExpression("dog2")),
@@ -181,7 +182,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new ListType(new Grouping(null, new Type("Dog"))),
+          new ListType(new TypeGrouping(null, new Type("Dog"))),
           new BinaryExpression(
             "without",
             new PackLiteral([
@@ -201,7 +202,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new DictType(new Grouping(StringType, NumType)),
+          new DictType(new TypeGrouping(StringType, NumType)),
           new KennelLiteral([
             new KeyValuePair(
               new TemplateLiteral([new StringLiteral("CeCe")], null),
@@ -828,11 +829,10 @@ const fixture = {
               StringType,
               null
             ),
-            new FunctionDeclaration(
+            new ConstructorDeclaration(
               new VariableExpression("Owner"),
               new Parameters([StringType], [new VariableExpression("dogName")]),
-              new Type("Owner"),
-              null
+              new Type("Owner")
             ),
             new FunctionDeclaration(
               new VariableExpression("introduceDog"),
