@@ -282,14 +282,13 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let membersAST = checkForEmptyArray(chars.ast());
     let members = [];
     let exps = [];
-    membersAST.forEach(checkForInterpolation);
-    function checkForInterpolation(item) {
+    membersAST.forEach(item => {
       if (Array.isArray(item)) {
         members.push(new StringLiteral(item.join("")));
       } else {
         exps.push(item);
       }
-    }
+    });
     return new TemplateLiteral(
       checkForEmptyArray(members),
       checkForEmptyArray(exps)
