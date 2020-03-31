@@ -50,8 +50,14 @@ class FixedLoopStatement {
 }
 
 class VariableDeclaration {
-  constructor(id, type, exp) {
-    Object.assign(this, { id, type, exp });
+  constructor(id, variable) {
+    Object.assign(this, { id, variable });
+  }
+}
+
+class Variable {
+  constructor(type, initializer) {
+    Object.assign(this, { type, initializer });
   }
 }
 
@@ -73,27 +79,33 @@ class ConstructorDeclaration {
   }
 }
 
-class Type {
-  constructor(name) {
-    this.name = name;
+class Type {}
+
+class IdType extends Type {
+  constructor(type) {
+    super();
+    Object.assign(this, { type });
   }
 }
 
-const NumType = new Type("toeBeans");
-const BoolType = new Type("goodBoy");
-const StringType = new Type("leash");
-
-class ListType extends Type {
-  constructor(typeGrouping) {
-    super("pack");
-    this.typeGrouping = typeGrouping;
+class MemberType extends Type {
+  constructor(type) {
+    super();
+    Object.assign(this, { type });
   }
 }
 
 class DictType extends Type {
-  constructor(typeGrouping) {
-    super("kennel");
-    this.typeGrouping = typeGrouping;
+  constructor(keyType, valueType) {
+    super();
+    Object.assign(this, { keyType, valueType });
+  }
+}
+
+class BreedType extends Type {
+  constructor(fields, methods) {
+    super();
+    Object.assign(this, { fields, methods });
   }
 }
 
@@ -225,15 +237,15 @@ module.exports = {
   WhileLoopStatement,
   FixedLoopStatement,
   VariableDeclaration,
+  Variable,
   Type,
+  IdType,
+  MemberType,
+  DictType,
+  BreedType,
   FunctionDeclaration,
   TypeDeclaration,
   ConstructorDeclaration,
-  NumType,
-  BoolType,
-  StringType,
-  ListType,
-  DictType,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,

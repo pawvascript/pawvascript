@@ -24,15 +24,15 @@ const {
   WhileLoopStatement,
   FixedLoopStatement,
   VariableDeclaration,
+  Variable,
   Type,
+  IdType,
+  MemberType,
+  DictType,
+  BreedType,
   FunctionDeclaration,
   TypeDeclaration,
   ConstructorDeclaration,
-  NumType,
-  BoolType,
-  StringType,
-  ListType,
-  DictType,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,
@@ -64,17 +64,13 @@ function checkForEmptyArray(item) {
 }
 
 function getType(typeName) {
-  switch (typeName) {
-    case "toeBeans":
-      return NumType;
-    case "leash":
-      return StringType;
-    case "goodBoy":
-      return BoolType;
+  const foundIdType = typeName.match(/^toeBeans$|^leash$|^goodBoy$/);
+  if (foundIdType) {
+    return new IdType(typeName);
   }
   const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
   if (foundPack) {
-    return new ListType(new TypeGrouping(null, getType(foundPack[1])));
+    return new MemberType(getType(foundPack[1]));
   }
   const foundKennel = typeName.match(/^(?:kennel)(?:\[)(.+)(?::)(.+)(?:\])$/);
   if (foundKennel) {
@@ -199,8 +195,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   VarDec(type, id, _is, exp) {
     return new VariableDeclaration(
       id.ast(),
-      type.ast(),
-      arrayToNullable(exp.ast())
+      new Variable(getType(type.sourceString), arrayToNullable(exp.ast()))
     );
   },
   TypeDec(_1, id, _2, _3, body, _4) {
