@@ -32,7 +32,12 @@ const {
 
 // TODO REFACTOR THIS WHOLE FILE
 
-const { IntType, StringType, NilType } = require("./builtins");
+const {
+  NumType,
+  StringType,
+  BoolType,
+  standardFunctions
+} = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
 

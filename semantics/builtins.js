@@ -92,4 +92,4 @@ standardFunctions.forEach(f => {
 });
 /* eslint-enable no-param-reassign */
 
-module.exports = { standardFunctions };
+module.exports = { NumType, StringType, BoolType, standardFunctions };
