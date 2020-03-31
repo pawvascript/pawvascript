@@ -25,22 +25,26 @@ const {
   FixedLoopStatement,
   VariableDeclaration,
   Variable,
-  Type,
-  IdType,
-  MemberType,
-  DictType,
-  BreedType,
-  FunctionDeclaration,
   TypeDeclaration,
+  Type,
+  BreedType,
+  Field,
+  Method,
+  IdType,
+  ListType,
+  DictType,
+  FunctionDeclaration,
+  Function,
+  Parameters,
   ConstructorDeclaration,
+  Constructor,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,
   GiveStatement,
   BreakStatement,
   ContinueStatement,
-  TypeGrouping,
-  Parameters,
+  Expression,
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
@@ -70,7 +74,7 @@ function getType(typeName) {
   }
   const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
   if (foundPack) {
-    return new MemberType(getType(foundPack[1]));
+    return new ListType(getType(foundPack[1]));
   }
   const foundKennel = typeName.match(/^(?:kennel)(?:\[)(.+)(?::)(.+)(?:\])$/);
   if (foundKennel) {

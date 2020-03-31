@@ -20,14 +20,19 @@ const {
   FixedLoopStatement,
   VariableDeclaration,
   Variable,
-  Type,
-  IdType,
-  MemberType,
-  DictType,
-  BreedType,
-  FunctionDeclaration,
   TypeDeclaration,
+  Type,
+  BreedType,
+  Field,
+  Method,
+  IdType,
+  ListType,
+  DictType,
+  FunctionDeclaration,
+  Function,
+  Parameters,
   ConstructorDeclaration,
+  Constructor,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,
@@ -35,8 +40,6 @@ const {
   BreakStatement,
   ContinueStatement,
   Expression,
-  TypeGrouping,
-  Parameters,
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
@@ -117,7 +120,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new Variable(new MemberType(new IdType("leash")), new PackLiteral([]))
+          new Variable(new ListType(new IdType("leash")), new PackLiteral([]))
         )
       ])
     )

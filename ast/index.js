@@ -56,42 +56,74 @@ class VariableDeclaration {
 }
 
 class Variable {
-  constructor(type, initializer) {
-    Object.assign(this, { type, initializer });
+  constructor(type, initializerExp = null) {
+    Object.assign(this, { type, initializerExp });
   }
 }
 
 class FunctionDeclaration {
-  constructor(id, parameters, returnType, body) {
-    Object.assign(this, { id, parameters, returnType, body });
+  constructor(id, func) {
+    Object.assign(this, { id, func });
   }
 }
 
-class TypeDeclaration {
-  constructor(id, block) {
-    Object.assign(this, { id, block });
-  }
-}
-
-class ConstructorDeclaration {
-  constructor(id, parameters, returnType) {
-    Object.assign(this, { id, parameters, returnType });
+class Function {
+  constructor(parameters, returnType, body) {
+    Object.assign(this, { parameters, returnType, body });
   }
 }
 
 class Type {}
 
-class IdType extends Type {
-  constructor(type) {
-    super();
-    Object.assign(this, { type });
+class TypeDeclaration {
+  constructor(id, breedType) {
+    Object.assign(this, { id, breedType });
   }
 }
 
-class MemberType extends Type {
-  constructor(type) {
+class BreedType extends Type {
+  constructor(fields, methods, constructors) {
     super();
-    Object.assign(this, { type });
+    // fields and methods will be arrays of VarDecs and FuncDecs, respectively
+    Object.assign(this, { fields, methods, constructors });
+  }
+}
+
+class ConstructorDeclaration {
+  constructor(id, constr) {
+    Object.assign(this, { id, constr });
+  }
+}
+
+class Constructor {
+  constructor(parameters, returnType) {
+    Object.assign(this, { parameters, returnType });
+  }
+}
+
+class Field {
+  constructor(id, variable) {
+    Object.assign(this, { id, variable });
+  }
+}
+
+class Method {
+  constructor(id, func) {
+    Object.assign(this, { id, func });
+  }
+}
+
+class IdType extends Type {
+  constructor(name) {
+    super();
+    Object.assign(this, { name });
+  }
+}
+
+class ListType extends Type {
+  constructor(memberType) {
+    super();
+    Object.assign(this, { memberType });
   }
 }
 
@@ -99,13 +131,6 @@ class DictType extends Type {
   constructor(keyType, valueType) {
     super();
     Object.assign(this, { keyType, valueType });
-  }
-}
-
-class BreedType extends Type {
-  constructor(fields, methods) {
-    super();
-    Object.assign(this, { fields, methods });
   }
 }
 
@@ -139,12 +164,6 @@ class BreakStatement {}
 class ContinueStatement {}
 
 class Expression {}
-
-class TypeGrouping {
-  constructor(keyType, valueType) {
-    Object.assign(this, { keyType, valueType });
-  }
-}
 
 class Parameters {
   constructor(types, ids) {
@@ -238,14 +257,19 @@ module.exports = {
   FixedLoopStatement,
   VariableDeclaration,
   Variable,
-  Type,
-  IdType,
-  MemberType,
-  DictType,
-  BreedType,
-  FunctionDeclaration,
   TypeDeclaration,
+  Type,
+  BreedType,
+  Field,
+  Method,
+  IdType,
+  ListType,
+  DictType,
+  FunctionDeclaration,
+  Function,
+  Parameters,
   ConstructorDeclaration,
+  Constructor,
   AssignmentStatement,
   FunctionCall,
   PrintStatement,
@@ -253,8 +277,6 @@ module.exports = {
   BreakStatement,
   ContinueStatement,
   Expression,
-  TypeGrouping,
-  Parameters,
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,

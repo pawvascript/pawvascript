@@ -38,6 +38,10 @@ const {
   //   BinaryExpression
 } = require("../ast");
 
+const NumType = new PrimitiveType("toebeans");
+const StringType = new PrimitiveType("leash");
+const BoolType = new PrimitiveType("goodBoy");
+
 const standardFunctions = [
   // built-in string functions:
   new FunctionDeclaration(
