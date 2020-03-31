@@ -27,11 +27,14 @@ PawvaScript {
     Declaration     = FuncDec
                     | TypeDec
                     | VarDec ";"                                                    --varDec
-    FuncDec         = trick id (chews Parameters)? (fetches Type)? ":" Block tail   --basic
-                    | trick id (chews Parameters)? (fetches Type) ";"               --constructor
+    FuncDec         = trick id (chews Parameters)? (fetches Type)? ":" Block tail   
     Parameters      = "[" (Type ":" id)? ("," Type ":" id)* "]"
     VarDec          = Type id (is Exp)?
-    TypeDec         = breed id is ":" Block tail
+    TypeDec         = breed id is ":" TypeBody tail
+    TypeBody        = (Field | Constructor | Method)*
+    Field           = Type id (is Exp)? ";"
+    Method          = trick id (chews Parameters)? (fetches Type)? ":" Block tail
+    Constructor     = trick id (chews Parameters)? (fetches Type) ";"
     Exp             = Exp logop RelopExp                                            --logop
                     | RelopExp
     RelopExp        = Term relop Term                                               --relop

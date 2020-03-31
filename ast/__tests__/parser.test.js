@@ -25,7 +25,7 @@ const {
   BreedType,
   Field,
   Method,
-  IdType,
+  PrimitiveType,
   ListType,
   DictType,
   FunctionDeclaration,
@@ -61,19 +61,18 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogName"),
-          new Variable(new IdType("leash"), null)
+          new Variable(new PrimitiveType("leash"), null)
         )
       ])
     )
-  ],
+  ]
   // variableDeclarationInitializedToNull: [
   //   String.raw`leash dogName is cat;`,
   //   new Program(
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogName"),
-  //         StringType,
-  //         null
+  //         new Variable(new PrimitiveType("leash"), null)
   //       )
   //     ])
   //   )
@@ -84,8 +83,7 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("CeCeAge"),
-  //         NumType,
-  //         new NumberLiteral(1)
+  //         new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(1))
   //       )
   //     ])
   //   )
@@ -96,8 +94,7 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("isGoodBoy"),
-  //         BoolType,
-  //         new BooleanLiteral(true)
+  //         new Variable(new PrimitiveType("goodBoy"), new BooleanLiteral(true))
   //       )
   //     ])
   //   )
@@ -108,31 +105,41 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("name"),
-  //         StringType,
-  //         new TemplateLiteral([new StringLiteral("CeCe")], null)
+  //         new Variable(
+  //           new PrimitiveType("leash"),
+  //           new TemplateLiteral([new StringLiteral("CeCe")], null)
+  //         )
   //       )
   //     ])
   //   )
   // ],
-  emptyListVariableDeclaration: [
-    String.raw`pack[leash] dogs is [];`,
-    new Program(
-      new Block([
-        new VariableDeclaration(
-          new VariableExpression("dogs"),
-          new Variable(new ListType(new IdType("leash")), new PackLiteral([]))
-        )
-      ])
-    )
-  ]
+  // emptyListVariableDeclaration: [
+  //   String.raw`pack[leash] dogs is [];`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("dogs"),
+  //         new Variable(
+  //           new ListType(new PrimitiveType("leash")),
+  //           new PackLiteral([])
+  //         )
+  //       )
+  //     ])
+  //   )
+  // ],
   // emptyDictVariableDeclaration: [
   //   String.raw`kennel[leash:toeBeans] dogs is [:];`,
   //   new Program(
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogs"),
-  //         new DictType(new TypeGrouping(StringType, NumType)),
-  //         new KennelLiteral([], [])
+  //         new Variable(
+  //           new DictType(
+  //             new PrimitiveType("leash"),
+  //             new PrimitiveType("toeBeans")
+  //           ),
+  //           new KennelLiteral([], [])
+  //         )
   //       )
   //     ])
   //   )
@@ -143,21 +150,23 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogs"),
-  //         new ListType(new TypeGrouping(null, StringType)),
-  //         new PackLiteral([
-  //           new ListElement(
-  //             false,
-  //             new TemplateLiteral([new StringLiteral("CeCe")], null)
-  //           ),
-  //           new ListElement(
-  //             false,
-  //             new TemplateLiteral([new StringLiteral("Buster")], null)
-  //           ),
-  //           new ListElement(
-  //             false,
-  //             new TemplateLiteral([new StringLiteral("Dumpling")], null)
-  //           )
-  //         ])
+  //         new Variable(
+  //           new ListType(new PrimitiveType("leash")),
+  //           new PackLiteral([
+  //             new ListElement(
+  //               false,
+  //               new TemplateLiteral([new StringLiteral("CeCe")], null)
+  //             ),
+  //             new ListElement(
+  //               false,
+  //               new TemplateLiteral([new StringLiteral("Buster")], null)
+  //             ),
+  //             new ListElement(
+  //               false,
+  //               new TemplateLiteral([new StringLiteral("Dumpling")], null)
+  //             )
+  //           ])
+  //         )
   //       )
   //     ])
   //   )
@@ -168,12 +177,14 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogs"),
-  //         new ListType(new TypeGrouping(null, new Type("Dog"))),
-  //         new PackLiteral([
-  //           new ListElement(false, new VariableExpression("dog1")),
-  //           new ListElement(false, new VariableExpression("dog2")),
-  //           new ListElement(true, new VariableExpression("otherDogs"))
-  //         ])
+  //         new Variable(
+  //           new ListType(new PrimitiveType("Dog")),
+  //           new PackLiteral([
+  //             new ListElement(false, new VariableExpression("dog1")),
+  //             new ListElement(false, new VariableExpression("dog2")),
+  //             new ListElement(true, new VariableExpression("otherDogs"))
+  //           ])
+  //         )
   //       )
   //     ])
   //   )
@@ -184,15 +195,17 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogs"),
-  //         new ListType(new TypeGrouping(null, new Type("Dog"))),
-  //         new BinaryExpression(
-  //           "without",
-  //           new PackLiteral([
-  //             new ListElement(false, new VariableExpression("dog1")),
-  //             new ListElement(false, new VariableExpression("dog2")),
-  //             new ListElement(false, new VariableExpression("dog3"))
-  //           ]),
-  //           new VariableExpression("dog1")
+  //         new Variable(
+  //           new ListType(new PrimitiveType("Dog")),
+  //           new BinaryExpression(
+  //             "without",
+  //             new PackLiteral([
+  //               new ListElement(false, new VariableExpression("dog1")),
+  //               new ListElement(false, new VariableExpression("dog2")),
+  //               new ListElement(false, new VariableExpression("dog3"))
+  //             ]),
+  //             new VariableExpression("dog1")
+  //           )
   //         )
   //       )
   //     ])
@@ -204,21 +217,26 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogs"),
-  //         new DictType(new TypeGrouping(StringType, NumType)),
-  //         new KennelLiteral([
-  //           new KeyValuePair(
-  //             new TemplateLiteral([new StringLiteral("CeCe")], null),
-  //             new NumberLiteral(1)
+  //         new Variable(
+  //           new DictType(
+  //             new PrimitiveType("leash"),
+  //             new PrimitiveType("toeBeans")
   //           ),
-  //           new KeyValuePair(
-  //             new TemplateLiteral([new StringLiteral("Buster")], null),
-  //             new NumberLiteral(2)
-  //           ),
-  //           new KeyValuePair(
-  //             new TemplateLiteral([new StringLiteral("Mo")], null),
-  //             new NumberLiteral(3)
-  //           )
-  //         ])
+  //           new KennelLiteral([
+  //             new KeyValuePair(
+  //               new TemplateLiteral([new StringLiteral("CeCe")], null),
+  //               new NumberLiteral(1)
+  //             ),
+  //             new KeyValuePair(
+  //               new TemplateLiteral([new StringLiteral("Buster")], null),
+  //               new NumberLiteral(2)
+  //             ),
+  //             new KeyValuePair(
+  //               new TemplateLiteral([new StringLiteral("Mo")], null),
+  //               new NumberLiteral(3)
+  //             )
+  //           ])
+  //         )
   //       )
   //     ])
   //   )
@@ -230,87 +248,94 @@ const fixture = {
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("dogName"),
-  //         StringType,
-  //         new BinaryExpression(
-  //           "with",
-  //           new TemplateLiteral([new StringLiteral("Ce")], null),
-  //           new TemplateLiteral([new StringLiteral("Ce")], null)
+  //         new Variable(
+  //           new PrimitiveType("leash"),
+  //           new BinaryExpression(
+  //             "with",
+  //             new StringLiteral("Ce"),
+  //             new StringLiteral("Ce")
+  //           )
   //         )
   //       )
   //     ])
   //   )
-  // ],
-  // stringInterpolation: [
-  //   String.raw`leash sentence is "![x] is a good girl";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("sentence"),
-  //         StringType,
-  //         new TemplateLiteral(
-  //           [new StringLiteral(" is a good girl")],
-  //           [new VariableExpression("x")]
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // stringInterpolationInMiddleOfString: [
-  //   String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("phrase"),
-  //         StringType,
-  //         new TemplateLiteral(
-  //           [
-  //             new StringLiteral("Come back here, "),
-  //             new StringLiteral(". Good girl.")
-  //           ],
-  //           [new VariableExpression("name")]
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // /* Assignment */
-  // variableAssignment: [
-  //   String.raw`cuteness is 100;`,
-  //   new Program(
-  //     new Block([
-  //       new AssignmentStatement(
-  //         new VariableExpression("cuteness"),
-  //         new NumberLiteral(100)
-  //       )
-  //     ])
-  //   )
-  // ],
-  // /* Relops */
+  // ]
+
+  // // stringInterpolation: [
+  // //   String.raw`leash sentence is "![x] is a good girl";`,
+  // //   new Program(
+  // //     new Block([
+  // //       new VariableDeclaration(
+  // //         new VariableExpression("sentence"),
+  // //         StringType,
+  // //         new TemplateLiteral(
+  // //           [new StringLiteral(""), new StringLiteral(" is a good girl")],
+  // //           [new VariableExpression("x")]
+  // //         )
+  // //       )
+  // //     ])
+  // //   )
+  // // ],
+  // // stringInterpolationInMiddleOfString: [
+  // //   String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
+  // //   new Program(
+  // //     new Block([
+  // //       new VariableDeclaration(
+  // //         new VariableExpression("phrase"),
+  // //         StringType,
+  // //         new TemplateLiteral(
+  // //           [
+  // //             new StringLiteral("Come back here, "),
+  // //             new StringLiteral(". Good girl.")
+  // //           ],
+  // //           [new VariableExpression("name")]
+  // //         )
+  // //       )
+  // //     ])
+  // //   )
+  // // ],
+  // // /* Assignment */
+  // // variableAssignment: [
+  // //   String.raw`cuteness is 100;`,
+  // //   new Program(
+  // //     new Block([
+  // //       new AssignmentStatement(
+  // //         new VariableExpression("cuteness"),
+  // //         new NumberLiteral(100)
+  // //       )
+  // //     ])
+  // //   )
+  // // ],
+  // // /* Relops */
   // equalityOperators: [
   //   String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
   //   new Program(
   //     new Block([
   //       new VariableDeclaration(
   //         new VariableExpression("testBool1"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "equals",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "equals",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
   //         )
   //       ),
   //       new VariableDeclaration(
   //         new VariableExpression("testBool2"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "notEquals",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "notEquals",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
   //         )
   //       )
   //     ])
   //   )
-  // ],
+  // ]
   // greaterThanLessThanComparators: [
   //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
   //   new Program(
@@ -818,7 +843,7 @@ const fixture = {
   //     tail
   //   tail
 
-  //   Owner lucille is Owner("CeCe");
+  //   Owner lucille is Owner("CeCe"); // syntactically, type is an id
   //   lucille's introduceDog();  !!! output: "My dog's name is CeCe" !!!
   //   woof lucille's command(); !!! output: "CeCe, stay." !!!`,
   //   new Program(

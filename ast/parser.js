@@ -30,9 +30,10 @@ const {
   BreedType,
   Field,
   Method,
-  IdType,
+  PrimitiveType,
   ListType,
   DictType,
+  IdType,
   FunctionDeclaration,
   Function,
   Parameters,
@@ -68,9 +69,9 @@ function checkForEmptyArray(item) {
 }
 
 function getType(typeName) {
-  const foundIdType = typeName.match(/^toeBeans$|^leash$|^goodBoy$/);
-  if (foundIdType) {
-    return new IdType(typeName);
+  const foundPrimitiveType = typeName.match(/^toeBeans$|^leash$|^goodBoy$/);
+  if (foundPrimitiveType) {
+    return new PrimitiveType(typeName);
   }
   const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
   if (foundPack) {
@@ -78,11 +79,9 @@ function getType(typeName) {
   }
   const foundKennel = typeName.match(/^(?:kennel)(?:\[)(.+)(?::)(.+)(?:\])$/);
   if (foundKennel) {
-    return new DictType(
-      new TypeGrouping(getType(foundKennel[1]), getType(foundKennel[2]))
-    );
+    return new DictType(getType(foundKennel[1]), getType(foundKennel[2]));
   }
-  return new Type(typeName);
+  return new IdType(typeName);
 }
 
 const astBuilder = grammar.createSemantics().addOperation("ast", {
@@ -181,19 +180,14 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   Declaration_varDec(v, _) {
     return v.ast();
   },
-  FuncDec_basic(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
+  FuncDec(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
     return new FunctionDeclaration(
       id.ast(),
-      arrayToNullable(parameters.ast()),
-      arrayToNullable(returnType.ast()),
-      body.ast()
-    );
-  },
-  FuncDec_constructor(_1, id, _2, parameters, _3, returnType, _4) {
-    return new ConstructorDeclaration(
-      id.ast(),
-      arrayToNullable(parameters.ast()),
-      returnType.ast()
+      new Function(
+        arrayToNullable(parameters.ast()),
+        arrayToNullable(returnType.ast()),
+        body.ast()
+      )
     );
   },
   VarDec(type, id, _is, exp) {
@@ -202,8 +196,40 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       new Variable(getType(type.sourceString), arrayToNullable(exp.ast()))
     );
   },
-  TypeDec(_1, id, _2, _3, body, _4) {
-    return new TypeDeclaration(id.ast(), body.ast());
+  TypeDec(_1, id, _2, _3, typeBody, _4) {
+    return new TypeDeclaration(id.ast(), typeBody.ast()); // TODO
+  },
+  TypeBody(body) {
+    const fields = body[0];
+    const constructors = body[1];
+    const methods = body[2];
+    return new BreedType(
+      checkForEmptyArray(fields.ast()),
+      checkForEmptyArray(constructors.ast()),
+      checkForEmptyArray(methods.ast())
+    );
+  },
+  Field(type, id, _is, exp, _) {
+    return new Field(
+      id.ast(),
+      new Variable(getType(type.sourceString), arrayToNullable(exp.ast()))
+    );
+  },
+  Constructor(_1, id, _2, parameters, _3, returnType, _4) {
+    return new ConstructorDeclaration(
+      id.ast(),
+      new Constructor(arrayToNullable(parameters.ast()), returnType.ast())
+    );
+  },
+  Method(_1, id, _2, parameters, _3, returnType, _4, body, _5) {
+    return new Method(
+      id.ast(),
+      new Function(
+        arrayToNullable(parameters.ast()),
+        arrayToNullable(returnType.ast()),
+        body.ast()
+      )
+    );
   },
   FuncCall(id, _1, firstArg, _2, moreArgs, _3) {
     if (firstArg.ast().length === 0 && moreArgs.ast().length == 0) {
@@ -283,6 +309,11 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
       if (Array.isArray(item)) {
         quasis.push(new StringLiteral(item.join("")));
       } else {
+        // if a template literal begins with an interpolated expression, make sure to include an empty
+        // string as the first quasi so that the interpolation happens in the right order
+        if (quasis.length === 0) {
+          quasis.push(new StringLiteral(""));
+        }
         exps.push(item);
       }
     });

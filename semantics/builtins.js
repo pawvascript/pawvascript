@@ -1,41 +1,30 @@
 const {
-  //   Program,
-  //   Block,
-  //   ConditionalStatement,
-  //   InfiniteLoopStatement,
-  //   ForLoopStatement,
-  //   ThroughLoopStatement,
-  //   WhileLoopStatement,
-  //   FixedLoopStatement,
-  //   VariableDeclaration,
-  //   Type,
+  PrimitiveType,
+  ListType,
+  DictType,
   FunctionDeclaration,
-  //   TypeDeclaration,
-  //   ConstructorDeclaration,
-  NumType,
-  BoolType,
-  StringType,
-  //   ListType,
-  //   DictType,
-  //   AssignmentStatement,
-  //   FunctionCall,
-  //   PrintStatement,
-  //   GiveStatement,
-  //   BreakStatement,
-  //   ContinueStatement,
-  //   TypeGrouping,
+  Function,
   Parameters,
-  //   BooleanLiteral,
-  //   NumberLiteral,
-  //   StringLiteral,
-  //   TemplateLiteral,
-  //   PackLiteral,
-  //   ListElement,
-  //   KennelLiteral,
-  //   KeyValuePair,
-  VariableExpression
-  //   UnaryExpression,
-  //   BinaryExpression
+  ConstructorDeclaration,
+  Constructor,
+  AssignmentStatement,
+  FunctionCall,
+  PrintStatement,
+  GiveStatement,
+  BreakStatement,
+  ContinueStatement,
+  Expression,
+  BooleanLiteral,
+  NumberLiteral,
+  StringLiteral,
+  TemplateLiteral,
+  PackLiteral,
+  ListElement,
+  KennelLiteral,
+  KeyValuePair,
+  VariableExpression,
+  UnaryExpression,
+  BinaryExpression
 } = require("../ast");
 
 const NumType = new PrimitiveType("toebeans");
@@ -68,6 +57,12 @@ const standardFunctions = [
     new Parameters([StringType], [new VariableExpression("substring")]),
     BoolType,
     null // todo
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("indexOf"),
+    new Parameters([StringType], [new VariableExpression("substring")]),
+    NumType,
+    null // todo
   )
   // built-in list functions:
   // how do you a generic sort of function like this??? the parameter could be any type, whatever the type of the list is
@@ -86,6 +81,10 @@ const standardFunctions = [
 
   // standard toString function for any object:
 ];
+
+// add a flag to functions to indicate they are standard
+// will not be pure pawvascript
+// can use function overloading
 
 /* eslint-disable no-param-reassign */
 standardFunctions.forEach(f => {

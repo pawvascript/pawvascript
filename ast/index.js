@@ -82,10 +82,10 @@ class TypeDeclaration {
 }
 
 class BreedType extends Type {
-  constructor(fields, methods, constructors) {
+  constructor(fields, constructors, methods) {
     super();
     // fields and methods will be arrays of VarDecs and FuncDecs, respectively
-    Object.assign(this, { fields, methods, constructors });
+    Object.assign(this, { fields, constructors, methods });
   }
 }
 
@@ -113,7 +113,7 @@ class Method {
   }
 }
 
-class IdType extends Type {
+class PrimitiveType extends Type {
   constructor(name) {
     super();
     Object.assign(this, { name });
@@ -131,6 +131,17 @@ class DictType extends Type {
   constructor(keyType, valueType) {
     super();
     Object.assign(this, { keyType, valueType });
+  }
+}
+
+class IdType extends Type {
+  // An intermediate node class that is used for Variables whose types are BreedTypes
+  // that must have been previously defined with a TypeDeclaration. During semantic
+  // analysis, if a variable's type is IdType, it will replace it with a pointer to
+  // the BreedType with the corresponding name in the context.
+  constructor(name, ref = null) {
+    super();
+    Object.assign(this, { name, ref });
   }
 }
 
@@ -262,9 +273,10 @@ module.exports = {
   BreedType,
   Field,
   Method,
-  IdType,
+  PrimitiveType,
   ListType,
   DictType,
+  IdType,
   FunctionDeclaration,
   Function,
   Parameters,
