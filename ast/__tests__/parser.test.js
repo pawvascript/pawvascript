@@ -780,76 +780,82 @@ const fixture = {
       ])
     )
   ],
-  // /* Function Declarations */
-  // functionDeclaration: [
-  //   String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
-  //       toeBeans remainder;
-  //       chase while (a mod b) isGreaterThan 0:
-  //           remainder is (a mod b);
-  //           a is b;
-  //           b is remainder;
-  //       tail
-  //       give a;
-  //   tail
-  //   toeBeans greatestCommonDivisor is gcd(21, 49);`,
-  //   new Program(
-  //     new Block([
-  //       new FunctionDeclaration(
-  //         new VariableExpression("gcd"),
-  //         new Parameters(
-  //           [NumType, NumType],
-  //           [new VariableExpression("num1"), new VariableExpression("num2")]
-  //         ),
-  //         NumType,
-  //         new Block([
-  //           new VariableDeclaration(
-  //             new VariableExpression("remainder"),
-  //             NumType,
-  //             null
-  //           ),
-  //           new WhileLoopStatement(
-  //             new BinaryExpression(
-  //               "isGreaterThan",
-  //               new BinaryExpression(
-  //                 "mod",
-  //                 new VariableExpression("a"),
-  //                 new VariableExpression("b")
-  //               ),
-  //               new NumberLiteral(0)
-  //             ),
-  //             new Block([
-  //               new AssignmentStatement(
-  //                 new VariableExpression("remainder"),
-  //                 new BinaryExpression(
-  //                   "mod",
-  //                   new VariableExpression("a"),
-  //                   new VariableExpression("b")
-  //                 )
-  //               ),
-  //               new AssignmentStatement(
-  //                 new VariableExpression("a"),
-  //                 new VariableExpression("b")
-  //               ),
-  //               new AssignmentStatement(
-  //                 new VariableExpression("b"),
-  //                 new VariableExpression("remainder")
-  //               )
-  //             ])
-  //           ),
-  //           new GiveStatement(new VariableExpression("a"))
-  //         ])
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("greatestCommonDivisor"),
-  //         NumType,
-  //         new FunctionCall(new VariableExpression("gcd"), [
-  //           new NumberLiteral(21),
-  //           new NumberLiteral(49)
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
+  /* Function Declarations */
+  functionDeclaration: [
+    String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
+        toeBeans remainder;
+        chase while (a mod b) isGreaterThan 0:
+            remainder is (a mod b);
+            a is b;
+            b is remainder;
+        tail
+        give a;
+    tail
+    toeBeans greatestCommonDivisor is gcd(21, 49);`,
+    new Program(
+      new Block([
+        new FunctionDeclaration(
+          new VariableExpression("gcd"),
+          new Function(
+            new Parameters(
+              [new PrimitiveType("toeBeans"), new PrimitiveType("toeBeans")],
+              [new VariableExpression("num1"), new VariableExpression("num2")]
+            ),
+            new PrimitiveType("toeBeans"),
+            new Block([
+              new VariableDeclaration(
+                new VariableExpression("remainder"),
+                new Variable(
+                  new PrimitiveType("toeBeans"),
+                  null
+                )
+              ),
+              new WhileLoopStatement(
+                new BinaryExpression(
+                  "isGreaterThan",
+                  new BinaryExpression(
+                    "mod",
+                    new VariableExpression("a"),
+                    new VariableExpression("b")
+                  ),
+                  new NumberLiteral(0)
+                ),
+                new Block([
+                  new AssignmentStatement(
+                    new VariableExpression("remainder"),
+                    new BinaryExpression(
+                      "mod",
+                      new VariableExpression("a"),
+                      new VariableExpression("b")
+                    )
+                  ),
+                  new AssignmentStatement(
+                    new VariableExpression("a"),
+                    new VariableExpression("b")
+                  ),
+                  new AssignmentStatement(
+                    new VariableExpression("b"),
+                    new VariableExpression("remainder")
+                  )
+                ])
+              ),
+              new GiveStatement(new VariableExpression("a"))
+            ])
+          )
+        ),
+        new VariableDeclaration(
+          new VariableExpression("greatestCommonDivisor"),
+          new Variable(
+            new PrimitiveType("toeBeans"),
+            new FunctionCall(new VariableExpression("gcd"), [
+              new NumberLiteral(21),
+              new NumberLiteral(49)
+            ])
+          )
+        )
+      ])
+    )
+  ],
   // /* Breed Declarations */
   // breedDeclaration: [
   //   String.raw`
