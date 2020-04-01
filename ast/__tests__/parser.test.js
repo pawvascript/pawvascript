@@ -28,6 +28,7 @@ const {
   PrimitiveType,
   ListType,
   DictType,
+  IdType,
   FunctionDeclaration,
   Function,
   Parameters,
@@ -65,182 +66,182 @@ const fixture = {
         )
       ])
     )
-  ]
-  // variableDeclarationInitializedToNull: [
-  //   String.raw`leash dogName is cat;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogName"),
-  //         new Variable(new PrimitiveType("leash"), null)
-  //       )
-  //     ])
-  //   )
-  // ],
-  // numberVariableDeclaration: [
-  //   String.raw`toeBeans CeCeAge is 1;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("CeCeAge"),
-  //         new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(1))
-  //       )
-  //     ])
-  //   )
-  // ],
-  // booleanVariableDeclaration: [
-  //   String.raw`goodBoy isGoodBoy is good;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("isGoodBoy"),
-  //         new Variable(new PrimitiveType("goodBoy"), new BooleanLiteral(true))
-  //       )
-  //     ])
-  //   )
-  // ],
-  // stringVariableDeclaration: [
-  //   String.raw`leash name is "CeCe";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("name"),
-  //         new Variable(
-  //           new PrimitiveType("leash"),
-  //           new TemplateLiteral([new StringLiteral("CeCe")], null)
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // emptyListVariableDeclaration: [
-  //   String.raw`pack[leash] dogs is [];`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new ListType(new PrimitiveType("leash")),
-  //           new PackLiteral([])
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // emptyDictVariableDeclaration: [
-  //   String.raw`kennel[leash:toeBeans] dogs is [:];`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new DictType(
-  //             new PrimitiveType("leash"),
-  //             new PrimitiveType("toeBeans")
-  //           ),
-  //           new KennelLiteral([], [])
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // nonEmptyListVariableDeclaration: [
-  //   String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new ListType(new PrimitiveType("leash")),
-  //           new PackLiteral([
-  //             new ListElement(
-  //               false,
-  //               new TemplateLiteral([new StringLiteral("CeCe")], null)
-  //             ),
-  //             new ListElement(
-  //               false,
-  //               new TemplateLiteral([new StringLiteral("Buster")], null)
-  //             ),
-  //             new ListElement(
-  //               false,
-  //               new TemplateLiteral([new StringLiteral("Dumpling")], null)
-  //             )
-  //           ])
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // listVariableDeclarationWithSpreads: [
-  //   String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new ListType(new PrimitiveType("Dog")),
-  //           new PackLiteral([
-  //             new ListElement(false, new VariableExpression("dog1")),
-  //             new ListElement(false, new VariableExpression("dog2")),
-  //             new ListElement(true, new VariableExpression("otherDogs"))
-  //           ])
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // listVariableDeclarationUsingWithout: [
-  //   String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new ListType(new PrimitiveType("Dog")),
-  //           new BinaryExpression(
-  //             "without",
-  //             new PackLiteral([
-  //               new ListElement(false, new VariableExpression("dog1")),
-  //               new ListElement(false, new VariableExpression("dog2")),
-  //               new ListElement(false, new VariableExpression("dog3"))
-  //             ]),
-  //             new VariableExpression("dog1")
-  //           )
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // nonEmptyDictVariableDeclaration: [
-  //   String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogs"),
-  //         new Variable(
-  //           new DictType(
-  //             new PrimitiveType("leash"),
-  //             new PrimitiveType("toeBeans")
-  //           ),
-  //           new KennelLiteral([
-  //             new KeyValuePair(
-  //               new TemplateLiteral([new StringLiteral("CeCe")], null),
-  //               new NumberLiteral(1)
-  //             ),
-  //             new KeyValuePair(
-  //               new TemplateLiteral([new StringLiteral("Buster")], null),
-  //               new NumberLiteral(2)
-  //             ),
-  //             new KeyValuePair(
-  //               new TemplateLiteral([new StringLiteral("Mo")], null),
-  //               new NumberLiteral(3)
-  //             )
-  //           ])
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
+  ],
+  variableDeclarationInitializedToNull: [
+    String.raw`leash dogName is cat;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogName"),
+          new Variable(new PrimitiveType("leash"), null)
+        )
+      ])
+    )
+  ],
+  numberVariableDeclaration: [
+    String.raw`toeBeans CeCeAge is 1;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("CeCeAge"),
+          new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(1))
+        )
+      ])
+    )
+  ],
+  booleanVariableDeclaration: [
+    String.raw`goodBoy isGoodBoy is good;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("isGoodBoy"),
+          new Variable(new PrimitiveType("goodBoy"), new BooleanLiteral(true))
+        )
+      ])
+    )
+  ],
+  stringVariableDeclaration: [
+    String.raw`leash name is "CeCe";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("name"),
+          new Variable(
+            new PrimitiveType("leash"),
+            new TemplateLiteral([new StringLiteral("CeCe")], null)
+          )
+        )
+      ])
+    )
+  ],
+  emptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is [];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+            new ListType(new PrimitiveType("leash")),
+            new PackLiteral([])
+          )
+        )
+      ])
+    )
+  ],
+  emptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is [:];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+            new DictType(
+              new PrimitiveType("leash"),
+              new PrimitiveType("toeBeans")
+            ),
+            new KennelLiteral([], [])
+          )
+        )
+      ])
+    )
+  ],
+  nonEmptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+            new ListType(new PrimitiveType("leash")),
+            new PackLiteral([
+              new ListElement(
+                false,
+                new TemplateLiteral([new StringLiteral("CeCe")], null)
+              ),
+              new ListElement(
+                false,
+                new TemplateLiteral([new StringLiteral("Buster")], null)
+              ),
+              new ListElement(
+                false,
+                new TemplateLiteral([new StringLiteral("Dumpling")], null)
+              )
+            ])
+          )
+        )
+      ])
+    )
+  ],
+  listVariableDeclarationWithSpreads: [
+    String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+              new ListType(new IdType("Dog")),
+              new PackLiteral([
+                new ListElement(false, new VariableExpression("dog1")),
+                new ListElement(false, new VariableExpression("dog2")),
+                new ListElement(true, new VariableExpression("otherDogs"))
+            ])
+          )
+        )
+      ])
+    )
+  ],
+  listVariableDeclarationUsingWithout: [
+    String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+            new ListType(new IdType("Dog")),
+            new BinaryExpression(
+              "without",
+              new PackLiteral([
+                new ListElement(false, new VariableExpression("dog1")),
+                new ListElement(false, new VariableExpression("dog2")),
+                new ListElement(false, new VariableExpression("dog3"))
+              ]),
+              new VariableExpression("dog1")
+            )
+          )
+        )
+      ])
+    )
+  ],
+  nonEmptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogs"),
+          new Variable(
+            new DictType(
+              new PrimitiveType("leash"),
+              new PrimitiveType("toeBeans")
+            ),
+            new KennelLiteral([
+              new KeyValuePair(
+                new TemplateLiteral([new StringLiteral("CeCe")], null),
+                new NumberLiteral(1)
+              ),
+              new KeyValuePair(
+                new TemplateLiteral([new StringLiteral("Buster")], null),
+                new NumberLiteral(2)
+              ),
+              new KeyValuePair(
+                new TemplateLiteral([new StringLiteral("Mo")], null),
+                new NumberLiteral(3)
+              )
+            ])
+          )
+        )
+      ])
+    )
+  ],
   // /* String Operations */
   // leashConcatenation: [
   //   String.raw`leash dogName is "Ce" with "Ce";`,
