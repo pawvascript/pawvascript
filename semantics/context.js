@@ -66,8 +66,8 @@ class Context {
       throw new Error(`${declaration.id} already declared in this scope`);
     }
     // todo toal question -- what does this next line do?
-    const entity =
-      declaration instanceof TypeDeclaration ? declaration.type : declaration;
+    const entity = declaration;
+    //declaration instanceof TypeDeclaration ? declaration.type : declaration;
     this.locals.set(declaration.id, entity);
   }
 

@@ -2,10 +2,10 @@ const util = require("util");
 const {
   ListType,
   FunctionDeclaration,
-  RecordType,
+  DictType,
   VariableExpression
 } = require("../ast");
-const { IntType, StringType, NilType } = require("./builtins");
+const { NumType, StringType, BoolType } = require("./builtins");
 
 function doCheck(condition, message) {
   if (!condition) {
@@ -15,40 +15,55 @@ function doCheck(condition, message) {
 
 module.exports = {
   // Is this type an array type?
-  isArrayType(type) {
-    doCheck(type.constructor === ListType, "Not an array type");
+  isListType(type) {
+    doCheck(type.constructor === ListType, "Not a list type");
   },
 
-  isRecordType(type) {
-    doCheck(type.constructor === RecordType, "Not a record type");
+  isDictType(type) {
+    doCheck(type.constructor === DictType, "Not a dictionary type");
   },
 
   // Is the type of this expression an array type?
-  isArray(expression) {
-    doCheck(expression.type.constructor === ListType, "Not an array");
+  isList(expression) {
+    doCheck(expression.type.constructor === ListType, "Not a list");
   },
 
-  isRecord(expression) {
-    doCheck(expression.type.constructor === RecordType, "Not a record");
+  isDict(expression) {
+    doCheck(expression.type.constructor === DictType, "Not a dictionary");
   },
 
-  isInteger(expression) {
-    doCheck(expression.type === IntType, "Not an integer");
+  isNumber(expression) {
+    doCheck(expression.type === NumType, "Not a number");
+  },
+
+  isString(expression) {
+    doCheck(expression.type === StringType, "Not a string");
+  },
+
+  isBool(expression) {
+    doCheck(expression.type === BoolType, "Not a boolean");
   },
 
   mustNotHaveAType(expression) {
     doCheck(!expression.type, "Expression must not have a type");
   },
 
-  isIntegerOrString(expression) {
+  isNumberOrString(expression) {
     doCheck(
-      expression.type === IntType || expression.type === StringType,
-      "Not an integer or string"
+      expression.type === NumType || expression.type === StringType,
+      "Not a number or string"
+    );
+  },
+
+  isNumberOrBool(expression) {
+    doCheck(
+      expression.type === NumType || expression.type === BoolType,
+      "Not a number or boolean"
     );
   },
 
   isFunction(value) {
-    doCheck(value.constructor === FunctionDeclaration, "Not a function");
+    doCheck(value.constructor === FunctionDeclaration, "Not a function"); //should use Function instead??
   },
 
   // Are two types exactly the same?
