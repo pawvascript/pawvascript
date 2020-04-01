@@ -340,81 +340,93 @@ const fixture = {
       ])
     )
   ],
-  // greaterThanLessThanComparators: [
-  //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testGreater"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isGreaterThan",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testLess"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isLessThan",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // greaterThanLessThanOrEqualToComparators: [
-  //   String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testAtLeast"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isAtLeast",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testAtMost"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isAtMost",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
-  // logicalNegation: [
-  //   String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testNegation1"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "equals",
-  //           new VariableExpression("x"),
-  //           new UnaryExpression("n", new VariableExpression("y"))
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testNegation2"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "equals",
-  //           new VariableExpression("y"),
-  //           new UnaryExpression("n", new VariableExpression("x"))
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
+  greaterThanLessThanComparators: [
+     String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+     new Program(
+       new Block([
+         new VariableDeclaration(
+           new VariableExpression("testGreater"),
+           new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+             "isGreaterThan",
+             new VariableExpression("x"),
+             new VariableExpression("y")
+            )
+           )
+        ),
+         new VariableDeclaration(
+           new VariableExpression("testLess"),
+           new Variable(
+             new PrimitiveType("goodBoy"),
+             new BinaryExpression(
+              "isLessThan",
+               new VariableExpression("x"),
+               new VariableExpression("y")
+             )
+            )
+          )
+       ])
+     )
+   ],
+  greaterThanLessThanOrEqualToComparators: [
+     String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+     new Program(
+       new Block([
+         new VariableDeclaration(
+           new VariableExpression("testAtLeast"),
+           new Variable(
+            new PrimitiveType("goodBoy"),
+             new BinaryExpression(
+             "isAtLeast",
+             new VariableExpression("x"),
+             new VariableExpression("y")
+             ) 
+           ) 
+         ),
+         new VariableDeclaration(
+           new VariableExpression("testAtMost"),
+           new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+             "isAtMost",
+             new VariableExpression("x"),
+             new VariableExpression("y")
+            )
+           )
+         )
+       ])
+     )
+   ],
+   logicalNegation: [
+     String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
+     new Program(
+       new Block([
+         new VariableDeclaration(
+           new VariableExpression("testNegation1"),
+           new Variable(
+             new PrimitiveType("goodBoy"),
+             new BinaryExpression(
+              "equals",
+              new VariableExpression("x"),
+              new UnaryExpression("n", new VariableExpression("y"))
+            )
+           )
+         ),
+         new VariableDeclaration(
+           new VariableExpression("testNegation2"),
+           new Variable(
+             new PrimitiveType("goodBoy"),
+             new BinaryExpression(
+             "equals",
+              new VariableExpression("y"),
+              new UnaryExpression("n", new VariableExpression("x"))
+             )
+           )
+         )
+       ])
+     )
+   ],
   /* Arithmetic */
   arithmeticOperators: [
     String.raw`toeBeans a is x + y; 
