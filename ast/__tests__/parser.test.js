@@ -242,7 +242,7 @@ const fixture = {
       ])
     )
   ],
-  // /* String Operations */
+  /* String Operations */
   leashConcatenation: [
     String.raw`leash dogName is "Ce" with "Ce";`,
     new Program(
@@ -298,48 +298,48 @@ const fixture = {
       ])
     )
   ],
-  // // /* Assignment */
-  // // variableAssignment: [
-  // //   String.raw`cuteness is 100;`,
-  // //   new Program(
-  // //     new Block([
-  // //       new AssignmentStatement(
-  // //         new VariableExpression("cuteness"),
-  // //         new NumberLiteral(100)
-  // //       )
-  // //     ])
-  // //   )
-  // // ],
-  // // /* Relops */
-  // equalityOperators: [
-  //   String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testBool1"),
-  //         new Variable(
-  //           new PrimitiveType("goodBoy"),
-  //           new BinaryExpression(
-  //             "equals",
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           )
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testBool2"),
-  //         new Variable(
-  //           new PrimitiveType("goodBoy"),
-  //           new BinaryExpression(
-  //             "notEquals",
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           )
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ]
+  /* Assignment */
+  variableAssignment: [
+    String.raw`cuteness is 100;`,
+    new Program(
+      new Block([
+        new AssignmentStatement(
+          new VariableExpression("cuteness"),
+          new NumberLiteral(100)
+        )
+      ])
+    )
+  ],
+  /* Relops */
+  equalityOperators: [
+    String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("testBool1"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+              "equals",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          )
+        ),
+        new VariableDeclaration(
+          new VariableExpression("testBool2"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+              "notEquals",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          )
+        )
+      ])
+    )
+  ],
   // greaterThanLessThanComparators: [
   //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
   //   new Program(
