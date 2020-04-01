@@ -47,8 +47,6 @@ const {
   BinaryExpression
 } = require("../ast");
 
-// TODO REFACTOR THIS WHOLE FILE
-
 const {
   NumType,
   StringType,
@@ -67,19 +65,75 @@ Program.prototype.analyze = function(context) {
 };
 
 Block.prototype.analyze = function(context) {
-  this.statements.forEach(element => {
-    element.analyze(context);
+  const newContext = context.createChildContextForBlock();
+  this.statements.forEach(statement => {
+    statement.analyze(newContext);
   });
 };
 
 ConditionalStatement.prototype.analyze = function(context) {
   this.condition.analyze(context);
   this.body.analyze(context);
+  if (this.otherwise) {
+    this.otherwise.analyze(context);
+  }
+};
+
+InfiniteLoopStatement.prototype.analyze = function(context) {
+  const newContext = context.createChildContextForLoop();
+  this.body.analyze(newContext);
+};
+
+// ForExp.prototype.analyze = function(context) {
+//   this.low.analyze(context);
+//   check.isInteger(this.low, "Low bound in for");
+//   this.high.analyze(context);
+//   check.isInteger(this.high, "High bound in for");
+//   const bodyContext = context.createChildContextForLoop();
+//   this.index = new Variable(this.index, this.low.type);
+//   this.index.readOnly = true;
+//   bodyContext.add(this.index);
+//   this.body.analyze(bodyContext);
+// };
+
+ForLoopStatement.prototype.analyze = function(context) {
+  this.localVarDec.analyze(context);
+  check.isNumberType(this.localVarDec.variable.type);
+  this.loopExp.analyze(context);
+  check.isNumber(this.loopExp);
+  this.condition.analyze(context);
+  check.isBool(this.condition);
+  const bodyContext = context.createChildContextForLoop();
+  this.index = new Variable(this.low.type, this.index);
+  this.index.readOnly = true;
+  bodyContext.add(this.index);
+  this.body.analyze(bodyContext);
+};
+
+ThroughLoopStatement.prototype.analyze = function(context) {
+  this.localVar.analyze(context);
+  this.group.analyze(context);
+  //TODO Are Lists the only thing ThroughLoop can iterate through?
+  check.isListType(this.group.type);
+  const bodyContext = context.createChildContextForLoop();
+  this.index = new Variable(this.low.type, this.index);
+  this.index.readOnly = true;
+  bodyContext.add(this.index);
+  this.body.analyze(bodyContext);
+};
+
+//TODO FINISH THIS
+WhileLoopStatement.prototype.analyze = function(context) {
+  this.condition.analyze(context);
+  check.isBool(this.condition);
 };
 
 AssignmentStatement.prototype.analyze = function(context) {
   this.source.analyze(context);
   this.target.analyze(context);
+  check.isAssignableTo(this.source, this.target.type);
+  check.isNotReadOnly(this.target);
+  // where do we check that target type === source type?
 };
 
 BreakStatement.prototype.analyze = function(context) {
@@ -89,25 +143,33 @@ BreakStatement.prototype.analyze = function(context) {
 BinaryExpression.prototype.analyze = function(context) {
   this.left.analyze(context);
   this.right.analyze(context);
-  if (/[-+*/&|]/.test(this.op)) {
-    check.isNumberOrBool(this.left);
-    check.isNumberOrBool(this.right);
+  if (/[-+*/]/.test(this.op)) {
+    check.isNumber(this.left);
+    check.isNumber(this.right);
+    this.type = NumType;
+  } else if (/[&|]/.test(this.op)) {
+    check.isBool(this.left);
+    check.isBool(this.right);
+    this.type = BoolType;
   } else if (
     /isGreaterThan?|isAtLeast?|isAtMost?|isLessThan?|equals?|notEquals?/.test(
       this.op
     )
   ) {
     check.expressionsHaveTheSameType(this.left, this.right);
-    check.isIntegerOrString(this.left);
-    check.isIntegerOrString(this.right);
-  } else if (/^with$/.test(this.op)) {
+    check.isNumberOrString(this.left);
+    check.isNumberOrString(this.right);
+    this.type = BoolType;
+  } else if (/^with/.test(this.op)) {
+    //TODO add array concat and combo
     check.isString(this.left);
     check.isString(this.right);
+    this.type = StringType;
   } else {
     check.expressionsHaveTheSameType(this.left, this.right);
   }
-  // add
-  this.type = IntType;
+  //Not sure about this
+  //this.type = IntType;
 };
 
 // ArrayExp.prototype.analyze = function(context) {

@@ -179,11 +179,11 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogs"),
           new Variable(
-              new ListType(new IdType("Dog")),
-              new PackLiteral([
-                new ListElement(false, new VariableExpression("dog1")),
-                new ListElement(false, new VariableExpression("dog2")),
-                new ListElement(true, new VariableExpression("otherDogs"))
+            new ListType(new IdType("Dog")),
+            new PackLiteral([
+              new ListElement(false, new VariableExpression("dog1")),
+              new ListElement(false, new VariableExpression("dog2")),
+              new ListElement(true, new VariableExpression("otherDogs"))
             ])
           )
         )
@@ -253,8 +253,8 @@ const fixture = {
             new PrimitiveType("leash"),
             new BinaryExpression(
               "with",
-              new TemplateLiteral( [new StringLiteral("Ce")], null),
-              new TemplateLiteral( [new StringLiteral("Ce")], null)
+              new TemplateLiteral([new StringLiteral("Ce")], null),
+              new TemplateLiteral([new StringLiteral("Ce")], null)
             )
           )
         )
@@ -267,7 +267,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("sentence"),
-          new Variable( 
+          new Variable(
             new PrimitiveType("leash"),
             new TemplateLiteral(
               [new StringLiteral(""), new StringLiteral(" is a good girl")],
@@ -284,7 +284,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("phrase"),
-          new Variable (
+          new Variable(
             new PrimitiveType("leash"),
             new TemplateLiteral(
               [
@@ -532,10 +532,7 @@ const fixture = {
             ),
             new VariableDeclaration(
               new VariableExpression("dogAge"),
-              new Variable(
-                new PrimitiveType("toeBeans"),
-                new NumberLiteral(12)
-              )
+              new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(12))
             )
           ])
         )
@@ -677,10 +674,7 @@ const fixture = {
         new ForLoopStatement(
           new VariableDeclaration(
             new VariableExpression("i"),
-            new Variable(
-              new PrimitiveType("toeBeans"),
-              new NumberLiteral(0)
-            )
+            new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(0))
           ),
           new BinaryExpression(
             "*",
@@ -745,10 +739,7 @@ const fixture = {
         new ForLoopStatement(
           new VariableDeclaration(
             new VariableExpression("i"),
-            new Variable(
-              new PrimitiveType("toeBeans"),
-              new NumberLiteral(0)
-            )
+            new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(0))
           ),
           new BinaryExpression(
             "*",
@@ -805,10 +796,7 @@ const fixture = {
             new Block([
               new VariableDeclaration(
                 new VariableExpression("remainder"),
-                new Variable(
-                  new PrimitiveType("toeBeans"),
-                  null
-                )
+                new Variable(new PrimitiveType("toeBeans"), null)
               ),
               new WhileLoopStatement(
                 new BinaryExpression(
@@ -868,97 +856,36 @@ const fixture = {
       trick command fetches leash:
         give Owner's dogName with ", stay.";
       tail
-    tail
-
-    Owner lucille is Owner("CeCe"); 
-    lucille's introduceDog();  !!! output: "My dog's name is CeCe" !!!
-    woof lucille's command(); !!! output: "CeCe, stay." !!!`,
+    tail`,
     new Program(
       new Block([
         new TypeDeclaration(
           new VariableExpression("Owner"),
-          new Block([
-            new VariableDeclaration(
-            new VariableExpression("dogName"),
-              new Variable(
-                new PrimitiveType("leash"),
-                null
+          new BreedType(
+            [
+              new Field(
+                new VariableExpression("dogName"),
+                new Variable(new PrimitiveType("leash"), null)
               )
-            ),
-            new ConstructorDeclaration(
-              new VariableExpression("Owner"),
-              new Parameters([new PrimitiveType("leash")], [new VariableExpression("dogName")]),
-              new Type("Owner")
-            ),
-            new FunctionDeclaration(
-              new VariableExpression("introduceDog"),
-              null,
-              null,
-              new Block([
+            ],
+            [
+              new Constructor(
+                new Parameters(
+                  [new VariableExpression("dogName")],
+                  [new PrimitiveType("leash")]
+                ),
+                new IdType("Owner")
+              )
+            ],
+            [
+              new Method(
+                new VariableExpression("introduceDog"),
                 new PrintStatement(
                   "woof",
-                  new BinaryExpression(
-                    "with",
-                    new TemplateLiteral(
-                      [new StringLiteral("My dog's name is ")],
-                      null
-                    ),
-                    new BinaryExpression(
-                      "'s",
-                      new VariableExpression("Owner"),
-                      new VariableExpression("dogName")
-                    )
-                  )
+                  new TemplateLiteral([new StringLiteral("My dog's name is ")])
                 )
-              ])
-            ),
-            new FunctionDeclaration(
-              new VariableExpression("command"),
-              null,
-              new PrimitiveType("leash"),
-              new Block([
-                new GiveStatement(
-                  new BinaryExpression(
-                    "with",
-                    new BinaryExpression(
-                      "'s",
-                      new VariableExpression("Owner"),
-                      new VariableExpression("dogName")
-                    ),
-                    new TemplateLiteral([new StringLiteral(", stay.")], null)
-                  )
-                )
-              ])
-            )
-          ])
-        ),
-        //Owner lucille is Owner("Cece");
-        new VariableDeclaration(
-          new VariableExpression("lucille"),
-          new Type("Owner"),
-          new FunctionCall(new VariableExpression("Owner"), [
-            new TemplateLiteral([new StringLiteral("CeCe")], null)
-          ])
-        ),
-        //lucille's introduceDog();
-        new FunctionCall(
-          new BinaryExpression(
-            "'s",
-            new VariableExpression("lucille"),
-            new VariableExpression("introduceDog")
-          ),
-          null
-        ),
-        // woof lucille's command();
-        new PrintStatement(
-          "woof",
-          new FunctionCall(
-            new BinaryExpression(
-              "'s",
-              new VariableExpression("lucille"),
-              new VariableExpression("command")
-            ),
-            null
+              )
+            ]
           )
         )
       ])
