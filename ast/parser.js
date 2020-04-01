@@ -200,14 +200,20 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new TypeDeclaration(id.ast(), typeBody.ast()); // TODO
   },
   TypeBody(body) {
-    const fields = body[0];
-    const constructors = body[1];
-    const methods = body[2];
-    return new BreedType(
-      checkForEmptyArray(fields.ast()),
-      checkForEmptyArray(constructors.ast()),
-      checkForEmptyArray(methods.ast())
-    );
+    let fields = [];
+    let constructors = [];
+    let methods = [];
+    body.forEach(statement => {
+      const member = statement.ast();
+      if (member instanceof Field) {
+        fields.push(member);
+      } else if (member instanceof Constructor) {
+        constructors.push(member);
+      } else if (member instanceof Method) {
+        methods.push(member);
+      }
+    });
+    return new BreedType(fields, constructors, methods);
   },
   Field(type, id, _is, exp, _) {
     return new Field(
