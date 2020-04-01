@@ -481,133 +481,139 @@ const fixture = {
     )
   ],
   // /* Conditionals */
-  // ifStatement: [
-  //   String.raw`if x then: x is y; tail`,
-  //   new Program(
-  //     new Block([
-  //       new ConditionalStatement(
-  //         new VariableExpression("x"),
-  //         new Block([
-  //           new AssignmentStatement(
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           )
-  //         ]),
-  //         null
-  //       )
-  //     ])
-  //   )
-  // ],
-  // ifElseStatement: [
-  //   String.raw`if x isAtLeast y then:
-  //       leash dogName is "CeCe";
-  //   else:
-  //       leash dogName is "Fluffy";
-  //       toeBeans dogAge is 12;
-  //   tail`,
-  //   new Program(
-  //     new Block([
-  //       new ConditionalStatement(
-  //         new BinaryExpression(
-  //           "isAtLeast",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         ),
-  //         new Block([
-  //           new VariableDeclaration(
-  //             new VariableExpression("dogName"),
-  //             StringType,
-  //             new TemplateLiteral([new StringLiteral("CeCe")], null)
-  //           )
-  //         ]),
-  //         new Block([
-  //           new VariableDeclaration(
-  //             new VariableExpression("dogName"),
-  //             StringType,
-  //             new TemplateLiteral([new StringLiteral("Fluffy")], null)
-  //           ),
-  //           new VariableDeclaration(
-  //             new VariableExpression("dogAge"),
-  //             NumType,
-  //             new NumberLiteral(12)
-  //           )
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // ifElseIfStatement: [
-  //   String.raw`if x notEquals y then:
-  //         woof "CeCe is kinda cute";
-  //     else if x isGreaterThan y then:
-  //         woof "CeCe is pretty cute";
-  //     else if x isLessThan y then:
-  //         woof "Okay, CeCe is really cute";
-  //     else:
-  //         woof "CeCe is the cutest of the cutest";
-  //     tail`,
-  //   new Program(
-  //     new Block([
-  //       new ConditionalStatement(
-  //         new BinaryExpression(
-  //           "notEquals",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         ),
-  //         new Block([
-  //           new PrintStatement(
-  //             "woof",
-  //             new TemplateLiteral(
-  //               [new StringLiteral("CeCe is kinda cute")],
-  //               null
-  //             )
-  //           )
-  //         ]),
-  //         new ConditionalStatement(
-  //           new BinaryExpression(
-  //             "isGreaterThan",
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           ),
-  //           new Block([
-  //             new PrintStatement(
-  //               "woof",
-  //               new TemplateLiteral(
-  //                 [new StringLiteral("CeCe is pretty cute")],
-  //                 null
-  //               )
-  //             )
-  //           ]),
-  //           new ConditionalStatement(
-  //             new BinaryExpression(
-  //               "isLessThan",
-  //               new VariableExpression("x"),
-  //               new VariableExpression("y")
-  //             ),
-  //             new Block([
-  //               new PrintStatement(
-  //                 "woof",
-  //                 new TemplateLiteral(
-  //                   [new StringLiteral("Okay, CeCe is really cute")],
-  //                   null
-  //                 )
-  //               )
-  //             ]),
-  //             new Block([
-  //               new PrintStatement(
-  //                 "woof",
-  //                 new TemplateLiteral(
-  //                   [new StringLiteral("CeCe is the cutest of the cutest")],
-  //                   null
-  //                 )
-  //               )
-  //             ])
-  //           )
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
+  ifStatement: [
+    String.raw`if x then: x is y; tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new VariableExpression("x"),
+          new Block([
+            new AssignmentStatement(
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          ]),
+          null
+        )
+      ])
+    )
+  ],
+  ifElseStatement: [
+    String.raw`if x isAtLeast y then:
+        leash dogName is "CeCe";
+    else:
+        leash dogName is "Fluffy";
+        toeBeans dogAge is 12;
+    tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new BinaryExpression(
+            "isAtLeast",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          ),
+          new Block([
+            new VariableDeclaration(
+              new VariableExpression("dogName"),
+              new Variable(
+                new PrimitiveType("leash"),
+                new TemplateLiteral([new StringLiteral("CeCe")], null)
+              )
+            )
+          ]),
+          new Block([
+            new VariableDeclaration(
+              new VariableExpression("dogName"),
+              new Variable(
+                new PrimitiveType("leash"),
+                new TemplateLiteral([new StringLiteral("Fluffy")], null)
+              )
+            ),
+            new VariableDeclaration(
+              new VariableExpression("dogAge"),
+              new Variable(
+                new PrimitiveType("toeBeans"),
+                new NumberLiteral(12)
+              )
+            )
+          ])
+        )
+      ])
+    )
+  ],
+  ifElseIfStatement: [
+    String.raw`if x notEquals y then:
+          woof "CeCe is kinda cute";
+      else if x isGreaterThan y then:
+          woof "CeCe is pretty cute";
+      else if x isLessThan y then:
+          woof "Okay, CeCe is really cute";
+      else:
+          woof "CeCe is the cutest of the cutest";
+      tail`,
+    new Program(
+      new Block([
+        new ConditionalStatement(
+          new BinaryExpression(
+            "notEquals",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          ),
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral(
+                [new StringLiteral("CeCe is kinda cute")],
+                null
+              )
+            )
+          ]),
+          new ConditionalStatement(
+            new BinaryExpression(
+              "isGreaterThan",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            ),
+            new Block([
+              new PrintStatement(
+                "woof",
+                new TemplateLiteral(
+                  [new StringLiteral("CeCe is pretty cute")],
+                  null
+                )
+              )
+            ]),
+            new ConditionalStatement(
+              new BinaryExpression(
+                "isLessThan",
+                new VariableExpression("x"),
+                new VariableExpression("y")
+              ),
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new TemplateLiteral(
+                    [new StringLiteral("Okay, CeCe is really cute")],
+                    null
+                  )
+                )
+              ]),
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new TemplateLiteral(
+                    [new StringLiteral("CeCe is the cutest of the cutest")],
+                    null
+                  )
+                )
+              ])
+            )
+          )
+        )
+      ])
+    )
+  ],
   // /* Comments */
   // oneLineComment: [
   //   String.raw`!!! I'm a one line comment !!!`,
