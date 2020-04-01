@@ -243,58 +243,61 @@ const fixture = {
     )
   ],
   // /* String Operations */
-  // leashConcatenation: [
-  //   String.raw`leash dogName is "Ce" with "Ce";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogName"),
-  //         new Variable(
-  //           new PrimitiveType("leash"),
-  //           new BinaryExpression(
-  //             "with",
-  //             new StringLiteral("Ce"),
-  //             new StringLiteral("Ce")
-  //           )
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ]
-
-  // // stringInterpolation: [
-  // //   String.raw`leash sentence is "![x] is a good girl";`,
-  // //   new Program(
-  // //     new Block([
-  // //       new VariableDeclaration(
-  // //         new VariableExpression("sentence"),
-  // //         StringType,
-  // //         new TemplateLiteral(
-  // //           [new StringLiteral(""), new StringLiteral(" is a good girl")],
-  // //           [new VariableExpression("x")]
-  // //         )
-  // //       )
-  // //     ])
-  // //   )
-  // // ],
-  // // stringInterpolationInMiddleOfString: [
-  // //   String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
-  // //   new Program(
-  // //     new Block([
-  // //       new VariableDeclaration(
-  // //         new VariableExpression("phrase"),
-  // //         StringType,
-  // //         new TemplateLiteral(
-  // //           [
-  // //             new StringLiteral("Come back here, "),
-  // //             new StringLiteral(". Good girl.")
-  // //           ],
-  // //           [new VariableExpression("name")]
-  // //         )
-  // //       )
-  // //     ])
-  // //   )
-  // // ],
+  leashConcatenation: [
+    String.raw`leash dogName is "Ce" with "Ce";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("dogName"),
+          new Variable(
+            new PrimitiveType("leash"),
+            new BinaryExpression(
+              "with",
+              new TemplateLiteral( [new StringLiteral("Ce")], null),
+              new TemplateLiteral( [new StringLiteral("Ce")], null)
+            )
+          )
+        )
+      ])
+    )
+  ],
+  stringInterpolation: [
+    String.raw`leash sentence is "![x] is a good girl";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("sentence"),
+          new Variable( 
+            new PrimitiveType("leash"),
+            new TemplateLiteral(
+              [new StringLiteral(""), new StringLiteral(" is a good girl")],
+              [new VariableExpression("x")]
+            )
+          )
+        )
+      ])
+    )
+  ],
+  stringInterpolationInMiddleOfString: [
+    String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("phrase"),
+          new Variable (
+            new PrimitiveType("leash"),
+            new TemplateLiteral(
+              [
+                new StringLiteral("Come back here, "),
+                new StringLiteral(". Good girl.")
+              ],
+              [new VariableExpression("name")]
+            )
+          )
+        )
+      ])
+    )
+  ],
   // // /* Assignment */
   // // variableAssignment: [
   // //   String.raw`cuteness is 100;`,
