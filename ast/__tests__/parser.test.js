@@ -624,158 +624,162 @@ const fixture = {
     new Program(new Block([]))
   ],
   /* Loops */
-  // infiniteLoop: [
-  //   String.raw`chase: woof "I run forever"; tail`,
-  //   new Program(
-  //     new Block([
-  //       new InfiniteLoopStatement(
-  //         new Block([
-  //           new PrintStatement(
-  //             "woof",
-  //             new TemplateLiteral([new StringLiteral("I run forever")], null)
-  //           )
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // fixedLoop: [
-  //   String.raw`chase 5 times: woof "Stay"; tail`,
-  //   new Program(
-  //     new Block([
-  //       new FixedLoopStatement(
-  //         new NumberLiteral(5),
-  //         new Block([
-  //           new PrintStatement(
-  //             "woof",
-  //             new TemplateLiteral([new StringLiteral("Stay")], null)
-  //           )
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // whileLoop: [
-  //   String.raw`chase while x isAtMost 5: woof x; tail`,
-  //   new Program(
-  //     new Block([
-  //       new WhileLoopStatement(
-  //         new BinaryExpression(
-  //           "isAtMost",
-  //           new VariableExpression("x"),
-  //           new NumberLiteral(5)
-  //         ),
-  //         new Block([new PrintStatement("woof", new VariableExpression("x"))])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // forLoop: [
-  //   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
-  //   new Program(
-  //     new Block([
-  //       new ForLoopStatement(
-  //         new VariableDeclaration(
-  //           new VariableExpression("i"),
-  //           NumType,
-  //           new NumberLiteral(0)
-  //         ),
-  //         new BinaryExpression(
-  //           "*",
-  //           new VariableExpression("i"),
-  //           new NumberLiteral(2)
-  //         ),
-  //         new BinaryExpression(
-  //           "isLessThan",
-  //           new VariableExpression("i"),
-  //           new NumberLiteral(10)
-  //         ),
-  //         new Block([new PrintStatement("woof", new VariableExpression("i"))])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // forEachLoop: [
-  //   String.raw`chase element through mypack:
-  //       woof element;
-  //   tail`,
-  //   new Program(
-  //     new Block([
-  //       new ThroughLoopStatement(
-  //         new VariableExpression("element"),
-  //         new VariableExpression("mypack"),
-  //         new Block([
-  //           new PrintStatement("woof", new VariableExpression("element"))
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // loopWithPoopStatement: [
-  //   String.raw`
-  //    chase:
-  //       woof "I run forever\!";
-  //       poop;
-  //   tail`,
-  //   new Program(
-  //     new Block([
-  //       new InfiniteLoopStatement(
-  //         new Block([
-  //           new PrintStatement(
-  //             "woof",
-  //             new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
-  //           ),
-  //           new BreakStatement()
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
-  // loopWithWalkiesStatement: [
-  //   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
-  //         if i mod 2 equals 0 then:
-  //             walkies;
-  //         tail
-  //         woof i;
-  //     tail`,
-  //   new Program(
-  //     new Block([
-  //       new ForLoopStatement(
-  //         new VariableDeclaration(
-  //           new VariableExpression("i"),
-  //           NumType,
-  //           new NumberLiteral(0)
-  //         ),
-  //         new BinaryExpression(
-  //           "*",
-  //           new VariableExpression("i"),
-  //           new NumberLiteral(2)
-  //         ),
-  //         new BinaryExpression(
-  //           "isLessThan",
-  //           new VariableExpression("i"),
-  //           new NumberLiteral(10)
-  //         ),
-  //         new Block([
-  //           new ConditionalStatement(
-  //             new BinaryExpression(
-  //               "equals",
-  //               new BinaryExpression(
-  //                 "mod",
-  //                 new VariableExpression("i"),
-  //                 new NumberLiteral(2)
-  //               ),
-  //               new NumberLiteral(0)
-  //             ),
-  //             new Block([new ContinueStatement()]),
-  //             null
-  //           ),
-  //           new PrintStatement("woof", new VariableExpression("i"))
-  //         ])
-  //       )
-  //     ])
-  //   )
-  // ],
+  infiniteLoop: [
+    String.raw`chase: woof "I run forever"; tail`,
+    new Program(
+      new Block([
+        new InfiniteLoopStatement(
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral([new StringLiteral("I run forever")], null)
+            )
+          ])
+        )
+      ])
+    )
+  ],
+  fixedLoop: [
+    String.raw`chase 5 times: woof "Stay"; tail`,
+    new Program(
+      new Block([
+        new FixedLoopStatement(
+          new NumberLiteral(5),
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral([new StringLiteral("Stay")], null)
+            )
+          ])
+        )
+      ])
+    )
+  ],
+  whileLoop: [
+    String.raw`chase while x isAtMost 5: woof x; tail`,
+    new Program(
+      new Block([
+        new WhileLoopStatement(
+          new BinaryExpression(
+            "isAtMost",
+            new VariableExpression("x"),
+            new NumberLiteral(5)
+          ),
+          new Block([new PrintStatement("woof", new VariableExpression("x"))])
+        )
+      ])
+    )
+  ],
+  forLoop: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
+    new Program(
+      new Block([
+        new ForLoopStatement(
+          new VariableDeclaration(
+            new VariableExpression("i"),
+            new Variable(
+              new PrimitiveType("toeBeans"),
+              new NumberLiteral(0)
+            )
+          ),
+          new BinaryExpression(
+            "*",
+            new VariableExpression("i"),
+            new NumberLiteral(2)
+          ),
+          new BinaryExpression(
+            "isLessThan",
+            new VariableExpression("i"),
+            new NumberLiteral(10)
+          ),
+          new Block([new PrintStatement("woof", new VariableExpression("i"))])
+        )
+      ])
+    )
+  ],
+  forEachLoop: [
+    String.raw`chase element through mypack:
+        woof element;
+    tail`,
+    new Program(
+      new Block([
+        new ThroughLoopStatement(
+          new VariableExpression("element"),
+          new VariableExpression("mypack"),
+          new Block([
+            new PrintStatement("woof", new VariableExpression("element"))
+          ])
+        )
+      ])
+    )
+  ],
+  loopWithPoopStatement: [
+    String.raw`
+     chase:
+        woof "I run forever\!";
+        poop;
+    tail`,
+    new Program(
+      new Block([
+        new InfiniteLoopStatement(
+          new Block([
+            new PrintStatement(
+              "woof",
+              new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
+            ),
+            new BreakStatement()
+          ])
+        )
+      ])
+    )
+  ],
+  loopWithWalkiesStatement: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+          if i mod 2 equals 0 then:
+              walkies;
+          tail
+          woof i;
+      tail`,
+    new Program(
+      new Block([
+        new ForLoopStatement(
+          new VariableDeclaration(
+            new VariableExpression("i"),
+            new Variable(
+              new PrimitiveType("toeBeans"),
+              new NumberLiteral(0)
+            )
+          ),
+          new BinaryExpression(
+            "*",
+            new VariableExpression("i"),
+            new NumberLiteral(2)
+          ),
+          new BinaryExpression(
+            "isLessThan",
+            new VariableExpression("i"),
+            new NumberLiteral(10)
+          ),
+          new Block([
+            new ConditionalStatement(
+              new BinaryExpression(
+                "equals",
+                new BinaryExpression(
+                  "mod",
+                  new VariableExpression("i"),
+                  new NumberLiteral(2)
+                ),
+                new NumberLiteral(0)
+              ),
+              new Block([new ContinueStatement()]),
+              null
+            ),
+            new PrintStatement("woof", new VariableExpression("i"))
+          ])
+        )
+      ])
+    )
+  ],
   // /* Function Declarations */
   // functionDeclaration: [
   //   String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
