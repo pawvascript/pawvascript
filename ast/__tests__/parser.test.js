@@ -614,16 +614,16 @@ const fixture = {
       ])
     )
   ],
-  // /* Comments */
-  // oneLineComment: [
-  //   String.raw`!!! I'm a one line comment !!!`,
-  //   new Program(new Block([]))
-  // ],
-  // multiLineComment: [
-  //   String.raw`!!! I'm a \n multiline \n comment !!!`,
-  //   new Program(new Block([]))
-  // ],
-  // /* Loops */
+  /* Comments */
+  oneLineComment: [
+    String.raw`!!! I'm a one line comment !!!`,
+    new Program(new Block([]))
+  ],
+  multiLineComment: [
+    String.raw`!!! I'm a \n multiline \n comment !!!`,
+    new Program(new Block([]))
+  ],
+  /* Loops */
   // infiniteLoop: [
   //   String.raw`chase: woof "I run forever"; tail`,
   //   new Program(
