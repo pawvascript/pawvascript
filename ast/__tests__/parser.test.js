@@ -415,64 +415,71 @@ const fixture = {
   //     ])
   //   )
   // ],
-  // /* Arithmetic */
-  // arithmeticOperators: [
-  //   String.raw`toeBeans a is x + y; a is x - y; a is x * y; a is x / y;
-  //   a is x mod y; a is x!; a is -x;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("a"),
-  //         NumType,
-  //         new BinaryExpression(
-  //           "+",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new BinaryExpression(
-  //           "-",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new BinaryExpression(
-  //           "*",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new BinaryExpression(
-  //           "/",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new BinaryExpression(
-  //           "mod",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new UnaryExpression("!", new VariableExpression("x"))
-  //       ),
-  //       new AssignmentStatement(
-  //         new VariableExpression("a"),
-  //         new UnaryExpression("-", new VariableExpression("x"))
-  //       )
-  //     ])
-  //   )
-  // ],
+  /* Arithmetic */
+  arithmeticOperators: [
+    String.raw`toeBeans a is x + y; 
+              a is x - y; 
+              a is x * y; 
+              a is x / y;
+              a is x mod y; 
+              a is x!; 
+              a is -x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("a"),
+          new Variable(
+            new PrimitiveType("toeBeans"),
+            new BinaryExpression(
+              "+",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          )
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new BinaryExpression(
+            "-",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          )
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new BinaryExpression(
+            "*",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          )
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new BinaryExpression(
+            "/",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          )
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new BinaryExpression(
+            "mod",
+            new VariableExpression("x"),
+            new VariableExpression("y")
+          )
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new UnaryExpression("!", new VariableExpression("x"))
+        ),
+        new AssignmentStatement(
+          new VariableExpression("a"),
+          new UnaryExpression("-", new VariableExpression("x"))
+        )
+      ])
+    )
+  ],
   // /* Conditionals */
   // ifStatement: [
   //   String.raw`if x then: x is y; tail`,
