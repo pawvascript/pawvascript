@@ -856,112 +856,114 @@ const fixture = {
       ])
     )
   ],
-  // /* Breed Declarations */
-  // breedDeclaration: [
-  //   String.raw`
-  //   breed Owner is:
-  //     leash dogName;
-  //     trick Owner chews[leash:dogName] fetches Owner;
-  //     trick introduceDog:
-  //       woof "My dog's name is " with Owner's dogName;
-  //     tail
-  //     trick command fetches leash:
-  //       give Owner's dogName with ", stay.";
-  //     tail
-  //   tail
+  /* Breed Declarations */
+  breedDeclaration: [
+    String.raw`
+    breed Owner is:
+      leash dogName;
+      trick Owner chews[leash:dogName] fetches Owner;
+      trick introduceDog:
+        woof "My dog's name is " with Owner's dogName;
+      tail
+      trick command fetches leash:
+        give Owner's dogName with ", stay.";
+      tail
+    tail
 
-  //   Owner lucille is Owner("CeCe"); // syntactically, type is an id
-  //   lucille's introduceDog();  !!! output: "My dog's name is CeCe" !!!
-  //   woof lucille's command(); !!! output: "CeCe, stay." !!!`,
-  //   new Program(
-  //     new Block([
-  //       new TypeDeclaration(
-  //         new VariableExpression("Owner"),
-  //         new Block([
-  //           new VariableDeclaration(
-  //             new VariableExpression("dogName"),
-  //             StringType,
-  //             null
-  //           ),
-  //           new ConstructorDeclaration(
-  //             new VariableExpression("Owner"),
-  //             new Parameters([StringType], [new VariableExpression("dogName")]),
-  //             new Type("Owner")
-  //           ),
-  //           new FunctionDeclaration(
-  //             new VariableExpression("introduceDog"),
-  //             null,
-  //             null,
-  //             new Block([
-  //               new PrintStatement(
-  //                 "woof",
-  //                 new BinaryExpression(
-  //                   "with",
-  //                   new TemplateLiteral(
-  //                     [new StringLiteral("My dog's name is ")],
-  //                     null
-  //                   ),
-  //                   new BinaryExpression(
-  //                     "'s",
-  //                     new VariableExpression("Owner"),
-  //                     new VariableExpression("dogName")
-  //                   )
-  //                 )
-  //               )
-  //             ])
-  //           ),
-  //           new FunctionDeclaration(
-  //             new VariableExpression("command"),
-  //             null,
-  //             StringType,
-  //             new Block([
-  //               new GiveStatement(
-  //                 new BinaryExpression(
-  //                   "with",
-  //                   new BinaryExpression(
-  //                     "'s",
-  //                     new VariableExpression("Owner"),
-  //                     new VariableExpression("dogName")
-  //                   ),
-  //                   new TemplateLiteral([new StringLiteral(", stay.")], null)
-  //                 )
-  //               )
-  //             ])
-  //           )
-  //         ])
-  //       ),
-  //       //Owner lucille is Owner("Cece");
-  //       new VariableDeclaration(
-  //         new VariableExpression("lucille"),
-  //         new Type("Owner"),
-  //         new FunctionCall(new VariableExpression("Owner"), [
-  //           new TemplateLiteral([new StringLiteral("CeCe")], null)
-  //         ])
-  //       ),
-  //       //lucille's introduceDog();
-  //       new FunctionCall(
-  //         new BinaryExpression(
-  //           "'s",
-  //           new VariableExpression("lucille"),
-  //           new VariableExpression("introduceDog")
-  //         ),
-  //         null
-  //       ),
-  //       // woof lucille's command();
-  //       new PrintStatement(
-  //         "woof",
-  //         new FunctionCall(
-  //           new BinaryExpression(
-  //             "'s",
-  //             new VariableExpression("lucille"),
-  //             new VariableExpression("command")
-  //           ),
-  //           null
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ]
+    Owner lucille is Owner("CeCe"); 
+    lucille's introduceDog();  !!! output: "My dog's name is CeCe" !!!
+    woof lucille's command(); !!! output: "CeCe, stay." !!!`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          new VariableExpression("Owner"),
+          new Block([
+            new VariableDeclaration(
+            new VariableExpression("dogName"),
+              new Variable(
+                new PrimitiveType("leash"),
+                null
+              )
+            ),
+            new ConstructorDeclaration(
+              new VariableExpression("Owner"),
+              new Parameters([new PrimitiveType("leash")], [new VariableExpression("dogName")]),
+              new Type("Owner")
+            ),
+            new FunctionDeclaration(
+              new VariableExpression("introduceDog"),
+              null,
+              null,
+              new Block([
+                new PrintStatement(
+                  "woof",
+                  new BinaryExpression(
+                    "with",
+                    new TemplateLiteral(
+                      [new StringLiteral("My dog's name is ")],
+                      null
+                    ),
+                    new BinaryExpression(
+                      "'s",
+                      new VariableExpression("Owner"),
+                      new VariableExpression("dogName")
+                    )
+                  )
+                )
+              ])
+            ),
+            new FunctionDeclaration(
+              new VariableExpression("command"),
+              null,
+              new PrimitiveType("leash"),
+              new Block([
+                new GiveStatement(
+                  new BinaryExpression(
+                    "with",
+                    new BinaryExpression(
+                      "'s",
+                      new VariableExpression("Owner"),
+                      new VariableExpression("dogName")
+                    ),
+                    new TemplateLiteral([new StringLiteral(", stay.")], null)
+                  )
+                )
+              ])
+            )
+          ])
+        ),
+        //Owner lucille is Owner("Cece");
+        new VariableDeclaration(
+          new VariableExpression("lucille"),
+          new Type("Owner"),
+          new FunctionCall(new VariableExpression("Owner"), [
+            new TemplateLiteral([new StringLiteral("CeCe")], null)
+          ])
+        ),
+        //lucille's introduceDog();
+        new FunctionCall(
+          new BinaryExpression(
+            "'s",
+            new VariableExpression("lucille"),
+            new VariableExpression("introduceDog")
+          ),
+          null
+        ),
+        // woof lucille's command();
+        new PrintStatement(
+          "woof",
+          new FunctionCall(
+            new BinaryExpression(
+              "'s",
+              new VariableExpression("lucille"),
+              new VariableExpression("command")
+            ),
+            null
+          )
+        )
+      ])
+    )
+  ]
 };
 
 describe("The parser", () => {
