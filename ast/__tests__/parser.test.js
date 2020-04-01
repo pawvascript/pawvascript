@@ -340,31 +340,35 @@ const fixture = {
       ])
     )
   ],
-  // greaterThanLessThanComparators: [
-  //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testGreater"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isGreaterThan",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testLess"),
-  //         BoolType,
-  //         new BinaryExpression(
-  //           "isLessThan",
-  //           new VariableExpression("x"),
-  //           new VariableExpression("y")
-  //         )
-  //       )
-  //     ])
-  //   )
-  // ],
+  greaterThanLessThanComparators: [
+     String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+     new Program(
+       new Block([
+         new VariableDeclaration(
+           new VariableExpression("testGreater"),
+           new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+             "isGreaterThan",
+             new VariableExpression("x"),
+             new VariableExpression("y")
+            )
+           )
+        ),
+         new VariableDeclaration(
+           new VariableExpression("testLess"),
+           new Variable(
+             new PrimitiveType("goodBoy"),
+             new BinaryExpression(
+              "isLessThan",
+               new VariableExpression("x"),
+               new VariableExpression("y")
+             )
+            )
+          )
+       ])
+     )
+   ],
   // greaterThanLessThanOrEqualToComparators: [
   //   String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
   //   new Program(
