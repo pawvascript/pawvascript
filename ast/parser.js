@@ -203,8 +203,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let fields = [];
     let constructors = [];
     let methods = [];
-    body.forEach(statement => {
-      const member = statement.ast();
+    body.ast().forEach(member => {
       if (member instanceof Field) {
         fields.push(member);
       } else if (member instanceof Constructor) {
