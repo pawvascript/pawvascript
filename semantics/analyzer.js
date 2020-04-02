@@ -268,6 +268,20 @@ ContinueStatement.prototype.analyze = function(context) {
   check.inLoop(context, "walkies");
 };
 
+BooleanLiteral.prototype.analyze = function() {
+  this.type = BoolType;
+};
+
+NumberLiteral.prototype.analyze = function() {
+  this.type = NumType;
+};
+
+StringLiteral.prototype.analyze = function() {
+  this.type = StringType;
+};
+
+TemplateLiteral.prototype.analyze = function(context) {};
+
 PackLiteral.prototype.analyze = function(context) {
   this.elements.forEach(element => {
     element.analyze(context);
@@ -338,24 +352,6 @@ BinaryExpression.prototype.analyze = function(context) {
   }
   //Not sure about this
   //this.type = IntType;
-};
-
-BooleanLiteral.prototype.analyze = function() {
-  this.type = BoolType;
-};
-
-NumberLiteral.prototype.analyze = function() {
-  this.type = NumType;
-};
-
-StringLiteral.prototype.analyze = function() {
-  this.type = StringType;
-};
-
-TemplateLiteral.prototype.analyze = function(context) {
-  this.members.map(member => {
-    member = context.lookup(member);
-  });
 };
 
 // ArrayExp.prototype.analyze = function(context) {
