@@ -85,7 +85,7 @@ Variables are declared with their type.
     <tr>
         <td>
             <pre>
-                leash dogName is "Cece";
+                leash dogName is "CeCe";
                 toeBeans dogAge is 12;
                 goodBoy isGoodBoy is good;
                 goodBoy isNaughtyDoggo is bad;
@@ -93,7 +93,7 @@ Variables are declared with their type.
         </td>
         <td>
             <pre>
-                let dogName = "Cece";
+                let dogName = "CeCe";
                 let dogAge = 12;
                 let isGoodBoy = true;
                 let isNaughtyDoggo = bad; 
@@ -103,14 +103,14 @@ Variables are declared with their type.
     <tr>
         <td>
             <pre>
-                pack[leash] dogNames is ["Cece", "Fluffy"];
-                kennel[leash:toeBeans] dogAges is ["Cece": 1, "Fluffy": 2];
+                pack[leash] dogNames is ["CeCe", "Fluffy"];
+                kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
             </pre>
         </td>
         <td>
             <pre>
-                let dogNames = ["Cece", "Fluffy"];
-                let dogAges = {"Cece": 1, "Fluffy": 2};
+                let dogNames = ["CeCe", "Fluffy"];
+                let dogAges = {"CeCe": 1, "Fluffy": 2};
             </pre>
         </td>
     </tr>
@@ -131,7 +131,8 @@ Variables are declared with their type.
     <tr>
         <td>
             <pre>
-                !!! cat is the equivalent of null. Any tpye can have the value cat !!!
+                !!! cat is the equivalent of null. !!!
+                !!! Any tpye can have the value cat !!!
                 leash theBestestDog is cat;
             </pre>
         </td>
@@ -147,78 +148,173 @@ Variables are declared with their type.
 
 PawvaScript supports leash interpolation and concetation:
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-leash dogName is "Ce" with "Ce";                                    let dogName = "Ce" + "Ce";
-
-leash sentence is "![dogName] is the best dog";                     let sentence = `${dogName} is the best dog`;
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                leash dogName is "Ce" with "Ce";
+                leash sentence is "![dogName] is the best dog";
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let dogName = "Ce" + "Ce";
+                let sentence = `${dogName} is the best dog";
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Packs/Lists
 
 Packs are the PawvaScript equivalent of lists in Python or arrays in JavaScript:
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-pack[leash] goodDogs is ["CeCe", "Buster", "Muffin"];               let goodDogs = ["CeCe", "Buster", "Muffin"];
-
-!!! The without keyword can remove elements from a pack. !!!
-pack[leash] bestDogs is goodDogs without "Muffin";                  let bestDogs = goodDogs;
-                                                                    const indexOfMuffin = goodDogs.indexOf("Muffin");
-                                                                    if (indexOfMuffin > -1) {
-                                                                         bestDogs.splice(indexOfMuffin, 1);
-                                                                    }
-
-!!! The peanutButter keyword is the equivalent of JavaScript's spread syntax. !!!
-pack[leash] sm0lDogs is ["Tiny", "Teenie", "Boo"];                  let sm0lDogs = ["Tiny", "Teenie", "Boo"];
-pack[leash] b1gDogs is ["Boofer", "Woofer," "Mo"];                  let b1gDogs = ["Boofer", "Woofer," "Mo"];
-pack[leash] allTheDogs is [                                         let allTheDogs = [
-    peanutButter sm0lDogs,                                              ...sm0lDogs,
-    peanutButter b1gDogs                                                ...b1gDogs
-];                                                                  ];
-
-woof allTheDogs;                                                    console.log(allTheDogs);
-!!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] !!!         /* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer," "Mo"] */
-
-pack[toeBeans] ages is [1, 1, 2];                                   let ages = [1, 1, 2];
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                pack[leash] goodDogs is ["CeCe", "Buster", "Muffin"];
+                pack[toeBeans] ages is [1, 1, 2];
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let goodDogs = ["CeCe", "Buster", "Muffin"];
+                let ages = [1, 1, 2];
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                !!! "without" removes elements from a pack !!!
+                pack[leash] bestDogs is goodDogs without "Muffin";
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                !!! "peanutButter" is the spread operator !!!
+                pack[leash] smallDogs is ["Tiny", "Teenie", "Boo"];
+                pack[leash] bigDogs is ["Boofer", "Woofer," "Mo"];
+                pack[leash] allDogs is [
+                    peanutButter smallDogs,
+                    peanutButter bigDogs
+                ];
+            </pre>
+            <pre>
+                woof allDogs;
+                !!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] !!!
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let smallDogs = ["Tiny", "Teenie", "Boo"];
+                let bigDogs = ["Boofer", "Woofer", "Mo"];
+                let allDogs = [
+                    ...smallDogs,
+                    ...bigDogs
+                ];
+            </pre>
+            <pre>
+                console.log(allDogs);
+                /* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] */
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Kennels/Maps
 
 Kennels are data structures like Python dictionaries.
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                kennel[leash:leash] goodDogs is [
+                    "CeCe": "German Shepherd",
+                    "Buster": "Golden Doodle",
+                    "Mo": "Potato"
+                ];
+            </pre>
+            <pre>
+                kennel[leash:toeBeans] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let goodDogs = {
+                    "CeCe": "German Shepherd",
+                    "Buster": "Golden Doodle",
+                    "Mo": "Potato" 
+                };
+            </pre>
+            <pre>
+                let ages = {CeCe: 1, Buster: 1, Mo: 5};
+            </pre>
+        </td>
+    </tr>
+</table>
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-kennel[leash:leash] goodDogs is [                                   let goodDogs = {
-    "CeCe": "German Shepherd",                                          CeCe: "German Shepherd",
-    "Buster": "Golden Doodle",                                          Buster: "Golden Doodle",
-    "Mo": "Potato"                                                      Mo: "Potato"
-];                                                                  };
-kennel[leash:toeBeans] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];   let ages = {CeCe: 1, Buster: 1, Mo: 5};
-```
 
 ### Relational Operators
 
 Wanna compare stuff?
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-goodBoy a is x equals y;                                            let a = x === y;
-
-a is x notEquals y;                                                 a = x !== y;
-
-a is x isGreaterThan y;                                             a = x > y;
-
-a is x isLessThan y;                                                a = x < y;
-
-a is x isAtLeast y;                                                 a = x >= y;
-
-a is x isAtMost y;                                                  a = x <= y;
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                goodBoy a is x equals y;
+            </pre>
+            <pre>
+                a is x notEquals y;
+            </pre>
+            <pre>
+                a is x isGreaterThan y;
+            </pre>
+            <pre>
+                a is x isLessThan y;
+            </pre>
+            <pre>
+                a is x isAtLeast y;
+            </pre>
+            <pre>
+                a is x isAtMost y;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let a = x === y;
+            </pre>
+            <pre>
+                a = x !== y;
+            </pre>
+            <pre>
+                let a = x > y;
+            </pre>
+            <pre>
+                a = x < y;
+            </pre>
+            <pre>
+                let a = x >= y;
+            </pre>
+            <pre>
+                a = x <= y;
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Arithmetic Operators
 
@@ -402,9 +498,9 @@ breed Owner is:                                                     class Owner 
     tail                                                                }
 tail                                                                }
 
-Owner lucille is Owner("Cece")                                      let lucille = new Owner("Cece");
-(lucille's introduceDog)() !!! output: "My dog's name is Cece" !!!    lucille.introduceDog();
-woof lucille's command()  !!! output: "Cece, stay." !!!             console.log(lucille.command());
+Owner lucille is Owner("CeCe")                                      let lucille = new Owner("CeCe");
+(lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!    lucille.introduceDog();
+woof lucille's command()  !!! output: "CeCe, stay." !!!             console.log(lucille.command());
 ```
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
