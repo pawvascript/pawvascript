@@ -104,7 +104,8 @@ ForLoopStatement.prototype.analyze = function(context) {
   this.condition.analyze(context);
   check.isBool(this.condition);
   const bodyContext = context.createChildContextForLoop();
-  this.index = new Variable(this.low.type, this.index);
+  //TODO Do we need index?
+  this.index = new Variable(NumType, this.index);
   this.index.readOnly = true;
   bodyContext.add(this.index);
   this.body.analyze(bodyContext);
@@ -116,6 +117,7 @@ ThroughLoopStatement.prototype.analyze = function(context) {
   //TODO Are Lists the only thing ThroughLoop can iterate through?
   check.isListType(this.group.type);
   const bodyContext = context.createChildContextForLoop();
+  //TODO Do we need index?
   this.index = new Variable(this.low.type, this.index);
   this.index.readOnly = true;
   bodyContext.add(this.index);
@@ -126,14 +128,29 @@ ThroughLoopStatement.prototype.analyze = function(context) {
 WhileLoopStatement.prototype.analyze = function(context) {
   this.condition.analyze(context);
   check.isBool(this.condition);
+  const bodyContext = context.createChildContextForLoop();
+  this.body.analyze(bodyContext);
 };
 
+//TODO I think we add to context here? Do we need to analyze
+VariableDeclaration.prototype.analyze = function(context) {
+  context.add(this);
+  this.variable.analyze(context);
+};
+
+//TODO Do we need to analyze?
+Variable.prototype.analyze = function(context) {
+  this.initializerExp.analyze(context);
+};
+
+//TODO not sure this is right... How do we change assignment?
 AssignmentStatement.prototype.analyze = function(context) {
   this.source.analyze(context);
   this.target.analyze(context);
   check.isAssignableTo(this.source, this.target.type);
   check.isNotReadOnly(this.target);
-  // where do we check that target type === source type?
+  const current = context.lookup(this.target);
+  context.locals.set(this.target, this.source);
 };
 
 BreakStatement.prototype.analyze = function(context) {
