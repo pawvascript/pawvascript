@@ -1,6 +1,6 @@
 # PawvaScript
 
-<img alt='PawvaScript Logo' src='../assets/pawvascript.png' width='300px'/>
+<img alt='PawvaScript Logo' src='https://github.com/pawvascript/pawvascript/blob/master/assets/pawvascript.png' width='300px'/>
 
 ## Introduction
 
@@ -8,7 +8,7 @@ Ever wish that JavaScript had less symbols and more dogs? We did, so we made Paw
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
-<img alt='CeCe Coding Rear View' src='../assets/CeCeCoding2.JPG' width='600px'/>
+<img alt='CeCe Coding Rear View' src='https://github.com/pawvascript/pawvascript/blob/master/assets/CeCeCoding2.JPG' width='600px'/>
 
 ## Features
 
@@ -356,4 +356,4 @@ woof lucille's command()  !!! output: "Cece, stay." !!!             console.log(
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
-<img alt='CeCe Coding Front View' src='../assets/CeCeCoding3.JPG' width='500px'/>
+<img alt='CeCe Coding Front View' src='https://github.com/pawvascript/pawvascript/blob/master/assets/CeCeCoding3.JPG' width='500px'/>
