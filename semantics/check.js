@@ -63,7 +63,7 @@ module.exports = {
   },
 
   isFunction(value) {
-    doCheck(value.constructor === FunctionDeclaration, "Not a function"); //should use Function instead??
+    doCheck(value.constructor === Function, "Attempt to call a non-function");
   },
 
   // Are two types exactly the same?
@@ -74,8 +74,13 @@ module.exports = {
   // Can we assign expression to a variable/param/field of type type?
   isAssignableTo(expression, type) {
     doCheck(
-      (expression.type === NilType && type.constructor === RecordType) ||
-        expression.type === type,
+      // (expression.type === NilType && type.constructor === RecordType) ||
+      //   expression.type === type,
+      // if expression is a variableexpression, check if expression.ref.type === type
+      // otherwise, check if expression.type === type
+      // if either of the two types is an idtype, we need to do .ref again lol
+      // if either of them are list types, we need to check member types???
+      // and if dict type, check key type and value type??
       `Expression of type ${util.format(
         expression.type
       )} not compatible with type ${util.format(type)}`
@@ -85,7 +90,8 @@ module.exports = {
   // do we need this? we don't have const's but i can imagine a user trying to change something like list.length
   isNotReadOnly(lvalue) {
     doCheck(
-      !(lvalue.constructor === VariableExpression && lvalue.ref.readOnly),
+      !lvalue.isReadOnly,
+      //!(lvalue.constructor === VariableExpression && lvalue.ref.readOnly),
       "Assignment to read-only variable"
     );
   },
@@ -93,6 +99,9 @@ module.exports = {
   fieldHasNotBeenUsed(field, usedFields) {
     doCheck(!usedFields.has(field), `Field ${field} already declared`);
   },
+
+  // don't need this because context.lookup already throws an error if var not declared
+  // variableWasPreviouslyDeclared(id, context) {},
 
   inLoop(context, keyword) {
     doCheck(context.inLoop, `${keyword} can only be used in a loop`);
@@ -110,5 +119,12 @@ module.exports = {
   // If there is a cycle in types, they must go through a record
   noRecursiveTypeCyclesWithoutRecordTypes() {
     /* TODO - not looking forward to this one */
+  },
+
+  isValidSpread(expression) {
+    doCheck(
+      expression.type.constructor == ListType,
+      "Not a valid spread operator"
+    );
   }
 };

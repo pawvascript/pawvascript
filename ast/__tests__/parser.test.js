@@ -341,92 +341,92 @@ const fixture = {
     )
   ],
   greaterThanLessThanComparators: [
-     String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
-     new Program(
-       new Block([
-         new VariableDeclaration(
-           new VariableExpression("testGreater"),
-           new Variable(
+    String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("testGreater"),
+          new Variable(
             new PrimitiveType("goodBoy"),
             new BinaryExpression(
-             "isGreaterThan",
-             new VariableExpression("x"),
-             new VariableExpression("y")
-            )
-           )
-        ),
-         new VariableDeclaration(
-           new VariableExpression("testLess"),
-           new Variable(
-             new PrimitiveType("goodBoy"),
-             new BinaryExpression(
-              "isLessThan",
-               new VariableExpression("x"),
-               new VariableExpression("y")
-             )
+              "isGreaterThan",
+              new VariableExpression("x"),
+              new VariableExpression("y")
             )
           )
-       ])
-     )
-   ],
-  greaterThanLessThanOrEqualToComparators: [
-     String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
-     new Program(
-       new Block([
-         new VariableDeclaration(
-           new VariableExpression("testAtLeast"),
-           new Variable(
-            new PrimitiveType("goodBoy"),
-             new BinaryExpression(
-             "isAtLeast",
-             new VariableExpression("x"),
-             new VariableExpression("y")
-             ) 
-           ) 
-         ),
-         new VariableDeclaration(
-           new VariableExpression("testAtMost"),
-           new Variable(
+        ),
+        new VariableDeclaration(
+          new VariableExpression("testLess"),
+          new Variable(
             new PrimitiveType("goodBoy"),
             new BinaryExpression(
-             "isAtMost",
-             new VariableExpression("x"),
-             new VariableExpression("y")
+              "isLessThan",
+              new VariableExpression("x"),
+              new VariableExpression("y")
             )
-           )
-         )
-       ])
-     )
-   ],
-   logicalNegation: [
-     String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
-     new Program(
-       new Block([
-         new VariableDeclaration(
-           new VariableExpression("testNegation1"),
-           new Variable(
-             new PrimitiveType("goodBoy"),
-             new BinaryExpression(
+          )
+        )
+      ])
+    )
+  ],
+  greaterThanLessThanOrEqualToComparators: [
+    String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("testAtLeast"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+              "isAtLeast",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          )
+        ),
+        new VariableDeclaration(
+          new VariableExpression("testAtMost"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+              "isAtMost",
+              new VariableExpression("x"),
+              new VariableExpression("y")
+            )
+          )
+        )
+      ])
+    )
+  ],
+  logicalNegation: [
+    String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
+    new Program(
+      new Block([
+        new VariableDeclaration(
+          new VariableExpression("testNegation1"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
               "equals",
               new VariableExpression("x"),
               new UnaryExpression("n", new VariableExpression("y"))
             )
-           )
-         ),
-         new VariableDeclaration(
-           new VariableExpression("testNegation2"),
-           new Variable(
-             new PrimitiveType("goodBoy"),
-             new BinaryExpression(
-             "equals",
+          )
+        ),
+        new VariableDeclaration(
+          new VariableExpression("testNegation2"),
+          new Variable(
+            new PrimitiveType("goodBoy"),
+            new BinaryExpression(
+              "equals",
               new VariableExpression("y"),
               new UnaryExpression("n", new VariableExpression("x"))
-             )
-           )
-         )
-       ])
-     )
-   ],
+            )
+          )
+        )
+      ])
+    )
+  ],
   /* Arithmetic */
   arithmeticOperators: [
     String.raw`toeBeans a is x + y; 
@@ -861,13 +861,7 @@ const fixture = {
     String.raw`
       fib();
     `,
-    new Program(
-      new Block([
-        new FunctionCall(
-          new VariableExpression("fib")
-        )
-      ])
-    )
+    new Program(new Block([new FunctionCall(new VariableExpression("fib"))]))
   ],
   functionCallWithArgs: [
     String.raw`
@@ -875,10 +869,9 @@ const fixture = {
     `,
     new Program(
       new Block([
-        new FunctionCall(
-          new VariableExpression("fib"),
-          [new NumberLiteral(100)]
-        )
+        new FunctionCall(new VariableExpression("fib"), [
+          new NumberLiteral(100)
+        ])
       ])
     )
   ],
@@ -909,16 +902,17 @@ const fixture = {
               new Field(
                 new VariableExpression("name"),
                 new Variable(new PrimitiveType("leash"))
-              ), 
+              ),
               new Field(
                 new VariableExpression("yearsOfExperience"),
                 new Variable(
-                  new PrimitiveType("toeBeans"), 
+                  new PrimitiveType("toeBeans"),
                   new NumberLiteral(0)
                 )
               )
             ],
-            [],[]
+            [],
+            []
           )
         )
       ])
@@ -937,26 +931,31 @@ const fixture = {
         new TypeDeclaration(
           new VariableExpression("DogHotel"),
           new BreedType(
-            [new Field(
-              new VariableExpression("name"),
-              new Variable(new PrimitiveType("leash"))
-            )],
-            [],
-            [new Method(
-              new VariableExpression("greet"),
-              new Function(
-                null, null,
-                new Block([
-                  new PrintStatement(
-                    "woof",
-                    new TemplateLiteral(
-                      [new StringLiteral("Welcome to our Dog Hotel")],
-                      null
-                    )
-                  )
-                ])
+            [
+              new Field(
+                new VariableExpression("name"),
+                new Variable(new PrimitiveType("leash"))
               )
-            )]
+            ],
+            [],
+            [
+              new Method(
+                new VariableExpression("greet"),
+                new Function(
+                  null,
+                  null,
+                  new Block([
+                    new PrintStatement(
+                      "woof",
+                      new TemplateLiteral(
+                        [new StringLiteral("Welcome to our Dog Hotel")],
+                        null
+                      )
+                    )
+                  ])
+                )
+              )
+            ]
           )
         )
       ])
@@ -973,22 +972,26 @@ const fixture = {
         new TypeDeclaration(
           new VariableExpression("DogLover"),
           new BreedType(
-            [], [],
-            [new Method(
-              new VariableExpression("barkAtDog"),
-              new Function(
-                null, null,
-                new Block([
-                  new PrintStatement(
-                    "bark",
-                    new TemplateLiteral(
-                      [new StringLiteral("woof woof")],
-                      null
-                    ) 
-                  )
-                ])
+            [],
+            [],
+            [
+              new Method(
+                new VariableExpression("barkAtDog"),
+                new Function(
+                  null,
+                  null,
+                  new Block([
+                    new PrintStatement(
+                      "bark",
+                      new TemplateLiteral(
+                        [new StringLiteral("woof woof")],
+                        null
+                      )
+                    )
+                  ])
+                )
               )
-            )]
+            ]
           )
         )
       ])
@@ -1011,35 +1014,42 @@ const fixture = {
         new TypeDeclaration(
           new VariableExpression("DogHotel"),
           new BreedType(
-            [new Field(
-              new VariableExpression("name"),
-              new Variable(new PrimitiveType("leash"))
-            )],
-            [new ConstructorDeclaration(
-              new VariableExpression("DogHotel"),
-              new Constructor(
-                new Parameters(
-                  [new PrimitiveType("leash")],
-                  [new VariableExpression("name")]
-                ),
-                new IdType("DogHotel")
+            [
+              new Field(
+                new VariableExpression("name"),
+                new Variable(new PrimitiveType("leash"))
               )
-            )],
-            [new Method(
-              new VariableExpression("greet"),
-              new Function(
-                null, null,
-                new Block([
-                  new PrintStatement(
-                    "woof",
-                    new TemplateLiteral(
-                      [new StringLiteral("Welcome to our Dog Hotel")],
-                      null
+            ],
+            [
+              new ConstructorDeclaration(
+                new VariableExpression("DogHotel"),
+                new Constructor(
+                  new Parameters(
+                    [new PrimitiveType("leash")],
+                    [new VariableExpression("name")]
+                  ),
+                  new IdType("DogHotel")
+                )
+              )
+            ],
+            [
+              new Method(
+                new VariableExpression("greet"),
+                new Function(
+                  null,
+                  null,
+                  new Block([
+                    new PrintStatement(
+                      "woof",
+                      new TemplateLiteral(
+                        [new StringLiteral("Welcome to our Dog Hotel")],
+                        null
+                      )
                     )
-                  )
-                ])
+                  ])
+                )
               )
-            )]
+            ]
           )
         ),
         new FunctionCall(
@@ -1049,7 +1059,7 @@ const fixture = {
             new VariableExpression("greet"),
             null
           ),
-          null
+          []
         )
       ])
     )

@@ -114,9 +114,9 @@ class Method {
 }
 
 class PrimitiveType extends Type {
-  constructor(name) {
+  constructor(type) {
     super();
-    Object.assign(this, { name });
+    Object.assign(this, { type });
   }
 }
 
@@ -137,8 +137,8 @@ class DictType extends Type {
 class IdType extends Type {
   // An intermediate node class that is used for Variables whose types are BreedTypes
   // that must have been previously defined with a TypeDeclaration. During semantic
-  // analysis, if a variable's type is IdType, it will replace it with a pointer to
-  // the BreedType with the corresponding name in the context.
+  // analysis, if a variable's type is IdType, it will replace the `ref` field (null by default) with a
+  // pointer to the BreedType object with the corresponding name in the context.
   constructor(name, ref = null) {
     super();
     Object.assign(this, { name, ref });
@@ -152,8 +152,8 @@ class AssignmentStatement {
 }
 
 class FunctionCall {
-  constructor(id, args = null) {
-    Object.assign(this, { id, args });
+  constructor(callee, args = []) {
+    Object.assign(this, { callee, args });
   }
 }
 
@@ -240,6 +240,7 @@ class VariableExpression extends Expression {
   constructor(name) {
     super();
     this.name = name;
+    this.ref = null;
   }
 }
 

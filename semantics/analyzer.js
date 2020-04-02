@@ -80,8 +80,8 @@ ConditionalStatement.prototype.analyze = function(context) {
 };
 
 InfiniteLoopStatement.prototype.analyze = function(context) {
-  const newContext = context.createChildContextForLoop();
-  this.body.analyze(newContext);
+  const bodyContext = context.createChildContextForLoop();
+  this.body.analyze(bodyContext);
 };
 
 // ForExp.prototype.analyze = function(context) {
@@ -97,64 +97,215 @@ InfiniteLoopStatement.prototype.analyze = function(context) {
 // };
 
 ForLoopStatement.prototype.analyze = function(context) {
-  this.localVarDec.analyze(context);
+  const bodyContext = context.createChildContextForLoop();
+  this.localVarDec.analyze(bodyContext);
   check.isNumberType(this.localVarDec.variable.type);
   this.loopExp.analyze(context);
   check.isNumber(this.loopExp);
   this.condition.analyze(context);
   check.isBool(this.condition);
-  const bodyContext = context.createChildContextForLoop();
-  //TODO Do we need index?
-  this.index = new Variable(NumType, this.index);
-  this.index.readOnly = true;
-  bodyContext.add(this.index);
   this.body.analyze(bodyContext);
 };
 
 ThroughLoopStatement.prototype.analyze = function(context) {
-  this.localVar.analyze(context);
-  this.group.analyze(context);
+  const bodyContext = context.createChildContextForLoop();
+  this.localVar.analyze(bodyContext);
+  //TODO Make localVar ReadOnly in context
+  //this.localVar.isReadOnly = true;
+  this.group.analyze(bodyContext);
   //TODO Are Lists the only thing ThroughLoop can iterate through?
   check.isListType(this.group.type);
-  const bodyContext = context.createChildContextForLoop();
-  //TODO Do we need index?
-  this.index = new Variable(this.low.type, this.index);
-  this.index.readOnly = true;
-  bodyContext.add(this.index);
   this.body.analyze(bodyContext);
 };
 
 //TODO FINISH THIS
 WhileLoopStatement.prototype.analyze = function(context) {
-  this.condition.analyze(context);
-  check.isBool(this.condition);
   const bodyContext = context.createChildContextForLoop();
+  this.condition.analyze(bodyContext);
+  check.isBool(this.condition);
   this.body.analyze(bodyContext);
 };
 
-//TODO I think we add to context here? Do we need to analyze
+FixedLoopStatement.prototype.analyze = function(context) {
+  const bodyContext = context.createChildContextForLoop();
+  this.expression.analyze(bodyContext);
+  check.isNumber(this.expression);
+  this.body.analyze(bodyContext);
+};
+
 VariableDeclaration.prototype.analyze = function(context) {
-  context.add(this);
   this.variable.analyze(context);
+  context.add(this.id.name, this.variable);
 };
 
-//TODO Do we need to analyze?
 Variable.prototype.analyze = function(context) {
+  this.type.analyze(context);
   this.initializerExp.analyze(context);
+  check.expressionsHaveTheSameType(this, this.initializerExp);
 };
 
-//TODO not sure this is right... How do we change assignment?
+FunctionDeclaration.prototype.analyze = function(context) {
+  const bodyContext = context.createChildContextForFunctionBody();
+  this.func.analyze(bodyContext);
+  context.add(this.id.name, this.func);
+};
+
+Function.prototype.analyze = function(context) {
+  if (parameters) {
+    this.parameters.analyze(context);
+  }
+  if (returnType) {
+    this.returnType.analyze(context);
+  }
+  this.body.analyze(context);
+};
+
+TypeDeclaration.prototype.analyze = function(context) {
+  const newContext = context.createChildContextForBlock();
+  this.breedType.analyze(newContext);
+  context.add(this.id.name, this.breedType);
+};
+
+BreedType.prototype.analyze = function(context) {
+  this.constructors.forEach(constructor => {
+    constructor.analyze(context);
+  });
+  this.fields.forEach(field => {
+    field.analyze(context);
+  });
+  this.methods.forEach(method => {
+    method.analyze(context);
+  });
+};
+
+ConstructorDeclaration.prototype.analyze = function(context) {
+  const newContext = context.createChildContextForFunctionBody();
+  this.constr.analyze(newContext);
+  context.add(this.id.name, this.constr);
+};
+
+Constructor.prototype.analyze = function(context) {
+  if (parameters) {
+    this.parameters.analyze(context);
+  }
+  if (returnType) {
+    this.returnType.analyze(context);
+  }
+};
+
+Field.prototype.analyze = function(context) {
+  if (this.variable) {
+    this.variable.analyze(context);
+  }
+  context.add(this.id.name, this.variable);
+};
+
+Method.prototype.analyze = function(context) {
+  if (this.func) {
+    const bodyContext = context.createChildContextForFunctionBody();
+    this.func.analyze(bodyContext);
+  }
+  context.add(this.id.name, this.func);
+};
+
+//Question what to do here?
+PrimitiveType.prototype.analyze = function(context) {
+  //check that name is toeBeans, leash, or goodBoy?
+  //change this.type?
+  // currently, `this` is an object of type PrimitiveType whose `type` field is "goodBoy"
+  // .......and `BoolType` is also an object of type PrimitiveType, whose `type` field is "goodBoy"
+  // so they are structurally identical, but they point to two separate objects in memory
+  // this is currently just changing the pointers so that they point to the same object in memory
+  // i.e., there is only ONE BoolType object (like a singleton)
+  // is this necessary???
+  if (this.type === "goodBoy") {
+    this.type = BoolType;
+  } else if (this.type === "leash") {
+    this.type = StringType;
+  } else if (this.type === "toeBeans") {
+    this.type = NumType;
+  }
+};
+
+ListType.prototype.analyze = function(context) {
+  this.memberType.analyze(context);
+};
+
+DictType.prototype.analyze = function(context) {
+  this.keyType.analyze(context);
+  this.valueType.analyze(context);
+};
+
+IdType.prototype.analyze = function(context) {
+  const ref = context.lookup(this.name);
+  this.ref = ref;
+};
+
 AssignmentStatement.prototype.analyze = function(context) {
+  const targetVariable = context.lookup(this.target);
   this.source.analyze(context);
+  // do we need this?
   this.target.analyze(context);
   check.isAssignableTo(this.source, this.target.type);
   check.isNotReadOnly(this.target);
-  const current = context.lookup(this.target);
-  context.locals.set(this.target, this.source);
+  // do we need to actually set the new value of the variable??
+  // context.locals.set(this.target, this.source);
+};
+
+FunctionCall.prototype.analyze = function(context) {
+  this.callee = context.lookup(this.callee);
+  check.isFunction(this.callee);
+  this.args.forEach(arg => arg.analyze(context));
+  check.legalArguments(this.args, this.callee.parameters);
+  this.type = this.callee.returnType;
 };
 
 BreakStatement.prototype.analyze = function(context) {
-  check.inLoop(context, "break");
+  check.inLoop(context, "poop");
+};
+
+ContinueStatement.prototype.analyze = function(context) {
+  check.inLoop(context, "walkies");
+};
+
+PackLiteral.prototype.analyze = function(context) {
+  this.elements.forEach(element => {
+    element.analyze(context);
+  });
+  this.type = ListType; // Not builtin?
+};
+
+ListElement.prototype.analyze = function(context) {
+  this.value.analyze(context);
+  check.validSpread(context, this.value);
+};
+
+KennelLiteral.prototype.analyze = function(context) {
+  this.keyValuePairs.forEach(keyValuePair => {
+    // Check each key type is the same and each value type is the same???
+    keyValuePair.analyze(context);
+  });
+  this.type = DictType; // Not builtin?
+};
+
+KeyValuePair.prototype.analyze = function(context) {
+  this.key.analyze(context);
+  this.value.analyze(context);
+};
+
+VariableExpression.prototype.analyze = function(context) {
+  this.ref = context.lookup(this.name); // returns the Variable object
+};
+
+UnaryExpression.prototype.analyze = function(context) {
+  this.operand.analyze(context);
+  if (/[-!]/.test(this.op)) {
+    check.isNumber(this.operand);
+    this.type = NumType;
+  } else if (/[^not$]/.test(this.op)) {
+    check.isBool(this.operand);
+    this.type = BoolType;
+  }
 };
 
 BinaryExpression.prototype.analyze = function(context) {
@@ -178,7 +329,7 @@ BinaryExpression.prototype.analyze = function(context) {
     check.isNumberOrString(this.right);
     this.type = BoolType;
   } else if (/^with/.test(this.op)) {
-    //TODO add array concat and combo
+    //TODO add array concat and combo (at, of)
     check.isString(this.left);
     check.isString(this.right);
     this.type = StringType;
@@ -187,6 +338,24 @@ BinaryExpression.prototype.analyze = function(context) {
   }
   //Not sure about this
   //this.type = IntType;
+};
+
+BooleanLiteral.prototype.analyze = function() {
+  this.type = BoolType;
+};
+
+NumberLiteral.prototype.analyze = function() {
+  this.type = NumType;
+};
+
+StringLiteral.prototype.analyze = function() {
+  this.type = StringType;
+};
+
+TemplateLiteral.prototype.analyze = function(context) {
+  this.members.map(member => {
+    member = context.lookup(member);
+  });
 };
 
 // ArrayExp.prototype.analyze = function(context) {
