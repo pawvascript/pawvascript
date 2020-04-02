@@ -856,21 +856,32 @@ const fixture = {
       ])
     )
   ],
-
-
-  // Breed Tests Inspiration
-  // breed Owner is:
-  //     leash dogName;
-  //     trick Owner chews[leash:dogName] fetches Owner;
-  //     trick introduceDog:
-  //       woof "My dog's name is " with Owner's dogName;
-  //     tail
-  //     trick command fetches leash:
-  //       give Owner's dogName with ", stay.";
-  //     tail
-  //   tail`,
-
-
+  /* Function Call */
+  functionCallWithoutArgs: [
+    String.raw`
+      fib();
+    `,
+    new Program(
+      new Block([
+        new FunctionCall(
+          new VariableExpression("fib")
+        )
+      ])
+    )
+  ],
+  functionCallWithArgs: [
+    String.raw`
+      fib(100);
+    `,
+    new Program(
+      new Block([
+        new FunctionCall(
+          new VariableExpression("fib"),
+          [new NumberLiteral(100)]
+        )
+      ])
+    )
+  ],
   /* Breed Declarations */
   emptyBreedDeclaration: [
     String.raw`breed Owner is:
@@ -951,6 +962,38 @@ const fixture = {
       ])
     )
   ],
+  breedWithMethod: [
+    String.raw`breed DogLover is:
+      trick barkAtDog:
+        bark "woof woof";
+      tail
+    tail`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          new VariableExpression("DogLover"),
+          new BreedType(
+            [], [],
+            [new Method(
+              new VariableExpression("barkAtDog"),
+              new Function(
+                null, null,
+                new Block([
+                  new PrintStatement(
+                    "bark",
+                    new TemplateLiteral(
+                      [new StringLiteral("woof woof")],
+                      null
+                    ) 
+                  )
+                ])
+              )
+            )]
+          )
+        )
+      ])
+    )
+  ],
   breedWithEverything: [
     String.raw`breed DogHotel is:
       leash name;
@@ -960,7 +1003,9 @@ const fixture = {
       trick greet:
         woof "Welcome to our Dog Hotel";
       tail
-    tail`,
+    tail
+    
+    myDogHotel's greet();`,
     new Program(
       new Block([
         new TypeDeclaration(
@@ -996,6 +1041,15 @@ const fixture = {
               )
             )]
           )
+        ),
+        new FunctionCall(
+          new BinaryExpression(
+            "'s",
+            new VariableExpression("myDogHotel"),
+            new VariableExpression("greet"),
+            null
+          ),
+          null
         )
       ])
     )
