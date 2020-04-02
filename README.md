@@ -80,28 +80,68 @@ PawvaScript's primitive types are similar to JavaScripts, and it also has data s
 
 Variables are declared with their type.
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-leash dogName is "Cece";                                            let dogName = "Cece";
-
-toeBeans dogAge is 12;                                              let dogAge = 12;
-
-goodBoy isGoodBoy is good;                                          let isGoodBoy = true;
-
-goodBoy isNaughtyDoggo is bad;                                      let isNaughtyDoggo = false;
-
-pack[leash] dogNames is ["Cece", "Fluffy"];                         let dogNames = ["Cece", "Fluffy"];
-
-kennel[leash:toeBeans] dogAges is ["Cece": 1, "Fluffy": 2];         let dogAges = {"Cece": 1, "Fluffy": 2};
-
-!!! this has a default initialization of 0 !!!
-toeBeans cuteness;                                                  let cuteness = 0;
-cuteness is 100;                                                    cuteness = 100;
-
-!!! cat is the equivalent of null; any type can have the value cat. !!!
-leash theBestestDog is cat;                                         let theBestestDog = null;
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                leash dogName is "Cece";
+                toeBeans dogAge is 12;
+                goodBoy isGoodBoy is good;
+                goodBoy isNaughtyDoggo is bad;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let dogName = "Cece";
+                let dogAge = 12;
+                let isGoodBoy = true;
+                let isNaughtyDoggo = bad; 
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                pack[leash] dogNames is ["Cece", "Fluffy"];
+                kennel[leash:toeBeans] dogAges is ["Cece": 1, "Fluffy": 2];
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let dogNames = ["Cece", "Fluffy"];
+                let dogAges = {"Cece": 1, "Fluffy": 2};
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                toeBeans cuteness; !!! Default value is 0 !!!
+                cuteness is 100;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let cuteness = 0;
+                cuteness = 100;
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                !!! cat is the equivalent of null. Any tpye can have the value cat !!!
+                leash theBestestDog is cat;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let theBestestDog = null;
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Leashes/Strings
 
