@@ -1,8 +1,9 @@
 const util = require("util");
 const {
   ListType,
-  FunctionDeclaration,
   DictType,
+  IdType,
+  FunctionDeclaration,
   VariableExpression
 } = require("../ast");
 const { NumType, StringType, BoolType } = require("./builtins");
@@ -66,27 +67,55 @@ module.exports = {
     doCheck(value.constructor === Function, "Attempt to call a non-function");
   },
 
-  // Are two types exactly the same?
-  expressionsHaveTheSameType(e1, e2) {
-    doCheck(e1.type === e2.type, "Types must match exactly");
-  },
-  // Can we assign expression to a variable/param/field of type type?
-  isAssignableTo(expression, type) {
-    doCheck(
-      // (expression.type === NilType && type.constructor === RecordType) ||
-      //   expression.type === type,
-      // if expression is a variableexpression, check if expression.ref.type === type
-      // otherwise, check if expression.type === type
-      // if either of the two types is an idtype, we need to do .ref again lol
-      // if either of them are list types, we need to check member types???
-      // and if dict type, check key type and value type??
-      `Expression of type ${util.format(
-        expression.type
-      )} not compatible with type ${util.format(type)}`
-    );
+  typesMatch(t1, t2) {
+    if (t1.constructor === ListType && t2.constructor === ListType) {
+      this.listTypesHaveSameMemberType(t1, t2);
+    } else if (t1.constructor === DictType && t2.constructor === DictType) {
+      this.dictTypesHaveSameKeyValueTypes(t1, t2);
+    } else if (t1.constructor === IdType && t2.constructor === IdType) {
+      this.idTypesMatch(t1, t2);
+    } else {
+      doCheck(
+        t1 === t2,
+        `Expression of type ${util.format(
+          t1
+        )} not compatible with type ${util.format(t2)}`
+      );
+    }
   },
 
-  // do we need this? we don't have const's but i can imagine a user trying to change something like list.length
+  listTypesHaveSameMemberType(listType1, listType2) {
+    this.typesMatch(listType1.memberType, listType2.memberType);
+  },
+
+  dictTypesHaveSameKeyValueTypes(dictType1, dictType2) {
+    this.typesMatch(dictType1.keyType, dictType2.keyType);
+    this.typesMatch(dictType1.valueType, dictType2.valueType);
+  },
+
+  idTypesMatch(idType1, idType2) {
+    this.typesMatch(idType1.ref, idType2.ref);
+  },
+
+  // Are two types exactly the same?
+  expressionsHaveTheSameType(e1, e2) {
+    // doCheck(e1.type === e2.type, "Types must match exactly");
+    this.typesMatch(e1.type, e2.type);
+  },
+
+  // Can we assign expression to a variable/param/field of type type?
+  isAssignableTo(expression, type) {
+    // if expression is a variableexpression, check if expression.ref.type === type
+    // otherwise, check if expression.type === type
+    let expressionType =
+      expression.constructor === VariableExpression
+        ? expression.ref.type
+        : expression.type;
+    let targetType = type;
+    this.typesMatch(expressionType, targetType);
+  },
+
+  // Variables that are read-only include the length of a list, the index of a through loop, etc.
   isNotReadOnly(lvalue) {
     doCheck(
       !lvalue.isReadOnly,
@@ -95,15 +124,36 @@ module.exports = {
     );
   },
 
-  fieldHasNotBeenUsed(field, usedFields) {
-    doCheck(!usedFields.has(field), `Field ${field} already declared`);
+  fieldHasNotBeenUsed(fieldName, usedFields) {
+    doCheck(!usedFields.has(fieldName), `Field ${fieldName} already declared`);
   },
 
-  // don't need this because context.lookup already throws an error if var not declared
-  // variableWasPreviouslyDeclared(id, context) {},
+  methodHasNotBeenUsed(methodName, usedMethods) {
+    doCheck(
+      !usedMethods.has(methodName),
+      `Method ${methodName} already declared`
+    );
+  },
+
+  // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
+  // In future iterations, we hope to implement method overloading in PawvaScript, which would
+  // allow us to have multiple constructors for a single BreedType.
+  noMoreThanOneConstructor(constructors) {
+    doCheck(
+      constructors.length <= 1,
+      `A type declaration can define at most one constructor`
+    );
+  },
 
   inLoop(context, keyword) {
     doCheck(context.inLoop, `${keyword} can only be used in a loop`);
+  },
+
+  inFunction(context, keyword) {
+    doCheck(
+      context.currentFunction !== null,
+      `${keyword} can only be used in a function`
+    );
   },
 
   // Same number of args and params; all types compatible
@@ -115,14 +165,19 @@ module.exports = {
     args.forEach((arg, i) => this.isAssignableTo(arg, parameters.types[i]));
   },
 
+  // do we need this??? what is this even for
   // If there is a cycle in types, they must go through a record
-  noRecursiveTypeCyclesWithoutRecordTypes() {
-    /* TODO - not looking forward to this one */
-  },
+  // noRecursiveTypeCyclesWithoutRecordTypes() {
+  //   /* TODO - not looking forward to this one */
+  // },
 
   isValidSpread(expression) {
+    let expressionType =
+      expression.constructor === VariableExpression
+        ? expression.ref.type
+        : expression.type;
     doCheck(
-      expression.type.constructor == ListType,
+      expressionType.constructor === ListType,
       "Not a valid spread operator"
     );
   }
