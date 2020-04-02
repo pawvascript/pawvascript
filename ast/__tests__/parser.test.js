@@ -856,48 +856,145 @@ const fixture = {
       ])
     )
   ],
+
+
+  // Breed Tests Inspiration
+  // breed Owner is:
+  //     leash dogName;
+  //     trick Owner chews[leash:dogName] fetches Owner;
+  //     trick introduceDog:
+  //       woof "My dog's name is " with Owner's dogName;
+  //     tail
+  //     trick command fetches leash:
+  //       give Owner's dogName with ", stay.";
+  //     tail
+  //   tail`,
+
+
   /* Breed Declarations */
-  breedDeclaration: [
-    String.raw`
-    breed Owner is:
-      leash dogName;
-      trick Owner chews[leash:dogName] fetches Owner;
-      trick introduceDog:
-        woof "My dog's name is " with Owner's dogName;
-      tail
-      trick command fetches leash:
-        give Owner's dogName with ", stay.";
-      tail
+  emptyBreedDeclaration: [
+    String.raw`breed Owner is:
     tail`,
     new Program(
       new Block([
         new TypeDeclaration(
           new VariableExpression("Owner"),
+          new BreedType([], [], [])
+        )
+      ])
+    )
+  ],
+  breedWithFields: [
+    String.raw`breed PetSitter is:
+      leash name;
+      toeBeans yearsOfExperience is 0;
+    tail`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          new VariableExpression("PetSitter"),
           new BreedType(
             [
               new Field(
-                new VariableExpression("dogName"),
-                new Variable(new PrimitiveType("leash"), null)
-              )
-            ],
-            [
-              new Constructor(
-                new Parameters(
-                  [new VariableExpression("dogName")],
-                  [new PrimitiveType("leash")]
-                ),
-                new IdType("Owner")
-              )
-            ],
-            [
-              new Method(
-                new VariableExpression("introduceDog"),
-                new PrintStatement(
-                  "woof",
-                  new TemplateLiteral([new StringLiteral("My dog's name is ")])
+                new VariableExpression("name"),
+                new Variable(new PrimitiveType("leash"))
+              ), 
+              new Field(
+                new VariableExpression("yearsOfExperience"),
+                new Variable(
+                  new PrimitiveType("toeBeans"), 
+                  new NumberLiteral(0)
                 )
               )
-            ]
+            ],
+            [],[]
+          )
+        )
+      ])
+    )
+  ],
+  breedWithFieldAndMethods: [
+    String.raw`breed DogHotel is:
+      leash name;
+
+      trick greet:
+        woof "Welcome to our Dog Hotel";
+      tail
+    tail`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          new VariableExpression("DogHotel"),
+          new BreedType(
+            [new Field(
+              new VariableExpression("name"),
+              new Variable(new PrimitiveType("leash"))
+            )],
+            [],
+            [new Method(
+              new VariableExpression("greet"),
+              new Function(
+                null, null,
+                new Block([
+                  new PrintStatement(
+                    "woof",
+                    new TemplateLiteral(
+                      [new StringLiteral("Welcome to our Dog Hotel")],
+                      null
+                    )
+                  )
+                ])
+              )
+            )]
+          )
+        )
+      ])
+    )
+  ],
+  breedWithEverything: [
+    String.raw`breed DogHotel is:
+      leash name;
+
+      trick DogHotel chews[leash: name] fetches DogHotel;
+
+      trick greet:
+        woof "Welcome to our Dog Hotel";
+      tail
+    tail`,
+    new Program(
+      new Block([
+        new TypeDeclaration(
+          new VariableExpression("DogHotel"),
+          new BreedType(
+            [new Field(
+              new VariableExpression("name"),
+              new Variable(new PrimitiveType("leash"))
+            )],
+            [new ConstructorDeclaration(
+              new VariableExpression("DogHotel"),
+              new Constructor(
+                new Parameters(
+                  [new PrimitiveType("leash")],
+                  [new VariableExpression("name")]
+                ),
+                new IdType("DogHotel")
+              )
+            )],
+            [new Method(
+              new VariableExpression("greet"),
+              new Function(
+                null, null,
+                new Block([
+                  new PrintStatement(
+                    "woof",
+                    new TemplateLiteral(
+                      [new StringLiteral("Welcome to our Dog Hotel")],
+                      null
+                    )
+                  )
+                ])
+              )
+            )]
           )
         )
       ])
