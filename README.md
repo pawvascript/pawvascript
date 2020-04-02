@@ -41,7 +41,29 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 
 Let's start with the classic Hello, World:
 
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                woof "Hello, World!";
+                bark "my ball!";
+                howl "uh-oh";
+            </pre>
+        </td>
+        <td>
+            <pre>
+                console.log("Hello, World!";)
+                console.log("my ball!".toUpperCase());
+                console.error("uh-oh");
+            </pre>
+        </td>
+    </tr>
+</table>
+
+
 ```JavaScript
+
 PAWVASCRIPT                                                         JAVASCRIPT
 
 woof "Hello, World!";                                               console.log("Hello, World!");
