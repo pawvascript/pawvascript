@@ -666,7 +666,9 @@ Let's find the greatest common divisor between two toeBeans!
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 
-<tr>
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
         <td>
             <pre>
                 trick fib chews[toeBeans:n] fetches toeBeans:   
@@ -715,19 +717,15 @@ Let's make an owner breed!
             <pre>
                 breed Owner is:   
                     leash dogName; 
-                    
                     trick Owner chases[leash:dogName] fetches Owner;
-
                      trick introduceDog:
                         woof "My dog's name is " with Owner's dogName;
                     ${this.dogName}`);
                         tail     
-
                         trick command fetches leash: 
                             give Owner's dogName with ", stay!";
                         tail
                     tail
-
                     Owner lucille is Owner("CeCe")  
                     (lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!
                     woof lucille's command()  !!! output: "CeCe, stay." !!!     
@@ -739,16 +737,13 @@ Let's make an owner breed!
                     constructor(dogName) {
                         this.dogName = dogName;
                     } 
-
                     introduceDog() {
                         console.log(`My dog's name is
                     }
-
                     command() {
                         return `${this.dogName}, stay!`;
                     }
                 }
-
                 let lucille = new Owner("CeCe");
                 lucille.introduceDog();
                 console.log(lucille.command());
