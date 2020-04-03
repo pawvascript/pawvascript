@@ -426,16 +426,32 @@ Wanna compare stuff?
 ### Comments
 
 Let's write some comments!
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                !!! I'm a one line comment !!!
+            </pre>
+            <pre>
+               !!! I'm a
+               multiline
+               comment !!!
+            </pre>
+        </td>
+        <td>
+            <pre>
+                // I'm a comment
+            </pre>
+            <pre>
+                /* I'm a
+                multiline
+                comment */
+            </pre>
+        </td>
+    </tr>
+</table>
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-!!! I'm a one line comment !!!                                      // I'm a comment
-
-!!! I'm a                                                           /* I'm a
-multiline                                                           multiline
-comment !!!                                                         comment */
-```
 
 ### Loops
 
