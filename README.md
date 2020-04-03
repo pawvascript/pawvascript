@@ -318,23 +318,57 @@ Wanna compare stuff?
 
 ### Arithmetic Operators
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-toeBeans a is x + y;                                                a = x + y;
-
-a is x - y;                                                         a = x - y;
-
-a is x * y;                                                         a = x * y;
-
-a is x / y;                                                         a = x / y;
-
-a is x mod y;                                                       a = x % y;
-
-a is x!;                                                            a = x!;
-
-a is -x;                                                            a = -x;
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                toeBeans a is x + y; 
+            </pre>
+            <pre>
+                a is x - y;
+            </pre>
+            <pre>
+                a is x * y;
+            </pre>
+            <pre>
+                a is x / y;
+            </pre>
+            <pre>
+                a is x mod y;
+            </pre>
+            <pre>
+                a is x!;
+            </pre>
+            <pre>
+                a is -x;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                a = x + y;
+            </pre>
+            <pre>
+                a = x - y;
+            </pre>
+            <pre>
+                a = x * y;
+            </pre>
+            <pre>
+                a = x / y;
+            </pre>
+            <pre>
+                a = x % y;
+            </pre>
+            <pre>
+                a = x!;
+            </pre>
+            <pre>
+                a = -x;
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Conditional Statements
 
