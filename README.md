@@ -372,25 +372,56 @@ Wanna compare stuff?
 
 ### Conditional Statements
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-if x isAtLeast y then:                                              if (x <= y) {
-    leash dogName is "CeCe";                                            let dogName = "CeCe";
-else:                                                               else {
-    leash dogName is "Buster";                                          let dogName = "Buster";
-tail                                                                }
-
-if x notEquals y then:                                              if (x !== y) {
-    woof "CeCe is kinda cute";                                          console.log("CeCe is kinda cute");
-else if x isGreaterThan y then:                                     else if (x > y) {
-    woof "CeCe is pretty cute";                                         console.log("CeCe is pretty cute");
-else if x isLessThan y then:                                        else if (x < y) {
-    woof "Okay, CeCe is really cute";                                   console.log("Okay, CeCe is really cute");
-else:                                                               else {
-    woof "CeCe is the cutest of the cutest";                            console.log("CeCe is the cutest of the cutest");
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                if x isAtLeast y then:
+                    leash dogName is "CeCe"; 
+                else:
+                    leash dogName is "Buster";  
+                tail  
+            </pre>
+        </td>
+        <td>
+            <pre>
+                if (x <= y) {
+                    let dogName = "CeCe";
+                else {
+                    let dogName = "Buster";
+                }
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                if x notEquals y then:
+                    woof "CeCe is kinda cute";
+                else if x isGreaterThan y then:
+                    woof "CeCe is pretty cute";
+                else if x isLessThan y then:
+                    woof "Okay, CeCe is really cute";
+                else:
+                    woof "CeCe is the cutest of the cutest";
+            </pre>
+        </td>
+        <td>
+            <pre>
+                if (x !== y) {
+                    console.log("CeCe is kinda cute");
+                else if (x > y) {
+                    console.log("CeCe is pretty cute");
+                else if (x < y) {
+                    console.log("Okay, CeCe is really cute");
+                else {
+                    console.log("CeCe is the cutest of the cutest");
+                }        
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Comments
 
