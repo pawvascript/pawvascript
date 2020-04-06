@@ -54,6 +54,14 @@ module.exports = {
       expression.type === NumType || expression.type === StringType,
       "Not a number or string"
     );
+    // const expType =
+    //   expression.constructor === VariableExpression
+    //     ? expression.ref.type
+    //     : expression.type;
+    // doCheck(
+    //   expType === NumType || expType === StringType,
+    //   "Not a number or string"
+    // );
   },
 
   isNumberOrBool(expression) {

@@ -29,104 +29,30 @@ const fixture = {
       pack[leash] fewerDogs is ["CeCe", "Buster", "Dumpling"] without "CeCe";
     `,
   nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
-  // /* String Operations */
-  // leashConcatenation: [
-  //   String.raw`leash dogName is "Ce" with "Ce";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("dogName"),
-  //         new Variable(
-  //           new PrimitiveType("leash"),
-  //           new BinaryExpression(
-  //             "with",
-  //             new TemplateLiteral([new StringLiteral("Ce")], null),
-  //             new TemplateLiteral([new StringLiteral("Ce")], null)
-  //           )
-  //         )
-  //       ),
-  //     ])
-  //   ),
-  // ],
-  // stringInterpolation: [
-  //   String.raw`leash sentence is "![x] is a good girl";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("sentence"),
-  //         new Variable(
-  //           new PrimitiveType("leash"),
-  //           new TemplateLiteral(
-  //             [new StringLiteral(""), new StringLiteral(" is a good girl")],
-  //             [new VariableExpression("x")]
-  //           )
-  //         )
-  //       ),
-  //     ])
-  //   ),
-  // ],
-  // stringInterpolationInMiddleOfString: [
-  //   String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("phrase"),
-  //         new Variable(
-  //           new PrimitiveType("leash"),
-  //           new TemplateLiteral(
-  //             [
-  //               new StringLiteral("Come back here, "),
-  //               new StringLiteral(". Good girl."),
-  //             ],
-  //             [new VariableExpression("name")]
-  //           )
-  //         )
-  //       ),
-  //     ])
-  //   ),
-  // ],
-  // /* Assignment */
-  // variableAssignment: [
-  //   String.raw`cuteness is 100;`,
-  //   new Program(
-  //     new Block([
-  //       new AssignmentStatement(
-  //         new VariableExpression("cuteness"),
-  //         new NumberLiteral(100)
-  //       ),
-  //     ])
-  //   ),
-  // ],
-  // /* Relops */
-  // equalityOperators: [
-  //   String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
-  //   new Program(
-  //     new Block([
-  //       new VariableDeclaration(
-  //         new VariableExpression("testBool1"),
-  //         new Variable(
-  //           new PrimitiveType("goodBoy"),
-  //           new BinaryExpression(
-  //             "equals",
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           )
-  //         )
-  //       ),
-  //       new VariableDeclaration(
-  //         new VariableExpression("testBool2"),
-  //         new Variable(
-  //           new PrimitiveType("goodBoy"),
-  //           new BinaryExpression(
-  //             "notEquals",
-  //             new VariableExpression("x"),
-  //             new VariableExpression("y")
-  //           )
-  //         )
-  //       ),
-  //     ])
-  //   ),
-  // ],
+  /* String Operations */
+  leashConcatenation: String.raw`leash dogName is "Ce" with "Ce";`,
+  stringInterpolation: String.raw`
+    toeBeans x is 1;
+    leash sentence is "![x] is a good girl";
+  `,
+  stringInterpolationInMiddleOfString: String.raw`
+    leash name is "CeCe";
+    leash phrase is "Come back here, ![name]. Good girl.";
+  `,
+  /* Assignment */
+  variableAssignment: String.raw`
+    toeBeans cuteness is 0;
+    cuteness is 100;
+  `,
+  /* Relops */
+  equalityOperators: String.raw`
+    leash name is "CeCe";
+    leash nickname is "CeCe";
+    toeBeans age1 is 1;
+    toeBeans age2 is 2;
+    goodBoy testBool1 is name equals nickname; 
+    goodBoy testBool2 is age1 notEquals age2;
+  `,
   // greaterThanLessThanComparators: [
   //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
   //   new Program(
