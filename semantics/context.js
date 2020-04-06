@@ -7,8 +7,17 @@
  *   const Context = require('./semantics/context');
  */
 
-const { TypeDeclaration } = require("../ast");
-const { standardFunctions } = require("./builtins");
+const {
+  TypeDeclaration,
+  FunctionDeclaration,
+  PrimitiveType,
+} = require("../ast");
+const {
+  standardFunctions,
+  NumType,
+  StringType,
+  BoolType,
+} = require("./builtins");
 
 require("./analyzer");
 
@@ -33,7 +42,7 @@ class Context {
       parent,
       currentFunction,
       inLoop,
-      locals: new Map()
+      locals: new Map(),
     });
   }
 
@@ -47,7 +56,7 @@ class Context {
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
-      inLoop: true
+      inLoop: true,
     });
   }
 
@@ -56,7 +65,7 @@ class Context {
     return new Context({
       parent: this,
       currentFunction: this.currentFunction,
-      inLoop: this.inLoop
+      inLoop: this.inLoop,
     });
   }
 
@@ -81,8 +90,12 @@ class Context {
 }
 
 Context.INITIAL = new Context();
-[...standardFunctions].forEach(entity => {
-  Context.INITIAL.add(entity);
+[...standardFunctions, NumType, BoolType, StringType].forEach((entity) => {
+  if (entity.constructor === FunctionDeclaration) {
+    Context.INITIAL.add(entity.id.name, entity.func);
+  } else if (entity.constructor === PrimitiveType) {
+    Context.INITIAL.add(entity.type, entity);
+  }
 });
 
 module.exports = Context;

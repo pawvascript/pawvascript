@@ -21,14 +21,13 @@ const {
   VariableDeclaration,
   Variable,
   TypeDeclaration,
-  Type,
+  //   Type,
   BreedType,
   Field,
   Method,
-  PrimitiveType,
+  IdType,
   ListType,
   DictType,
-  IdType,
   FunctionDeclaration,
   Function,
   Parameters,
@@ -62,7 +61,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogName"),
-          new Variable(new PrimitiveType("leash"), null)
+          new Variable(new IdType("leash"), null)
         ),
       ])
     ),
@@ -73,7 +72,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogName"),
-          new Variable(new PrimitiveType("leash"), null)
+          new Variable(new IdType("leash"), null)
         ),
       ])
     ),
@@ -84,7 +83,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("CeCeAge"),
-          new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(1))
+          new Variable(new IdType("toeBeans"), new NumberLiteral(1))
         ),
       ])
     ),
@@ -95,7 +94,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("isGoodBoy"),
-          new Variable(new PrimitiveType("goodBoy"), new BooleanLiteral(true))
+          new Variable(new IdType("goodBoy"), new BooleanLiteral(true))
         ),
       ])
     ),
@@ -107,7 +106,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("name"),
           new Variable(
-            new PrimitiveType("leash"),
+            new IdType("leash"),
             new TemplateLiteral([new StringLiteral("CeCe")], null)
           )
         ),
@@ -120,10 +119,7 @@ const fixture = {
       new Block([
         new VariableDeclaration(
           new VariableExpression("dogs"),
-          new Variable(
-            new ListType(new PrimitiveType("leash")),
-            new PackLiteral([])
-          )
+          new Variable(new ListType(new IdType("leash")), new PackLiteral([]))
         ),
       ])
     ),
@@ -135,10 +131,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogs"),
           new Variable(
-            new DictType(
-              new PrimitiveType("leash"),
-              new PrimitiveType("toeBeans")
-            ),
+            new DictType(new IdType("leash"), new IdType("toeBeans")),
             new KennelLiteral([], [])
           )
         ),
@@ -152,7 +145,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogs"),
           new Variable(
-            new ListType(new PrimitiveType("leash")),
+            new ListType(new IdType("leash")),
             new PackLiteral([
               new ListElement(
                 false,
@@ -219,10 +212,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogs"),
           new Variable(
-            new DictType(
-              new PrimitiveType("leash"),
-              new PrimitiveType("toeBeans")
-            ),
+            new DictType(new IdType("leash"), new IdType("toeBeans")),
             new KennelLiteral([
               new KeyValuePair(
                 new TemplateLiteral([new StringLiteral("CeCe")], null),
@@ -250,7 +240,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogName"),
           new Variable(
-            new PrimitiveType("leash"),
+            new IdType("leash"),
             new BinaryExpression(
               "with",
               new TemplateLiteral([new StringLiteral("Ce")], null),
@@ -268,7 +258,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("sentence"),
           new Variable(
-            new PrimitiveType("leash"),
+            new IdType("leash"),
             new TemplateLiteral(
               [new StringLiteral(""), new StringLiteral(" is a good girl")],
               [new VariableExpression("x")]
@@ -285,7 +275,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("phrase"),
           new Variable(
-            new PrimitiveType("leash"),
+            new IdType("leash"),
             new TemplateLiteral(
               [
                 new StringLiteral("Come back here, "),
@@ -318,7 +308,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testBool1"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "equals",
               new VariableExpression("x"),
@@ -329,7 +319,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testBool2"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "notEquals",
               new VariableExpression("x"),
@@ -347,7 +337,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testGreater"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "isGreaterThan",
               new VariableExpression("x"),
@@ -358,7 +348,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testLess"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "isLessThan",
               new VariableExpression("x"),
@@ -376,7 +366,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testAtLeast"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "isAtLeast",
               new VariableExpression("x"),
@@ -387,7 +377,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testAtMost"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "isAtMost",
               new VariableExpression("x"),
@@ -405,7 +395,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testNegation1"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "equals",
               new VariableExpression("x"),
@@ -416,7 +406,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("testNegation2"),
           new Variable(
-            new PrimitiveType("goodBoy"),
+            new IdType("goodBoy"),
             new BinaryExpression(
               "equals",
               new VariableExpression("y"),
@@ -441,7 +431,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("a"),
           new Variable(
-            new PrimitiveType("toeBeans"),
+            new IdType("toeBeans"),
             new BinaryExpression(
               "+",
               new VariableExpression("x"),
@@ -529,7 +519,7 @@ const fixture = {
             new VariableDeclaration(
               new VariableExpression("dogName"),
               new Variable(
-                new PrimitiveType("leash"),
+                new IdType("leash"),
                 new TemplateLiteral([new StringLiteral("CeCe")], null)
               )
             ),
@@ -538,13 +528,13 @@ const fixture = {
             new VariableDeclaration(
               new VariableExpression("dogName"),
               new Variable(
-                new PrimitiveType("leash"),
+                new IdType("leash"),
                 new TemplateLiteral([new StringLiteral("Fluffy")], null)
               )
             ),
             new VariableDeclaration(
               new VariableExpression("dogAge"),
-              new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(12))
+              new Variable(new IdType("toeBeans"), new NumberLiteral(12))
             ),
           ])
         ),
@@ -686,7 +676,7 @@ const fixture = {
         new ForLoopStatement(
           new VariableDeclaration(
             new VariableExpression("i"),
-            new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(0))
+            new Variable(new IdType("toeBeans"), new NumberLiteral(0))
           ),
           new BinaryExpression(
             "*",
@@ -751,7 +741,7 @@ const fixture = {
         new ForLoopStatement(
           new VariableDeclaration(
             new VariableExpression("i"),
-            new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(0))
+            new Variable(new IdType("toeBeans"), new NumberLiteral(0))
           ),
           new BinaryExpression(
             "*",
@@ -801,14 +791,14 @@ const fixture = {
           new VariableExpression("gcd"),
           new Function(
             new Parameters(
-              [new PrimitiveType("toeBeans"), new PrimitiveType("toeBeans")],
+              [new IdType("toeBeans"), new IdType("toeBeans")],
               [new VariableExpression("num1"), new VariableExpression("num2")]
             ),
-            new PrimitiveType("toeBeans"),
+            new IdType("toeBeans"),
             new Block([
               new VariableDeclaration(
                 new VariableExpression("remainder"),
-                new Variable(new PrimitiveType("toeBeans"), null)
+                new Variable(new IdType("toeBeans"), null)
               ),
               new WhileLoopStatement(
                 new BinaryExpression(
@@ -846,7 +836,7 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("greatestCommonDivisor"),
           new Variable(
-            new PrimitiveType("toeBeans"),
+            new IdType("toeBeans"),
             new FunctionCall(new VariableExpression("gcd"), [
               new NumberLiteral(21),
               new NumberLiteral(49),
@@ -901,14 +891,11 @@ const fixture = {
             [
               new Field(
                 new VariableExpression("name"),
-                new Variable(new PrimitiveType("leash"))
+                new Variable(new IdType("leash"))
               ),
               new Field(
                 new VariableExpression("yearsOfExperience"),
-                new Variable(
-                  new PrimitiveType("toeBeans"),
-                  new NumberLiteral(0)
-                )
+                new Variable(new IdType("toeBeans"), new NumberLiteral(0))
               ),
             ],
             [],
@@ -934,7 +921,7 @@ const fixture = {
             [
               new Field(
                 new VariableExpression("name"),
-                new Variable(new PrimitiveType("leash"))
+                new Variable(new IdType("leash"))
               ),
             ],
             [],
@@ -1017,7 +1004,7 @@ const fixture = {
             [
               new Field(
                 new VariableExpression("name"),
-                new Variable(new PrimitiveType("leash"))
+                new Variable(new IdType("leash"))
               ),
             ],
             [
@@ -1025,7 +1012,7 @@ const fixture = {
                 new VariableExpression("DogHotel"),
                 new Constructor(
                   new Parameters(
-                    [new PrimitiveType("leash")],
+                    [new IdType("leash")],
                     [new VariableExpression("name")]
                   ),
                   new IdType("DogHotel")

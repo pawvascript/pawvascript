@@ -16,58 +16,403 @@ const fixture = {
   booleanVariableDeclaration: String.raw`goodBoy isGoodBoy is good;`,
   stringVariableDeclaration: String.raw`leash name is "CeCe";`,
   emptyListVariableDeclaration: String.raw`pack[leash] dogs is [];`,
-  emptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] do is:];`,
-  nonEmptyListVariableDeclaration: String.raw`pack[leash] dogs is"CeCe", "Buster", "Duming"];`,
-  listVariableDeclarationWithSpreads: String.raw`pack[Dog] dogs isdog1, dog2, peanutButter othDogs];`,
-  listVariableDeclarationUsingWithout: String.raw`pack[Dog] dogs isdog1, dog2, dog3] witho dog1;`,
-  nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is"CeCe":1, "Buster":2, o":3];`,
-  /* String Operations */
-  leashConcatenaon: String.raw`leash dogName is "Ce" with "Ce";`,
-  stringInterpolation: String.raw`leash sentence is "![x] is a good girl";`,
-  stringInterpolationInMiddleOfString: String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
-  /* Assignment */
-  variableAssignnt: String.raw`cuteness is 100;`,
-  /* Relops */
-  equalityOperors: String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
-  greaterThanLessThanComparators: String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
-  greaterThanLessThanOrEqualToComparators: String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
-  logicalNation: String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
-  /* Arithmetic */
-  arithmeticOperats: String.raw`toeBeans a is x + y; 
-              a is x - y; 
-              a is x * y; 
-              a is x / y;
-              a is x mod y; 
-              a is x!; 
-              a is -x;`,
-  // /* Conditionals */
-  Statement: String.raw`if x then: x is y; tail`,
-  ifElseStement: String.raw`if x isAtLeast y then:
-        leash dogName is "CeCe";
-    else:
-        leash dogName is "Fluffy";
-        toeBeans dogAge is 12;
-    tail`,
-  ifElseIfStatent: String.raw`if x notEquals y then:
-          woof "CeCe is kinda cute";
-      else if x isGreaterThan y then:
-          woof "CeCe is pretty cute";
-      else if x isLessThan y then:
-          woof "Okay, CeCe is really cute";
-      else:
-          woof "CeCe is the cutest of the cutest";
-      tail`,
+  emptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is [:];`,
+  nonEmptyListVariableDeclaration: String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
+  listVariableDeclarationWithSpreads: String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
+  listVariableDeclarationUsingWithout: String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
+  nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
+  // /* String Operations */
+  // leashConcatenation: [
+  //   String.raw`leash dogName is "Ce" with "Ce";`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("dogName"),
+  //         new Variable(
+  //           new PrimitiveType("leash"),
+  //           new BinaryExpression(
+  //             "with",
+  //             new TemplateLiteral([new StringLiteral("Ce")], null),
+  //             new TemplateLiteral([new StringLiteral("Ce")], null)
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // stringInterpolation: [
+  //   String.raw`leash sentence is "![x] is a good girl";`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("sentence"),
+  //         new Variable(
+  //           new PrimitiveType("leash"),
+  //           new TemplateLiteral(
+  //             [new StringLiteral(""), new StringLiteral(" is a good girl")],
+  //             [new VariableExpression("x")]
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // stringInterpolationInMiddleOfString: [
+  //   String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("phrase"),
+  //         new Variable(
+  //           new PrimitiveType("leash"),
+  //           new TemplateLiteral(
+  //             [
+  //               new StringLiteral("Come back here, "),
+  //               new StringLiteral(". Good girl."),
+  //             ],
+  //             [new VariableExpression("name")]
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // /* Assignment */
+  // variableAssignment: [
+  //   String.raw`cuteness is 100;`,
+  //   new Program(
+  //     new Block([
+  //       new AssignmentStatement(
+  //         new VariableExpression("cuteness"),
+  //         new NumberLiteral(100)
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // /* Relops */
+  // equalityOperators: [
+  //   String.raw`goodBoy testBool1 is x equals y; goodBoy testBool2 is x notEquals y;`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("testBool1"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "equals",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //       new VariableDeclaration(
+  //         new VariableExpression("testBool2"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "notEquals",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // greaterThanLessThanComparators: [
+  //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("testGreater"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "isGreaterThan",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //       new VariableDeclaration(
+  //         new VariableExpression("testLess"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "isLessThan",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // greaterThanLessThanOrEqualToComparators: [
+  //   String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("testAtLeast"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "isAtLeast",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //       new VariableDeclaration(
+  //         new VariableExpression("testAtMost"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "isAtMost",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // logicalNegation: [
+  //   String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("testNegation1"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "equals",
+  //             new VariableExpression("x"),
+  //             new UnaryExpression("n", new VariableExpression("y"))
+  //           )
+  //         )
+  //       ),
+  //       new VariableDeclaration(
+  //         new VariableExpression("testNegation2"),
+  //         new Variable(
+  //           new PrimitiveType("goodBoy"),
+  //           new BinaryExpression(
+  //             "equals",
+  //             new VariableExpression("y"),
+  //             new UnaryExpression("n", new VariableExpression("x"))
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // /* Arithmetic */
+  // arithmeticOperators: [
+  //   String.raw`toeBeans a is x + y;
+  //             a is x - y;
+  //             a is x * y;
+  //             a is x / y;
+  //             a is x mod y;
+  //             a is x!;
+  //             a is -x;`,
+  //   new Program(
+  //     new Block([
+  //       new VariableDeclaration(
+  //         new VariableExpression("a"),
+  //         new Variable(
+  //           new PrimitiveType("toeBeans"),
+  //           new BinaryExpression(
+  //             "+",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           )
+  //         )
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new BinaryExpression(
+  //           "-",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         )
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new BinaryExpression(
+  //           "*",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         )
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new BinaryExpression(
+  //           "/",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         )
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new BinaryExpression(
+  //           "mod",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         )
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new UnaryExpression("!", new VariableExpression("x"))
+  //       ),
+  //       new AssignmentStatement(
+  //         new VariableExpression("a"),
+  //         new UnaryExpression("-", new VariableExpression("x"))
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // // /* Conditionals */
+  // ifStatement: [
+  //   String.raw`if x then: x is y; tail`,
+  //   new Program(
+  //     new Block([
+  //       new ConditionalStatement(
+  //         new VariableExpression("x"),
+  //         new Block([
+  //           new AssignmentStatement(
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           ),
+  //         ]),
+  //         null
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // ifElseStatement: [
+  //   String.raw`if x isAtLeast y then:
+  //       leash dogName is "CeCe";
+  //   else:
+  //       leash dogName is "Fluffy";
+  //       toeBeans dogAge is 12;
+  //   tail`,
+  //   new Program(
+  //     new Block([
+  //       new ConditionalStatement(
+  //         new BinaryExpression(
+  //           "isAtLeast",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         ),
+  //         new Block([
+  //           new VariableDeclaration(
+  //             new VariableExpression("dogName"),
+  //             new Variable(
+  //               new PrimitiveType("leash"),
+  //               new TemplateLiteral([new StringLiteral("CeCe")], null)
+  //             )
+  //           ),
+  //         ]),
+  //         new Block([
+  //           new VariableDeclaration(
+  //             new VariableExpression("dogName"),
+  //             new Variable(
+  //               new PrimitiveType("leash"),
+  //               new TemplateLiteral([new StringLiteral("Fluffy")], null)
+  //             )
+  //           ),
+  //           new VariableDeclaration(
+  //             new VariableExpression("dogAge"),
+  //             new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(12))
+  //           ),
+  //         ])
+  //       ),
+  //     ])
+  //   ),
+  // ],
+  // ifElseIfStatement: [
+  //   String.raw`if x notEquals y then:
+  //         woof "CeCe is kinda cute";
+  //     else if x isGreaterThan y then:
+  //         woof "CeCe is pretty cute";
+  //     else if x isLessThan y then:
+  //         woof "Okay, CeCe is really cute";
+  //     else:
+  //         woof "CeCe is the cutest of the cutest";
+  //     tail`,
+  //   new Program(
+  //     new Block([
+  //       new ConditionalStatement(
+  //         new BinaryExpression(
+  //           "notEquals",
+  //           new VariableExpression("x"),
+  //           new VariableExpression("y")
+  //         ),
+  //         new Block([
+  //           new PrintStatement(
+  //             "woof",
+  //             new TemplateLiteral(
+  //               [new StringLiteral("CeCe is kinda cute")],
+  //               null
+  //             )
+  //           ),
+  //         ]),
+  //         new ConditionalStatement(
+  //           new BinaryExpression(
+  //             "isGreaterThan",
+  //             new VariableExpression("x"),
+  //             new VariableExpression("y")
+  //           ),
+  //           new Block([
+  //             new PrintStatement(
+  //               "woof",
+  //               new TemplateLiteral(
+  //                 [new StringLiteral("CeCe is pretty cute")],
+  //                 null
+  //               )
+  //             ),
+  //           ]),
+  //           new ConditionalStatement(
+  //             new BinaryExpression(
+  //               "isLessThan",
+  //               new VariableExpression("x"),
+  //               new VariableExpression("y")
+  //             ),
+  //             new Block([
+  //               new PrintStatement(
+  //                 "woof",
+  //                 new TemplateLiteral(
+  //                   [new StringLiteral("Okay, CeCe is really cute")],
+  //                   null
+  //                 )
+  //               ),
+  //             ]),
+  //             new Block([
+  //               new PrintStatement(
+  //                 "woof",
+  //                 new TemplateLiteral(
+  //                   [new StringLiteral("CeCe is the cutest of the cutest")],
+  //                   null
+  //                 )
+  //               ),
+  //             ])
+  //           )
+  //         )
+  //       ),
+  //     ])
+  //   ),
+  // ],
   // /* Comments */
-  // oneLinomment:
+  // oneLineComment: [
   //   String.raw`!!! I'm a one line comment !!!`,
   //   new Program(new Block([])),
   // ],
-  // multiLineCment:
+  // multiLineComment: [
   //   String.raw`!!! I'm a \n multiline \n comment !!!`,
   //   new Program(new Block([])),
   // ],
   // /* Loops */
-  // inniteLoop:
+  // infiniteLoop: [
   //   String.raw`chase: woof "I run forever"; tail`,
   //   new Program(
   //     new Block([
@@ -81,7 +426,8 @@ const fixture = {
   //       ),
   //     ])
   //   ),
-  // ]  fixedLoop:
+  // ],
+  // fixedLoop: [
   //   String.raw`chase 5 times: woof "Stay"; tail`,
   //   new Program(
   //     new Block([
@@ -96,7 +442,8 @@ const fixture = {
   //       ),
   //     ])
   //   ),
-  // ]  whileLoop:
+  // ],
+  // whileLoop: [
   //   String.raw`chase while x isAtMost 5: woof x; tail`,
   //   new Program(
   //     new Block([
@@ -109,8 +456,9 @@ const fixture = {
   //         new Block([new PrintStatement("woof", new VariableExpression("x"))])
   //       ),
   //     ])
-  //   ), ],
-  // forLoop:
+  //   ),
+  // ],
+  // forLoop: [
   //   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
   //   new Program(
   //     new Block([
@@ -134,7 +482,7 @@ const fixture = {
   //     ])
   //   ),
   // ],
-  // rEachLoop:
+  // forEachLoop: [
   //   String.raw`chase element through mypack:
   //       woof element;
   //   tail`,
@@ -150,7 +498,7 @@ const fixture = {
   //     ])
   //   ),
   // ],
-  // loopWithPootatement:
+  // loopWithPoopStatement: [
   //   String.raw`
   //    chase:
   //       woof "I run forever\!";
@@ -170,7 +518,8 @@ const fixture = {
   //     ])
   //   ),
   // ],
-  // loopWithWalkiesStatement:  String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+  // loopWithWalkiesStatement: [
+  //   String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
   //         if i mod 2 equals 0 then:
   //             walkies;
   //         tail
@@ -214,7 +563,7 @@ const fixture = {
   //   ),
   // ],
   // /* Function Declarations */
-  // functionDeclaratn:
+  // functionDeclaration: [
   //   String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
   //       toeBeans remainder;
   //       chase while (a mod b) isGreaterThan 0:
@@ -231,8 +580,8 @@ const fixture = {
   //         new VariableExpression("gcd"),
   //         new Function(
   //           new Parameters(
-  //            new PrimitiveType("toeBeans"), new PrimitiveType(oeBeans")],
-  //            new VariableExpression("num1"), new VariableExpreson("num2")]
+  //             [new PrimitiveType("toeBeans"), new PrimitiveType("toeBeans")],
+  //             [new VariableExpression("num1"), new VariableExpression("num2")]
   //           ),
   //           new PrimitiveType("toeBeans"),
   //           new Block([
@@ -277,8 +626,8 @@ const fixture = {
   //         new VariableExpression("greatestCommonDivisor"),
   //         new Variable(
   //           new PrimitiveType("toeBeans"),
-  //           new FunctionCall(new VariableExpression("gcd"),
-  //          new NumberLiteral(21),
+  //           new FunctionCall(new VariableExpression("gcd"), [
+  //             new NumberLiteral(21),
   //             new NumberLiteral(49),
   //           ])
   //         )
@@ -287,38 +636,38 @@ const fixture = {
   //   ),
   // ],
   // /* Function Call */
-  // functionCallWhoutArgs:
+  // functionCallWithoutArgs: [
   //   String.raw`
   //     fib();
   //   `,
   //   new Program(new Block([new FunctionCall(new VariableExpression("fib"))])),
   // ],
-  // functionCaWithArgs:
+  // functionCallWithArgs: [
   //   String.raw`
   //     fib(100);
   //   `,
   //   new Program(
   //     new Block([
-  //       new FunctionCall(new VariableExpression("fib"),
-  //     new NumberLiteral(100),
+  //       new FunctionCall(new VariableExpression("fib"), [
+  //         new NumberLiteral(100),
   //       ]),
   //     ])
   //   ),
   // ],
   // /* Breed Declarations */
-  // emptyBreedDeclaratio
+  // emptyBreedDeclaration: [
   //   String.raw`breed Owner is:
   //   tail`,
   //   new Program(
   //     new Block([
   //       new TypeDeclaration(
   //         new VariableExpression("Owner"),
-  //         new BedType([],],])
+  //         new BreedType([], [], [])
   //       ),
   //     ])
   //   ),
   // ],
-  // breedWitields:
+  // breedWithFields: [
   //   String.raw`breed PetSitter is:
   //     leash name;
   //     toeBeans yearsOfExperience is 0;
@@ -327,8 +676,8 @@ const fixture = {
   //     new Block([
   //       new TypeDeclaration(
   //         new VariableExpression("PetSitter"),
-  //         new BreedTy(
-
+  //         new BreedType(
+  //           [
   //             new Field(
   //               new VariableExpression("name"),
   //               new Variable(new PrimitiveType("leash"))
@@ -340,14 +689,16 @@ const fixture = {
   //                 new NumberLiteral(0)
   //               )
   //             ),
-  //           ]
-  //          ]
+  //           ],
+  //           [],
+  //           []
   //         )
   //       ),
   //     ])
   //   ),
   // ],
-  // breedWithFieldAndMethods:  String.raw`breed DogHotel is:
+  // breedWithFieldAndMethods: [
+  //   String.raw`breed DogHotel is:
   //     leash name;
 
   //     trick greet:
@@ -358,14 +709,15 @@ const fixture = {
   //     new Block([
   //       new TypeDeclaration(
   //         new VariableExpression("DogHotel"),
-  //         new BreedTy(
-
+  //         new BreedType(
+  //           [
   //             new Field(
   //               new VariableExpression("name"),
   //               new Variable(new PrimitiveType("leash"))
   //             ),
-  //           ]          ,
-
+  //           ],
+  //           [],
+  //           [
   //             new Method(
   //               new VariableExpression("greet"),
   //               new Function(
@@ -375,7 +727,7 @@ const fixture = {
   //                   new PrintStatement(
   //                     "woof",
   //                     new TemplateLiteral(
-  //                      new StringLiteral("Welcome to our Dog Hotel",
+  //                       [new StringLiteral("Welcome to our Dog Hotel")],
   //                       null
   //                     )
   //                   ),
@@ -388,7 +740,7 @@ const fixture = {
   //     ])
   //   ),
   // ],
-  // breedWitethod:
+  // breedWithMethod: [
   //   String.raw`breed DogLover is:
   //     trick barkAtDog:
   //       bark "woof woof";
@@ -398,8 +750,10 @@ const fixture = {
   //     new Block([
   //       new TypeDeclaration(
   //         new VariableExpression("DogLover"),
-  //         new BreedType           ]          ,
-
+  //         new BreedType(
+  //           [],
+  //           [],
+  //           [
   //             new Method(
   //               new VariableExpression("barkAtDog"),
   //               new Function(
@@ -409,7 +763,7 @@ const fixture = {
   //                   new PrintStatement(
   //                     "bark",
   //                     new TemplateLiteral(
-  //                      new StringLiteral("woof woof",
+  //                       [new StringLiteral("woof woof")],
   //                       null
   //                     )
   //                   ),
@@ -422,7 +776,7 @@ const fixture = {
   //     ])
   //   ),
   // ],
-  // breedWithEverythg:
+  // breedWithEverything: [
   //   String.raw`breed DogHotel is:
   //     leash name;
 
@@ -438,26 +792,26 @@ const fixture = {
   //     new Block([
   //       new TypeDeclaration(
   //         new VariableExpression("DogHotel"),
-  //         new BreedTy(
-
+  //         new BreedType(
+  //           [
   //             new Field(
   //               new VariableExpression("name"),
   //               new Variable(new PrimitiveType("leash"))
   //             ),
-  //         ,
-
+  //           ],
+  //           [
   //             new ConstructorDeclaration(
   //               new VariableExpression("DogHotel"),
   //               new Constructor(
   //                 new Parameters(
-  //                  new PrimitiveType("leh")],
-  //                  new VariableExpression("me")]
+  //                   [new PrimitiveType("leash")],
+  //                   [new VariableExpression("name")]
   //                 ),
   //                 new IdType("DogHotel")
   //               )
   //             ),
-  //         ,
-
+  //           ],
+  //           [
   //             new Method(
   //               new VariableExpression("greet"),
   //               new Function(
@@ -467,7 +821,7 @@ const fixture = {
   //                   new PrintStatement(
   //                     "woof",
   //                     new TemplateLiteral(
-  //                      new StringLiteral("Welcome to our Dog Hotel",
+  //                       [new StringLiteral("Welcome to our Dog Hotel")],
   //                       null
   //                     )
   //                   ),
@@ -483,15 +837,15 @@ const fixture = {
   //           new VariableExpression("myDogHotel"),
   //           new VariableExpression("greet"),
   //           null
-  //     ),
-  //        ]
+  //         ),
+  //         []
   //       ),
   //     ])
   //   ),
   // ],
 };
 
-const program = String.raw`toeBeans CeCeAge is 1;`;
+// const program = String.raw`toeBeans CeCeAge is 1;`;
 
 describe("The semantic analyzer", () => {
   Object.entries(fixture).forEach(([name, source]) => {

@@ -132,7 +132,9 @@ VariableDeclaration.prototype.analyze = function(context) {
 
 Variable.prototype.analyze = function(context) {
   this.type.analyze(context);
-  this.initializerExp.analyze(context);
+  if (this.initializerExp) {
+    this.initializerExp.analyze(context);
+  }
   check.expressionsHaveTheSameType(this, this.initializerExp);
 };
 
@@ -158,16 +160,17 @@ TypeDeclaration.prototype.analyze = function(context) {
 };
 
 BreedType.prototype.analyze = function(context, breedId) {
-  const usedIdentifiers = new Set();
+  this.members = new Map();
+
   this.fields.forEach((field) => {
-    check.identifierHasNotBeenUsed(field.id.name, usedIdentifiers);
-    usedIdentifiers.add(field.id.name);
-    field.analyze(context);
+    check.identifierHasNotBeenUsed(field.id.name, this.members);
+    field.analyze(this.members);
+    this.members.set(field.id.name, field.variable);
   });
   this.methods.forEach((method) => {
-    check.identifierHasNotBeenUsed(method.id.name, usedIdentifiers);
-    usedIdentifiers.add(method.id.name);
+    check.identifierHasNotBeenUsed(method.id.name, this.members);
     method.analyze(context);
+    this.members.set(method.id.name, method.func);
   });
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
@@ -196,41 +199,36 @@ Constructor.prototype.analyze = function(context, constructorId, breedId) {
 };
 
 Field.prototype.analyze = function(context) {
-  if (this.variable) {
-    this.variable.analyze(context);
-  }
-  context.add(this.id.name, this.variable); // I DONT THINK WE DO THIS??
+  this.variable.analyze(context);
 };
 
 // toal question: okay, wait: so fields and methods should NOT be added to the context, but what if
 // we want to use the type's fields as variables in the methods? do we add the fields as variable
 // declarations to the method's context?
 Method.prototype.analyze = function(context) {
-  if (this.func) {
-    const bodyContext = context.createChildContextForFunctionBody();
-    this.func.analyze(bodyContext);
-  }
-  context.add(this.id.name, this.func); // DONT THINK WE DO THIS EITEHR BUT NEED TO ASK
+  const bodyContext = context.createChildContextForFunctionBody();
+  // add all members to function's context?
+  this.func.analyze(bodyContext);
 };
 
 // Question what to do here?
-PrimitiveType.prototype.analyze = function() {
-  //check that name is toeBeans, leash, or goodBoy?
-  //change this.type?
-  // currently, `this` is an object of type PrimitiveType whose `type` field is "goodBoy"
-  // .......and `BoolType` is also an object of type PrimitiveType, whose `type` field is "goodBoy"
-  // so they are structurally identical, but they point to two separate objects in memory
-  // this is currently just changing the pointers so that they point to the same object in memory
-  // i.e., there is only ONE BoolType object (like a singleton)
-  // is this necessary???
-  if (this.type === "goodBoy") {
-    this.type = BoolType;
-  } else if (this.type === "leash") {
-    this.type = StringType;
-  } else if (this.type === "toeBeans") {
-    this.type = NumType;
-  }
-};
+// PrimitiveType.prototype.analyze = function() {
+//   //check that name is toeBeans, leash, or goodBoy?
+//   //change this.type?
+//   // currently, `this` is an object of type PrimitiveType whose `type` field is "goodBoy"
+//   // .......and `BoolType` is also an object of type PrimitiveType, whose `type` field is "goodBoy"
+//   // so they are structurally identical, but they point to two separate objects in memory
+//   // this is currently just changing the pointers so that they point to the same object in memory
+//   // i.e., there is only ONE BoolType object (like a singleton)
+//   // is this necessary???
+//   if (this.type === "goodBoy") {
+//     this.type = BoolType;
+//   } else if (this.type === "leash") {
+//     this.type = StringType;
+//   } else if (this.type === "toeBeans") {
+//     this.type = NumType;
+//   }
+// };
 
 ListType.prototype.analyze = function(context) {
   this.memberType.analyze(context);
@@ -307,9 +305,12 @@ StringLiteral.prototype.analyze = function() {
 };
 
 TemplateLiteral.prototype.analyze = function(context) {
-  this.exps.forEach((exp) => {
-    exp.analyze(context);
-  });
+  if (this.exps) {
+    this.exps.forEach((exp) => {
+      exp.analyze(context);
+    });
+  }
+  this.type = StringType;
 };
 
 PackLiteral.prototype.analyze = function(context) {
@@ -323,7 +324,7 @@ PackLiteral.prototype.analyze = function(context) {
 
 ListElement.prototype.analyze = function(context) {
   this.value.analyze(context);
-  check.validSpread(context, this.value);
+  check.isValidSpread(context, this.value);
 };
 
 KennelLiteral.prototype.analyze = function(context) {

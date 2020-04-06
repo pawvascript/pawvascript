@@ -76,14 +76,17 @@ module.exports = {
     doCheck(value.constructor === Function, "Attempt to call a non-function");
   },
 
+  // Are two types exactly the same?
   typesMatch(t1, t2) {
     if (t1.constructor === ListType && t2.constructor === ListType) {
       this.typesMatch(t1.memberType, t2.memberType);
     } else if (t1.constructor === DictType && t2.constructor === DictType) {
       this.typesMatch(t1.keyType, t2.keyType);
       this.typesMatch(t1.valueType, t2.valueType);
-    } else if (t1.constructor === IdType && t2.constructor === IdType) {
-      this.typesMatch(t1.ref, t2.ref);
+    } else if (t1.constructor === IdType) {
+      this.typesMatch(t1.ref, t2);
+    } else if (t2.constructor === IdType) {
+      this.typesMatch(t1, t2.ref);
     } else {
       doCheck(
         t1 === t2 || t1 === null || t2 === null, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
@@ -94,9 +97,10 @@ module.exports = {
     }
   },
 
-  // Are two types exactly the same?
   expressionsHaveTheSameType(e1, e2) {
-    // doCheck(e1.type === e2.type, "Types must match exactly");
+    if (e1 === null || e2 === null) {
+      return;
+    }
     this.typesMatch(e1.type, e2.type);
   },
 
@@ -121,9 +125,9 @@ module.exports = {
     );
   },
 
-  identifierHasNotBeenUsed(identifierName, usedIdentifiers) {
+  identifierHasNotBeenUsed(identifierName, members) {
     doCheck(
-      !usedIdentifiers.has(identifierName),
+      !members.has(identifierName),
       `Duplicate identifier ${identifierName}`
     );
   },

@@ -24,10 +24,10 @@ const {
   KeyValuePair,
   VariableExpression,
   UnaryExpression,
-  BinaryExpression
+  BinaryExpression,
 } = require("../ast");
 
-const NumType = new PrimitiveType("toebeans");
+const NumType = new PrimitiveType("toeBeans");
 const StringType = new PrimitiveType("leash");
 const BoolType = new PrimitiveType("goodBoy");
 
@@ -46,7 +46,7 @@ const standardFunctions = [
       [
         new VariableExpression("s"),
         new VariableExpression("beginIndex"),
-        new VariableExpression("endIndex")
+        new VariableExpression("endIndex"),
       ]
     ),
     StringType,
@@ -63,7 +63,7 @@ const standardFunctions = [
     new Parameters([StringType], [new VariableExpression("substring")]),
     NumType,
     null // todo
-  )
+  ),
   // built-in list functions:
   // how do you a generic sort of function like this??? the parameter could be any type, whatever the type of the list is
   //   new FunctionDeclaration(
@@ -87,7 +87,7 @@ const standardFunctions = [
 // can use function overloading
 
 /* eslint-disable no-param-reassign */
-standardFunctions.forEach(f => {
+standardFunctions.forEach((f) => {
   f.builtin = true;
 });
 /* eslint-enable no-param-reassign */

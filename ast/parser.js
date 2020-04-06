@@ -69,10 +69,10 @@ function checkForEmptyArray(item) {
 }
 
 function getType(typeName) {
-  const foundPrimitiveType = typeName.match(/^toeBeans$|^leash$|^goodBoy$/);
-  if (foundPrimitiveType) {
-    return new PrimitiveType(typeName);
-  }
+  //   const foundPrimitiveType = typeName.match(/^toeBeans$|^leash$|^goodBoy$/);
+  //   if (foundPrimitiveType) {
+  //     return new PrimitiveType(typeName);
+  //   }
   const foundPack = typeName.match(/^(?:pack)(?:\[)(.+)(?:\])$/);
   if (foundPack) {
     return new ListType(getType(foundPack[1]));
