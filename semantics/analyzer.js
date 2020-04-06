@@ -14,7 +14,6 @@ const {
   VariableDeclaration,
   Variable,
   TypeDeclaration,
-  Type,
   BreedType,
   Field,
   Method,
@@ -33,7 +32,6 @@ const {
   GiveStatement,
   BreakStatement,
   ContinueStatement,
-  Expression,
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
@@ -44,14 +42,14 @@ const {
   KeyValuePair,
   VariableExpression,
   UnaryExpression,
-  BinaryExpression
+  BinaryExpression,
 } = require("../ast");
 
 const {
   NumType,
   StringType,
   BoolType,
-  standardFunctions
+  standardFunctions,
 } = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
@@ -66,13 +64,14 @@ Program.prototype.analyze = function(context) {
 
 Block.prototype.analyze = function(context) {
   const newContext = context.createChildContextForBlock();
-  this.statements.forEach(statement => {
+  this.statements.forEach((statement) => {
     statement.analyze(newContext);
   });
 };
 
 ConditionalStatement.prototype.analyze = function(context) {
   this.condition.analyze(context);
+  check.isBool(this.condition);
   this.body.analyze(context);
   if (this.otherwise) {
     this.otherwise.analyze(context);
@@ -84,22 +83,10 @@ InfiniteLoopStatement.prototype.analyze = function(context) {
   this.body.analyze(bodyContext);
 };
 
-// ForExp.prototype.analyze = function(context) {
-//   this.low.analyze(context);
-//   check.isInteger(this.low, "Low bound in for");
-//   this.high.analyze(context);
-//   check.isInteger(this.high, "High bound in for");
-//   const bodyContext = context.createChildContextForLoop();
-//   this.index = new Variable(this.index, this.low.type);
-//   this.index.readOnly = true;
-//   bodyContext.add(this.index);
-//   this.body.analyze(bodyContext);
-// };
-
 ForLoopStatement.prototype.analyze = function(context) {
   const bodyContext = context.createChildContextForLoop();
   this.localVarDec.analyze(bodyContext);
-  check.isNumberType(this.localVarDec.variable.type); // Do you mean check.isNumber?
+  check.isNumber(this.localVarDec.variable.type);
   this.loopExp.analyze(context);
   check.isNumber(this.loopExp);
   this.condition.analyze(context);
@@ -108,17 +95,21 @@ ForLoopStatement.prototype.analyze = function(context) {
 };
 
 ThroughLoopStatement.prototype.analyze = function(context) {
-  const bodyContext = context.createChildContextForLoop();
-  this.localVar.analyze(bodyContext);
-  //TODO Make localVar ReadOnly in context
-  //this.localVar.isReadOnly = true;
-  this.group.analyze(bodyContext);
-  //TODO Are Lists the only thing ThroughLoop can iterate through?
+  this.group.analyze(context);
+  // Note: PawvaScript currently only supports throughloops that iterate through a ListType.
+  // In future iterations, we hope to implement iterating through other types like StringTypes and DictTypes.
   check.isListType(this.group.type);
+  const listMemberType = this.group.memberType;
+
+  const bodyContext = context.createChildContextForLoop();
+
+  bodyContext.add(this.localVar.name, new Variable(listMemberType));
+  this.localVar.analyze(bodyContext);
+  this.localVar.ref.isReadOnly = true;
+
   this.body.analyze(bodyContext);
 };
 
-//TODO FINISH THIS
 WhileLoopStatement.prototype.analyze = function(context) {
   const bodyContext = context.createChildContextForLoop();
   this.condition.analyze(bodyContext);
@@ -135,6 +126,7 @@ FixedLoopStatement.prototype.analyze = function(context) {
 
 VariableDeclaration.prototype.analyze = function(context) {
   this.variable.analyze(context);
+  this.id.ref = this.variable;
   context.add(this.id.name, this.variable);
 };
 
@@ -145,75 +137,62 @@ Variable.prototype.analyze = function(context) {
 };
 
 FunctionDeclaration.prototype.analyze = function(context) {
+  context.add(this.id.name, this.func);
   const bodyContext = context.createChildContextForFunctionBody();
   this.func.analyze(bodyContext);
-  context.add(this.id.name, this.func); // should this be the first line? in case it's a recursive function, we want the functiion declaration to be in the parent context before we analyze the body
 };
 
 Function.prototype.analyze = function(context) {
-  if (parameters) {
+  if (this.parameters) {
     this.parameters.analyze(context);
   }
-  if (returnType) {
+  if (this.returnType) {
     this.returnType.analyze(context);
   }
   this.body.analyze(context);
 };
 
 TypeDeclaration.prototype.analyze = function(context) {
-  // I THINK THIS IS WRONG CURRENTLY -- Lucille
-  // we do NOT make a new context for type decs!? fields and methods do not get added to the context, they only exist in the type anyways
-  const newContext = context.createChildContextForBlock();
-  this.breedType.analyze(newContext); // context instead of newContext
-  context.add(this.id.name, this.breedType); // i think this line needs to come first in case there is recursion (i.e. if breed Dog has a field called bestFriend whose type is also Dog)
+  context.add(this.id.name, this.breedType);
+  this.breedType.analyze(context, this.id);
 };
 
-BreedType.prototype.analyze = function(context) {
-  // I theres a bunch of stuff wrong here too, but toal question -- Lucille
-  // this part is fine?
-
-  this.constructors.forEach(constructor => {
-    constructor.analyze(context);
+BreedType.prototype.analyze = function(context, breedId) {
+  const usedIdentifiers = new Set();
+  this.fields.forEach((field) => {
+    check.identifierHasNotBeenUsed(field.id.name, usedIdentifiers);
+    usedIdentifiers.add(field.id.name);
+    field.analyze(context);
+  });
+  this.methods.forEach((method) => {
+    check.identifierHasNotBeenUsed(method.id.name, usedIdentifiers);
+    usedIdentifiers.add(method.id.name);
+    method.analyze(context);
   });
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
   // allow us to have multiple constructors for a single BreedType.
-  check.noMoreThanOneConstructor(constructors);
-
-  // OK HERE ARE THE ISSUES: instead of the code below, use this: (ask toal)
-  //   const usedFields = new Set();
-  //   this.fields.forEach(field => {
-  //     check.fieldHasNotBeenUsed(field.id.name, usedFields);
-  //     usedFields.add(field.id.name);
-  //     field.analyze(context);
-  //   });
-  //   const usedMethods = new Set();
-  //   this.methods.forEach(method => {
-  //     check.methodHasNotBeenUsed(method.id.name, usedMethods);
-  //     usedMethods.add(method.id.name);
-  //     method.analyze(context);
-  //   });
-  this.fields.forEach(field => {
-    field.analyze(context);
-  });
-  this.methods.forEach(method => {
-    method.analyze(context);
+  check.noMoreThanOneConstructor(this.constructors);
+  this.constructors.forEach((constructorDec) => {
+    constructorDec.analyze(context, breedId);
   });
 };
 
-ConstructorDeclaration.prototype.analyze = function(context) {
-  const newContext = context.createChildContextForFunctionBody(); // PRETTY SURE WRONG BUT NEED TO ASK
-  this.constr.analyze(newContext); // CONTEXT
-  context.add(this.id.name, this.constr); // akjgsldkfgjsdlkfgjsldk
+ConstructorDeclaration.prototype.analyze = function(context, breedId) {
+  check.constructorNameMatchesBreedId(this.id, breedId);
+  this.constr.analyze(context, breedId);
 };
 
-Constructor.prototype.analyze = function(context) {
-  if (parameters) {
+Constructor.prototype.analyze = function(context, constructorId, breedId) {
+  const currentBreed = context.lookup(breedId.name);
+  if (this.parameters) {
     this.parameters.analyze(context);
   }
-  if (returnType) {
-    this.returnType.analyze(context);
-  }
+  check.constructorParamsAreFields(this.parameters, currentBreed.fields);
+
+  check.constructorHasReturnType(this);
+  this.returnType.analyze(context);
+  check.constructorReturnsBreedType(this, currentBreed);
 };
 
 Field.prototype.analyze = function(context) {
@@ -235,7 +214,7 @@ Method.prototype.analyze = function(context) {
 };
 
 // Question what to do here?
-PrimitiveType.prototype.analyze = function(context) {
+PrimitiveType.prototype.analyze = function() {
   //check that name is toeBeans, leash, or goodBoy?
   //change this.type?
   // currently, `this` is an object of type PrimitiveType whose `type` field is "goodBoy"
@@ -268,12 +247,12 @@ IdType.prototype.analyze = function(context) {
 };
 
 AssignmentStatement.prototype.analyze = function(context) {
-  const targetVariable = context.lookup(this.target);
+  const targetVariable = context.lookup(this.target.name);
   this.source.analyze(context);
   // do we need this?
-  this.target.analyze(context);
-  check.isAssignableTo(this.source, this.target.type);
-  check.isNotReadOnly(this.target);
+  //   targetVariable.analyze(context);
+  check.isAssignableTo(this.source, targetVariable.type);
+  check.isNotReadOnly(targetVariable);
   // do we need to actually set the new value of the variable??
   // context.locals.set(this.target, this.source);
 };
@@ -281,15 +260,16 @@ AssignmentStatement.prototype.analyze = function(context) {
 FunctionCall.prototype.analyze = function(context) {
   // this.callee is at first a VariableExpression whose name is the id of the function
   // replace this.callee with a pointer to the actual function defined in this context
+  // TODO toal question: or do we set the VariableExpresion's ref???
   this.callee = context.lookup(this.callee.name);
   check.isFunction(this.callee);
-  this.args.forEach(arg => arg.analyze(context));
+  this.args.forEach((arg) => arg.analyze(context));
   check.legalArguments(this.args, this.callee.parameters);
   this.type = this.callee.returnType;
 };
 
 PrintStatement.prototype.analyze = function(context) {
-  this.expression.analyze(context); // is this all?
+  this.expression.analyze(context);
 };
 
 GiveStatement.prototype.analyze = function(context) {
@@ -306,10 +286,9 @@ ContinueStatement.prototype.analyze = function(context) {
   check.inLoop(context, "walkies");
 };
 
-// ask toal -- not sure the proper way to do this
 Parameters.prototype.analyze = function(context) {
   this.ids.forEach((paramId, i) => {
-    paramType = this.types[i];
+    const paramType = this.types[i];
     paramType.analyze(context);
     context.add(paramId.name, new Variable(paramType));
   });
@@ -328,20 +307,18 @@ StringLiteral.prototype.analyze = function() {
 };
 
 TemplateLiteral.prototype.analyze = function(context) {
-  // TODO:
-  // analyze each member and make sure it is a string literal
-  // analyze each exp;
-  // check: length of members must be exactly same as exps or exactly 1 more (the way we interpolate is member - exp - member - exp - ... but we always start with a member, never an exp; we can end with either
+  this.exps.forEach((exp) => {
+    exp.analyze(context);
+  });
 };
 
 PackLiteral.prototype.analyze = function(context) {
-  this.elements.forEach(element => {
+  this.elements.forEach((element) => {
     element.analyze(context);
+    check.typesMatch(element.type, this.elements[0].type);
   });
-  this.type = ListType; // Not builtin?
-  // OR:
-  // memberType = elements.length > 0 ? elements[0].type : null // if we don't know the type, then do we set to null?
-  // this.type = new ListType(memberType)
+  const memberType = this.elements.length > 0 ? this.elements[0].type : null; // going to cause problems later, but can come back to it
+  this.type = new ListType(memberType);
 };
 
 ListElement.prototype.analyze = function(context) {
@@ -350,12 +327,17 @@ ListElement.prototype.analyze = function(context) {
 };
 
 KennelLiteral.prototype.analyze = function(context) {
-  this.keyValuePairs.forEach(keyValuePair => {
-    // TODO Check each key type is the same and each value type is the same???
+  this.keyValuePairs.forEach((keyValuePair) => {
     keyValuePair.analyze(context);
+    check.typesMatch(keyValuePair.key.type, this.keyValuePairs[0].key.type);
+    check.typesMatch(keyValuePair.value.type, this.keyValuePairs[0].value.type);
   });
-  this.type = DictType; // Not builtin?
-  // or make a new DictType, just like the example where we made a ListType
+
+  const keyType =
+    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].key.type : null; // going to cause problems later, but can come back to it
+  const valueType =
+    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].value.type : null; // going to cause problems later, but can come back to it
+  this.type = new DictType(keyType, valueType);
 };
 
 KeyValuePair.prototype.analyze = function(context) {
@@ -399,224 +381,23 @@ BinaryExpression.prototype.analyze = function(context) {
     check.isNumberOrString(this.right);
     this.type = BoolType;
   } else if (/^with/.test(this.op)) {
-    //TODO add array concat and combo (at, of)
-    check.isString(this.left);
-    check.isString(this.right);
-    this.type = StringType;
+    if (this.left.constructor === ListType) {
+      check.typesMatch(this.left.memberType, this.right.type);
+    } else {
+      check.isString(this.left);
+      check.isString(this.right);
+    }
+    this.type = this.left.type;
+  } else if (/^at$/.test(this.op)) {
+    check.isNumber(this.right);
+    check.isList(this.left);
+    this.type = this.left.memberType;
+  } else if (/^of$/.test(this.op)) {
+    check.typesMatch(this.left.valueType, this.right.type);
+    check.isDict(this.left);
+    this.type = this.left.valueType;
   } else {
     check.expressionsHaveTheSameType(this.left, this.right);
   }
-  //Not sure about this
-  //this.type = IntType;
+  //TODO: Not sure about this. I believe we have covered every binary exp
 };
-
-// ArrayExp.prototype.analyze = function(context) {
-//   this.type = context.lookup(this.type);
-//   check.isArrayType(this.type);
-//   this.size.analyze(context);
-//   check.isInteger(this.size);
-//   this.fill.analyze(context);
-//   check.isAssignableTo(this.fill, this.type.memberType);
-// };
-
-// ArrayType.prototype.analyze = function(context) {
-//   this.memberType = context.lookup(this.memberType);
-// };
-
-// Assignment.prototype.analyze = function(context) {
-//   this.source.analyze(context);
-//   this.target.analyze(context);
-//   check.isAssignableTo(this.source, this.target.type);
-//   check.isNotReadOnly(this.target);
-// };
-
-// Break.prototype.analyze = function(context) {
-//   check.inLoop(context, "break");
-// };
-
-// BinaryExp.prototype.analyze = function(context) {
-//   this.left.analyze(context);
-//   this.right.analyze(context);
-//   if (/[-+*/&|]/.test(this.op)) {
-//     check.isInteger(this.left);
-//     check.isInteger(this.right);
-//   } else if (/<=?|>=?/.test(this.op)) {
-//     check.expressionsHaveTheSameType(this.left, this.right);
-//     check.isIntegerOrString(this.left);
-//     check.isIntegerOrString(this.right);
-//   } else {
-//     check.expressionsHaveTheSameType(this.left, this.right);
-//   }
-//   this.type = IntType;
-// };
-
-// Binding.prototype.analyze = function(context) {
-//   this.value.analyze(context);
-// };
-
-// ExpSeq.prototype.analyze = function(context) {
-//   this.exps.forEach(e => e.analyze(context));
-//   if (this.exps.length > 0) {
-//     this.type = this.exps[this.exps.length - 1].type;
-//   }
-// };
-
-// Field.prototype.analyze = function(context) {
-//   this.type = context.lookup(this.type);
-// };
-
-// ForExp.prototype.analyze = function(context) {
-//   this.low.analyze(context);
-//   check.isInteger(this.low, "Low bound in for");
-//   this.high.analyze(context);
-//   check.isInteger(this.high, "High bound in for");
-//   const bodyContext = context.createChildContextForLoop();
-//   this.index = new Variable(this.index, this.low.type);
-//   this.index.readOnly = true;
-//   bodyContext.add(this.index);
-//   this.body.analyze(bodyContext);
-// };
-
-// // Function analysis is broken up into two parts in order to support (nutual)
-// // recursion. First we have to do semantic analysis just on the signature
-// // (including the return type). This is so other functions that may be declared
-// // before this one have calls to this one checked.
-// Func.prototype.analyzeSignature = function(context) {
-//   this.bodyContext = context.createChildContextForFunctionBody();
-//   this.params.forEach(p => p.analyze(this.bodyContext));
-//   this.returnType = !this.returnType
-//     ? undefined
-//     : context.lookup(this.returnType);
-// };
-
-// Func.prototype.analyze = function() {
-//   this.body.analyze(this.bodyContext);
-//   check.isAssignableTo(
-//     this.body,
-//     this.returnType,
-//     "Type mismatch in function return"
-//   );
-//   delete this.bodyContext; // This was only temporary, delete to keep output clean.
-// };
-
-// IdExp.prototype.analyze = function(context) {
-//   this.ref = context.lookup(this.ref);
-//   this.type = this.ref.type;
-// };
-
-// IfExp.prototype.analyze = function(context) {
-//   this.test.analyze(context);
-//   check.isInteger(this.test, "Test in if");
-//   this.consequent.analyze(context);
-//   if (this.alternate) {
-//     this.alternate.analyze(context);
-//     if (this.consequent.type) {
-//       check.expressionsHaveTheSameType(this.consequent, this.alternate);
-//     } else {
-//       check.mustNotHaveAType(this.alternate);
-//     }
-//   }
-//   this.type = this.consequent.type;
-// };
-
-// LetExp.prototype.analyze = function(context) {
-//   const newContext = context.createChildContextForBlock();
-//   this.decs.filter(d => d.constructor === TypeDec).map(d => newContext.add(d));
-//   this.decs
-//     .filter(d => d.constructor === Func)
-//     .map(d => d.analyzeSignature(newContext));
-//   this.decs.filter(d => d.constructor === Func).map(d => newContext.add(d));
-//   this.decs.map(d => d.analyze(newContext));
-//   check.noRecursiveTypeCyclesWithoutRecordTypes(this.decs);
-//   this.body.map(e => e.analyze(newContext));
-//   if (this.body.length > 0) {
-//     this.type = this.body[this.body.length - 1].type;
-//   }
-// };
-
-// Literal.prototype.analyze = function() {
-//   if (typeof this.value === "number") {
-//     this.type = IntType;
-//   } else {
-//     this.type = StringType;
-//   }
-// };
-
-// MemberExp.prototype.analyze = function(context) {
-//   this.record.analyze(context);
-//   check.isRecord(this.record);
-//   const field = this.record.type.getFieldForId(this.id);
-//   this.type = field.type;
-// };
-
-// NegationExp.prototype.analyze = function(context) {
-//   this.operand.analyze(context);
-//   check.isInteger(this.operand, "Operand of negation");
-//   this.type = IntType;
-// };
-
-// Nil.prototype.analyze = function() {
-//   this.type = NilType;
-// };
-
-// Param.prototype.analyze = function(context) {
-//   this.type = context.lookup(this.type);
-//   context.add(this);
-// };
-
-// RecordExp.prototype.analyze = function(context) {
-//   this.type = context.lookup(this.type);
-//   check.isRecordType(this.type);
-//   this.bindings.forEach(binding => {
-//     const field = this.type.getFieldForId(binding.id);
-//     binding.analyze(context);
-//     check.isAssignableTo(binding.value, field.type);
-//   });
-// };
-
-// RecordType.prototype.analyze = function(context) {
-//   const usedFields = new Set();
-//   this.fields.forEach(field => {
-//     check.fieldHasNotBeenUsed(field.id, usedFields);
-//     usedFields.add(field.id);
-//     field.analyze(context);
-//   });
-// };
-
-// RecordType.prototype.getFieldForId = function(id) {
-//   const field = this.fields.find(f => f.id === id);
-//   if (!field) {
-//     throw new Error("No such field");
-//   }
-//   return field;
-// };
-
-// SubscriptedExp.prototype.analyze = function(context) {
-//   this.array.analyze(context);
-//   check.isArray(this.array);
-//   this.subscript.analyze(context);
-//   check.isInteger(this.subscript);
-//   this.type = this.array.type.memberType;
-// };
-
-// TypeDec.prototype.analyze = function(context) {
-//   this.type.analyze(context);
-// };
-
-// Variable.prototype.analyze = function(context) {
-//   this.init.analyze(context);
-//   if (this.type) {
-//     this.type = context.lookup(this.type);
-//     check.isAssignableTo(this.init, this.type);
-//   } else {
-//     // Yay! type inference!
-//     this.type = this.init.type;
-//   }
-//   context.add(this);
-// };
-
-// WhileExp.prototype.analyze = function(context) {
-//   this.test.analyze(context);
-//   check.isInteger(this.test, "Test in while");
-//   this.body.analyze(context.createChildContextForLoop());
-// };

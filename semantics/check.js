@@ -4,7 +4,7 @@ const {
   DictType,
   IdType,
   FunctionDeclaration,
-  VariableExpression
+  VariableExpression,
 } = require("../ast");
 const { NumType, StringType, BoolType } = require("./builtins");
 
@@ -63,38 +63,35 @@ module.exports = {
     );
   },
 
+  isPrimitive(expression) {
+    doCheck(
+      expression.type === NumType ||
+        expression.type === BoolType ||
+        expression.type === StringType,
+      "Not a primitive type (toeBeans, leash, goodBoy)"
+    );
+  },
+
   isFunction(value) {
     doCheck(value.constructor === Function, "Attempt to call a non-function");
   },
 
   typesMatch(t1, t2) {
     if (t1.constructor === ListType && t2.constructor === ListType) {
-      this.listTypesHaveSameMemberType(t1, t2);
+      this.typesMatch(t1.memberType, t2.memberType);
     } else if (t1.constructor === DictType && t2.constructor === DictType) {
-      this.dictTypesHaveSameKeyValueTypes(t1, t2);
+      this.typesMatch(t1.keyType, t2.keyType);
+      this.typesMatch(t1.valueType, t2.valueType);
     } else if (t1.constructor === IdType && t2.constructor === IdType) {
-      this.idTypesMatch(t1, t2);
+      this.typesMatch(t1.ref, t2.ref);
     } else {
       doCheck(
-        t1 === t2,
+        t1 === t2 || t1 === null || t2 === null, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
         `Expression of type ${util.format(
           t1
         )} not compatible with type ${util.format(t2)}`
       );
     }
-  },
-
-  listTypesHaveSameMemberType(listType1, listType2) {
-    this.typesMatch(listType1.memberType, listType2.memberType);
-  },
-
-  dictTypesHaveSameKeyValueTypes(dictType1, dictType2) {
-    this.typesMatch(dictType1.keyType, dictType2.keyType);
-    this.typesMatch(dictType1.valueType, dictType2.valueType);
-  },
-
-  idTypesMatch(idType1, idType2) {
-    this.typesMatch(idType1.ref, idType2.ref);
   },
 
   // Are two types exactly the same?
@@ -124,14 +121,10 @@ module.exports = {
     );
   },
 
-  fieldHasNotBeenUsed(fieldName, usedFields) {
-    doCheck(!usedFields.has(fieldName), `Field ${fieldName} already declared`);
-  },
-
-  methodHasNotBeenUsed(methodName, usedMethods) {
+  identifierHasNotBeenUsed(identifierName, usedIdentifiers) {
     doCheck(
-      !usedMethods.has(methodName),
-      `Method ${methodName} already declared`
+      !usedIdentifiers.has(identifierName),
+      `Duplicate identifier ${identifierName}`
     );
   },
 
@@ -142,6 +135,41 @@ module.exports = {
     doCheck(
       constructors.length <= 1,
       `A type declaration can define at most one constructor`
+    );
+  },
+
+  constructorNameMatchesBreedId(constructorId, breedId) {
+    doCheck(
+      constructorId.name === breedId.name,
+      `A constructor's identifier must match the identifier of the breed in which it is defined`
+    );
+  },
+
+  constructorParamsAreFields(parameters, fields) {
+    const fieldIds = fields.map((field) => field.id);
+    const fieldVars = fields.map((field) => field.variable);
+    doCheck(
+      parameters.ids.every((paramId, i) => {
+        const matchingField = fieldIds.indexOf(paramId.name);
+        const fieldAndParamTypesMatch = this.typesMatch(
+          parameters.types[i],
+          fieldVars[matchingField].type
+        );
+        return matchingField !== -1 && fieldAndParamTypesMatch;
+      }),
+      `Parameters of a constructor must be fields of the breed`
+    );
+  },
+
+  constructorHasReturnType(constr) {
+    doCheck(constr.returnType !== null, `Constructors must have a return type`);
+  },
+
+  // Checks that a breedType's constructor has a return type and that the return type is the breed itself
+  constructorReturnsBreedType(constr, breed) {
+    doCheck(
+      this.typesMatch(constr.returnType, breed),
+      `The return type of a constructor must be the breed in which it is defined`
     );
   },
 
@@ -165,12 +193,6 @@ module.exports = {
     args.forEach((arg, i) => this.isAssignableTo(arg, parameters.types[i]));
   },
 
-  // do we need this??? what is this even for
-  // If there is a cycle in types, they must go through a record
-  // noRecursiveTypeCyclesWithoutRecordTypes() {
-  //   /* TODO - not looking forward to this one */
-  // },
-
   isValidSpread(expression) {
     let expressionType =
       expression.constructor === VariableExpression
@@ -180,5 +202,5 @@ module.exports = {
       expressionType.constructor === ListType,
       "Not a valid spread operator"
     );
-  }
+  },
 };
