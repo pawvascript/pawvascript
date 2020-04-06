@@ -47,9 +47,9 @@ PawvaScript {
                     | Factorial
     Factorial       = AtExp postfixOp                                               --postFix
                     | AtExp
-    AtExp           = OfExp "at" OfExp                                              --array_index
+    AtExp           = OfExp at OfExp                                              --array_index
                     | OfExp
-    OfExp           = FuncExp "of" FuncExp                                          --dictionary_lookup
+    OfExp           = FuncExp of FuncExp                                          --dictionary_lookup
                     | FuncExp
     FuncExp         = FuncCall 
                     | Primary
