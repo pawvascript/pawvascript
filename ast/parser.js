@@ -56,7 +56,7 @@ const {
   KeyValuePair,
   VariableExpression,
   UnaryExpression,
-  BinaryExpression
+  BinaryExpression,
 } = require(".");
 
 const grammar = ohm.grammar(fs.readFileSync("./grammar/pawvascript.ohm"));
@@ -203,14 +203,14 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let fields = [];
     let constructors = [];
     let methods = [];
-    body.ast().forEach(member => {
+    body.ast().forEach((member) => {
       if (member instanceof Field) {
         fields.push(member);
       }
       if (member instanceof ConstructorDeclaration) {
         constructors.push(member);
       }
-       if (member instanceof Method) {
+      if (member instanceof Method) {
         methods.push(member);
       }
     });
@@ -312,7 +312,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let membersAST = checkForEmptyArray(chars.ast());
     let quasis = [];
     let exps = [];
-    membersAST.forEach(item => {
+    membersAST.forEach((item) => {
       if (Array.isArray(item)) {
         quasis.push(new StringLiteral(item.join("")));
       } else {
@@ -340,10 +340,10 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   _terminal() {
     return this.sourceString;
-  }
+  },
 });
 
-module.exports = text => {
+module.exports = (text) => {
   const match = grammar.match(text);
   if (!match.succeeded()) {
     throw match.message;

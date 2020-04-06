@@ -84,7 +84,7 @@ class TypeDeclaration {
 class BreedType extends Type {
   constructor(fields, constructors, methods) {
     super();
-    // fields and methods will be arrays of VarDecs and FuncDecs, respectively
+    // fields and methods will be arrays of Field objects and Method objects, respectively
     Object.assign(this, { fields, constructors, methods });
   }
 }
@@ -204,9 +204,9 @@ class StringLiteral extends Expression {
 }
 
 class TemplateLiteral extends Expression {
-  constructor(members, exps) {
+  constructor(quasis, exps) {
     super();
-    Object.assign(this, { members, exps });
+    Object.assign(this, { quasis, exps });
   }
 }
 
@@ -300,5 +300,5 @@ module.exports = {
   KeyValuePair,
   VariableExpression,
   UnaryExpression,
-  BinaryExpression
+  BinaryExpression,
 };

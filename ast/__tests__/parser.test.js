@@ -51,7 +51,7 @@ const {
   KeyValuePair,
   VariableExpression,
   UnaryExpression,
-  BinaryExpression
+  BinaryExpression,
 } = require("..");
 
 const fixture = {
@@ -63,9 +63,9 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogName"),
           new Variable(new PrimitiveType("leash"), null)
-        )
+        ),
       ])
-    )
+    ),
   ],
   variableDeclarationInitializedToNull: [
     String.raw`leash dogName is cat;`,
@@ -74,9 +74,9 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("dogName"),
           new Variable(new PrimitiveType("leash"), null)
-        )
+        ),
       ])
-    )
+    ),
   ],
   numberVariableDeclaration: [
     String.raw`toeBeans CeCeAge is 1;`,
@@ -85,9 +85,9 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("CeCeAge"),
           new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(1))
-        )
+        ),
       ])
-    )
+    ),
   ],
   booleanVariableDeclaration: [
     String.raw`goodBoy isGoodBoy is good;`,
@@ -96,9 +96,9 @@ const fixture = {
         new VariableDeclaration(
           new VariableExpression("isGoodBoy"),
           new Variable(new PrimitiveType("goodBoy"), new BooleanLiteral(true))
-        )
+        ),
       ])
-    )
+    ),
   ],
   stringVariableDeclaration: [
     String.raw`leash name is "CeCe";`,
@@ -110,9 +110,9 @@ const fixture = {
             new PrimitiveType("leash"),
             new TemplateLiteral([new StringLiteral("CeCe")], null)
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   emptyListVariableDeclaration: [
     String.raw`pack[leash] dogs is [];`,
@@ -124,9 +124,9 @@ const fixture = {
             new ListType(new PrimitiveType("leash")),
             new PackLiteral([])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   emptyDictVariableDeclaration: [
     String.raw`kennel[leash:toeBeans] dogs is [:];`,
@@ -141,9 +141,9 @@ const fixture = {
             ),
             new KennelLiteral([], [])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   nonEmptyListVariableDeclaration: [
     String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
@@ -165,12 +165,12 @@ const fixture = {
               new ListElement(
                 false,
                 new TemplateLiteral([new StringLiteral("Dumpling")], null)
-              )
+              ),
             ])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   listVariableDeclarationWithSpreads: [
     String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
@@ -183,12 +183,12 @@ const fixture = {
             new PackLiteral([
               new ListElement(false, new VariableExpression("dog1")),
               new ListElement(false, new VariableExpression("dog2")),
-              new ListElement(true, new VariableExpression("otherDogs"))
+              new ListElement(true, new VariableExpression("otherDogs")),
             ])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   listVariableDeclarationUsingWithout: [
     String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
@@ -203,14 +203,14 @@ const fixture = {
               new PackLiteral([
                 new ListElement(false, new VariableExpression("dog1")),
                 new ListElement(false, new VariableExpression("dog2")),
-                new ListElement(false, new VariableExpression("dog3"))
+                new ListElement(false, new VariableExpression("dog3")),
               ]),
               new VariableExpression("dog1")
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   nonEmptyDictVariableDeclaration: [
     String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
@@ -235,12 +235,12 @@ const fixture = {
               new KeyValuePair(
                 new TemplateLiteral([new StringLiteral("Mo")], null),
                 new NumberLiteral(3)
-              )
+              ),
             ])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* String Operations */
   leashConcatenation: [
@@ -257,9 +257,9 @@ const fixture = {
               new TemplateLiteral([new StringLiteral("Ce")], null)
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   stringInterpolation: [
     String.raw`leash sentence is "![x] is a good girl";`,
@@ -274,9 +274,9 @@ const fixture = {
               [new VariableExpression("x")]
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   stringInterpolationInMiddleOfString: [
     String.raw`leash phrase is "Come back here, ![name]. Good girl.";`,
@@ -289,14 +289,14 @@ const fixture = {
             new TemplateLiteral(
               [
                 new StringLiteral("Come back here, "),
-                new StringLiteral(". Good girl.")
+                new StringLiteral(". Good girl."),
               ],
               [new VariableExpression("name")]
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Assignment */
   variableAssignment: [
@@ -306,9 +306,9 @@ const fixture = {
         new AssignmentStatement(
           new VariableExpression("cuteness"),
           new NumberLiteral(100)
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Relops */
   equalityOperators: [
@@ -336,9 +336,9 @@ const fixture = {
               new VariableExpression("y")
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   greaterThanLessThanComparators: [
     String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,
@@ -365,9 +365,9 @@ const fixture = {
               new VariableExpression("y")
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   greaterThanLessThanOrEqualToComparators: [
     String.raw`goodBoy testAtLeast is x isAtLeast y; goodBoy testAtMost is x isAtMost y;`,
@@ -394,9 +394,9 @@ const fixture = {
               new VariableExpression("y")
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   logicalNegation: [
     String.raw`goodBoy testNegation1 is x equals not y; goodBoy testNegation2 is y equals not x;`,
@@ -423,9 +423,9 @@ const fixture = {
               new UnaryExpression("n", new VariableExpression("x"))
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Arithmetic */
   arithmeticOperators: [
@@ -488,9 +488,9 @@ const fixture = {
         new AssignmentStatement(
           new VariableExpression("a"),
           new UnaryExpression("-", new VariableExpression("x"))
-        )
+        ),
       ])
-    )
+    ),
   ],
   // /* Conditionals */
   ifStatement: [
@@ -503,12 +503,12 @@ const fixture = {
             new AssignmentStatement(
               new VariableExpression("x"),
               new VariableExpression("y")
-            )
+            ),
           ]),
           null
-        )
+        ),
       ])
-    )
+    ),
   ],
   ifElseStatement: [
     String.raw`if x isAtLeast y then:
@@ -532,7 +532,7 @@ const fixture = {
                 new PrimitiveType("leash"),
                 new TemplateLiteral([new StringLiteral("CeCe")], null)
               )
-            )
+            ),
           ]),
           new Block([
             new VariableDeclaration(
@@ -545,11 +545,11 @@ const fixture = {
             new VariableDeclaration(
               new VariableExpression("dogAge"),
               new Variable(new PrimitiveType("toeBeans"), new NumberLiteral(12))
-            )
+            ),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   ifElseIfStatement: [
     String.raw`if x notEquals y then:
@@ -576,7 +576,7 @@ const fixture = {
                 [new StringLiteral("CeCe is kinda cute")],
                 null
               )
-            )
+            ),
           ]),
           new ConditionalStatement(
             new BinaryExpression(
@@ -591,7 +591,7 @@ const fixture = {
                   [new StringLiteral("CeCe is pretty cute")],
                   null
                 )
-              )
+              ),
             ]),
             new ConditionalStatement(
               new BinaryExpression(
@@ -606,7 +606,7 @@ const fixture = {
                     [new StringLiteral("Okay, CeCe is really cute")],
                     null
                   )
-                )
+                ),
               ]),
               new Block([
                 new PrintStatement(
@@ -615,22 +615,22 @@ const fixture = {
                     [new StringLiteral("CeCe is the cutest of the cutest")],
                     null
                   )
-                )
+                ),
               ])
             )
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Comments */
   oneLineComment: [
     String.raw`!!! I'm a one line comment !!!`,
-    new Program(new Block([]))
+    new Program(new Block([])),
   ],
   multiLineComment: [
     String.raw`!!! I'm a \n multiline \n comment !!!`,
-    new Program(new Block([]))
+    new Program(new Block([])),
   ],
   /* Loops */
   infiniteLoop: [
@@ -642,11 +642,11 @@ const fixture = {
             new PrintStatement(
               "woof",
               new TemplateLiteral([new StringLiteral("I run forever")], null)
-            )
+            ),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   fixedLoop: [
     String.raw`chase 5 times: woof "Stay"; tail`,
@@ -658,11 +658,11 @@ const fixture = {
             new PrintStatement(
               "woof",
               new TemplateLiteral([new StringLiteral("Stay")], null)
-            )
+            ),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   whileLoop: [
     String.raw`chase while x isAtMost 5: woof x; tail`,
@@ -675,9 +675,9 @@ const fixture = {
             new NumberLiteral(5)
           ),
           new Block([new PrintStatement("woof", new VariableExpression("x"))])
-        )
+        ),
       ])
-    )
+    ),
   ],
   forLoop: [
     String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
@@ -699,9 +699,9 @@ const fixture = {
             new NumberLiteral(10)
           ),
           new Block([new PrintStatement("woof", new VariableExpression("i"))])
-        )
+        ),
       ])
-    )
+    ),
   ],
   forEachLoop: [
     String.raw`chase element through mypack:
@@ -713,11 +713,11 @@ const fixture = {
           new VariableExpression("element"),
           new VariableExpression("mypack"),
           new Block([
-            new PrintStatement("woof", new VariableExpression("element"))
+            new PrintStatement("woof", new VariableExpression("element")),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   loopWithPoopStatement: [
     String.raw`
@@ -733,11 +733,11 @@ const fixture = {
               "woof",
               new TemplateLiteral([new StringLiteral("I run forever\\!")], null)
             ),
-            new BreakStatement()
+            new BreakStatement(),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   loopWithWalkiesStatement: [
     String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
@@ -777,11 +777,11 @@ const fixture = {
               new Block([new ContinueStatement()]),
               null
             ),
-            new PrintStatement("woof", new VariableExpression("i"))
+            new PrintStatement("woof", new VariableExpression("i")),
           ])
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Function Declarations */
   functionDeclaration: [
@@ -836,10 +836,10 @@ const fixture = {
                   new AssignmentStatement(
                     new VariableExpression("b"),
                     new VariableExpression("remainder")
-                  )
+                  ),
                 ])
               ),
-              new GiveStatement(new VariableExpression("a"))
+              new GiveStatement(new VariableExpression("a")),
             ])
           )
         ),
@@ -849,19 +849,19 @@ const fixture = {
             new PrimitiveType("toeBeans"),
             new FunctionCall(new VariableExpression("gcd"), [
               new NumberLiteral(21),
-              new NumberLiteral(49)
+              new NumberLiteral(49),
             ])
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   /* Function Call */
   functionCallWithoutArgs: [
     String.raw`
       fib();
     `,
-    new Program(new Block([new FunctionCall(new VariableExpression("fib"))]))
+    new Program(new Block([new FunctionCall(new VariableExpression("fib"))])),
   ],
   functionCallWithArgs: [
     String.raw`
@@ -870,10 +870,10 @@ const fixture = {
     new Program(
       new Block([
         new FunctionCall(new VariableExpression("fib"), [
-          new NumberLiteral(100)
-        ])
+          new NumberLiteral(100),
+        ]),
       ])
-    )
+    ),
   ],
   /* Breed Declarations */
   emptyBreedDeclaration: [
@@ -884,9 +884,9 @@ const fixture = {
         new TypeDeclaration(
           new VariableExpression("Owner"),
           new BreedType([], [], [])
-        )
+        ),
       ])
-    )
+    ),
   ],
   breedWithFields: [
     String.raw`breed PetSitter is:
@@ -909,14 +909,14 @@ const fixture = {
                   new PrimitiveType("toeBeans"),
                   new NumberLiteral(0)
                 )
-              )
+              ),
             ],
             [],
             []
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   breedWithFieldAndMethods: [
     String.raw`breed DogHotel is:
@@ -935,7 +935,7 @@ const fixture = {
               new Field(
                 new VariableExpression("name"),
                 new Variable(new PrimitiveType("leash"))
-              )
+              ),
             ],
             [],
             [
@@ -951,15 +951,15 @@ const fixture = {
                         [new StringLiteral("Welcome to our Dog Hotel")],
                         null
                       )
-                    )
+                    ),
                   ])
                 )
-              )
+              ),
             ]
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   breedWithMethod: [
     String.raw`breed DogLover is:
@@ -987,15 +987,15 @@ const fixture = {
                         [new StringLiteral("woof woof")],
                         null
                       )
-                    )
+                    ),
                   ])
                 )
-              )
+              ),
             ]
           )
-        )
+        ),
       ])
-    )
+    ),
   ],
   breedWithEverything: [
     String.raw`breed DogHotel is:
@@ -1018,7 +1018,7 @@ const fixture = {
               new Field(
                 new VariableExpression("name"),
                 new Variable(new PrimitiveType("leash"))
-              )
+              ),
             ],
             [
               new ConstructorDeclaration(
@@ -1030,7 +1030,7 @@ const fixture = {
                   ),
                   new IdType("DogHotel")
                 )
-              )
+              ),
             ],
             [
               new Method(
@@ -1045,10 +1045,10 @@ const fixture = {
                         [new StringLiteral("Welcome to our Dog Hotel")],
                         null
                       )
-                    )
+                    ),
                   ])
                 )
-              )
+              ),
             ]
           )
         ),
@@ -1060,21 +1060,21 @@ const fixture = {
             null
           ),
           []
-        )
+        ),
       ])
-    )
-  ]
+    ),
+  ],
 };
 
 describe("The parser", () => {
   Object.entries(fixture).forEach(([name, [source, expected]]) => {
-    test(`produces the correct AST for ${name}`, done => {
+    test(`produces the correct AST for ${name}`, (done) => {
       expect(parse(source)).toEqual(expected);
       done();
     });
   });
 
-  test("throws an exception on a syntax error", done => {
+  test("throws an exception on a syntax error", (done) => {
     // We only need one test here that an exception is thrown.
     // Specific syntax errors are tested in the grammar test.
     expect(() => parse("as$df^&%*$&")).toThrow();
