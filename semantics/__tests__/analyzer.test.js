@@ -18,8 +18,16 @@ const fixture = {
   emptyListVariableDeclaration: String.raw`pack[leash] dogs is [];`,
   emptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is [:];`,
   nonEmptyListVariableDeclaration: String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
-  listVariableDeclarationWithSpreads: String.raw`pack[Dog] dogs is [dog1, dog2, peanutButter otherDogs];`,
-  listVariableDeclarationUsingWithout: String.raw`pack[Dog] dogs is [dog1, dog2, dog3] without dog1;`,
+  listVariableDeclarationWithSpreadOnPackLiteral: String.raw`
+    pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
+  `,
+  listVariableDeclarationWithSpreadOnVarExp: String.raw`
+      pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];
+      pack[leash] allDogs is ["Bear", "Bermuda", peanutButter dogs];
+    `,
+  listVariableDeclarationUsingWithout: String.raw`
+      pack[leash] fewerDogs is ["CeCe", "Buster", "Dumpling"] without "CeCe";
+    `,
   nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
   // /* String Operations */
   // leashConcatenation: [

@@ -17,7 +17,6 @@ const {
   BreedType,
   Field,
   Method,
-  PrimitiveType,
   ListType,
   DictType,
   IdType,
@@ -49,7 +48,7 @@ const {
   NumType,
   StringType,
   BoolType,
-  standardFunctions,
+  //   standardFunctions,
 } = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
@@ -164,12 +163,12 @@ BreedType.prototype.analyze = function(context, breedId) {
 
   this.fields.forEach((field) => {
     check.identifierHasNotBeenUsed(field.id.name, this.members);
-    field.analyze(this.members);
+    field.analyze(context);
     this.members.set(field.id.name, field.variable);
   });
   this.methods.forEach((method) => {
     check.identifierHasNotBeenUsed(method.id.name, this.members);
-    method.analyze(context);
+    method.analyze(context, this.members);
     this.members.set(method.id.name, method.func);
   });
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
@@ -205,9 +204,11 @@ Field.prototype.analyze = function(context) {
 // toal question: okay, wait: so fields and methods should NOT be added to the context, but what if
 // we want to use the type's fields as variables in the methods? do we add the fields as variable
 // declarations to the method's context?
-Method.prototype.analyze = function(context) {
+Method.prototype.analyze = function(context, breedMembers) {
   const bodyContext = context.createChildContextForFunctionBody();
-  // add all members to function's context?
+  breedMembers.forEach((member, id) => {
+    bodyContext.add(id, member);
+  });
   this.func.analyze(bodyContext);
 };
 
@@ -252,14 +253,14 @@ AssignmentStatement.prototype.analyze = function(context) {
   check.isAssignableTo(this.source, targetVariable.type);
   check.isNotReadOnly(targetVariable);
   // do we need to actually set the new value of the variable??
-  // context.locals.set(this.target, this.source);
+  // targetVariable.intializerExp = this.source;
 };
 
 FunctionCall.prototype.analyze = function(context) {
   // this.callee is at first a VariableExpression whose name is the id of the function
   // replace this.callee with a pointer to the actual function defined in this context
   // TODO toal question: or do we set the VariableExpresion's ref???
-  this.callee = context.lookup(this.callee.name);
+  this.callee.analyze(context);
   check.isFunction(this.callee);
   this.args.forEach((arg) => arg.analyze(context));
   check.legalArguments(this.args, this.callee.parameters);
@@ -302,9 +303,13 @@ NumberLiteral.prototype.analyze = function() {
 
 StringLiteral.prototype.analyze = function() {
   this.type = StringType;
+  //   this.type = context.lookup("leash");
 };
 
 TemplateLiteral.prototype.analyze = function(context) {
+  this.quasis.forEach((quasi) => {
+    quasi.analyze(context);
+  });
   if (this.exps) {
     this.exps.forEach((exp) => {
       exp.analyze(context);
@@ -314,17 +319,31 @@ TemplateLiteral.prototype.analyze = function(context) {
 };
 
 PackLiteral.prototype.analyze = function(context) {
+  let firstElementType = null;
+  if (this.elements.length > 0) {
+    this.elements[0].analyze();
+    firstElementType =
+      this.elements[0].type.constructor === ListType
+        ? this.elements[0].type.memberType
+        : this.elements[0].type;
+  }
   this.elements.forEach((element) => {
     element.analyze(context);
-    check.typesMatch(element.type, this.elements[0].type);
+    // TODO move some of this logic into a check helper
+    if (element.hasSpread) {
+      check.isValidSpread(element.value);
+      check.typesMatch(element.type.memberType, firstElementType);
+    } else {
+      check.typesMatch(element.type, firstElementType);
+    }
   });
-  const memberType = this.elements.length > 0 ? this.elements[0].type : null; // going to cause problems later, but can come back to it
+  const memberType = this.elements.length > 0 ? this.elements[0].type : null;
   this.type = new ListType(memberType);
 };
 
 ListElement.prototype.analyze = function(context) {
   this.value.analyze(context);
-  check.isValidSpread(context, this.value);
+  this.type = this.value.type;
 };
 
 KennelLiteral.prototype.analyze = function(context) {
@@ -348,14 +367,15 @@ KeyValuePair.prototype.analyze = function(context) {
 
 VariableExpression.prototype.analyze = function(context) {
   this.ref = context.lookup(this.name); // returns the Variable object
+  this.type = this.ref.type;
 };
 
 UnaryExpression.prototype.analyze = function(context) {
   this.operand.analyze(context);
-  if (/[-!]/.test(this.op)) {
+  if (/^[-!]$/.test(this.op)) {
     check.isNumber(this.operand);
     this.type = NumType;
-  } else if (/[^not$]/.test(this.op)) {
+  } else if (/^not$/.test(this.op)) {
     check.isBool(this.operand);
     this.type = BoolType;
   }
@@ -364,15 +384,16 @@ UnaryExpression.prototype.analyze = function(context) {
 BinaryExpression.prototype.analyze = function(context) {
   this.left.analyze(context);
   this.right.analyze(context);
-  if (/[-+*/]/.test(this.op)) {
+  if (/^[-+*/]$/.test(this.op)) {
     check.isNumber(this.left);
     check.isNumber(this.right);
     this.type = NumType;
-  } else if (/[&|]/.test(this.op)) {
+  } else if (/^[&|]$/.test(this.op)) {
     check.isBool(this.left);
     check.isBool(this.right);
     this.type = BoolType;
   } else if (
+    // TODO i dont think we need all the question marks for this regex
     /isGreaterThan?|isAtLeast?|isAtMost?|isLessThan?|equals?|notEquals?/.test(
       this.op
     )
@@ -381,9 +402,9 @@ BinaryExpression.prototype.analyze = function(context) {
     check.isNumberOrString(this.left);
     check.isNumberOrString(this.right);
     this.type = BoolType;
-  } else if (/^with/.test(this.op)) {
-    if (this.left.constructor === ListType) {
-      check.typesMatch(this.left.memberType, this.right.type);
+  } else if (/^with(?:out)?$/.test(this.op)) {
+    if (this.left.type.constructor === ListType) {
+      check.typesMatch(this.left.type.memberType, this.right.type);
     } else {
       check.isString(this.left);
       check.isString(this.right);

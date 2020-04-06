@@ -78,6 +78,10 @@ module.exports = {
 
   // Are two types exactly the same?
   typesMatch(t1, t2) {
+    if (t1 === null || t2 === null) {
+      // if (!t1 || !t2) {
+      return;
+    }
     if (t1.constructor === ListType && t2.constructor === ListType) {
       this.typesMatch(t1.memberType, t2.memberType);
     } else if (t1.constructor === DictType && t2.constructor === DictType) {
@@ -89,7 +93,7 @@ module.exports = {
       this.typesMatch(t1, t2.ref);
     } else {
       doCheck(
-        t1 === t2 || t1 === null || t2 === null, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
+        t1 === t2, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
         `Expression of type ${util.format(
           t1
         )} not compatible with type ${util.format(t2)}`
@@ -198,7 +202,7 @@ module.exports = {
   },
 
   isValidSpread(expression) {
-    let expressionType =
+    const expressionType =
       expression.constructor === VariableExpression
         ? expression.ref.type
         : expression.type;
