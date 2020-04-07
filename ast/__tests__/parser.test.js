@@ -399,7 +399,7 @@ const fixture = {
             new BinaryExpression(
               "equals",
               new VariableExpression("x"),
-              new UnaryExpression("n", new VariableExpression("y"))
+              new UnaryExpression("not", new VariableExpression("y"))
             )
           )
         ),
@@ -410,7 +410,7 @@ const fixture = {
             new BinaryExpression(
               "equals",
               new VariableExpression("y"),
-              new UnaryExpression("n", new VariableExpression("x"))
+              new UnaryExpression("not", new VariableExpression("x"))
             )
           )
         ),
@@ -775,7 +775,8 @@ const fixture = {
   ],
   /* Function Declarations */
   functionDeclaration: [
-    String.raw`trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
+    String.raw`
+    trick gcd chews[toeBeans:a, toeBeans:b] fetches toeBeans:
         toeBeans remainder;
         chase while (a mod b) isGreaterThan 0:
             remainder is (a mod b);

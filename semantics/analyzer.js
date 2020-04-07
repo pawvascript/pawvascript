@@ -83,14 +83,14 @@ InfiniteLoopStatement.prototype.analyze = function(context) {
 };
 
 ForLoopStatement.prototype.analyze = function(context) {
-  const bodyContext = context.createChildContextForLoop();
-  this.localVarDec.analyze(bodyContext);
-  check.isNumber(this.localVarDec.variable.type);
-  this.loopExp.analyze(context);
+  const loopContext = context.createChildContextForLoop();
+  this.localVarDec.analyze(loopContext);
+  check.isNumber(this.localVarDec.variable);
+  this.loopExp.analyze(loopContext);
   check.isNumber(this.loopExp);
-  this.condition.analyze(context);
+  this.condition.analyze(loopContext);
   check.isBool(this.condition);
-  this.body.analyze(bodyContext);
+  this.body.analyze(loopContext);
 };
 
 ThroughLoopStatement.prototype.analyze = function(context) {
@@ -139,7 +139,7 @@ Variable.prototype.analyze = function(context) {
 
 FunctionDeclaration.prototype.analyze = function(context) {
   context.add(this.id.name, this.func);
-  const bodyContext = context.createChildContextForFunctionBody();
+  const bodyContext = context.createChildContextForFunctionBody(this.func);
   this.func.analyze(bodyContext);
 };
 
@@ -205,7 +205,7 @@ Field.prototype.analyze = function(context) {
 // we want to use the type's fields as variables in the methods? do we add the fields as variable
 // declarations to the method's context?
 Method.prototype.analyze = function(context, breedMembers) {
-  const bodyContext = context.createChildContextForFunctionBody();
+  const bodyContext = context.createChildContextForFunctionBody(this.func);
   breedMembers.forEach((member, id) => {
     bodyContext.add(id, member);
   });
@@ -261,10 +261,10 @@ FunctionCall.prototype.analyze = function(context) {
   // replace this.callee with a pointer to the actual function defined in this context
   // TODO toal question: or do we set the VariableExpresion's ref???
   this.callee.analyze(context);
-  check.isFunction(this.callee);
+  check.isFunction(this.callee.ref);
   this.args.forEach((arg) => arg.analyze(context));
-  check.legalArguments(this.args, this.callee.parameters);
-  this.type = this.callee.returnType;
+  check.legalArguments(this.args, this.callee.ref.parameters);
+  this.type = this.callee.ref.returnType;
 };
 
 PrintStatement.prototype.analyze = function(context) {
@@ -384,7 +384,7 @@ UnaryExpression.prototype.analyze = function(context) {
 BinaryExpression.prototype.analyze = function(context) {
   this.left.analyze(context);
   this.right.analyze(context);
-  if (/^[-+*/]$/.test(this.op)) {
+  if (/^(?:[-+*/]|mod)$/.test(this.op)) {
     check.isNumber(this.left);
     check.isNumber(this.right);
     this.type = NumType;

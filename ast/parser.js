@@ -262,10 +262,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     return new BinaryExpression(op.ast(), factor.ast(), negation.ast());
   },
   Negation_preFix(prefixOp, factorial) {
-    return new UnaryExpression(
-      arrayToNullable(prefixOp.ast()),
-      factorial.ast()
-    );
+    return new UnaryExpression(prefixOp.ast(), factorial.ast());
   },
   Factorial_postFix(primary, postfixOp) {
     return new UnaryExpression(arrayToNullable(postfixOp.ast()), primary.ast());

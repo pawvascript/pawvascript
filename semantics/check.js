@@ -3,6 +3,7 @@ const {
   ListType,
   DictType,
   IdType,
+  Function,
   //   FunctionDeclaration,
   VariableExpression,
 } = require("../ast");
@@ -34,15 +35,21 @@ module.exports = {
   },
 
   isNumber(expression) {
-    doCheck(expression.type === NumType, "Not a number");
+    doCheck(this.typesAreEquivalent(expression.type, NumType), "Not a number");
   },
 
   isString(expression) {
-    doCheck(expression.type === StringType, "Not a string");
+    doCheck(
+      this.typesAreEquivalent(expression.type, StringType),
+      "Not a string"
+    );
   },
 
   isBool(expression) {
-    doCheck(expression.type === BoolType, "Not a boolean");
+    doCheck(
+      this.typesAreEquivalent(expression.type, BoolType),
+      "Not a boolean"
+    );
   },
 
   mustNotHaveAType(expression) {
@@ -74,7 +81,10 @@ module.exports = {
   },
 
   isFunction(value) {
-    doCheck(value.constructor === Function, "Attempt to call a non-function");
+    doCheck(
+      value.constructor.name === "Function",
+      "Attempt to call a non-function"
+    );
   },
 
   // Recursive helper function that determines whether two types are exactly the same
@@ -214,6 +224,9 @@ module.exports = {
 
   // Same number of args and params; all types compatible
   legalArguments(args, parameters) {
+    if (args.length === 0 && parameters === null) {
+      return;
+    }
     doCheck(
       args.length === parameters.types.length,
       `Expected ${parameters.types.length} args in call, got ${args.length}`
