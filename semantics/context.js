@@ -7,11 +7,7 @@
  *   const Context = require('./semantics/context');
  */
 
-const {
-  TypeDeclaration,
-  FunctionDeclaration,
-  PrimitiveType,
-} = require("../ast");
+const { FunctionDeclaration, PrimitiveType } = require("../ast");
 const {
   standardFunctions,
   NumType,

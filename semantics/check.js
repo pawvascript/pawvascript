@@ -3,9 +3,7 @@ const {
   ListType,
   DictType,
   IdType,
-  Function,
   BreedType,
-  //   FunctionDeclaration,
   VariableExpression,
 } = require("../ast");
 const { NumType, StringType, BoolType } = require("./builtins");

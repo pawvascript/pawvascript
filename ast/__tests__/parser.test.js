@@ -39,7 +39,6 @@ const {
   GiveStatement,
   BreakStatement,
   ContinueStatement,
-  Expression,
   BooleanLiteral,
   NumberLiteral,
   StringLiteral,
