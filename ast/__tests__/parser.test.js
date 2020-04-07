@@ -21,7 +21,6 @@ const {
   VariableDeclaration,
   Variable,
   TypeDeclaration,
-  //   Type,
   BreedType,
   Field,
   Method,
@@ -481,7 +480,7 @@ const fixture = {
       ])
     ),
   ],
-  // /* Conditionals */
+  /* Conditionals */
   ifStatement: [
     String.raw`if x then: x is y; tail`,
     new Program(

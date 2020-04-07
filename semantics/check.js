@@ -80,12 +80,6 @@ module.exports = {
       return this.typesAreEquivalent(t1, t2.ref);
     } else {
       return t1 === t2;
-      //   doCheck(
-      //     t1 === t2, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
-      //     `Expression of type ${util.format(
-      //       t1
-      //     )} not compatible with type ${util.format(t2)}`
-      //   );
     }
   },
 
@@ -127,11 +121,7 @@ module.exports = {
 
   // Variables that are read-only include the length of a list, the index of a through loop, etc.
   isNotReadOnly(lvalue) {
-    doCheck(
-      !lvalue.isReadOnly,
-      //!(lvalue.constructor === VariableExpression && lvalue.ref.readOnly),
-      "Assignment to read-only variable"
-    );
+    doCheck(!lvalue.isReadOnly, "Assignment to read-only variable");
   },
 
   identifierHasNotBeenUsed(identifierName, members) {

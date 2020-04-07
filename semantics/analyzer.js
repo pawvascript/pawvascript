@@ -44,12 +44,7 @@ const {
   BinaryExpression,
 } = require("../ast");
 
-const {
-  NumType,
-  StringType,
-  BoolType,
-  //   standardFunctions,
-} = require("./builtins");
+const { NumType, StringType, BoolType } = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
 
@@ -202,9 +197,6 @@ Field.prototype.analyze = function(context) {
   this.variable.analyze(context);
 };
 
-// toal question: okay, wait: so fields and methods should NOT be added to the context, but what if
-// we want to use the type's fields as variables in the methods? do we add the fields as variable
-// declarations to the method's context?
 Method.prototype.analyze = function(context, breedMembers) {
   const bodyContext = context.createChildContextForFunctionBody(this.func);
   breedMembers.forEach((member, id) => {
@@ -230,18 +222,13 @@ IdType.prototype.analyze = function(context) {
 AssignmentStatement.prototype.analyze = function(context) {
   const targetVariable = context.lookup(this.target.name);
   this.source.analyze(context);
-  // do we need this?
-  //   targetVariable.analyze(context);
   check.isAssignableTo(this.source, targetVariable.type);
   check.isNotReadOnly(targetVariable);
-  // do we need to actually set the new value of the variable??
-  // targetVariable.intializerExp = this.source;
 };
 
 FunctionCall.prototype.analyze = function(context) {
-  // this.callee is at first a VariableExpression whose name is the id of the function
+  // this.callee starts out as a VariableExpression whose name is the id of the function
   this.callee.analyze(context);
-
   check.isFunctionOrBreed(this.callee.ref);
 
   if (this.callee.ref.constructor === BreedType) {
@@ -293,7 +280,6 @@ NumberLiteral.prototype.analyze = function() {
 
 StringLiteral.prototype.analyze = function() {
   this.type = StringType;
-  //   this.type = context.lookup("leash");
 };
 
 TemplateLiteral.prototype.analyze = function(context) {
@@ -312,7 +298,9 @@ PackLiteral.prototype.analyze = function(context) {
   let firstElementType = null;
   if (this.elements.length > 0) {
     this.elements[0].analyze();
+    // extract type of first element to compare all other elements to
     firstElementType =
+      // first element may be a list with a spread operator
       this.elements[0].hasSpread &&
       this.elements[0].type.constructor === ListType
         ? this.elements[0].type.memberType
@@ -320,13 +308,11 @@ PackLiteral.prototype.analyze = function(context) {
   }
   this.elements.forEach((element) => {
     element.analyze(context);
-    // TODO move some of this logic into a check helper
     if (element.hasSpread) {
       check.isValidSpread(element.value);
-      check.typesMatch(element.type.memberType, firstElementType);
-    } else {
-      check.typesMatch(element.type, firstElementType);
+      element.type = element.type.memberType;
     }
+    check.typesMatch(element.type, firstElementType);
   });
   const memberType = this.elements.length > 0 ? firstElementType : null;
   this.type = new ListType(memberType);
@@ -345,9 +331,9 @@ KennelLiteral.prototype.analyze = function(context) {
   });
 
   const keyType =
-    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].key.type : null; // going to cause problems later, but can come back to it
+    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].key.type : null;
   const valueType =
-    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].value.type : null; // going to cause problems later, but can come back to it
+    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].value.type : null;
   this.type = new DictType(keyType, valueType);
 };
 
@@ -357,7 +343,7 @@ KeyValuePair.prototype.analyze = function(context) {
 };
 
 VariableExpression.prototype.analyze = function(context) {
-  this.ref = context.lookup(this.name); // returns the Variable object
+  this.ref = context.lookup(this.name); // returns the corresponding Variable object
   this.type = this.ref.type;
 };
 

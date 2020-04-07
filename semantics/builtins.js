@@ -11,7 +11,7 @@ const StringType = new PrimitiveType("leash");
 const BoolType = new PrimitiveType("goodBoy");
 
 const standardFunctions = [
-  // built-in string functions:
+  /* Built-in String Functions */
   new FunctionDeclaration(
     new VariableExpression("size"),
     new Function(
@@ -36,7 +36,7 @@ const standardFunctions = [
     )
   ),
   new FunctionDeclaration(
-    new VariableExpression("containsSubstring"),
+    new VariableExpression("contains"),
     new Function(
       new Parameters([StringType], [new VariableExpression("substring")]),
       BoolType,
@@ -44,17 +44,18 @@ const standardFunctions = [
     )
   ),
   new FunctionDeclaration(
-    new VariableExpression("indexOfChar"),
+    new VariableExpression("indexOfSubstring"),
     new Function(
       new Parameters([StringType], [new VariableExpression("substring")]),
       NumType,
       null
     )
   ),
+  /* Conversion Between Primitive Types */
   new FunctionDeclaration(
     new VariableExpression("toeBeansToLeash"),
     new Function(
-      new Parameters([NumType], [new VariableExpression("number")]),
+      new Parameters([NumType], [new VariableExpression("n")]),
       StringType,
       null
     )
@@ -62,7 +63,7 @@ const standardFunctions = [
   new FunctionDeclaration(
     new VariableExpression("leashToToeBeans"),
     new Function(
-      new Parameters([StringType], [new VariableExpression("string")]),
+      new Parameters([StringType], [new VariableExpression("s")]),
       NumType,
       null
     )
@@ -70,7 +71,7 @@ const standardFunctions = [
   new FunctionDeclaration(
     new VariableExpression("goodBoyToToeBeans"),
     new Function(
-      new Parameters([BoolType], [new VariableExpression("boolean")]),
+      new Parameters([BoolType], [new VariableExpression("b")]),
       NumType,
       null
     )
@@ -78,7 +79,7 @@ const standardFunctions = [
   new FunctionDeclaration(
     new VariableExpression("toeBeansToGoodBoy"),
     new Function(
-      new Parameters([NumType], [new VariableExpression("number")]),
+      new Parameters([NumType], [new VariableExpression("n")]),
       BoolType,
       null
     )
@@ -86,7 +87,7 @@ const standardFunctions = [
   new FunctionDeclaration(
     new VariableExpression("leashToGoodBoy"),
     new Function(
-      new Parameters([StringType], [new VariableExpression("string")]),
+      new Parameters([StringType], [new VariableExpression("s")]),
       BoolType,
       null
     )
@@ -94,7 +95,7 @@ const standardFunctions = [
   new FunctionDeclaration(
     new VariableExpression("goodBoyToLeash"),
     new Function(
-      new Parameters([BoolType], [new VariableExpression("boolean")]),
+      new Parameters([BoolType], [new VariableExpression("b")]),
       StringType,
       null
     )
