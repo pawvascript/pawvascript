@@ -1,6 +1,6 @@
 # PawvaScript
 
-<img alt='PawvaScript Logo' src='images/pawvascript.png' width='300px'/>
+<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
 
 ## Introduction
 
@@ -8,7 +8,7 @@ Ever wish that JavaScript had less symbols and more dogs? We did, so we made Paw
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
-<img alt='CeCe Coding Rear View' src='images/CeCeCoding2.JPG' width='600px'/>
+<img alt='CeCe Coding Rear View' src='assets/CeCeCoding2.JPG' width='600px'/>
 
 ## Features
 
@@ -138,6 +138,7 @@ leash theBestestDog is cat;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
+</br></br>
 let theBestestDog = null;
 </pre>
         </td>
@@ -195,6 +196,7 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
+</br>
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
         </td>
@@ -397,6 +399,7 @@ else {
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
+</br>
 if x notEquals y then:
     woof "CeCe is kinda cute";
 else if x isGreaterThan y then:
@@ -715,7 +718,7 @@ Let's make an owner breed!
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-breed Owner is:   
+</br>breed Owner is:   
     leash dogName; 
     trick Owner chases[leash:dogName] fetches Owner;
     trick introduceDog:
@@ -753,4 +756,4 @@ console.log(lucille.command());
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
-<img alt='CeCe Coding Front View' src='images/CeCeCoding3.JPG' width='500px'/>
+<img alt='CeCe Coding Front View' src='assets/CeCeCoding3.JPG' width='500px'/>
