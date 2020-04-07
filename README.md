@@ -2,7 +2,7 @@
 
 <img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
 
-Check out our super cool [website](https://pawvascript.github.io/pawvascript/ "Pawvascript") 
+Check out our super cool [website](https://pawvascript.github.io/pawvascript/ "Pawvascript")! 
 
 ## Introduction
 
