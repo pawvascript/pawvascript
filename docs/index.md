@@ -138,7 +138,7 @@ leash theBestestDog is cat;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br></br>
+
 let theBestestDog = null;
 </pre>
         </td>
@@ -196,7 +196,7 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>
+
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
         </td>
@@ -399,7 +399,7 @@ else {
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>
+
 if x notEquals y then:
     woof "CeCe is kinda cute";
 else if x isGreaterThan y then:
@@ -408,6 +408,7 @@ else if x isLessThan y then:
     woof "Okay, CeCe is really cute";
 else:
     woof "CeCe is the cutest of the cutest";
+tail          
 </pre>
         </td>
         <td>
@@ -475,20 +476,6 @@ tail
 while (true) {
     console.log("I run forever!");
 }
-</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>
-<pre style="margin-left: 0; width: 100%">
-pack[leash] dogNames is ["CeCe", "Fluffy"];
-kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
-</pre>
-        </td>
-        <td>
-<pre style="margin-left: 0; width: 100%">
-let dogNames = ["CeCe", "Fluffy"];
-let dogAges = {"CeCe": 1, "Fluffy": 2};
 </pre>
         </td>
     </tr>
@@ -594,7 +581,7 @@ chase element through myPack:
         poop;  
     else if element equals "CeCe" then: 
         walkies;  
-    tail;
+    tail
     woof element;
 tail
 </pre>
@@ -630,7 +617,7 @@ trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
         remainder is (a mod b); 
         a is b; 
         b is remainder;  
-    tail;
+    tail
     give a;
 tail
 </pre>
@@ -718,7 +705,7 @@ Let's make an owner breed!
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>breed Owner is:   
+breed Owner is:   
     leash dogName; 
     trick Owner chases[leash:dogName] fetches Owner;
     trick introduceDog:
