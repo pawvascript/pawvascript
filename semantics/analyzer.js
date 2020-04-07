@@ -393,8 +393,7 @@ BinaryExpression.prototype.analyze = function(context) {
     check.isBool(this.right);
     this.type = BoolType;
   } else if (
-    // TODO i dont think we need all the question marks for this regex
-    /isGreaterThan?|isAtLeast?|isAtMost?|isLessThan?|equals?|notEquals?/.test(
+    /^(?:isGreaterThan|isAtLeast|isAtMost|isLessThan|equals|notEquals)$/.test(
       this.op
     )
   ) {

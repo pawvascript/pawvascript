@@ -50,8 +50,13 @@ const fixture = {
     leash nickname is "CeCe";
     toeBeans age1 is 1;
     toeBeans age2 is 2;
-    goodBoy testBool1 is name equals nickname; 
-    goodBoy testBool2 is age1 notEquals age2;
+    goodBoy testBool1 is "CeCe" equals "CeCe"; 
+    goodBoy testBool2 is name equals "CeCe"; 
+    goodBoy testBool3 is "CeCe" equals nickname; 
+    goodBoy testBool4 is name equals nickname;
+    goodBoy testBool5 is age1 equals 1;
+    goodBoy testBool6 is 2 equals age2;
+    goodBoy testBool7 is age1 notEquals age2;
   `,
   // greaterThanLessThanComparators: [
   //   String.raw`goodBoy testGreater is x isGreaterThan y; goodBoy testLess is x isLessThan y;`,

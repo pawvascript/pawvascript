@@ -3,7 +3,7 @@ const {
   ListType,
   DictType,
   IdType,
-  FunctionDeclaration,
+  //   FunctionDeclaration,
   VariableExpression,
 } = require("../ast");
 const { NumType, StringType, BoolType } = require("./builtins");
@@ -51,17 +51,10 @@ module.exports = {
 
   isNumberOrString(expression) {
     doCheck(
-      expression.type === NumType || expression.type === StringType,
+      this.typesAreEquivalent(expression.type, NumType) ||
+        this.typesAreEquivalent(expression.type, StringType),
       "Not a number or string"
     );
-    // const expType =
-    //   expression.constructor === VariableExpression
-    //     ? expression.ref.type
-    //     : expression.type;
-    // doCheck(
-    //   expType === NumType || expType === StringType,
-    //   "Not a number or string"
-    // );
   },
 
   isNumberOrBool(expression) {
@@ -84,48 +77,67 @@ module.exports = {
     doCheck(value.constructor === Function, "Attempt to call a non-function");
   },
 
-  // Are two types exactly the same?
-  typesMatch(t1, t2) {
+  // Recursive helper function that determines whether two types are exactly the same
+  typesAreEquivalent(t1, t2) {
     if (t1 === null || t2 === null) {
-      // if (!t1 || !t2) {
-      return;
+      return true;
     }
     if (t1.constructor === ListType && t2.constructor === ListType) {
-      this.typesMatch(t1.memberType, t2.memberType);
+      return this.typesAreEquivalent(t1.memberType, t2.memberType);
     } else if (t1.constructor === DictType && t2.constructor === DictType) {
-      this.typesMatch(t1.keyType, t2.keyType);
-      this.typesMatch(t1.valueType, t2.valueType);
-    } else if (t1.constructor === IdType) {
-      this.typesMatch(t1.ref, t2);
-    } else if (t2.constructor === IdType) {
-      this.typesMatch(t1, t2.ref);
-    } else {
-      doCheck(
-        t1 === t2, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
-        `Expression of type ${util.format(
-          t1
-        )} not compatible with type ${util.format(t2)}`
+      return (
+        this.typesAreEquivalent(t1.keyType, t2.keyType) &&
+        this.typesAreEquivalent(t1.valueType, t2.valueType)
       );
+    } else if (t1.constructor === IdType) {
+      return this.typesAreEquivalent(t1.ref, t2);
+    } else if (t2.constructor === IdType) {
+      return this.typesAreEquivalent(t1, t2.ref);
+    } else {
+      return t1 === t2;
+      //   doCheck(
+      //     t1 === t2, // TODO: once we figure out the answer to the primitive types question, come back to this. === or .equals?
+      //     `Expression of type ${util.format(
+      //       t1
+      //     )} not compatible with type ${util.format(t2)}`
+      //   );
     }
+  },
+
+  typesMatch(t1, t2) {
+    doCheck(
+      this.typesAreEquivalent(t1, t2),
+      `Type ${util.format(t1)} is not compatible with type ${util.format(t2)}`
+    );
   },
 
   expressionsHaveTheSameType(e1, e2) {
     if (e1 === null || e2 === null) {
       return;
     }
-    this.typesMatch(e1.type, e2.type);
+    doCheck(
+      this.typesAreEquivalent(e1.type, e2.type),
+      `Expression of type ${util.format(
+        e1.type
+      )} not compatible with expression of type ${util.format(e2.type)}`
+    );
   },
 
   // Can we assign expression to a variable/param/field of type type?
   isAssignableTo(expression, type) {
-    // if expression is a variableexpression, check if expression.ref.type === type
-    // otherwise, check if expression.type === type
     let expressionType =
       expression.constructor === VariableExpression
         ? expression.ref.type
         : expression.type;
     let targetType = type;
-    this.typesMatch(expressionType, targetType);
+    doCheck(
+      this.typesAreEquivalent(expressionType, targetType),
+      `Expression of type ${util.format(
+        expressionType
+      )} not assignable to variable/param/field of type ${util.format(
+        targetType
+      )}`
+    );
   },
 
   // Variables that are read-only include the length of a list, the index of a through loop, etc.
@@ -167,7 +179,7 @@ module.exports = {
     doCheck(
       parameters.ids.every((paramId, i) => {
         const matchingField = fieldIds.indexOf(paramId.name);
-        const fieldAndParamTypesMatch = this.typesMatch(
+        const fieldAndParamTypesMatch = this.typesAreEquivalent(
           parameters.types[i],
           fieldVars[matchingField].type
         );
@@ -184,7 +196,7 @@ module.exports = {
   // Checks that a breedType's constructor has a return type and that the return type is the breed itself
   constructorReturnsBreedType(constr, breed) {
     doCheck(
-      this.typesMatch(constr.returnType, breed),
+      this.typesAreEquivalent(constr.returnType, breed),
       `The return type of a constructor must be the breed in which it is defined`
     );
   },
