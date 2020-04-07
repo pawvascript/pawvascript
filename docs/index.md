@@ -1,6 +1,6 @@
 # PawvaScript
 
-<img alt='PawvaScript Logo' src='images/pawvascript.png' width='300px'/>
+<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
 
 ## Introduction
 
@@ -8,7 +8,7 @@ Ever wish that JavaScript had less symbols and more dogs? We did, so we made Paw
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
-<img alt='CeCe Coding Rear View' src='images/CeCeCoding2.JPG' width='600px'/>
+<img alt='CeCe Coding Rear View' src='assets/CeCeCoding2.JPG' width='600px'/>
 
 ## Features
 
@@ -318,191 +318,440 @@ Wanna compare stuff?
 
 ### Arithmetic Operators
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-toeBeans a is x + y;                                                a = x + y;
-
-a is x - y;                                                         a = x - y;
-
-a is x * y;                                                         a = x * y;
-
-a is x / y;                                                         a = x / y;
-
-a is x mod y;                                                       a = x % y;
-
-a is x!;                                                            a = x!;
-
-a is -x;                                                            a = -x;
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                toeBeans a is x + y; 
+            </pre>
+            <pre>
+                a is x - y;
+            </pre>
+            <pre>
+                a is x * y;
+            </pre>
+            <pre>
+                a is x / y;
+            </pre>
+            <pre>
+                a is x mod y;
+            </pre>
+            <pre>
+                a is x!;
+            </pre>
+            <pre>
+                a is -x;
+            </pre>
+        </td>
+        <td>
+            <pre>
+                a = x + y;
+            </pre>
+            <pre>
+                a = x - y;
+            </pre>
+            <pre>
+                a = x * y;
+            </pre>
+            <pre>
+                a = x / y;
+            </pre>
+            <pre>
+                a = x % y;
+            </pre>
+            <pre>
+                a = x!;
+            </pre>
+            <pre>
+                a = -x;
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Conditional Statements
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-if x isAtLeast y then:                                              if (x <= y) {
-    leash dogName is "CeCe";                                            let dogName = "CeCe";
-else:                                                               else {
-    leash dogName is "Buster";                                          let dogName = "Buster";
-tail                                                                }
-
-if x notEquals y then:                                              if (x !== y) {
-    woof "CeCe is kinda cute";                                          console.log("CeCe is kinda cute");
-else if x isGreaterThan y then:                                     else if (x > y) {
-    woof "CeCe is pretty cute";                                         console.log("CeCe is pretty cute");
-else if x isLessThan y then:                                        else if (x < y) {
-    woof "Okay, CeCe is really cute";                                   console.log("Okay, CeCe is really cute");
-else:                                                               else {
-    woof "CeCe is the cutest of the cutest";                            console.log("CeCe is the cutest of the cutest");
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                if x isAtLeast y then:
+                    leash dogName is "CeCe"; 
+                else:
+                    leash dogName is "Buster";  
+                tail  
+            </pre>
+        </td>
+        <td>
+            <pre>
+                if (x <= y) {
+                    let dogName = "CeCe";
+                else {
+                    let dogName = "Buster";
+                }
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                if x notEquals y then:
+                    woof "CeCe is kinda cute";
+                else if x isGreaterThan y then:
+                    woof "CeCe is pretty cute";
+                else if x isLessThan y then:
+                    woof "Okay, CeCe is really cute";
+                else:
+                    woof "CeCe is the cutest of the cutest";
+            </pre>
+        </td>
+        <td>
+            <pre>
+                if (x !== y) {
+                    console.log("CeCe is kinda cute");
+                else if (x > y) {
+                    console.log("CeCe is pretty cute");
+                else if (x < y) {
+                    console.log("Okay, CeCe is really cute");
+                else {
+                    console.log("CeCe is the cutest of the cutest");
+                }        
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Comments
 
 Let's write some comments!
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                !!! I'm a one line comment !!!
+            </pre>
+            <pre>
+               !!! I'm a
+               multiline
+               comment !!!
+            </pre>
+        </td>
+        <td>
+            <pre>
+                // I'm a comment
+            </pre>
+            <pre>
+                /* I'm a
+                multiline
+                comment */
+            </pre>
+        </td>
+    </tr>
+</table>
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-!!! I'm a one line comment !!!                                      // I'm a comment
-
-!!! I'm a                                                           /* I'm a
-multiline                                                           multiline
-comment !!!                                                         comment */
-```
 
 ### Loops
 
 Forever Loop
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase:
+                    woof "I run forever!";
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                while (true) {
+                    console.log("I run forever!");
+                }
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                pack[leash] dogNames is ["CeCe", "Fluffy"];
+                kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let dogNames = ["CeCe", "Fluffy"];
+                let dogAges = {"CeCe": 1, "Fluffy": 2};
+            </pre>
+        </td>
+    </tr>
+</table>
 
-chase:                                                              while (true) {
-    woof "I run forever!";                                              console.log("I run forever!");
-tail                                                                }
-```
 
 <br>Fixed Loop
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-chase 5 times:                                                      for (let i = 0; i < 5; i++) {
-    woof "Stay.";                                                       console.log("Stay.");
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase 5 times:
+                    woof "Stay.";
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                for (let i = 0; i < 5; i++) {
+                    console.log("Stay.");
+                } 
+            </pre>
+        </td>
+    </tr>
+</table>
 
 <br>While Loop
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-chase while x isAtMost 5:                                           while (x <= 5) {
-    woof x;                                                             console.log(x);
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase while x isAtMost 5:
+                    woof x;
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                while (x <= 5) {
+                    console.log(x);
+                 } 
+            </pre>
+        </td>
+    </tr>
+</table>
 
 <br>For Loop
-
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-chase toeBeans i is 0 by i*2 while i isLessThan 10:                 for (let i = 0; i < 10; i *= 2) {
-    woof i;                                                             console.log(i);
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase toeBeans i is 0 by i*2 while i isLessThan 10:
+                    woof i; 
+                tail   
+            </pre>
+        </td>
+        <td>
+            <pre>
+                for (let i = 0; i < 10; i *= 2) {
+                    console.log(i);
+                 } 
+            </pre>
+        </td>
+    </tr>
+</table>
 
 <br>For Each Loop
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-chase element through myPack:                                       for (let element of myArray) {
-    woof element;                                                       console.log(element);
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase element through myPack:   
+                    woof element; 
+                tail    
+            </pre>
+        </td>
+        <td>
+            <pre>
+                for (let element of myArray) {
+                    console.log(element);
+                 } 
+            </pre>
+        </td>
+    </tr>
+</table>
 
 <br>Use `poop` and `walkies` to `break` and `continue`, respectively.
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-chase element through myPack:                                       for (let element of myArray) {
-    if element equals cat then:                                         if (element === null) {
-        poop;                                                               break;
-    else if element equals "CeCe" then:                                 } else if (element === "CeCe") {
-        walkies;                                                            continue;
-    tail;                                                               }
-    woof element;                                                       console.log(element);
-tail                                                                }
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                chase element through myPack:   
+                    if element equals cat then: 
+                        poop;  
+                    else if element equals "CeCe" then: 
+                        walkies;  
+                    tail;
+                    woof element;
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                for (let element of myArray) {
+                    if (element === null) {
+                        break;
+                    } else if (element === "CeCe") {
+                        continue;
+                    }
+                    console.log(element);
+                 } 
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Tricks
 
 Let's find the greatest common divisor between two toeBeans!
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
 
-trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:     function gcd(num1, num2) {
-    toeBeans remainder;                                                 let remainder;
-    chases while (a mod b) isGreaterThan 0:                             while ((num1 % num2) > 0) {
-        remainder is (a mod b);                                             remainder = a % b;
-        a is b;                                                             a = b;
-        b is remainder;                                                     b = remainder;
-    tail                                                                }
-    give a;                                                             return a;
-tail                                                                }
-
-toeBeans a is 8;                                                    let a = 8;
-toeBeans b is 12;                                                   let b = 12;
-toeBeans c is gcd(a, b);                                            let c = gcd(a, b);
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:   
+                    toeBeans remainder; 
+                    chases while (a mod b) isGreaterThan 0:
+                        remainder is (a mod b); 
+                        a is b; 
+                        b is remainder;  
+                    tail;
+                    give a;
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                function gcd(num1, num2) {
+                    let remainder;
+                    while ((num1 % num2) > 0) {
+                        remainder = a % b;
+                        a = b;
+                        b = remainder;
+                    }
+                    return a;
+                 } 
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                toeBeans a is 8;
+                toeBeans b is 12;
+                toeBeans c is gcd(a, b); 
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let a = 8;
+                let b = 12;
+                let c = gcd(a, b);
+            </pre>
+        </td>
+    </tr>
+</table>
 
 The classic Fibonacci function to get the nth term of the Fibonacci sequence:
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-trick fib chews[toeBeans:n] fetches toeBeans:                       function fib(n) {
-    if n isAtMost 1 then:                                               if (n <=1) {
-        give n;                                                             return n;
-    else:                                                               } else {
-        give fib(n-1) + fib(n-2);                                           return fib(n-1) + fib(n-2);
-    tail                                                                }
-tail                                                                }
-
-toeBeans huzzah is fib(100);                                        let huzzah = fib(100);
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                trick fib chews[toeBeans:n] fetches toeBeans:   
+                    if n isAtMost 1 then: 
+                        give n;
+                    else:
+                        give fib(n-1) + fib(n-2); 
+                    tail 
+                tail
+            </pre>
+        </td>
+        <td>
+            <pre>
+                function fib(n) {
+                    if (n <=1) {
+                        return n;
+                    } else {
+                        return fib(n-1) + fib(n-2);
+                    }
+                }
+            </pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <pre>
+                toeBeans huzzah is fib(100);  
+            </pre>
+        </td>
+        <td>
+            <pre>
+                let huzzah = fib(100);
+            </pre>
+        </td>
+    </tr>
+</table>
 
 ### Breeds
 
 Let's make an owner breed!
 
-```JavaScript
-PAWVASCRIPT                                                         JAVASCRIPT
-
-breed Owner is:                                                     class Owner {
-    leash dogName;                                                      constructor(dogName) {
-                                                                            this.dogName = dogName;
-    trick Owner chases[leash:dogName] fetches Owner;                    }
-
-    trick introduceDog:                                                 introduceDog() {
-        woof "My dog's name is " with Owner's dogName;                      console.log(`My dog's name is ${this.dogName}`);
-    tail                                                                }
-
-    trick command fetches leash:                                        command() {
-        give Owner's dogName with ", stay!";                                return `${this.dogName}, stay!`;
-    tail                                                                }
-tail                                                                }
-
-Owner lucille is Owner("CeCe")                                      let lucille = new Owner("CeCe");
-(lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!    lucille.introduceDog();
-woof lucille's command()  !!! output: "CeCe, stay." !!!             console.log(lucille.command());
-```
+<table>
+    <th>PawvaScript</th><th>JavaScript</th>
+    <tr>
+        <td>
+            <pre>
+                breed Owner is:   
+                    leash dogName; 
+                    trick Owner chases[leash:dogName] fetches Owner;
+                     trick introduceDog:
+                        woof "My dog's name is " with Owner's dogName;
+                    ${this.dogName}`);
+                        tail     
+                        trick command fetches leash: 
+                            give Owner's dogName with ", stay!";
+                        tail
+                    tail
+                    Owner lucille is Owner("CeCe")  
+                    (lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!
+                    woof lucille's command()  !!! output: "CeCe, stay." !!!     
+            </pre>
+        </td>
+        <td>
+            <pre>
+                class Owner {
+                    constructor(dogName) {
+                        this.dogName = dogName;
+                    } 
+                    introduceDog() {
+                        console.log(`My dog's name is
+                    }
+                    command() {
+                        return `${this.dogName}, stay!`;
+                    }
+                }
+                let lucille = new Owner("CeCe");
+                lucille.introduceDog();
+                console.log(lucille.command());
+            </pre>
+        </td>
+    </tr>
+</table>
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
-<img alt='CeCe Coding Front View' src='images/CeCeCoding3.JPG' width='500px'/>
+<img alt='CeCe Coding Front View' src='assets/CeCeCoding3.JPG' width='500px'/>
