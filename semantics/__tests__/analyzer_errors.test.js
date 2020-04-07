@@ -189,7 +189,7 @@ tail`,
   `,
   ],
   [
-    "try to index with non-number",
+    "try to use at with non-number for index",
     String.raw`pack[toeBeans] nums is [1,2,3,4];
   toeBeans myNum is nums at "2";`,
   ],
@@ -202,6 +202,11 @@ tail`,
   [
     "use of on a non-dictionary",
     String.raw`pack[toeBeans] nums is [1,2,3];
+    toeBeans myNum is nums of 1;`,
+  ],
+  [
+    "right term for of is not a key",
+    String.raw`kennel[leash:toeBeans] nums is ["CeCe": 1, "Fluffy": 2,  "Charles": 3];
   toeBeans myNum is nums of 1;`,
   ],
   [

@@ -190,8 +190,8 @@ Constructor.prototype.analyze = function(context, breedId) {
   const currentBreed = context.lookup(breedId.name);
   if (this.parameters) {
     this.parameters.analyze(context);
+    check.constructorParamsAreFields(this.parameters, currentBreed.fields);
   }
-  check.constructorParamsAreFields(this.parameters, currentBreed.fields);
 
   check.constructorHasReturnType(this);
   this.returnType.analyze(context);
@@ -313,6 +313,7 @@ PackLiteral.prototype.analyze = function(context) {
   if (this.elements.length > 0) {
     this.elements[0].analyze();
     firstElementType =
+      this.elements[0].hasSpread &&
       this.elements[0].type.constructor === ListType
         ? this.elements[0].type.memberType
         : this.elements[0].type;
@@ -327,7 +328,7 @@ PackLiteral.prototype.analyze = function(context) {
       check.typesMatch(element.type, firstElementType);
     }
   });
-  const memberType = this.elements.length > 0 ? this.elements[0].type : null;
+  const memberType = this.elements.length > 0 ? firstElementType : null;
   this.type = new ListType(memberType);
 };
 
@@ -365,7 +366,8 @@ UnaryExpression.prototype.analyze = function(context) {
   if (/^[-!]$/.test(this.op)) {
     check.isNumber(this.operand);
     this.type = NumType;
-  } else if (/^not$/.test(this.op)) {
+  } else {
+    // this.op = "not", the only remaining unary op
     check.isBool(this.operand);
     this.type = BoolType;
   }
@@ -409,13 +411,18 @@ BinaryExpression.prototype.analyze = function(context) {
   } else if (/^at$/.test(this.op)) {
     check.isNumber(this.right);
     check.isList(this.left);
-    this.type = this.left.memberType;
-  } else if (/^of$/.test(this.op)) {
-    check.typesMatch(this.left.valueType, this.right.type);
+    this.type =
+      this.left.constructor === VariableExpression
+        ? this.left.ref.type.memberType
+        : this.left.type.memberType;
+  } else {
+    // this.op = "of", the only remaining binary op
     check.isDict(this.left);
-    this.type = this.left.valueType;
+    const leftDict =
+      this.left.constructor === VariableExpression
+        ? this.left.ref.type
+        : this.left.type;
+    check.typesMatch(leftDict.keyType, this.right.type);
+    this.type = leftDict.valueType;
   }
-  //  else {
-  //   check.expressionsHaveTheSameType(this.left, this.right);
-  // }
 };

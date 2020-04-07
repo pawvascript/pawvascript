@@ -15,12 +15,16 @@ const fixture = {
   numberVariableDeclaration: String.raw`toeBeans CeCeAge is 1;`,
   booleanVariableDeclaration: String.raw`goodBoy isGoodBoy is good;`,
   stringVariableDeclaration: String.raw`leash name is "CeCe";`,
+  /* Lists and Dictionaries */
   emptyListVariableDeclaration: String.raw`pack[leash] dogs is [];`,
   emptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is [:];`,
   nonEmptyListVariableDeclaration: String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
   listVariableDeclarationWithSpreadOnPackLiteral: String.raw`
-          pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
-        `,
+            pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
+            `,
+  listVariableDeclarationWithSpreadOnFirstElem: String.raw`
+            pack[leash] allDogs is [peanutButter ["CeCe", "Buster", "Dumpling"], "Bear", "Bermuda"];
+            `,
   listVariableDeclarationWithSpreadOnVarExp: String.raw`
             pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];
             pack[leash] allDogs is ["Bear", "Bermuda", peanutButter dogs];
@@ -28,7 +32,23 @@ const fixture = {
   listVariableDeclarationUsingWithout: String.raw`
             pack[leash] fewerDogs is ["CeCe", "Buster", "Dumpling"] without "CeCe";
           `,
-  nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
+  nonEmptyDictVariableDeclaration: String.raw`
+            kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];
+          `,
+  listElementAccessOnVarExp: String.raw`
+            pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];
+            leash myDog is dogs at 0;
+          `,
+  listElementAccessOnListLiteral: String.raw`
+            leash myDog is ["CeCe", "Buster", "Dumpling"] at 0;
+          `,
+  dictValueAccessOnVarExp: String.raw`
+            kennel[leash:toeBeans] dogAges is ["CeCe":1, "Buster":2, "Mo":3];
+            toeBeans myDogAge is dogAges of "CeCe";
+          `,
+  dictValueAccessOnDictLiteral: String.raw`
+              toeBeans myDogAge is ["CeCe":1, "Buster":2, "Mo":3] of "CeCe";
+            `,
   /* String Operations */
   leashConcatenation: String.raw`leash dogName is "Ce" with "Ce";`,
   stringInterpolation: String.raw`
@@ -70,10 +90,21 @@ const fixture = {
           goodBoy testBool1 is age1 isAtLeast age2;
           goodBoy testBool2 is age1 isAtMost age2;
         `,
+  /* Logical Operators */
   logicalNegation: String.raw`
         goodBoy x is good;
         goodBoy y is bad;
         goodBoy z is not y;
+      `,
+  logicalAndOperator: String.raw`
+        goodBoy x is good;
+        goodBoy y is bad;
+        goodBoy z is x & y;
+      `,
+  logicalOrOperator: String.raw`
+        goodBoy x is good;
+        goodBoy y is bad;
+        goodBoy z is x | y;
       `,
   /* Arithmetic */
   arithmeticOperators: String.raw`
@@ -132,8 +163,8 @@ const fixture = {
       `,
   forLoop: String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
   forEachLoop: String.raw`
-        pack[leash] mypack is ["CeCe", "Buster", "Dumpling"];
-        chase element through mypack:
+        pack[leash] myPack is ["CeCe", "Buster", "Dumpling"];
+        chase element through myPack:
             woof element;
         tail
       `,
@@ -209,6 +240,12 @@ const fixture = {
           tail
         tail
       `,
+  breedWithConstructor: String.raw`
+      breed DogLover is:
+        trick DogLover fetches DogLover;
+      tail
+      DogLover lucille is DogLover();
+    `,
   breedWithEverything: String.raw`
     breed DogHotel is:
       leash name;

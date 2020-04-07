@@ -22,10 +22,6 @@ module.exports = {
     doCheck(type.constructor === ListType, "Not a list type");
   },
 
-  isDictType(type) {
-    doCheck(type.constructor === DictType, "Not a dictionary type");
-  },
-
   // Is the type of this expression an array type?
   isList(expression) {
     doCheck(expression.type.constructor === ListType, "Not a list");
@@ -53,31 +49,11 @@ module.exports = {
     );
   },
 
-  mustNotHaveAType(expression) {
-    doCheck(!expression.type, "Expression must not have a type");
-  },
-
   isNumberOrString(expression) {
     doCheck(
       this.typesAreEquivalent(expression.type, NumType) ||
         this.typesAreEquivalent(expression.type, StringType),
       "Not a number or string"
-    );
-  },
-
-  isNumberOrBool(expression) {
-    doCheck(
-      expression.type === NumType || expression.type === BoolType,
-      "Not a number or boolean"
-    );
-  },
-
-  isPrimitive(expression) {
-    doCheck(
-      expression.type === NumType ||
-        expression.type === BoolType ||
-        expression.type === StringType,
-      "Not a primitive type (toeBeans, leash, goodBoy)"
     );
   },
 
@@ -189,11 +165,7 @@ module.exports = {
     const fieldVars = fields.map((field) => field.variable);
     doCheck(
       parameters.ids.every((paramId, i) => {
-        console.log(`MATCHING PARAM ${paramId.name} TO FIELD`);
-        console.log(`FIELD IDS: ${fieldIds}`);
         const matchingField = fieldIds.indexOf(paramId.name);
-        console.log("MATCHING FIELD INDEX");
-        console.log(matchingField);
         const fieldAndParamTypesMatch = this.typesAreEquivalent(
           parameters.types[i],
           fieldVars[matchingField].type

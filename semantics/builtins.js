@@ -35,34 +35,90 @@ const standardFunctions = [
   // built-in string functions:
   new FunctionDeclaration(
     new VariableExpression("size"),
-    new Parameters([StringType], [new VariableExpression("s")]),
-    NumType,
-    null // what to put here?
+    new Function(
+      new Parameters([StringType], [new VariableExpression("s")]),
+      NumType,
+      null
+    )
   ),
   new FunctionDeclaration(
     new VariableExpression("substring"),
-    new Parameters(
-      [StringType, NumType, NumType],
-      [
-        new VariableExpression("s"),
-        new VariableExpression("beginIndex"),
-        new VariableExpression("endIndex"),
-      ]
-    ),
-    StringType,
-    null // todo
+    new Function(
+      new Parameters(
+        [StringType, NumType, NumType],
+        [
+          new VariableExpression("s"),
+          new VariableExpression("beginIndex"),
+          new VariableExpression("endIndex"),
+        ]
+      ),
+      StringType,
+      null
+    )
   ),
   new FunctionDeclaration(
     new VariableExpression("containsSubstring"),
-    new Parameters([StringType], [new VariableExpression("substring")]),
-    BoolType,
-    null // todo
+    new Function(
+      new Parameters([StringType], [new VariableExpression("substring")]),
+      BoolType,
+      null
+    )
   ),
   new FunctionDeclaration(
-    new VariableExpression("indexOf"),
-    new Parameters([StringType], [new VariableExpression("substring")]),
-    NumType,
-    null // todo
+    new VariableExpression("indexOfChar"),
+    new Function(
+      new Parameters([StringType], [new VariableExpression("substring")]),
+      NumType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("toeBeansToLeash"),
+    new Function(
+      new Parameters([NumType], [new VariableExpression("number")]),
+      StringType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("leashToToeBeans"),
+    new Function(
+      new Parameters([StringType], [new VariableExpression("string")]),
+      NumType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("goodBoyToToeBeans"),
+    new Function(
+      new Parameters([BoolType], [new VariableExpression("boolean")]),
+      NumType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("toeBeansToGoodBoy"),
+    new Function(
+      new Parameters([NumType], [new VariableExpression("number")]),
+      BoolType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("leashToGoodBoy"),
+    new Function(
+      new Parameters([StringType], [new VariableExpression("string")]),
+      BoolType,
+      null
+    )
+  ),
+  new FunctionDeclaration(
+    new VariableExpression("goodBoyToLeash"),
+    new Function(
+      new Parameters([BoolType], [new VariableExpression("boolean")]),
+      StringType,
+      null
+    )
   ),
   // built-in list functions:
   // how do you a generic sort of function like this??? the parameter could be any type, whatever the type of the list is
@@ -70,14 +126,6 @@ const standardFunctions = [
   //       new VariableExpression("containsElement"),
   //       new Parameters([ListType, ??????????])
   //   )
-
-  // conversion between different primitive types:
-  // num -> string
-  // string -> num
-  // bool -> num
-  // num -> bool
-  // string --> bool
-  // bool -> string
 
   // standard toString function for any object:
 ];

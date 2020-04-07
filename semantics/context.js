@@ -93,7 +93,8 @@ Context.INITIAL = new Context();
 [...standardFunctions, NumType, BoolType, StringType].forEach((entity) => {
   if (entity.constructor === FunctionDeclaration) {
     Context.INITIAL.add(entity.id.name, entity.func);
-  } else if (entity.constructor === PrimitiveType) {
+  }
+  if (entity.constructor === PrimitiveType) {
     Context.INITIAL.add(entity.type, entity);
   }
 });
