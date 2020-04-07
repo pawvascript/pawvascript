@@ -252,6 +252,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     const ids = [arrayToNullable(firstId.ast())].concat(moreIds.ast());
     return new Parameters(types, ids);
   },
+  Exp_logop(left, logop, right) {
+    return new BinaryExpression(logop.ast(), left.ast(), right.ast());
+  },
   RelopExp_relop(term1, relop, term2) {
     return new BinaryExpression(relop.ast(), term1.ast(), term2.ast());
   },
@@ -266,6 +269,12 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
   },
   Factorial_postFix(primary, postfixOp) {
     return new UnaryExpression(arrayToNullable(postfixOp.ast()), primary.ast());
+  },
+  AtExp_array_index(left, op, right) {
+    return new BinaryExpression(op.ast(), left.ast(), right.ast());
+  },
+  OfExp_dictionary_lookup(left, op, right) {
+    return new BinaryExpression(op.ast(), left.ast(), right.ast());
   },
   Primary_parens(_1, exp, _2) {
     return exp.ast();

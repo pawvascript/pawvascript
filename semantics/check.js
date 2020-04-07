@@ -4,6 +4,7 @@ const {
   DictType,
   IdType,
   Function,
+  BreedType,
   //   FunctionDeclaration,
   VariableExpression,
 } = require("../ast");
@@ -80,9 +81,9 @@ module.exports = {
     );
   },
 
-  isFunction(value) {
+  isFunctionOrBreed(value) {
     doCheck(
-      value.constructor.name === "Function",
+      value.constructor.name === "Function" || value.constructor === BreedType,
       "Attempt to call a non-function"
     );
   },
@@ -184,11 +185,15 @@ module.exports = {
   },
 
   constructorParamsAreFields(parameters, fields) {
-    const fieldIds = fields.map((field) => field.id);
+    const fieldIds = fields.map((field) => field.id.name);
     const fieldVars = fields.map((field) => field.variable);
     doCheck(
       parameters.ids.every((paramId, i) => {
+        console.log(`MATCHING PARAM ${paramId.name} TO FIELD`);
+        console.log(`FIELD IDS: ${fieldIds}`);
         const matchingField = fieldIds.indexOf(paramId.name);
+        console.log("MATCHING FIELD INDEX");
+        console.log(matchingField);
         const fieldAndParamTypesMatch = this.typesAreEquivalent(
           parameters.types[i],
           fieldVars[matchingField].type
@@ -232,6 +237,18 @@ module.exports = {
       `Expected ${parameters.types.length} args in call, got ${args.length}`
     );
     args.forEach((arg, i) => this.isAssignableTo(arg, parameters.types[i]));
+  },
+
+  giveExpressionHasCorrectReturnType(expression, func) {
+    const giveType = expression === null ? null : expression.type;
+    const returnType = func.returnType;
+    doCheck(
+      (expression === null && returnType === null) ||
+        this.typesAreEquivalent(giveType, returnType),
+      `Expected function to return expression of type ${util.format(
+        returnType
+      )}, got ${util.format(giveType)}`
+    );
   },
 
   isValidSpread(expression) {

@@ -793,7 +793,7 @@ const fixture = {
           new Function(
             new Parameters(
               [new IdType("toeBeans"), new IdType("toeBeans")],
-              [new VariableExpression("num1"), new VariableExpression("num2")]
+              [new VariableExpression("a"), new VariableExpression("b")]
             ),
             new IdType("toeBeans"),
             new Block([

@@ -155,6 +155,7 @@ Function.prototype.analyze = function(context) {
 
 TypeDeclaration.prototype.analyze = function(context) {
   context.add(this.id.name, this.breedType);
+  this.id.analyze(context);
   this.breedType.analyze(context, this.id);
 };
 
@@ -185,7 +186,7 @@ ConstructorDeclaration.prototype.analyze = function(context, breedId) {
   this.constr.analyze(context, breedId);
 };
 
-Constructor.prototype.analyze = function(context, constructorId, breedId) {
+Constructor.prototype.analyze = function(context, breedId) {
   const currentBreed = context.lookup(breedId.name);
   if (this.parameters) {
     this.parameters.analyze(context);
@@ -258,10 +259,11 @@ AssignmentStatement.prototype.analyze = function(context) {
 
 FunctionCall.prototype.analyze = function(context) {
   // this.callee is at first a VariableExpression whose name is the id of the function
-  // replace this.callee with a pointer to the actual function defined in this context
-  // TODO toal question: or do we set the VariableExpresion's ref???
   this.callee.analyze(context);
-  check.isFunction(this.callee.ref);
+  check.isFunctionOrBreed(this.callee.ref);
+  if (this.callee.ref.constructor === BreedType) {
+    this.callee.ref = this.callee.ref.constructors[0].constr;
+  }
   this.args.forEach((arg) => arg.analyze(context));
   check.legalArguments(this.args, this.callee.ref.parameters);
   this.type = this.callee.ref.returnType;
@@ -273,8 +275,13 @@ PrintStatement.prototype.analyze = function(context) {
 
 GiveStatement.prototype.analyze = function(context) {
   check.inFunction(context, "give");
-  this.expression.analyze(context);
-  check.typesMatch(this.expression.type, context.currentFunction.returnType);
+  if (this.expression) {
+    this.expression.analyze(context);
+  }
+  check.giveExpressionHasCorrectReturnType(
+    this.expression,
+    context.currentFunction
+  );
 };
 
 BreakStatement.prototype.analyze = function(context) {
@@ -383,8 +390,24 @@ UnaryExpression.prototype.analyze = function(context) {
 
 BinaryExpression.prototype.analyze = function(context) {
   this.left.analyze(context);
-  this.right.analyze(context);
-  if (/^(?:[-+*/]|mod)$/.test(this.op)) {
+  if (this.op !== "'s") {
+    this.right.analyze(context);
+  }
+  if (/^'s$/.test(this.op)) {
+    const obj = this.left.ref.type.ref;
+
+    console.log("ANALYZER > BINARY EXPRESSION > IF OP IS 's");
+    console.log("LEFT OBJECT:");
+    console.log(this.left.ref.type.ref);
+    console.log("RIGHT:");
+    console.log(this.right);
+
+    const memberId = this.right;
+    memberId.ref = obj.members.get(memberId.name);
+    this.type = memberId.ref;
+    console.log("SETTING THIS.TYPE TO BE: ");
+    console.log(this.type);
+  } else if (/^(?:[-+*/]|mod)$/.test(this.op)) {
     check.isNumber(this.left);
     check.isNumber(this.right);
     this.type = NumType;
@@ -417,8 +440,8 @@ BinaryExpression.prototype.analyze = function(context) {
     check.typesMatch(this.left.valueType, this.right.type);
     check.isDict(this.left);
     this.type = this.left.valueType;
-  } else {
-    check.expressionsHaveTheSameType(this.left, this.right);
   }
-  //TODO: Not sure about this. I believe we have covered every binary exp
+  //  else {
+  //   check.expressionsHaveTheSameType(this.left, this.right);
+  // }
 };
