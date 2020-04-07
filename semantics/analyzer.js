@@ -73,8 +73,8 @@ ConditionalStatement.prototype.analyze = function(context) {
 };
 
 InfiniteLoopStatement.prototype.analyze = function(context) {
-  const bodyContext = context.createChildContextForLoop();
-  this.body.analyze(bodyContext);
+  const loopContext = context.createChildContextForLoop();
+  this.body.analyze(loopContext);
 };
 
 ForLoopStatement.prototype.analyze = function(context) {
@@ -95,27 +95,27 @@ ThroughLoopStatement.prototype.analyze = function(context) {
   check.isListType(this.group.type);
   const listMemberType = this.group.memberType;
 
-  const bodyContext = context.createChildContextForLoop();
+  const loopContext = context.createChildContextForLoop();
 
-  bodyContext.add(this.localVar.name, new Variable(listMemberType));
-  this.localVar.analyze(bodyContext);
+  loopContext.add(this.localVar.name, new Variable(listMemberType));
+  this.localVar.analyze(loopContext);
   this.localVar.ref.isReadOnly = true;
 
-  this.body.analyze(bodyContext);
+  this.body.analyze(loopContext);
 };
 
 WhileLoopStatement.prototype.analyze = function(context) {
-  const bodyContext = context.createChildContextForLoop();
-  this.condition.analyze(bodyContext);
+  const loopContext = context.createChildContextForLoop();
+  this.condition.analyze(loopContext);
   check.isBool(this.condition);
-  this.body.analyze(bodyContext);
+  this.body.analyze(loopContext);
 };
 
 FixedLoopStatement.prototype.analyze = function(context) {
-  const bodyContext = context.createChildContextForLoop();
-  this.expression.analyze(bodyContext);
+  const loopContext = context.createChildContextForLoop();
+  this.expression.analyze(loopContext);
   check.isNumber(this.expression);
-  this.body.analyze(bodyContext);
+  this.body.analyze(loopContext);
 };
 
 VariableDeclaration.prototype.analyze = function(context) {
@@ -162,11 +162,13 @@ BreedType.prototype.analyze = function(context, breedId) {
     field.analyze(context);
     this.members.set(field.id.name, field.variable);
   });
+
   this.methods.forEach((method) => {
     check.identifierHasNotBeenUsed(method.id.name, this.members);
     method.analyze(context, this.members);
     this.members.set(method.id.name, method.func);
   });
+
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
   // allow us to have multiple constructors for a single BreedType.
@@ -297,7 +299,7 @@ TemplateLiteral.prototype.analyze = function(context) {
 PackLiteral.prototype.analyze = function(context) {
   let firstElementType = null;
   if (this.elements.length > 0) {
-    this.elements[0].analyze();
+    this.elements[0].analyze(context);
     // extract type of first element to compare all other elements to
     firstElementType =
       // first element may be a list with a spread operator
@@ -314,8 +316,7 @@ PackLiteral.prototype.analyze = function(context) {
     }
     check.typesMatch(element.type, firstElementType);
   });
-  const memberType = this.elements.length > 0 ? firstElementType : null;
-  this.type = new ListType(memberType);
+  this.type = new ListType(firstElementType);
 };
 
 ListElement.prototype.analyze = function(context) {
@@ -330,10 +331,10 @@ KennelLiteral.prototype.analyze = function(context) {
     check.typesMatch(keyValuePair.value.type, this.keyValuePairs[0].value.type);
   });
 
-  const keyType =
-    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].key.type : null;
-  const valueType =
-    this.keyValuePairs.length > 0 ? this.keyValuePairs[0].value.type : null;
+  const [keyType, valueType] =
+    this.keyValuePairs.length > 0
+      ? [this.keyValuePairs[0].key.type, this.keyValuePairs[0].value.type]
+      : [null, null];
   this.type = new DictType(keyType, valueType);
 };
 
