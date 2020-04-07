@@ -213,25 +213,6 @@ Method.prototype.analyze = function(context, breedMembers) {
   this.func.analyze(bodyContext);
 };
 
-// Question what to do here?
-// PrimitiveType.prototype.analyze = function() {
-//   //check that name is toeBeans, leash, or goodBoy?
-//   //change this.type?
-//   // currently, `this` is an object of type PrimitiveType whose `type` field is "goodBoy"
-//   // .......and `BoolType` is also an object of type PrimitiveType, whose `type` field is "goodBoy"
-//   // so they are structurally identical, but they point to two separate objects in memory
-//   // this is currently just changing the pointers so that they point to the same object in memory
-//   // i.e., there is only ONE BoolType object (like a singleton)
-//   // is this necessary???
-//   if (this.type === "goodBoy") {
-//     this.type = BoolType;
-//   } else if (this.type === "leash") {
-//     this.type = StringType;
-//   } else if (this.type === "toeBeans") {
-//     this.type = NumType;
-//   }
-// };
-
 ListType.prototype.analyze = function(context) {
   this.memberType.analyze(context);
 };
@@ -260,7 +241,9 @@ AssignmentStatement.prototype.analyze = function(context) {
 FunctionCall.prototype.analyze = function(context) {
   // this.callee is at first a VariableExpression whose name is the id of the function
   this.callee.analyze(context);
+
   check.isFunctionOrBreed(this.callee.ref);
+
   if (this.callee.ref.constructor === BreedType) {
     this.callee.ref = this.callee.ref.constructors[0].constr;
   }
@@ -395,18 +378,9 @@ BinaryExpression.prototype.analyze = function(context) {
   }
   if (/^'s$/.test(this.op)) {
     const obj = this.left.ref.type.ref;
-
-    console.log("ANALYZER > BINARY EXPRESSION > IF OP IS 's");
-    console.log("LEFT OBJECT:");
-    console.log(this.left.ref.type.ref);
-    console.log("RIGHT:");
-    console.log(this.right);
-
     const memberId = this.right;
     memberId.ref = obj.members.get(memberId.name);
-    this.type = memberId.ref;
-    console.log("SETTING THIS.TYPE TO BE: ");
-    console.log(this.type);
+    this.ref = memberId.ref;
   } else if (/^(?:[-+*/]|mod)$/.test(this.op)) {
     check.isNumber(this.left);
     check.isNumber(this.right);

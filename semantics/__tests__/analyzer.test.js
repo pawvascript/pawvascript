@@ -19,196 +19,196 @@ const fixture = {
   emptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is [:];`,
   nonEmptyListVariableDeclaration: String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
   listVariableDeclarationWithSpreadOnPackLiteral: String.raw`
-        pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
-      `,
+          pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
+        `,
   listVariableDeclarationWithSpreadOnVarExp: String.raw`
-          pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];
-          pack[leash] allDogs is ["Bear", "Bermuda", peanutButter dogs];
-        `,
+            pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];
+            pack[leash] allDogs is ["Bear", "Bermuda", peanutButter dogs];
+          `,
   listVariableDeclarationUsingWithout: String.raw`
-          pack[leash] fewerDogs is ["CeCe", "Buster", "Dumpling"] without "CeCe";
-        `,
+            pack[leash] fewerDogs is ["CeCe", "Buster", "Dumpling"] without "CeCe";
+          `,
   nonEmptyDictVariableDeclaration: String.raw`kennel[leash:toeBeans] dogs is ["CeCe":1, "Buster":2, "Mo":3];`,
   /* String Operations */
   leashConcatenation: String.raw`leash dogName is "Ce" with "Ce";`,
   stringInterpolation: String.raw`
-        toeBeans x is 1;
-        leash sentence is "![x] is a good girl";
-      `,
+          toeBeans x is 1;
+          leash sentence is "![x] is a good girl";
+        `,
   stringInterpolationInMiddleOfString: String.raw`
-        leash name is "CeCe";
-        leash phrase is "Come back here, ![name]. Good girl.";
-      `,
+          leash name is "CeCe";
+          leash phrase is "Come back here, ![name]. Good girl.";
+        `,
   /* Assignment */
   variableAssignment: String.raw`
-        toeBeans cuteness is 0;
-        cuteness is 100;
-      `,
+          toeBeans cuteness is 0;
+          cuteness is 100;
+        `,
   /* Relops */
   equalityOperators: String.raw`
-        leash name is "CeCe";
-        leash nickname is "CeCe";
-        toeBeans age1 is 1;
-        toeBeans age2 is 2;
-        goodBoy testBool1 is "CeCe" equals "CeCe";
-        goodBoy testBool2 is name equals "CeCe";
-        goodBoy testBool3 is "CeCe" equals nickname;
-        goodBoy testBool4 is name equals nickname;
-        goodBoy testBool5 is age1 equals 1;
-        goodBoy testBool6 is 2 equals age2;
-        goodBoy testBool7 is age1 notEquals age2;
-      `,
+          leash name is "CeCe";
+          leash nickname is "CeCe";
+          toeBeans age1 is 1;
+          toeBeans age2 is 2;
+          goodBoy testBool1 is "CeCe" equals "CeCe";
+          goodBoy testBool2 is name equals "CeCe";
+          goodBoy testBool3 is "CeCe" equals nickname;
+          goodBoy testBool4 is name equals nickname;
+          goodBoy testBool5 is age1 equals 1;
+          goodBoy testBool6 is 2 equals age2;
+          goodBoy testBool7 is age1 notEquals age2;
+        `,
   greaterThanLessThanComparators: String.raw`
-        toeBeans age1 is 1;
-        toeBeans age2 is 2;
-        goodBoy testBool1 is age1 isGreaterThan age2;
-        goodBoy testBool2 is age1 isLessThan age2;
-      `,
+          toeBeans age1 is 1;
+          toeBeans age2 is 2;
+          goodBoy testBool1 is age1 isGreaterThan age2;
+          goodBoy testBool2 is age1 isLessThan age2;
+        `,
   greaterThanLessThanOrEqualToComparators: String.raw`
-        toeBeans age1 is 1;
-        toeBeans age2 is 2;
-        goodBoy testBool1 is age1 isAtLeast age2;
-        goodBoy testBool2 is age1 isAtMost age2;
-      `,
+          toeBeans age1 is 1;
+          toeBeans age2 is 2;
+          goodBoy testBool1 is age1 isAtLeast age2;
+          goodBoy testBool2 is age1 isAtMost age2;
+        `,
   logicalNegation: String.raw`
-      goodBoy x is good;
-      goodBoy y is bad;
-      goodBoy z is not y;
-    `,
+        goodBoy x is good;
+        goodBoy y is bad;
+        goodBoy z is not y;
+      `,
   /* Arithmetic */
   arithmeticOperators: String.raw`
-      toeBeans x is 100;
-      toeBeans y is -50;
-      toeBeans a is x + y;
-      a is x - y;
-      a is x * y;
-      a is x / y;
-      a is x mod y;
-      a is x!;
-      a is -x;
-    `,
+        toeBeans x is 100;
+        toeBeans y is -50;
+        toeBeans a is x + y;
+        a is x - y;
+        a is x * y;
+        a is x / y;
+        a is x mod y;
+        a is x!;
+        a is -x;
+      `,
   /* Conditionals */
   ifStatement: String.raw`
-      goodBoy x is good;
-      if x then:
-          x is bad;
-      tail
-    `,
+        goodBoy x is good;
+        if x then:
+            x is bad;
+        tail
+      `,
   ifElseStatement: String.raw`
-      toeBeans x is 1;
-      toeBeans y is 1;
-      if x isAtLeast y then:
-          leash dogName is "CeCe";
-      else:
-          leash dogName is "Fluffy";
-          toeBeans dogAge is 12;
-      tail
-    `,
+        toeBeans x is 1;
+        toeBeans y is 1;
+        if x isAtLeast y then:
+            leash dogName is "CeCe";
+        else:
+            leash dogName is "Fluffy";
+            toeBeans dogAge is 12;
+        tail
+      `,
   ifElseIfStatement: String.raw`
-      toeBeans x is 1;
-      toeBeans y is 1;
-      if x notEquals y then:
-          woof "CeCe is kinda cute";
-      else if x isGreaterThan y then:
-          woof "CeCe is pretty cute";
-      else if x isLessThan y then:
-          woof "Okay, CeCe is really cute";
-      else:
-          woof "CeCe is the cutest of the cutest";
-      tail
-    `,
+        toeBeans x is 1;
+        toeBeans y is 1;
+        if x notEquals y then:
+            woof "CeCe is kinda cute";
+        else if x isGreaterThan y then:
+            woof "CeCe is pretty cute";
+        else if x isLessThan y then:
+            woof "Okay, CeCe is really cute";
+        else:
+            woof "CeCe is the cutest of the cutest";
+        tail
+      `,
   /* Comments */
   oneLineComment: String.raw`!!! I'm a one line comment !!!`,
   multiLineComment: String.raw`!!! I'm a \n multiline \n comment !!!`,
   /* Loops */
   infiniteLoop: String.raw`chase: woof "I run forever"; tail
-    `,
+      `,
   fixedLoop: String.raw`chase 5 times: woof "Stay"; tail`,
   whileLoop: String.raw`
-      toeBeans x is 5;
-      chase while x isAtMost 5:
-          woof x;
-      tail
-    `,
+        toeBeans x is 5;
+        chase while x isAtMost 5:
+            woof x;
+        tail
+      `,
   forLoop: String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10: woof i; tail`,
   forEachLoop: String.raw`
-      pack[leash] mypack is ["CeCe", "Buster", "Dumpling"];
-      chase element through mypack:
-          woof element;
-      tail
-    `,
+        pack[leash] mypack is ["CeCe", "Buster", "Dumpling"];
+        chase element through mypack:
+            woof element;
+        tail
+      `,
   loopWithPoopStatement: String.raw`
-       chase:
-          woof "I run forever\!";
-          poop;
-      tail
-    `,
+         chase:
+            woof "I run forever\!";
+            poop;
+        tail
+      `,
   loopWithWalkiesStatement: String.raw`
-      chase toeBeans i is 0 by i*2 while i isLessThan 10:
-          if i mod 2 equals 0 then:
-              walkies;
-          tail
-          woof i;
-      tail
-    `,
+        chase toeBeans i is 0 by i*2 while i isLessThan 10:
+            if i mod 2 equals 0 then:
+                walkies;
+            tail
+            woof i;
+        tail
+      `,
   /* Function Declarations */
   functionDeclaration: String.raw`
-      trick gcd chews[toeBeans:a, toeBeans:b] fetches toeBeans:
-          toeBeans remainder;
-          chase while (a mod b) isGreaterThan 0:
-              remainder is (a mod b);
-              a is b;
-              b is remainder;
-          tail
-          give a;
-      tail
-      toeBeans greatestCommonDivisor is gcd(21, 49);
-    `,
+        trick gcd chews[toeBeans:a, toeBeans:b] fetches toeBeans:
+            toeBeans remainder;
+            chase while (a mod b) isGreaterThan 0:
+                remainder is (a mod b);
+                a is b;
+                b is remainder;
+            tail
+            give a;
+        tail
+        toeBeans greatestCommonDivisor is gcd(21, 49);
+      `,
   /* Function Call */
   functionCallWithoutArgs: String.raw`
-      trick f:
-          give;
-      tail
-      f();
-    `,
+        trick f:
+            give;
+        tail
+        f();
+      `,
   functionCallWithArgs: String.raw`
-      trick f chews[toeBeans:num1]:
-          give;
-      tail
-      f(100);
-    `,
+        trick f chews[toeBeans:num1]:
+            give;
+        tail
+        f(100);
+      `,
   functionCallAsVarDecExp: String.raw`
-    trick f chews[toeBeans:num1]:
-        give num1;
-    tail
-    toeBeans result is f(100);
-  `,
+      trick f chews[toeBeans:num1]:
+          give num1;
+      tail
+      toeBeans result is f(100);
+    `,
   /* Breed Declarations */
   emptyBreedDeclaration: String.raw`
-      breed Owner is:
-      tail
-    `,
+        breed Owner is:
+        tail
+      `,
   breedWithFields: String.raw`
-      breed PetSitter is:
-        leash name;
-        toeBeans yearsOfExperience is 0;
-      tail
-    `,
+        breed PetSitter is:
+          leash name;
+          toeBeans yearsOfExperience is 0;
+        tail
+      `,
   breedWithFieldAndMethods: String.raw`
-      breed DogHotel is:
-        leash name;
-        trick greet:
-          woof "Welcome to our Dog Hotel";
+        breed DogHotel is:
+          leash name;
+          trick greet:
+            woof "Welcome to our Dog Hotel";
+          tail
         tail
-      tail
-    `,
+      `,
   breedWithMethod: String.raw`
-      breed DogLover is:
-        trick barkAtDog:
-          bark "woof woof";
+        breed DogLover is:
+          trick barkAtDog:
+            bark "woof woof";
+          tail
         tail
-      tail
-    `,
+      `,
   breedWithEverything: String.raw`
     breed DogHotel is:
       leash name;
