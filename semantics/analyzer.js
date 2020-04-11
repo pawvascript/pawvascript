@@ -58,6 +58,18 @@ Program.prototype.analyze = function(context) {
 
 Block.prototype.analyze = function(context) {
   const newContext = context.createChildContextForBlock();
+
+  this.statements
+    .filter((s) => s.constructor === TypeDeclaration)
+    .map((s) => newContext.add(s.id.name, s.breedType));
+
+  this.statements
+    .filter((s) => s.constructor === FunctionDeclaration)
+    .map((s) => s.func.analyzeSignature(newContext));
+  this.statements
+    .filter((s) => s.constructor === FunctionDeclaration)
+    .map((s) => newContext.add(s.id.name, s.func));
+
   this.statements.forEach((statement) => {
     statement.analyze(newContext);
   });
@@ -70,6 +82,7 @@ ConditionalStatement.prototype.analyze = function(context) {
   if (this.otherwise) {
     this.otherwise.analyze(context);
   }
+  // TODO if in current function, make sure all branches have a return statement
 };
 
 InfiniteLoopStatement.prototype.analyze = function(context) {
@@ -132,24 +145,40 @@ Variable.prototype.analyze = function(context) {
   check.expressionsHaveTheSameType(this, this.initializerExp);
 };
 
-FunctionDeclaration.prototype.analyze = function(context) {
-  context.add(this.id.name, this.func);
-  const bodyContext = context.createChildContextForFunctionBody(this.func);
-  this.func.analyze(bodyContext);
+FunctionDeclaration.prototype.analyze = function(/*context*/) {
+  //   context.add(this.id.name, this.func);
+  //   const bodyContext = context.createChildContextForFunctionBody(this.func);
+  //   this.func.analyze(bodyContext);
+  this.func.analyze();
 };
 
-Function.prototype.analyze = function(context) {
+Function.prototype.analyzeSignature = function(context) {
+  const bodyContext = context.createChildContextForFunctionBody(this);
+  this.bodyContext = bodyContext;
   if (this.parameters) {
-    this.parameters.analyze(context);
+    this.parameters.analyze(bodyContext);
   }
   if (this.returnType) {
-    this.returnType.analyze(context);
+    this.returnType.analyze(bodyContext);
   }
-  this.body.analyze(context);
+};
+
+Function.prototype.analyze = function(/*context*/) {
+  //   if (this.parameters) {
+  //     this.parameters.analyze(context);
+  //   }
+  //   if (this.returnType) {
+  //     this.returnType.analyze(context);
+  //   }
+
+  //   this.body.analyze(context);
+  this.body.analyze(this.bodyContext);
+  check.functionWithReturnTypeContainsGiveStatement(this);
+  delete this.bodyContext;
 };
 
 TypeDeclaration.prototype.analyze = function(context) {
-  context.add(this.id.name, this.breedType);
+  //   context.add(this.id.name, this.breedType);
   this.id.analyze(context);
   this.breedType.analyze(context, this.id);
 };
@@ -165,7 +194,8 @@ BreedType.prototype.analyze = function(context, breedId) {
 
   this.methods.forEach((method) => {
     check.identifierHasNotBeenUsed(method.id.name, this.members);
-    method.analyze(context, this.members);
+    // method.analyze(context, this.members);
+    method.func.analyzeSignature(context);
     this.members.set(method.id.name, method.func);
   });
 
@@ -200,11 +230,12 @@ Field.prototype.analyze = function(context) {
 };
 
 Method.prototype.analyze = function(context, breedMembers) {
-  const bodyContext = context.createChildContextForFunctionBody(this.func);
+  //   const bodyContext = context.createChildContextForFunctionBody(this.func);
   breedMembers.forEach((member, id) => {
-    bodyContext.add(id, member);
+    this.func.bodyContext.add(id, member);
   });
-  this.func.analyze(bodyContext);
+  //   this.func.analyze(bodyContext);
+  this.func.analyze();
 };
 
 ListType.prototype.analyze = function(context) {

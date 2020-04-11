@@ -5,6 +5,7 @@ const {
   IdType,
   BreedType,
   VariableExpression,
+  GiveStatement,
 } = require("../ast");
 const { NumType, StringType, BoolType } = require("./builtins");
 
@@ -197,6 +198,15 @@ module.exports = {
       `Expected ${parameters.types.length} args in call, got ${args.length}`
     );
     args.forEach((arg, i) => this.isAssignableTo(arg, parameters.types[i]));
+  },
+
+  functionWithReturnTypeContainsGiveStatement(func) {
+    doCheck(
+      func.body.statements.some((s) => s.constructor === GiveStatement),
+      `Expected function to return expression of type ${util.format(
+        func.returnType
+      )}, but body does not contain a give statement`
+    );
   },
 
   giveExpressionHasCorrectReturnType(expression, func) {
