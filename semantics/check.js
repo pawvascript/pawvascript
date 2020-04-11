@@ -16,36 +16,42 @@ function doCheck(condition, message) {
 }
 
 module.exports = {
-  // Is this type an array type?
+  // Returns whether the given type is a ListType
   isListType(type) {
     return this.typesAreEquivalent(new ListType(null), type);
   },
 
-  // Is the type of this expression an array type?
+  // Verifies that the type of the given expression a list type
   isList(expression) {
     doCheck(expression.type.constructor === ListType, "Not a list");
   },
 
+  // Returns whether the given type is a DictType
   isDictType(type) {
     return this.typesAreEquivalent(new DictType(null, null), type);
   },
 
+  // Verifies that the type of the given expression a dictionary type
   isDict(expression) {
     doCheck(expression.type.constructor === DictType, "Not a dictionary");
   },
 
+  // Returns whether the given type is a NumType
   isNumType(type) {
     return this.typesAreEquivalent(type, NumType);
   },
 
+  // Verifies that the type of the given expression a number type
   isNumber(expression) {
     doCheck(this.typesAreEquivalent(expression.type, NumType), "Not a number");
   },
 
+  // Returns whether the given type is a StringType
   isStringType(type) {
     return this.typesAreEquivalent(type, StringType);
   },
 
+  // Verifies that the type of the given expression a string type
   isString(expression) {
     doCheck(
       this.typesAreEquivalent(expression.type, StringType),
@@ -53,10 +59,12 @@ module.exports = {
     );
   },
 
+  // Returns whether the given type is a BoolType
   isBoolType(type) {
     return this.typesAreEquivalent(type, BoolType);
   },
 
+  // Verifies that the type of the given expression a boolean type
   isBool(expression) {
     doCheck(
       this.typesAreEquivalent(expression.type, BoolType),
@@ -64,6 +72,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the type of the given expression a number type or string type
   isNumberOrString(expression) {
     doCheck(
       this.typesAreEquivalent(expression.type, NumType) ||
@@ -72,6 +81,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the given entity is a function or a breed
   isFunctionOrBreed(value) {
     doCheck(
       value.constructor.name === "Function" || value.constructor === BreedType,
@@ -100,6 +110,7 @@ module.exports = {
     }
   },
 
+  // Verifies that two types are equivalent
   typesMatch(t1, t2) {
     doCheck(
       this.typesAreEquivalent(t1, t2),
@@ -107,6 +118,7 @@ module.exports = {
     );
   },
 
+  // Verifies that two expressions have equivalent types
   expressionsHaveTheSameType(e1, e2) {
     if (e1 === null || e2 === null) {
       return;
@@ -119,7 +131,7 @@ module.exports = {
     );
   },
 
-  // Can we assign expression to a variable/param/field of type type?
+  // Verifies that we can assign the given expression to a variable/param/field of the given type
   isAssignableTo(expression, type) {
     let expressionType =
       expression.constructor === VariableExpression
@@ -136,11 +148,13 @@ module.exports = {
     );
   },
 
+  // Verifies that the given variable expression being assigned to is not read-only
   // Variables that are read-only include the length of a list, the index of a through loop, etc.
   isNotReadOnly(lvalue) {
     doCheck(!lvalue.isReadOnly, "Assignment to read-only variable");
   },
 
+  // Verifies that a breed member's identifier is unique
   identifierHasNotBeenUsed(identifierName, members) {
     doCheck(
       !members.has(identifierName),
@@ -148,6 +162,7 @@ module.exports = {
     );
   },
 
+  // Verifies that there is either 0 or 1 constructor
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
   // allow us to have multiple constructors for a single BreedType.
@@ -158,6 +173,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the constructor id is the same as the breed's id
   constructorNameMatchesBreedId(constructorId, breedId) {
     doCheck(
       constructorId.name === breedId.name,
@@ -165,6 +181,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the ids of the constructor's parameters are in the breed's fields
   constructorParamsAreFields(parameters, fields) {
     const fieldIds = fields.map((field) => field.id.name);
     const fieldVars = fields.map((field) => field.variable);
@@ -181,11 +198,12 @@ module.exports = {
     );
   },
 
+  // Verifies that the constructor has a return type (required)
   constructorHasReturnType(constr) {
     doCheck(constr.returnType !== null, `Constructors must have a return type`);
   },
 
-  // Checks that a breedType's constructor has a return type and that the return type is the breed itself
+  // Verifies that a breedType's constructor's return type is the breed itself
   constructorReturnsBreedType(constr, breed) {
     doCheck(
       this.typesAreEquivalent(constr.returnType, breed),
@@ -193,10 +211,12 @@ module.exports = {
     );
   },
 
+  // Verifies that the given keyword is being validly used in a loop context
   inLoop(context, keyword) {
     doCheck(context.inLoop, `${keyword} can only be used in a loop`);
   },
 
+  // Verifies that a function or type declaration does not occur in a loop context
   funcOrTypeDecNotInLoop(context) {
     doCheck(
       !context.inLoop,
@@ -204,6 +224,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the given keyword is being validly used in a function context
   inFunction(context, keyword) {
     doCheck(
       context.currentFunction !== null,
@@ -211,7 +232,7 @@ module.exports = {
     );
   },
 
-  // Same number of args and params; all types compatible
+  // Verifies that there are the same number of args and params, and all types compatible
   legalArguments(args, parameters) {
     if (args.length === 0 && parameters === null) {
       return;
@@ -223,6 +244,7 @@ module.exports = {
     args.forEach((arg, i) => this.isAssignableTo(arg, parameters.types[i]));
   },
 
+  // Verifies that a function with a non-null return type contains at least one return statement in its body.
   functionWithReturnTypeContainsGiveStatement(func) {
     if (func.returnType === null) {
       return;
@@ -235,6 +257,7 @@ module.exports = {
     );
   },
 
+  // Verifies that the returned expression has the same type as the function's return type
   giveExpressionHasCorrectReturnType(expression, func) {
     const giveType = expression === null ? null : expression.type;
     const returnType = func.returnType;
@@ -247,14 +270,12 @@ module.exports = {
     );
   },
 
+  // Verifies that the spread operator is only used in front of a list element that is also a list type
   isValidSpread(expression) {
     const expressionType =
       expression.constructor === VariableExpression
         ? expression.ref.type
         : expression.type;
-    doCheck(
-      expressionType.constructor === ListType,
-      "Not a valid spread operator"
-    );
+    doCheck(this.isListType(expressionType), "Not a valid spread operator");
   },
 };

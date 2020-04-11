@@ -100,7 +100,8 @@ const standardFunctions = [
       null
     )
   ),
-  // built-in list functions:
+  /* Built-In List Functions */
+
   // how do you a generic sort of function like this??? the parameter could be any type, whatever the type of the list is
   //   new FunctionDeclaration(
   //       new VariableExpression("containsElement"),
@@ -110,7 +111,6 @@ const standardFunctions = [
   // standard toString function for any object:
 ];
 
-// add a flag to functions to indicate they are standard
 // will not be pure pawvascript
 // can use function overloading
 

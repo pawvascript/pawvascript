@@ -70,10 +70,6 @@ Block.prototype.analyze = function(context) {
     .filter((s) => s.constructor === FunctionDeclaration)
     .map((s) => newContext.add(s.id.name, s.func));
 
-  //   this.statements.forEach((statement) => {
-  //     statement.analyze(newContext);
-  //   });
-
   this.statements
     .filter((s) => s.constructor === TypeDeclaration)
     .forEach((statement) => {
@@ -176,9 +172,6 @@ Variable.prototype.analyze = function(context) {
 };
 
 FunctionDeclaration.prototype.analyze = function(context) {
-  //   context.add(this.id.name, this.func);
-  //   const bodyContext = context.createChildContextForFunctionBody(this.func);
-  //   this.func.analyze(bodyContext);
   check.funcOrTypeDecNotInLoop(context);
   this.func.analyze();
 };
@@ -195,21 +188,12 @@ Function.prototype.analyzeSignature = function(context) {
 };
 
 Function.prototype.analyze = function(/*context*/) {
-  //   if (this.parameters) {
-  //     this.parameters.analyze(context);
-  //   }
-  //   if (this.returnType) {
-  //     this.returnType.analyze(context);
-  //   }
-
-  //   this.body.analyze(context);
   this.body.analyze(this.bodyContext);
   check.functionWithReturnTypeContainsGiveStatement(this);
   delete this.bodyContext;
 };
 
 TypeDeclaration.prototype.analyze = function(context) {
-  //   context.add(this.id.name, this.breedType);
   check.funcOrTypeDecNotInLoop(context);
   this.id.analyze(context);
   this.breedType.analyze(context, this.id);
@@ -226,7 +210,6 @@ BreedType.prototype.analyze = function(context, breedId) {
 
   this.methods.forEach((method) => {
     check.identifierHasNotBeenUsed(method.id.name, this.members);
-    // method.analyze(context, this.members);
     method.func.analyzeSignature(context);
     this.members.set(method.id.name, method.func);
   });
