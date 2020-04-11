@@ -18,7 +18,7 @@ function doCheck(condition, message) {
 module.exports = {
   // Is this type an array type?
   isListType(type) {
-    doCheck(type.constructor === ListType, "Not a list type");
+    return this.typesAreEquivalent(new ListType(null), type);
   },
 
   // Is the type of this expression an array type?
@@ -27,15 +27,23 @@ module.exports = {
   },
 
   isDictType(type) {
-    doCheck(type.constructor === DictType, "Not a dict type");
+    return this.typesAreEquivalent(new DictType(null, null), type);
   },
 
   isDict(expression) {
     doCheck(expression.type.constructor === DictType, "Not a dictionary");
   },
 
+  isNumType(type) {
+    return this.typesAreEquivalent(type, NumType);
+  },
+
   isNumber(expression) {
     doCheck(this.typesAreEquivalent(expression.type, NumType), "Not a number");
+  },
+
+  isStringType(type) {
+    return this.typesAreEquivalent(type, StringType);
   },
 
   isString(expression) {
@@ -43,6 +51,10 @@ module.exports = {
       this.typesAreEquivalent(expression.type, StringType),
       "Not a string"
     );
+  },
+
+  isBoolType(type) {
+    return this.typesAreEquivalent(type, BoolType);
   },
 
   isBool(expression) {

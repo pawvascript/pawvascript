@@ -116,7 +116,7 @@ ThroughLoopStatement.prototype.analyze = function(context) {
   this.group.analyze(context);
   // Note: PawvaScript currently only supports throughloops that iterate through a ListType.
   // In future iterations, we hope to implement iterating through other types like StringTypes and DictTypes.
-  check.isListType(this.group.type);
+  check.isList(this.group);
   const listMemberType = this.group.memberType;
 
   const loopContext = context.createChildContextForLoop();
@@ -149,15 +149,15 @@ VariableDeclaration.prototype.analyze = function(context) {
 };
 
 Variable.prototype.setDefaultValue = function() {
-  if (check.typesAreEquivalent(this.type, StringType)) {
+  if (check.isStringType(this.type)) {
     this.initilizerExp = new TemplateLiteral([new StringLiteral("")], null);
-  } else if (check.typesAreEquivalent(this.type, NumType)) {
+  } else if (check.isNumType(this.type)) {
     this.initializerExp = new NumberLiteral(0);
-  } else if (check.typesAreEquivalent(this.type, BoolType)) {
+  } else if (check.isBoolType(this.type)) {
     this.initializerExp = new BooleanLiteral(false);
-  } else if (check.typesAreEquivalent(new ListType(null), this.type)) {
+  } else if (check.isListType(this.type)) {
     this.initializerExp = new PackLiteral([]);
-  } else if (check.typesAreEquivalent(new DictType(null, null), this.type)) {
+  } else if (check.isDictType(this.type)) {
     this.initializerExp = new KennelLiteral([], []);
   }
 };

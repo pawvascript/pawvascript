@@ -10,7 +10,13 @@ const analyze = require("../analyzer");
 
 const fixture = {
   /* Basic Declarations */
-  uninitializedVariableDeclaration: String.raw`leash dogName;`,
+  uninitializedVariableDeclaration: String.raw`
+    leash dogName;
+    toeBeans dogAge;
+    goodBoy isGoodDog;
+    pack[leash] dogNames;
+    kennel[leash:toeBeans] dogAges;
+  `,
   variableDeclarationInitializedToNull: String.raw`leash dogName is cat;`,
   numberVariableDeclaration: String.raw`toeBeans CeCeAge is 1;`,
   booleanVariableDeclaration: String.raw`goodBoy isGoodBoy is good;`,
