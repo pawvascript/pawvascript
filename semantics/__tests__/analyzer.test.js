@@ -204,6 +204,15 @@ const fixture = {
       tail
       toeBeans result is f();
     `,
+  functionsThatCallEachOther: String.raw`
+    trick f fetches toeBeans:
+        give 2 * g();
+    tail
+    trick g fetches toeBeans:
+        give f() / 2;
+    tail
+    toeBeans result is f();
+  `,
   /* Function Call */
   functionCallWithoutArgs: String.raw`
         trick f:
@@ -223,6 +232,12 @@ const fixture = {
       tail
       toeBeans result is f(100);
     `,
+  functionCalledBeforeDeclaration: String.raw`
+    toeBeans result is f(100);
+    trick f chews[toeBeans:num1]:
+        give num1;
+    tail
+  `,
   /* Breed Declarations */
   emptyBreedDeclaration: String.raw`
         breed Owner is:
@@ -265,6 +280,27 @@ const fixture = {
     tail
     DogHotel myDogHotel is DogHotel("CeCe's Castle");
     myDogHotel's greet();
+  `,
+  breedsThatReferenceEachOther: String.raw`
+    breed Dog is:
+        leash name;
+        Owner myHuman;
+    tail
+    breed Owner is:
+        leash name;
+        Dog myDog;
+    tail
+  `,
+  breedInstantiationBeforeDeclaration: String.raw`
+    DogHotel myDogHotel is DogHotel("CeCe's Castle");
+    myDogHotel's greet();
+    breed DogHotel is:
+      leash name;
+      trick DogHotel chews[leash: name] fetches DogHotel;
+      trick greet:
+        woof "Welcome to our Dog Hotel";
+      tail
+    tail
   `,
 };
 

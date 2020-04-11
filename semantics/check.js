@@ -201,6 +201,9 @@ module.exports = {
   },
 
   functionWithReturnTypeContainsGiveStatement(func) {
+    if (func.returnType === null) {
+      return;
+    }
     doCheck(
       func.body.statements.some((s) => s.constructor === GiveStatement),
       `Expected function to return expression of type ${util.format(

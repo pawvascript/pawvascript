@@ -70,9 +70,20 @@ Block.prototype.analyze = function(context) {
     .filter((s) => s.constructor === FunctionDeclaration)
     .map((s) => newContext.add(s.id.name, s.func));
 
-  this.statements.forEach((statement) => {
-    statement.analyze(newContext);
-  });
+  //   this.statements.forEach((statement) => {
+  //     statement.analyze(newContext);
+  //   });
+
+  this.statements
+    .filter((s) => s.constructor === TypeDeclaration)
+    .forEach((statement) => {
+      statement.analyze(newContext);
+    });
+  this.statements
+    .filter((s) => s.constructor !== TypeDeclaration)
+    .forEach((statement) => {
+      statement.analyze(newContext);
+    });
 };
 
 ConditionalStatement.prototype.analyze = function(context) {
@@ -198,6 +209,9 @@ BreedType.prototype.analyze = function(context, breedId) {
     method.func.analyzeSignature(context);
     this.members.set(method.id.name, method.func);
   });
+  this.methods.forEach((method) => {
+    method.analyze(this.members);
+  });
 
   // Note: PawvaScript currently only supports having at most one constructor per TypeDeclaration.
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
@@ -229,7 +243,7 @@ Field.prototype.analyze = function(context) {
   this.variable.analyze(context);
 };
 
-Method.prototype.analyze = function(context, breedMembers) {
+Method.prototype.analyze = function(/*context, */ breedMembers) {
   //   const bodyContext = context.createChildContextForFunctionBody(this.func);
   breedMembers.forEach((member, id) => {
     this.func.bodyContext.add(id, member);
