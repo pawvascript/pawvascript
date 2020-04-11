@@ -175,10 +175,11 @@ Variable.prototype.analyze = function(context) {
   check.expressionsHaveTheSameType(this, this.initializerExp);
 };
 
-FunctionDeclaration.prototype.analyze = function(/*context*/) {
+FunctionDeclaration.prototype.analyze = function(context) {
   //   context.add(this.id.name, this.func);
   //   const bodyContext = context.createChildContextForFunctionBody(this.func);
   //   this.func.analyze(bodyContext);
+  check.funcOrTypeDecNotInLoop(context);
   this.func.analyze();
 };
 
@@ -209,6 +210,7 @@ Function.prototype.analyze = function(/*context*/) {
 
 TypeDeclaration.prototype.analyze = function(context) {
   //   context.add(this.id.name, this.breedType);
+  check.funcOrTypeDecNotInLoop(context);
   this.id.analyze(context);
   this.breedType.analyze(context, this.id);
 };

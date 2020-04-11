@@ -197,6 +197,13 @@ module.exports = {
     doCheck(context.inLoop, `${keyword} can only be used in a loop`);
   },
 
+  funcOrTypeDecNotInLoop(context) {
+    doCheck(
+      !context.inLoop,
+      `Functions and types cannot be declared in a loop`
+    );
+  },
+
   inFunction(context, keyword) {
     doCheck(
       context.currentFunction !== null,
