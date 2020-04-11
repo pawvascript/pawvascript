@@ -89,7 +89,6 @@ ConditionalStatement.prototype.analyze = function(context) {
   if (this.otherwise) {
     this.otherwise.analyze(context);
   }
-  // TODO if in current function, make sure all branches have a return statement
 };
 
 InfiniteLoopStatement.prototype.analyze = function(context) {
@@ -247,7 +246,7 @@ Constructor.prototype.analyze = function(context, breedId) {
     check.constructorParamsAreFields(this.parameters, currentBreed.fields);
   }
 
-  // set default values for all fields (primitive, list, and dict types only) that are not initialized by the constructor
+  // Set default values for all fields (primitive, list, and dict types only) that are not initialized by the constructor
   currentBreed.fields.forEach((field) => {
     if (this.parameters && !this.parameters.ids.includes(field.id)) {
       field.variable.setDefaultValue();
@@ -264,11 +263,9 @@ Field.prototype.analyze = function(context) {
 };
 
 Method.prototype.analyze = function(/*context, */ breedMembers) {
-  //   const bodyContext = context.createChildContextForFunctionBody(this.func);
   breedMembers.forEach((member, id) => {
     this.func.bodyContext.add(id, member);
   });
-  //   this.func.analyze(bodyContext);
   this.func.analyze();
 };
 
@@ -365,9 +362,9 @@ PackLiteral.prototype.analyze = function(context) {
   let firstElementType = null;
   if (this.elements.length > 0) {
     this.elements[0].analyze(context);
-    // extract type of first element to compare all other elements to
+    // Extract type of first element to compare all other elements to
     firstElementType =
-      // first element may be a list with a spread operator
+      // First element may be a list with a spread operator
       this.elements[0].hasSpread &&
       this.elements[0].type.constructor === ListType
         ? this.elements[0].type.memberType
