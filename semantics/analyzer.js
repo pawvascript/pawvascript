@@ -148,8 +148,27 @@ VariableDeclaration.prototype.analyze = function(context) {
   context.add(this.id.name, this.variable);
 };
 
+Variable.prototype.setDefaultValue = function() {
+  if (check.typesAreEquivalent(this.type, StringType)) {
+    this.initilizerExp = new TemplateLiteral([new StringLiteral("")], null);
+  } else if (check.typesAreEquivalent(this.type, NumType)) {
+    this.initializerExp = new NumberLiteral(0);
+  } else if (check.typesAreEquivalent(this.type, BoolType)) {
+    this.initializerExp = new BooleanLiteral(false);
+  } else if (check.typesAreEquivalent(new ListType(null), this.type)) {
+    this.initializerExp = new PackLiteral([]);
+  } else if (check.typesAreEquivalent(new DictType(null, null), this.type)) {
+    this.initializerExp = new KennelLiteral([], []);
+  }
+};
+
 Variable.prototype.analyze = function(context) {
   this.type.analyze(context);
+  if (!this.initializerExp) {
+    // Set default values for uninitialized primitive types, list types, and dict types.
+    // Uninitialized BreedType objects are still left uninitialized.
+    this.setDefaultValue();
+  }
   if (this.initializerExp) {
     this.initializerExp.analyze(context);
   }
@@ -233,6 +252,12 @@ Constructor.prototype.analyze = function(context, breedId) {
     this.parameters.analyze(context);
     check.constructorParamsAreFields(this.parameters, currentBreed.fields);
   }
+
+  currentBreed.fields.forEach((field) => {
+    if (!this.parameters.ids.includes(field.id)) {
+      field.variable.setDefaultValue();
+    }
+  });
 
   check.constructorHasReturnType(this);
   this.returnType.analyze(context);

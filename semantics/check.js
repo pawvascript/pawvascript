@@ -26,6 +26,10 @@ module.exports = {
     doCheck(expression.type.constructor === ListType, "Not a list");
   },
 
+  isDictType(type) {
+    doCheck(type.constructor === DictType, "Not a dict type");
+  },
+
   isDict(expression) {
     doCheck(expression.type.constructor === DictType, "Not a dictionary");
   },
