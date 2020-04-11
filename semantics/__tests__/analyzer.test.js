@@ -281,6 +281,19 @@ const fixture = {
     DogHotel myDogHotel is DogHotel("CeCe's Castle");
     myDogHotel's greet();
   `,
+  breedWithSomeUninitializedFields: String.raw`
+    breed DogHotel is:
+      leash name;
+      toeBeans capacity;
+      goodBoy open;
+      trick DogHotel chews[leash: name] fetches DogHotel;
+      trick greet:
+        woof "Welcome to our Dog Hotel";
+      tail
+    tail
+    DogHotel myDogHotel is DogHotel("CeCe's Castle");
+    myDogHotel's greet();
+  `,
   breedsThatReferenceEachOther: String.raw`
     breed Dog is:
         leash name;

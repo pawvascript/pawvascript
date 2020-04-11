@@ -236,6 +236,15 @@ BreedType.prototype.analyze = function(context, breedId) {
   // In future iterations, we hope to implement method overloading in PawvaScript, which would
   // allow us to have multiple constructors for a single BreedType.
   check.noMoreThanOneConstructor(this.constructors);
+  // If there is no constructor defined, provide a default constructor that takes in no parameters.
+  if (this.constructors.length === 0) {
+    this.constructors.push(
+      new ConstructorDeclaration(
+        new VariableExpression(breedId.name),
+        new Constructor(null, new IdType(breedId.name))
+      )
+    );
+  }
   this.constructors.forEach((constructorDec) => {
     constructorDec.analyze(context, breedId);
   });
@@ -253,8 +262,9 @@ Constructor.prototype.analyze = function(context, breedId) {
     check.constructorParamsAreFields(this.parameters, currentBreed.fields);
   }
 
+  // set default values for all fields (primitive, list, and dict types only) that are not initialized by the constructor
   currentBreed.fields.forEach((field) => {
-    if (!this.parameters.ids.includes(field.id)) {
+    if (this.parameters && !this.parameters.ids.includes(field.id)) {
       field.variable.setDefaultValue();
     }
   });
