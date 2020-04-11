@@ -195,6 +195,15 @@ const fixture = {
         tail
         toeBeans greatestCommonDivisor is gcd(21, 49);
       `,
+  functionDeclarationInFunction: String.raw`
+      trick f fetches toeBeans:
+          trick g fetches toeBeans:
+            give 2;
+          tail
+          give g();
+      tail
+      toeBeans result is f();
+    `,
   /* Function Call */
   functionCallWithoutArgs: String.raw`
         trick f:
