@@ -742,6 +742,43 @@ console.log(lucille.command());
     </tr>
 </table>
 
+### Static Semantic Errors
+
+<table>
+    <th>Error</th> <th style="color: green">Do This</th> <th style="color: red">Not This</th>
+    <tr>
+        <td>Variables must be declared before they are used.</td>
+        <td>
+<pre style="margin-left: 0; width: 100%; color: green">
+leash dogName;
+dogName is "CeCe";
+</pre>
+        </td>
+        <td>
+<pre style="margin-left: 0; width: 100%; color: red">
+dogName is "CeCe";
+</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>Variables cannot be redeclared within the same block.</td>
+        <td>
+<pre style="margin-left: 0; width: 100%; color: green">
+leash furColor is "brown";
+woof "fur color: ![furColor]";
+furColor is "black";
+woof "new fur color: ![furColor]";</pre>
+        </td>
+        <td>
+<pre style="margin-left: 0; width: 100%; color: red">
+leash furColor is "brown";
+woof "fur color: ![furColor]";
+leash furColor is "black";
+woof "new fur color: ![furColor]";</pre>
+        </td>
+    </tr>
+</table>
+
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
 <img alt='CeCe Coding Front View' src='images/CeCeCoding3.JPG' width='500px'/>
