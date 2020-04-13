@@ -45,14 +45,14 @@ Let's start with a classic.
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 woof "Hello, World!";
 bark "my ball!";
 howl "uh-oh";
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 console.log("Hello, World!";)
 console.log("my ball!".toUpperCase());
 console.error("uh-oh");
@@ -84,7 +84,7 @@ Variables are declared with their type.
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 leash dogName is "CeCe";
 toeBeans dogAge is 12;
 goodBoy isGoodBoy is good;
@@ -92,7 +92,7 @@ goodBoy isNaughtyDoggo is bad;
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let dogName = "CeCe";
 let dogAge = 12;
 let isGoodBoy = true;
@@ -102,13 +102,13 @@ let isNaughtyDoggo = bad;
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 pack[leash] dogNames is ["CeCe", "Fluffy"];
 kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let dogNames = ["CeCe", "Fluffy"];
 let dogAges = {"CeCe": 1, "Fluffy": 2};
 </pre>
@@ -116,13 +116,13 @@ let dogAges = {"CeCe": 1, "Fluffy": 2};
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 toeBeans cuteness; !!! Default value is 0 !!!
 cuteness is 100;
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let cuteness = 0;
 cuteness = 100;
 </pre>
@@ -130,14 +130,14 @@ cuteness = 100;
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 !!! cat is the equivalent of null. !!!
 !!! Any tpye can have the value cat !!!
 leash theBestestDog is cat;
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 
 let theBestestDog = null;
 </pre>
@@ -153,13 +153,13 @@ PawvaScript supports leash interpolation and concetation:
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 leash dogName is "Ce" with "Ce";
 leash sentence is "![dogName] is the best dog";
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let dogName = "Ce" + "Ce";
 let sentence = `${dogName} is the best dog";
 </pre>
@@ -175,13 +175,13 @@ Packs are the PawvaScript equivalent of lists in Python or arrays in JavaScript:
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 pack[leash] goodDogs is ["CeCe", "Buster", "Muffin"];
 pack[toeBeans] ages is [1, 1, 2];
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let goodDogs = ["CeCe", "Buster", "Muffin"];
 let ages = [1, 1, 2];
 </pre>
@@ -189,13 +189,13 @@ let ages = [1, 1, 2];
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 !!! "without" removes elements from a pack !!!
 pack[leash] bestDogs is goodDogs without "Muffin";
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
@@ -203,7 +203,7 @@ let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 !!! "peanutButter" is the spread operator !!!
 pack[leash] smallDogs is ["Tiny", "Teenie", "Boo"];
 pack[leash] bigDogs is ["Boofer", "Woofer," "Mo"];
@@ -212,13 +212,13 @@ pack[leash] allDogs is [
     peanutButter bigDogs
 ];
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 woof allDogs;
 !!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] !!!
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let smallDogs = ["Tiny", "Teenie", "Boo"];
 let bigDogs = ["Boofer", "Woofer", "Mo"];
 let allDogs = [
@@ -226,7 +226,7 @@ let allDogs = [
     ...bigDogs
 ];
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 console.log(allDogs);
 /* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] */
 </pre>
@@ -241,26 +241,26 @@ Kennels are data structures like Python dictionaries.
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 kennel[leash:leash] goodDogs is [
     "CeCe": "German Shepherd",
     "Buster": "Golden Doodle",
     "Mo": "Potato"
 ];
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 kennel[leash:toeBeans] ages is ["CeCe": 1, "Buster": 1, "Mo": 5];
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let goodDogs = {
     "CeCe": "German Shepherd",
     "Buster": "Golden Doodle",
     "Mo": "Potato" 
 };
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let ages = {CeCe: 1, Buster: 1, Mo: 5};
 </pre>
         </td>
@@ -276,42 +276,42 @@ Wanna compare stuff?
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 goodBoy a is x equals y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x notEquals y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x isGreaterThan y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x isLessThan y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x isAtLeast y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x isAtMost y;
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let a = x === y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x !== y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let a = x > y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x < y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let a = x >= y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x <= y;
 </pre>
         </td>
@@ -324,48 +324,48 @@ a = x <= y;
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 toeBeans a is x + y; 
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x - y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x * y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x / y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x mod y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is x!;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a is -x;
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x + y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x - y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x * y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x / y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x % y;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = x!;
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 a = -x;
 </pre>
         </td>
@@ -378,7 +378,7 @@ a = -x;
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 if x isAtLeast y then:
     leash dogName is "CeCe"; 
 else:
@@ -387,7 +387,7 @@ tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 if (x <= y) {
     let dogName = "CeCe";
 else {
@@ -398,7 +398,7 @@ else {
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 
 if x notEquals y then:
     woof "CeCe is kinda cute";
@@ -412,7 +412,7 @@ tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 if (x !== y) {
     console.log("CeCe is kinda cute");
 else if (x > y) {
@@ -434,20 +434,20 @@ Let's write some comments!
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 !!! I'm a one line comment !!!
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 !!! I'm a
 multiline
 comment !!!
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 // I'm a comment
 </pre>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 /* I'm a
 multiline
 comment */
@@ -465,14 +465,14 @@ Forever Loop
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase:
     woof "I run forever!";
 tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 while (true) {
     console.log("I run forever!");
 }
@@ -488,14 +488,14 @@ while (true) {
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase 5 times:
     woof "Stay.";
 tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 for (let i = 0; i < 5; i++) {
     console.log("Stay.");
 } 
@@ -510,14 +510,14 @@ for (let i = 0; i < 5; i++) {
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase while x isAtMost 5:
     woof x;
 tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 while (x <= 5) {
     console.log(x);
 } 
@@ -531,14 +531,14 @@ while (x <= 5) {
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase toeBeans i is 0 by i*2 while i isLessThan 10:
     woof i; 
 tail   
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 for (let i = 0; i < 10; i *= 2) {
     console.log(i);
 } 
@@ -553,14 +553,14 @@ for (let i = 0; i < 10; i *= 2) {
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase element through myPack:   
     woof element; 
 tail    
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 for (let element of myArray) {
     console.log(element);
 } 
@@ -575,7 +575,7 @@ for (let element of myArray) {
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 chase element through myPack:   
     if element equals cat then: 
         poop;  
@@ -587,7 +587,7 @@ tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 for (let element of myArray) {
     if (element === null) {
         break;
@@ -610,7 +610,7 @@ Let's find the greatest common divisor between two toeBeans!
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:   
     toeBeans remainder; 
     chases while (a mod b) isGreaterThan 0:
@@ -623,7 +623,7 @@ tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 function gcd(num1, num2) {
     let remainder;
     while ((num1 % num2) > 0) {
@@ -638,14 +638,14 @@ function gcd(num1, num2) {
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 toeBeans a is 8;
 toeBeans b is 12;
 toeBeans c is gcd(a, b); 
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let a = 8;
 let b = 12;
 let c = gcd(a, b);
@@ -660,7 +660,7 @@ The classic Fibonacci function to get the nth term of the Fibonacci sequence:
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 trick fib chews[toeBeans:n] fetches toeBeans:   
     if n isAtMost 1 then: 
         give n;
@@ -671,7 +671,7 @@ tail
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 function fib(n) {
     if (n <=1) {
         return n;
@@ -684,12 +684,12 @@ function fib(n) {
     </tr>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 toeBeans huzzah is fib(100);  
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 let huzzah = fib(100);
 </pre>
         </td>
@@ -704,7 +704,7 @@ Let's make an owner breed!
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 breed Owner is:   
     leash dogName; 
     trick Owner chews[leash:dogName] fetches Owner;
@@ -722,7 +722,7 @@ woof lucille's command()  !!! output: "CeCe, stay." !!!
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%">
+<pre style="margin-left: 0; height: 100%; width: 100%">
 class Owner {
     constructor(dogName) {
         this.dogName = dogName;
@@ -742,20 +742,20 @@ console.log(lucille.command());
     </tr>
 </table>
 
-### Static Semantic Errors
+### Some Bad Boys: Semantic Errors
 
 <table>
     <th>Error</th> <th style="color: green">Do This</th> <th style="color: red">Not This</th>
     <tr>
         <td>Variables must be declared before they are used.</td>
         <td>
-<pre style="margin-left: 0; width: 100%; color: green">
+<pre style="margin-left: 0; height: 100%; width: 100%; color: green">
 leash dogName;
 dogName is "CeCe";
 </pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%; color: red">
+<pre style="margin-left: 0; height: 100%; width: 100%; color: red">
 dogName is "CeCe";
 </pre>
         </td>
@@ -763,18 +763,31 @@ dogName is "CeCe";
     <tr>
         <td>Variables cannot be redeclared within the same block.</td>
         <td>
-<pre style="margin-left: 0; width: 100%; color: green">
+<pre style="margin-left: 0; height: 100%; width: 100%; color: green">
 leash furColor is "brown";
 woof "fur color: ![furColor]";
 furColor is "black";
 woof "new fur color: ![furColor]";</pre>
         </td>
         <td>
-<pre style="margin-left: 0; width: 100%; color: red">
+<pre style="margin-left: 0; height: 100%; width: 100%; color: red">
 leash furColor is "brown";
 woof "fur color: ![furColor]";
 leash furColor is "black";
 woof "new fur color: ![furColor]";</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>Variables cannot be assigned to expressions with different types.</td>
+        <td>
+<pre style="margin-left: 0; height: 100%; width: 100%; color: green">
+toeBeans age is 7;
+leash ageString is "7";</pre>
+        </td>
+        <td>
+<pre style="margin-left: 0; height: 100%; width: 100%; color: red">
+toeBeans age is 7;
+age is "7";</pre>
         </td>
     </tr>
 </table>
