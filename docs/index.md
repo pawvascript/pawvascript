@@ -750,28 +750,28 @@ console.log(lucille.command());
 * Conditions in if statements must be booleans.
 * Conditions in loops must be booleans.
 * For loop variables must evaluate to a number.
-* Through loops can only be used on packs. (We hope to expand this functionality to other types soon!)
+* Through loops can only be used on lists. (We hope to expand this functionality to other types soon!)
 * A through loop's variable cannot be changed in the body of the loop.
-* Breed's can only have one constructor.
-* A constructor's identifier must match the identifier of the breed it constructs.
-* The parameters of a constructor must be fields in their breed.
-* A constructor can only return the breed it is a part of.
+* Types can only have one constructor.
+* A constructor's identifier must match the identifier of the type it constructs.
+* The parameters of a constructor must be fields in their type.
+* A constructor can only return the type it is a part of.
 * If a function's signature contains a return type, the function must and can only return an object of the return type.
 * Functions can only be called after they have been declared.
 * Functions must be called with the same number of arguments as described in the function signature.
 * Each function argument must be the same type as argument in that same positiion in the function signature.
-* Spreads can only be used with packs where the types of the packs are the same.
-* A kennel's keys must all have the same type and its values must also be of the same type.
+* Spreads can only be used with lists where the types of the lists are the same.
+* A dictionary's keys must all have the same type and its values must also be of the same type.
 * The unary operators "-" and "!" can only be used with numbers.
-* The operator "not" can only be used with goodBoys.
+* The operator "not" can only be used with booleans.
 * The binary operators "-", "+", "*", and "/" can only be used with numbers on either side.
-* The operators "&" and "|" can only be used with goodBoys on either side.
-* The operators "isGreaterThan", "isAtLeast", "isAtMost", "isLessThan", "equals", and "notEquals" can only be used with toeBeans and leashes and the types must match on both sides.
-* The operators "with" and "without" can only be used with leashes and packs and the types must match on both sides.
-* The "at" operator can only be used with a pack on the left and toeBeans on the right.
-* The "of" operator can only be used with a kennel on the left and toeBeans on the right and the key used must match the type of the keys in the kennel.
+* The operators "&" and "\|" can only be used with booleans on either side.
+* The operators "isGreaterThan", "isAtLeast", "isAtMost", "isLessThan", "equals", and "notEquals" can only be used with numbers and strings and the types must match on both sides.
+* The operators "with" and "without" can only be used with strings and lists and the types must match on both sides.
+* The "at" operator can only be used with a list on the left and numbers on the right.
+* The "of" operator can only be used with a dictionary on the left and numbers on the right and the key used must match the type of the keys in the dictionary.
 * Give statements can only be used in functions, methods, and loops.
-* Poop and Walkies statements can only be used in loops.
+* Break and continue statements can only be used in loops.
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
