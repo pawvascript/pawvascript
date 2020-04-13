@@ -220,6 +220,117 @@ const errors = [
     walkies;`
   ],
   /* Lists */
+  [
+    "uses spread with non-list type",
+    String.raw`pack[leash] names is ["Joe", "John", "Jerry"];
+    names is [peanutButter "Kim", names];`
+  ],
+  [
+    "list literal with mismatch types",
+    String.raw`woof ["string", 1, good];`
+  ],
+  /* Kennels */
+  [
+    "dictionary keys with mismatch types",
+    String.raw`woof ["leash": 1, 2: 3];`
+  ],
+  [
+    "dictionary values with mismatch types",
+    String.raw`woof ["leash": 1, "another leash": "yo"];`
+  ],
+  /* Unary Expressions */
+  [
+    "'-' used with non-numbers",
+    String.raw`woof -"8";`
+  ],
+  [
+    "'!' used with non-numbers",
+    String.raw`woof good!;`
+  ],
+  [
+    "'not' used with non-boolean",
+    String.raw`woof not "good";`
+  ],
+  /* Binary Expressions */
+  [
+    "'-' used with non-number on left",
+    String.raw`woof "8" - 8;`
+  ],
+  [
+    "'-' used with non-number on right",
+    String.raw`woof 8 - "8";`
+  ],
+  [
+    "'+' used with non-number on left",
+    String.raw`woof "8" + 8;`
+  ],
+  [
+    "'+' used with non-number on right",
+    String.raw`woof 8 + "8";`
+  ],
+  [
+    "'*' used with non-number on left",
+    String.raw`woof "8" * 8;`
+  ],
+  [
+    "'*' used with non-number on right",
+    String.raw`woof 8 * "8";`
+  ],
+  [
+    "'/' used with non-number on left",
+    String.raw`woof "8" / 8;`
+  ],
+  [
+    "'/' used with non-number on right",
+    String.raw`woof 8 / "8";`
+  ],
+  [
+    "'&' used with non-boolean on left",
+    String.raw`woof "good" & good;`
+  ],
+  [
+    "'&' used with non-boolean on right",
+    String.raw`woof good & "good";`
+  ],
+  [
+    "'|' used with non-boolean on left",
+    String.raw`woof "good" | good;`
+  ],
+  [
+    "'|' used with non-boolean on right",
+    String.raw`woof good | "good";`
+  ],
+  [
+    "'isGreaterThan' used on two different types",
+    String.raw`woof 8 isGreaterThan "8";`
+  ],
+  [
+    "'isAtMost' used on type that is not number or string",
+    String.raw`woof ["CeCe"] isAtMost ["Fluffy"];`
+  ],
+  [
+    "'with' used on lists of different types",
+    String.raw`woof ["CeCe"] with [1];`
+  ],
+  [
+    "'without' used on type that is not list or string",
+    String.raw`woof ["name": "CeCe"] with ["age": "2"];`
+  ],
+  [
+    "right of 'at' is not a number",
+    String.raw`pack[leash] names is ["CeCe"];
+    woof names at "0";`
+  ],
+  [
+    "left of 'at' is not a list",
+    String.raw`kennel[leash:toeBeans] names is ["CeCe":2];
+    woof names at 0;`
+  ],
+  [
+    "key type used with 'of' does not match key type in dictionary",
+    String.raw`kennel[leash:toeBeans] names is [2: "CeCe"];
+    woof names of "2";`
+  ]
   /* Assignment */
 //   ["use of undeclared variable", String.raw`dogName is "Mr. Fluffington";`],
 //   [
