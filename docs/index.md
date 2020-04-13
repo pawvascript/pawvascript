@@ -707,7 +707,7 @@ Let's make an owner breed!
 <pre style="margin-left: 0; width: 100%">
 breed Owner is:   
     leash dogName; 
-    trick Owner chases[leash:dogName] fetches Owner;
+    trick Owner chews[leash:dogName] fetches Owner;
     
     trick introduceDog:
         woof "My dog's name is " with Owner's dogName;
