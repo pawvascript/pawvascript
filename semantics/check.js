@@ -198,11 +198,6 @@ module.exports = {
     );
   },
 
-  // Verifies that the constructor has a return type (required)
-  constructorHasReturnType(constr) {
-    doCheck(constr.returnType !== null, `Constructors must have a return type`);
-  },
-
   // Verifies that a breedType's constructor's return type is the breed itself
   constructorReturnsBreedType(constr, breed) {
     doCheck(

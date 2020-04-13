@@ -253,7 +253,6 @@ Constructor.prototype.analyze = function(context, breedId) {
     }
   });
 
-  check.constructorHasReturnType(this);
   this.returnType.analyze(context);
   check.constructorReturnsBreedType(this, currentBreed);
 };

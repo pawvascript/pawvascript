@@ -50,13 +50,15 @@ const errors = [
       woof element;
     tail`
   ],
-  // [
-  //   "through loop list is changed in the body",
-  //   String.raw`pack[leash] dogs is ["Cece", "Fluffy", "Joe"];
-  //   chase dog through dogs:
-  //     dogs is ["Last Dog"];
-  //   tail`
-  // ],
+  [
+    "through loop variable gets changed in loop body",
+    String.raw`
+    pack[toeBeans] numbers is [1,2,3];
+
+    chase element through numbers:
+      element is 5;
+    tail`
+  ],
   [
     "while loop condition is not a boolean",
     String.raw`
@@ -74,9 +76,7 @@ const errors = [
   /* Declarations */
   [
     "target and source have mismatch types",
-    String.raw`leash myString;
-    toeBeans myNumber is 7;
-    myString is myNumber;`
+    String.raw`leash myString is 7;`
   ],
   [
     "function declared in a loop",
@@ -96,12 +96,50 @@ const errors = [
       tail
     tail`
   ],
+  [
+    "constructor name does not match breed ID",
+    String.raw`
+    breed Owner is:   
+      leash dogName; 
+      trick DogOwner chews [leash:dogName] fetches Owner;
+    tail`
+  ],
   /* Functions */
   [
     "function with return type has no give statement",
     String.raw`trick sayHi fetches toeBeans:
       woof "1";
     tail`
+  ],
+  [
+    "try to call id that is not a function or breed",
+    String.raw`leash myString is "hello";
+    myString();`
+  ],
+  [
+    "function called with too many arguments",
+    String.raw`trick sayHi chews[leash:name]:
+      woof "Hi " with name;
+    tail
+    
+    sayHi("Cece", "Lucille", "Jeremy");`
+  ],
+  [
+    "function called with too few arguments",
+    String.raw`trick sayHi chews[leash:name]:
+      woof "Hi " with name;
+    tail
+    
+    sayHi();`
+  ],
+  [
+    "function called with arguments of incorrect type",
+    String.raw`toeBeans age is 7;
+    trick sayAge chews[leash:age]:
+      woof age with " years old.";
+    tail
+    
+    sayAge(age);`
   ],
   /* Types */
   [
@@ -114,7 +152,7 @@ const errors = [
   ],
   [
     "method id already used",
-    String.raw`leash name is "CeCe";
+    String.raw`
     breed Owner is:
       leash dogName;
       trick name:
@@ -128,6 +166,61 @@ const errors = [
       trick Owner fetches Owner;
     tail`
   ],
+  [
+    "type has more than one constructor",
+    String.raw`
+    breed Owner is:
+      leash dogName;
+
+      trick Owner fetches Owner;
+      trick Owner chews[leash: dogName] fetches Owner;
+    tail`
+  ],
+  [
+    "constructor parameters are not fields",
+    String.raw`
+    breed Owner is:
+      leash dogName;
+
+      trick Owner chews[leash: name] fetches Owner;
+    tail`
+  ],
+  [
+    "constructor does not return the breed it is a part of",
+    String.raw`
+    breed Owner is:
+      leash dogName;
+
+      trick Owner chews[leash: name] fetches DogcOwner;
+    tail`
+  ],
+  /* Give, Break, Continue*/
+  [
+    "give statement outside of function",
+    String.raw`leash name is "Moriah";
+    give name;`
+  ],
+  [
+    "give has incorrect return type",
+    String.raw`trick getAge fetches leash:
+      give 7;
+    tail`
+  ],
+  [
+    "break used outside of loop",
+    String.raw`
+    leash name is "Jeremy";
+    poop;
+    `
+  ],
+  [
+    "continue used outside of loop",
+    String.raw`
+    leash name is "Josh";
+    walkies;`
+  ],
+  /* Lists */
+  /* Assignment */
 //   ["use of undeclared variable", String.raw`dogName is "Mr. Fluffington";`],
 //   [
 //     "redeclaration of a variable",
