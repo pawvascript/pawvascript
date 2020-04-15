@@ -3,7 +3,7 @@ const {
   FunctionDeclaration,
   Function,
   Parameters,
-  VariableExpression,
+  VariableExpression
 } = require("../ast");
 
 const NumType = new PrimitiveType("toeBeans");
@@ -28,7 +28,7 @@ const standardFunctions = [
         [
           new VariableExpression("s"),
           new VariableExpression("beginIndex"),
-          new VariableExpression("endIndex"),
+          new VariableExpression("endIndex")
         ]
       ),
       StringType,
@@ -99,23 +99,24 @@ const standardFunctions = [
       StringType,
       null
     )
-  ),
+  )
   /* Built-In List Functions */
+  // TODO: Future versions of PawvaScript will include more built-in's, including:
+  // - built-in functions for lists:
+  //      - indexOf: returns index of the first instance of the element in the given list
+  // - toString function that takes in an argument of any arbitrary type and returns a string describing it
 
-  // how do you a generic sort of function like this??? the parameter could be any type, whatever the type of the list is
+  // TODO: how to make a generic function like this in our language?
+  // for indexOf, the first parameter could be any list type with an arbitrary member type;
+  // the second parameter would be this member type and could also be any type
   //   new FunctionDeclaration(
   //       new VariableExpression("containsElement"),
   //       new Parameters([ListType, ??????????])
   //   )
-
-  // standard toString function for any object:
 ];
 
-// will not be pure pawvascript
-// can use function overloading
-
 /* eslint-disable no-param-reassign */
-standardFunctions.forEach((f) => {
+standardFunctions.forEach(f => {
   f.builtin = true;
 });
 /* eslint-enable no-param-reassign */
