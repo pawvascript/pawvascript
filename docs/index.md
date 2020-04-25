@@ -132,7 +132,7 @@ cuteness = 100;
         <td>
 <pre style="margin-left: 0; width: 100%">
 !!! cat is the equivalent of null. !!!
-!!! Any tpye can have the value cat !!!
+!!! Any type can have the value cat !!!
 leash theBestestDog is cat;
 </pre>
         </td>
