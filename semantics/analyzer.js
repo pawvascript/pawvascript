@@ -145,7 +145,7 @@ VariableDeclaration.prototype.analyze = function(context) {
 
 Variable.prototype.setDefaultValue = function() {
   if (check.isStringType(this.type)) {
-    this.initilizerExp = new TemplateLiteral([new StringLiteral("")], null);
+    this.initializerExp = new TemplateLiteral([new StringLiteral("")], null);  // TODO: Add test for previously misspelled condition
   } else if (check.isNumType(this.type)) {
     this.initializerExp = new NumberLiteral(0);
   } else if (check.isBoolType(this.type)) {
