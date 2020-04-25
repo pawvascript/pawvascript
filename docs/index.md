@@ -613,7 +613,7 @@ Let's find the greatest common divisor between two toeBeans!
 <pre style="margin-left: 0; width: 100%">
 trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:   
     toeBeans remainder; 
-    chases while (a mod b) isGreaterThan 0:
+    chase while (a mod b) isGreaterThan 0:
         remainder is (a mod b); 
         a is b; 
         b is remainder;  
