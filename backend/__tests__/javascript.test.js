@@ -1,5 +1,3 @@
-// RTOAL's TIGER CODE
-
 // /*
 //  * JavaScript Code Generator Tests
 //  *
@@ -10,6 +8,13 @@
 // const parse = require('../../ast/parser');
 // const analyze = require('../../semantics/analyzer');
 // const generate = require('../javascript-generator');
+
+const fixture = {
+  print: [
+    String.raw`woof("Hello, world")`,
+    String.raw`console.log("Hello, world")`,
+  ],
+};
 
 // const fixture = {
 //   hello: [String.raw`print("Hello, world\n")`, String.raw`console.log("Hello, world\n")`],
@@ -70,13 +75,13 @@
 //   ],
 // };
 
-// describe('The JavaScript generator', () => {
-//   Object.entries(fixture).forEach(([name, [source, expected]]) => {
-//     test(`produces the correct output for ${name}`, done => {
-//       const ast = parse(source);
-//       analyze(ast);
-//       expect(generate(ast)).toMatch(expected);
-//       done();
-//     });
-//   });
-// });
+describe("The JavaScript generator", () => {
+  Object.entries(fixture).forEach(([name, [source, expected]]) => {
+    test(`produces the correct output for ${name}`, (done) => {
+      const ast = parse(source);
+      analyze(ast);
+      expect(generate(ast)).toMatch(expected);
+      done();
+    });
+  });
+});

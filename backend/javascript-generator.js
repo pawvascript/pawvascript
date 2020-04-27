@@ -1,67 +1,100 @@
-// RTOAL's TIGER CODE
+/**
+ * JavaScript Code Generator 
 
-// /*
-//  * Translation to JavaScript
-//  *
-//  * Requiring this module adds a gen() method to each of the AST classes, except
-//  * for types, and fields, which don’t figure into code generation. It exports a
-//  * function that generates a complete, pretty-printed JavaScript program for a
-//  * Tiger expression, bundling the translation of the Tiger standard library with
-//  * the expression's translation.
-//  *
-//  * Each gen() method returns a fragment of JavaScript.
-//  *
-//  *   const generate = require('./backend/javascript-generator');
-//  *   generate(tigerExpression);
-//  */
+ * Translation to JavaScript
+ *
+ * Requiring this module adds a gen() method to each of the AST classes, except
+ * for types, and fields, which don’t figure into code generation. It exports a
+ * function that generates a complete, pretty-printed JavaScript program for a
+ * Tiger expression, bundling the translation of the Tiger standard library with
+ * the expression's translation.
+ *
+ * Each gen() method returns a fragment of JavaScript.
+ *
+ * Usage:
+ *   const generate = require('./backend/javascript-generator');
+ *   generate(tigerExpression);
+ */
 
-// const beautify = require('js-beautify');
-// const {
-//   ArrayExp,
-//   Assignment,
-//   BinaryExp,
-//   Binding,
-//   Break,
-//   Call,
-//   ExpSeq,
-//   ForExp,
-//   Func,
-//   IdExp,
-//   IfExp,
-//   LetExp,
-//   Literal,
-//   MemberExp,
-//   NegationExp,
-//   Nil,
-//   RecordExp,
-//   SubscriptedExp,
-//   TypeDec,
-//   Variable,
-//   WhileExp,
-// } = require('../ast');
-// const { StringType } = require('../semantics/builtins');
+const {
+  Program,
+  Block,
+  ConditionalStatement,
+  InfiniteLoopStatement,
+  ForLoopStatement,
+  ThroughLoopStatement,
+  WhileLoopStatement,
+  FixedLoopStatement,
+  VariableDeclaration,
+  Variable,
+  TypeDeclaration,
+  BreedType,
+  Field,
+  Method,
+  ListType,
+  DictType,
+  IdType,
+  FunctionDeclaration,
+  Function,
+  Parameters,
+  ConstructorDeclaration,
+  Constructor,
+  AssignmentStatement,
+  FunctionCall,
+  PrintStatement,
+  GiveStatement,
+  BreakStatement,
+  ContinueStatement,
+  BooleanLiteral,
+  NumberLiteral,
+  StringLiteral,
+  TemplateLiteral,
+  PackLiteral,
+  ListElement,
+  KennelLiteral,
+  KeyValuePair,
+  VariableExpression,
+  UnaryExpression,
+  BinaryExpression,
+} = require("../ast");
 
-// function makeOp(op) {
-//   return { '=': '===', '<>': '!==', '&': '&&', '|': '||' }[op] || op;
-// }
+const { NumType, StringType, BoolType } = require("./builtins");
+const beautify = require("js-beautify");
 
-// // javaScriptId(e) takes any Tiger object with an id property, such as a Variable,
-// // Param, or Func, and produces a JavaScript name by appending a unique identifying
-// // suffix, such as '_1' or '_503'. It uses a cache so it can return the same exact
-// // string each time it is called with a particular entity.
-// const javaScriptId = (() => {
-//   let lastId = 0;
-//   const map = new Map();
-//   return v => {
-//     if (!map.has(v)) {
-//       map.set(v, ++lastId); // eslint-disable-line no-plusplus
-//     }
-//     return `${v.id}_${map.get(v)}`;
-//   };
-// })();
+function makeOp(op) {
+  return (
+    {
+      equals: "===",
+      notEquals: "!==",
+      "&": "&&",
+      "|": "||",
+      isGreaterThan: ">",
+      isAtLeast: ">=",
+      isAtMost: "<=",
+      isLessThan: "<",
+      not: "!",
+    }[op] || op
+  );
+}
+
+// javaScriptId(e) takes any PawvaScript identifier name (a string),
+// and produces a JavaScript name by appending a unique identifying
+// suffix, such as '_1' or '_503'. It uses a cache so it can return the same exact
+// string each time it is called with a particular PawvaScript id name.
+const javaScriptId = (() => {
+  let lastIdSuffix = 0;
+  const map = new Map();
+  return (psID) => {
+    if (!map.has(psID)) {
+      map.set(psID, ++lastIdSuffix); // eslint-disable-line no-plusplus
+    }
+    return `${psID}_${map.get(v)}`;
+  };
+})();
 
 // // Let's inline the built-in functions, because we can!
 // const builtin = {
+//     size
 //   print([s]) {
 //     return `console.log(${s})`;
 //   },
@@ -83,34 +116,272 @@
 //   not(i) {
 //     return `(!(${i}))`;
 //   },
-//   exit(code) {
-//     return `process.exit(${code})`;
-//   },
 // };
 
-// module.exports = function(exp) {
-//   return beautify(exp.gen(), { indent_size: 2 });
-// };
+module.exports = function(exp) {
+  return beautify(exp.gen(), { indent_size: 2 });
+};
 
-// // This only exists because Tiger is expression-oriented and JavaScript is not.
-// // It's pretty crazy! In the case where the expression is actually a sequence,
-// // we have to dig in and stick a 'return' before the last expression. And this
-// // as to be recursive, because the last expression of a sequence could actually
-// // be a sequence....
-// function makeReturn(exp) {
-//   if (exp.constructor === LetExp) {
-//     const filteredDecs = exp.decs.filter(d => d.constructor !== TypeDec);
-//     const all = [...filteredDecs, ...exp.body.slice(0, -1)].map(e => e.gen());
-//     all.push(makeReturn(exp.body[exp.body.length - 1]));
-//     return all.join(';');
-//   }
-//   if (exp.constructor === ExpSeq) {
-//     const generated = exp.exps.slice(0, -1).map(e => e.gen());
-//     generated.push(makeReturn(exp.exps[exp.exps.length - 1]));
-//     return generated.join(';');
-//   }
-//   return `return ${exp.gen()}`;
-// }
+Program.prototype.gen = function() {
+  return this.block.gen();
+};
+
+Block.prototype.gen = function() {
+  let statementStrings = [];
+  this.statements.forEach((statement) =>
+    statementStrings.push(statement.gen())
+  );
+  return statementStrings.join("");
+};
+
+ConditionalStatement.prototype.gen = function() {
+  const condition = this.condition.gen();
+  const body = this.body.gen();
+  const elsePart = this.otherwise ? this.otherwise.gen() : "null";
+  return `if ( ${condition} ) { ${body} } ${
+    elsePart ? `else { ${elsePart} }` : ""
+  }`;
+};
+
+InfiniteLoopStatement.prototype.gen = function() {
+  return `while (true) { ${this.body.gen()} }`;
+};
+
+ForLoopStatement.prototype.gen = function() {
+  const loopId = javaScriptId(this.localVarDec.id.name);
+  return `for (${this.localVarDec.gen()} ; ${this.condition.gen()} ; ${loopId} = ${this.loopExp.gen()}) { ${this.body.gen()} }`;
+};
+
+ThroughLoopStatement.prototype.gen = function() {
+  return `for (let ${javaScriptId(this.localVar.id)} of ${javaScriptId(
+    this.group.id
+  )} { ${this.body.gen()}})`;
+};
+
+WhileLoopStatement.prototype.gen = function() {
+  return `while (${this.condition}) { ${this.body}}`;
+};
+
+FixedLoopStatement.prototype.gen = function() {
+  return `for (let i = 0; i < ${parseInt(this.expression.gen())}; i++) { ${
+    this.body
+  }}`;
+};
+
+VariableDeclaration.prototype.gen = function() {
+  return `let ${javaScriptId(this.id.name)} = ${this.variable.gen()}`;
+};
+
+Variable.prototype.gen = function() {
+  if (this.initializerExp != null) {
+    return this.initializerExp.gen();
+  } else {
+    return `null`;
+  }
+};
+// TODO ask Toal
+
+// PS: leash name = cat;
+// JS: let name = null;
+
+// PS: leash name; // value is null
+// JS: let name; // value would be undefined
+
+// PS: Owner lucille; // value is null
+// JS: let lucille = null; // undefined
+
+FunctionDeclaration.prototype.gen = function() {
+  const name = javaScriptId(this.id);
+  return `function ${name} ${this.func.gen()}`;
+};
+
+Function.prototype.gen = function() {
+  const body = this.body.gen();
+  return `( ${this.parameters.gen()} ) {${body}}`;
+};
+
+TypeDeclaration.prototype.gen = function() {
+  const name = javaScriptId(this.id);
+  return `class ${name} ${this.breedType.gen()}`;
+};
+
+BreedType.prototype.gen = function() {
+  const constructorString = this.constructors[0].gen(fields);
+  const methodStrings = this.methods.map((method) => method.gen());
+  return `{ ${constructorString} ${methodStrings.join("")} }`;
+};
+
+ConstructorDeclaration.prototype.gen = function(fields) {
+  return this.constr.gen(fields);
+};
+
+const getFieldForCorrespondingParam = (fields, paramId) => {
+  return fields.filter((field) => field.id.name === paramId.name)[0];
+};
+
+Constructor.prototype.gen = function(fields) {
+  // Classes in JavaScript do not have fields outside of the constructor, so
+  // we have to filter through the fields to find all fields that are parameters
+  // of the constructor and those that are not
+
+  // Fields that are not constructor params each produce an individual statement inside the constructor
+  const paramIds = this.parameters.gen().split(",");
+  const fieldsThatAreNotConstructorParams = fields.filter(
+    (field) => !paramIds.includes(field.id.name)
+  );
+  const fieldStrings = fieldsThatAreNotConstructorParams
+    .map((field) => field.gen())
+    .join("");
+
+  // We cannot just use the regular parameters.gen() here because PawvaScript breed fields
+  // can have initializer expressions and are otherwise initialized to some default value
+  // or null if no default value is applicable; thus, each constructor parameter in JavaScript
+  // must have a default value.
+  const paramsWithDefaultValues = this.parameters.ids.map((paramVarExp) => {
+    const correspondingField = getFieldForCorrespondingParam(
+      fields,
+      paramVarExp
+    );
+    return `${paramVarExp.name} = ${correspondingField.variable.gen()}`;
+  });
+  const finalParamsString = paramsWithDefaultValues.join(",");
+
+  return `constructor( ${finalParamsString} ) { 
+    Object.assign(this, { ${paramIds} }); 
+    ${fieldStrings}
+  }`;
+};
+
+Field.prototype.gen = function() {
+  const fieldId = javaScriptId(this.id.name);
+  return `this.${javaScriptId} = ${this.variable.gen()};`;
+};
+
+Method.prototype.gen = function() {
+  const methodId = javaScriptId(this.id.name);
+  return `${methodId} ${this.func.gen()}`;
+};
+
+// TODO ask toal: do we need any gen methods for types since JS does not have types?
+
+AssignmentStatement.prototype.gen = function() {
+  return `${this.target.gen()} = ${this.source.gen()};`;
+};
+
+FunctionCall.prototype.gen = function() {
+  return `${javaScriptId(this.callee.id)}(${this.args.gen()})`;
+};
+
+PrintStatement.prototype.gen = function() {
+  const printType = this.flavor;
+  if (printType === "woof") {
+    return `console.log(${this.expression.gen()})`;
+  } else if (printType === "bark") {
+    return `console.log(${this.expression.gen()}.toUpperCase())`;
+  } else {
+    return `console.error(${this.expression.gen()})`;
+  }
+};
+
+GiveStatement.prototype.gen = function() {
+  return `return (${this.expression.gen()})`;
+};
+
+Parameters.prototype.gen = function() {
+  const paramIds = this.ids.map((paramVarExp) => javaScriptId(varExp.name));
+  return paramIds.join(",");
+};
+
+BreakStatement.prototype.gen = function() {
+  return `break;`;
+};
+
+ContinueStatement.prototype.gen = function() {
+  return `continue;`;
+};
+
+BooleanLiteral.prototype.gen = function() {
+  return `${this.value}`;
+};
+
+NumberLiteral.prototype.gen = function() {
+  return `${this.value}`;
+};
+
+StringLiteral.prototype.gen = function() {
+  return `"${this.value}"`;
+};
+
+// PS: "![dogName] is the ![rating] dog";
+// JS: `${dogName} is the ${rating} dog`;
+TemplateLiteral.prototype.gen = function() {
+  const expressionStrings = this.exps.map((exp) => `\${${this.exp.gen()}}`);
+  const templateString = "";
+
+  this.quasis.map(
+    (quasi,
+    (index) => {
+      templateString += quasi + expressionStrings[index];
+    })
+  );
+
+  return templateString;
+};
+
+PackLiteral.prototype.gen = function() {
+  return this.value.gen();
+};
+
+ListElement.prototype.gen = function() {
+  return this.value.gen();
+};
+
+KennelLiteral.prototype.gen = function() {
+  let keyValuePairs = [];
+  this.keyValuePairs.forEach((keyValuePair) => {
+    keyValuePairs.push(keyValuePair.gen());
+  });
+  return `{${keyValuePairs.toString()}}; `;
+};
+
+KeyValuePair.prototype.gen = function() {
+  return `${this.key.gen()}: ${this.value.gen()}`;
+};
+
+VariableExpression.prototype.gen = function() {
+  return this.ref.gen();
+};
+
+UnaryExpression.prototype.gen = function() {
+  if (this.op.equals("not")) {
+    return `(!${this.operand.gen()})`;
+  } else if (this.op.equals("!")) {
+    // TODO: ask Toal how to generate factorial
+    let factorialString = [];
+    let num;
+    // this.operand is possible variable........ so a * a-1 * a-2 * ...
+    if (this.operand.constructor === VariableExpression) {
+      num = parseInt(this.operand.variable.ref.gen());
+    } else {
+      num = parseInt(this.operand.gen()); // (1+2)!  ?????? what do lmao
+    }
+    for (let i = num; i !== 0; i--) {
+      factorialString.push(i);
+    }
+    return `(${factorialString.join(" * ")})`;
+  } else {
+    // this.operand == '-'
+    return `-${this.operand.gen()}`;
+  }
+};
+
+BinaryExpression.prototype.gen = function() {
+  return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
+};
+
+VariableExpression.prototype.gen = function() {
+  return `${javaScriptId(this.name)}`;
+};
 
 // ArrayExp.prototype.gen = function() {
 //   return `Array(${this.size.gen()}).fill(${this.fill.gen()})`;
