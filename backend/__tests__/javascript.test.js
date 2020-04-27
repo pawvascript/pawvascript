@@ -5,13 +5,13 @@
 //  * JavaScript that we expect.
 //  */
 
-// const parse = require('../../ast/parser');
-// const analyze = require('../../semantics/analyzer');
-// const generate = require('../javascript-generator');
+const parse = require("../../ast/parser");
+const analyze = require("../../semantics/analyzer");
+const generate = require("../javascript-generator");
 
 const fixture = {
   print: [
-    String.raw`woof("Hello, world")`,
+    String.raw`woof("Hello, world");`,
     String.raw`console.log("Hello, world")`,
   ],
 };

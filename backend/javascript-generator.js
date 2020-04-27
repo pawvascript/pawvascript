@@ -58,7 +58,7 @@ const {
   BinaryExpression,
 } = require("../ast");
 
-const { NumType, StringType, BoolType } = require("./builtins");
+const { NumType, StringType, BoolType } = require("../semantics/builtins.js");
 const beautify = require("js-beautify");
 
 function makeOp(op) {
@@ -315,7 +315,9 @@ StringLiteral.prototype.gen = function() {
 // PS: "![dogName] is the ![rating] dog";
 // JS: `${dogName} is the ${rating} dog`;
 TemplateLiteral.prototype.gen = function() {
-  const expressionStrings = this.exps.map((exp) => `\${${this.exp.gen()}}`);
+  const expressionStrings = this.exps
+    ? this.exps.map((exp) => `\${${this.exp.gen()}}`)
+    : null;
   const templateString = "";
 
   this.quasis.map(
