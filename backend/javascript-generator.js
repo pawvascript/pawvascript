@@ -61,6 +61,9 @@ const {
 const { NumType, StringType, BoolType } = require("../semantics/builtins.js");
 const beautify = require("js-beautify");
 
+const factorialFunction = "function __factorial(n) { return (n != 1) ? n * factorial(n - 1) : 1; }"
+let containsFactorial = false;
+
 function makeOp(op) {
   return (
     {
@@ -82,13 +85,13 @@ function makeOp(op) {
 // suffix, such as '_1' or '_503'. It uses a cache so it can return the same exact
 // string each time it is called with a particular PawvaScript id name.
 const javaScriptId = (() => {
-  let lastIdSuffix = 0;
+  let lastId = 0;
   const map = new Map();
-  return (psID) => {
-    if (!map.has(psID)) {
-      map.set(psID, ++lastIdSuffix); // eslint-disable-line no-plusplus
+  return idName => {
+    if (!map.has(idName)) {
+      map.set(idName, ++lastId); // eslint-disable-line no-plusplus
     }
-    return `${psID}_${map.get(v)}`;
+    return `${idName}_${map.get(idName)}`;
   };
 })();
 
@@ -123,7 +126,8 @@ module.exports = function(exp) {
 };
 
 Program.prototype.gen = function() {
-  return this.block.gen();
+  const mainCode = this.block.gen();
+  return containsFactorial ? factorialFunction + mainCode : mainCode; 
 };
 
 Block.prototype.gen = function() {
@@ -137,8 +141,8 @@ Block.prototype.gen = function() {
 ConditionalStatement.prototype.gen = function() {
   const condition = this.condition.gen();
   const body = this.body.gen();
-  const elsePart = this.otherwise ? this.otherwise.gen() : "null";
-  return `if ( ${condition} ) { ${body} } ${
+  const elsePart = this.otherwise ? this.otherwise.gen() : "";
+  return `if (${condition}) {${body}} ${
     elsePart ? `else { ${elsePart} }` : ""
   }`;
 };
@@ -149,27 +153,25 @@ InfiniteLoopStatement.prototype.gen = function() {
 
 ForLoopStatement.prototype.gen = function() {
   const loopId = javaScriptId(this.localVarDec.id.name);
-  return `for (${this.localVarDec.gen()} ; ${this.condition.gen()} ; ${loopId} = ${this.loopExp.gen()}) { ${this.body.gen()} }`;
+  return `for (${this.localVarDec.gen()} ${this.condition.gen()} ; ${loopId} = ${this.loopExp.gen()}) { ${this.body.gen()} }`;
 };
 
 ThroughLoopStatement.prototype.gen = function() {
-  return `for (let ${javaScriptId(this.localVar.id)} of ${javaScriptId(
-    this.group.id
-  )} { ${this.body.gen()}})`;
+  return `for (let ${javaScriptId(this.localVar.name)} of ${javaScriptId(this.group.name)}) {${this.body.gen()}}`;
 };
 
 WhileLoopStatement.prototype.gen = function() {
-  return `while (${this.condition}) { ${this.body}}`;
+  return `while (${this.condition.gen()}) { ${this.body.gen()}}`;
 };
 
 FixedLoopStatement.prototype.gen = function() {
   return `for (let i = 0; i < ${parseInt(this.expression.gen())}; i++) { ${
-    this.body
+    this.body.gen()
   }}`;
 };
 
 VariableDeclaration.prototype.gen = function() {
-  return `let ${javaScriptId(this.id.name)} = ${this.variable.gen()}`;
+  return `let ${javaScriptId(this.id.name)} = ${this.variable.gen()};`;
 };
 
 Variable.prototype.gen = function() {
@@ -191,7 +193,7 @@ Variable.prototype.gen = function() {
 // JS: let lucille = null; // undefined
 
 FunctionDeclaration.prototype.gen = function() {
-  const name = javaScriptId(this.id);
+  const name = javaScriptId(this.id.name);
   return `function ${name} ${this.func.gen()}`;
 };
 
@@ -262,8 +264,6 @@ Method.prototype.gen = function() {
   return `${methodId} ${this.func.gen()}`;
 };
 
-// TODO ask toal: do we need any gen methods for types since JS does not have types?
-
 AssignmentStatement.prototype.gen = function() {
   return `${this.target.gen()} = ${this.source.gen()};`;
 };
@@ -275,11 +275,11 @@ FunctionCall.prototype.gen = function() {
 PrintStatement.prototype.gen = function() {
   const printType = this.flavor;
   if (printType === "woof") {
-    return `console.log(${this.expression.gen()})`;
+    return `console.log(${this.expression.gen()});`;
   } else if (printType === "bark") {
-    return `console.log(${this.expression.gen()}.toUpperCase())`;
+    return `console.log(${this.expression.gen()}.toUpperCase());`;
   } else {
-    return `console.error(${this.expression.gen()})`;
+    return `console.error(${this.expression.gen()});`;
   }
 };
 
@@ -288,7 +288,7 @@ GiveStatement.prototype.gen = function() {
 };
 
 Parameters.prototype.gen = function() {
-  const paramIds = this.ids.map((paramVarExp) => javaScriptId(varExp.name));
+  const paramIds = this.ids.map(paramVarExp => javaScriptId(paramVarExp.name));
   return paramIds.join(",");
 };
 
@@ -309,29 +309,27 @@ NumberLiteral.prototype.gen = function() {
 };
 
 StringLiteral.prototype.gen = function() {
-  return `"${this.value}"`;
+  return `${this.value}`;
 };
 
-// PS: "![dogName] is the ![rating] dog";
-// JS: `${dogName} is the ${rating} dog`;
 TemplateLiteral.prototype.gen = function() {
-  const expressionStrings = this.exps
-    ? this.exps.map((exp) => `\${${this.exp.gen()}}`)
-    : null;
-  const templateString = "";
+  if ( this.exps ) {
+    const expressionStrings = this.exps.map(exp => `\${${exp.gen()}}`); // a VariableExpression's .gen() method handles the javaScriptId
+    let templateString = "";
 
-  this.quasis.map(
-    (quasi,
-    (index) => {
-      templateString += quasi + expressionStrings[index];
-    })
-  );
-
-  return templateString;
+    this.quasis.map( (quasi, i) => {
+      templateString += quasi.gen() + (expressionStrings ? expressionStrings[i] : '');
+    });
+  
+    return `\`${templateString}\``;
+  }
+  
+  return `\`${this.quasis[0].gen()}\``;
 };
 
 PackLiteral.prototype.gen = function() {
-  return this.value.gen();
+  let pack = this.elements.map(element => element.gen())
+  return `[${pack.join(",")}]`;
 };
 
 ListElement.prototype.gen = function() {
@@ -351,26 +349,15 @@ KeyValuePair.prototype.gen = function() {
 };
 
 VariableExpression.prototype.gen = function() {
-  return this.ref.gen();
+  return `${javaScriptId(this.name)}`;
 };
 
 UnaryExpression.prototype.gen = function() {
-  if (this.op.equals("not")) {
+  if (this.op === "not") {
     return `(!${this.operand.gen()})`;
-  } else if (this.op.equals("!")) {
-    // TODO: ask Toal how to generate factorial
-    let factorialString = [];
-    let num;
-    // this.operand is possible variable........ so a * a-1 * a-2 * ...
-    if (this.operand.constructor === VariableExpression) {
-      num = parseInt(this.operand.variable.ref.gen());
-    } else {
-      num = parseInt(this.operand.gen()); // (1+2)!  ?????? what do lmao
-    }
-    for (let i = num; i !== 0; i--) {
-      factorialString.push(i);
-    }
-    return `(${factorialString.join(" * ")})`;
+  } else if (this.op === "!") {
+    containsFactorial = true;
+    return `(__factorial(${this.operand.gen()}))`
   } else {
     // this.operand == '-'
     return `-${this.operand.gen()}`;
@@ -379,10 +366,6 @@ UnaryExpression.prototype.gen = function() {
 
 BinaryExpression.prototype.gen = function() {
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
-};
-
-VariableExpression.prototype.gen = function() {
-  return `${javaScriptId(this.name)}`;
 };
 
 // ArrayExp.prototype.gen = function() {

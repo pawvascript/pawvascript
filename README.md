@@ -475,7 +475,7 @@ tail
         <td>
 <pre style="margin-left: 0; width: 100%">
 while (true) {
-    console.log("I run forever!");
+    console.log("I run forever\!");
 }
 </pre>
         </td>

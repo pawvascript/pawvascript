@@ -8,11 +8,67 @@
 const parse = require("../../ast/parser");
 const analyze = require("../../semantics/analyzer");
 const generate = require("../javascript-generator");
+const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n != 1\\) \\? n \\* factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
 
 const fixture = {
-  print: [
+  printStringLiteral: [
     String.raw`woof("Hello, world");`,
-    String.raw`console.log("Hello, world")`,
+    `console.log(\`Hello, world\`);`,
+  ],
+  printTemplateLiteral: [
+    String.raw`leash place is "world"; woof("Hello, ![place]");`,
+    /let place_(\d+) = `world`;\s*console.log\(`Hello, \${place_\1}`\);/
+  ],
+  conditional: [
+    String.raw`if (good) then: woof "Good boy"; tail`,
+    /if \(true\) {\s*console.log\(`Good boy`\);\s*}/
+  ],
+  // TODO: add test for strings that escape !
+  infiniteLoop: [
+    String.raw`chase:
+      woof "I run forever";
+    tail`,
+    /while \(true\) {\s*console.log\(`I run forever`\);\s*}/
+  ],
+  forLoop: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
+        woof i; 
+    tail`,
+    /for \(let i_(\d+) = 0;\s*\(i_\1 < 10\);\s*i_\1 = \(i_\1 \* 2\)\) {\s*console.log\(i_\1\);\s*}/
+  ],
+  throughLoop: [
+    String.raw`pack[toeBeans] myPack is [1,2,3];
+    chase element through myPack:   
+      woof element; 
+    tail`,
+    /let myPack_(\d+) = \[1, 2, 3\];\s*for \(let element_(\d+) of myPack_\1\) {\s*console.log\(element_\2\);\s*}/
+  ],
+  whileLoop: [
+    String.raw`toeBeans x is 0;
+    chase while x isAtMost 5:
+      woof x;
+    tail`,
+    /let x_(\d+) = 0;\s*while \(\(x_\1 <= 5\)\) {\s*console.log\(x_\1\);\s*}/
+  ],
+  fixedLoop: [
+    String.raw`chase 5 times:
+      woof "Stay.";
+    tail`,
+    /for \(let i = 0; i < 5; i\+\+\) {\s*console.log\(`Stay.`\);\s*}/
+  ],
+  variableDeclaration: [
+    String.raw`toeBeans age is 10 + 34;`,
+    /let age_(\d+) = \(10 \+ 34\);/
+  ],
+  functionDeclaration: [
+    String.raw`trick greet chews[leash:name] fetches leash:
+      give "Hello, ![name]";
+    tail`,
+    /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\)\s*}/
+  ],
+  factorial: [
+    String.raw`toeBeans factorial is 5!;`,
+    new RegExp(factorialFunctionRegex + `let factorial_\\d+ = \\(__factorial\\(5\\)\\);`)
   ],
 };
 
@@ -30,10 +86,10 @@ const fixture = {
 
 //   whileLoop: [String.raw`while 7 do break`, /while \(7\) \{\s*break\s*\}/],
 
-//   forLoop: [
-//     String.raw`for i := 0 to 10 do ()`,
-//     /let hi_(\d+) = 10;\s*for \(let i_(\d+) = 0; i_\2 <= hi_\1; i_\2\+\+\) \{\s*\}/,
-//   ],
+  forLoop: [
+    String.raw`for i := 0 to 10 do ()`,
+    /let hi_(\d+) = 10;\s*for \(let i_(\d+) = 0; i_\2 <= hi_\1; i_\2\+\+\) \{\s*\}/,
+  ],
 
 //   ifThen: [String.raw`if 3 then 5`, '((3) ? (5) : (null))'],
 

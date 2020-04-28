@@ -467,7 +467,7 @@ Forever Loop
         <td>
 <pre style="margin-left: 0; width: 100%">
 chase:
-    woof "I run forever!";
+    woof "I run forever\!";
 tail
 </pre>
         </td>
