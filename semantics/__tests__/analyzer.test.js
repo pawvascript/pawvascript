@@ -319,12 +319,12 @@ const fixture = {
                     woof "Welcome to our Dog Hotel";
                 tail
             tail
-          `
+          `,
 };
 
 describe("The semantic analyzer", () => {
   Object.entries(fixture).forEach(([name, source]) => {
-    test(`correctly compiles for ${name}`, done => {
+    test(`correctly compiles for ${name}`, (done) => {
       const astRoot = parse(source);
       expect(astRoot).toBeTruthy();
       analyze(astRoot);

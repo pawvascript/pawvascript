@@ -58,10 +58,11 @@ const {
   BinaryExpression,
 } = require("../ast");
 
-const { NumType, StringType, BoolType } = require("../semantics/builtins.js");
+// const { NumType, StringType, BoolType } = require("../semantics/builtins.js");
 const beautify = require("js-beautify");
 
-const factorialFunction = "function __factorial(n) { return (n != 1) ? n * factorial(n - 1) : 1; }"
+const factorialFunction =
+  "function __factorial(n) { return (n != 1) ? n * factorial(n - 1) : 1; }";
 let containsFactorial = false;
 
 function makeOp(op) {
@@ -80,14 +81,14 @@ function makeOp(op) {
   );
 }
 
-// javaScriptId(e) takes any PawvaScript identifier name (a string),
+// MODIFIED: javaScriptId(e) takes any PawvaScript identifier name (a string),
 // and produces a JavaScript name by appending a unique identifying
 // suffix, such as '_1' or '_503'. It uses a cache so it can return the same exact
 // string each time it is called with a particular PawvaScript id name.
 const javaScriptId = (() => {
   let lastId = 0;
   const map = new Map();
-  return idName => {
+  return (idName) => {
     if (!map.has(idName)) {
       map.set(idName, ++lastId); // eslint-disable-line no-plusplus
     }
@@ -127,7 +128,7 @@ module.exports = function(exp) {
 
 Program.prototype.gen = function() {
   const mainCode = this.block.gen();
-  return containsFactorial ? factorialFunction + mainCode : mainCode; 
+  return containsFactorial ? factorialFunction + mainCode : mainCode;
 };
 
 Block.prototype.gen = function() {
@@ -157,7 +158,9 @@ ForLoopStatement.prototype.gen = function() {
 };
 
 ThroughLoopStatement.prototype.gen = function() {
-  return `for (let ${javaScriptId(this.localVar.name)} of ${javaScriptId(this.group.name)}) {${this.body.gen()}}`;
+  return `for (let ${javaScriptId(this.localVar.name)} of ${javaScriptId(
+    this.group.name
+  )}) {${this.body.gen()}}`;
 };
 
 WhileLoopStatement.prototype.gen = function() {
@@ -165,9 +168,9 @@ WhileLoopStatement.prototype.gen = function() {
 };
 
 FixedLoopStatement.prototype.gen = function() {
-  return `for (let i = 0; i < ${parseInt(this.expression.gen())}; i++) { ${
-    this.body.gen()
-  }}`;
+  return `for (let i = 0; i < ${parseInt(
+    this.expression.gen()
+  )}; i++) { ${this.body.gen()}}`;
 };
 
 VariableDeclaration.prototype.gen = function() {
@@ -288,7 +291,9 @@ GiveStatement.prototype.gen = function() {
 };
 
 Parameters.prototype.gen = function() {
-  const paramIds = this.ids.map(paramVarExp => javaScriptId(paramVarExp.name));
+  const paramIds = this.ids.map((paramVarExp) =>
+    javaScriptId(paramVarExp.name)
+  );
   return paramIds.join(",");
 };
 
@@ -313,27 +318,28 @@ StringLiteral.prototype.gen = function() {
 };
 
 TemplateLiteral.prototype.gen = function() {
-  if ( this.exps ) {
-    const expressionStrings = this.exps.map(exp => `\${${exp.gen()}}`); // a VariableExpression's .gen() method handles the javaScriptId
+  if (this.exps) {
+    const expressionStrings = this.exps.map((exp) => `\${${exp.gen()}}`); // a VariableExpression's .gen() method handles the javaScriptId
     let templateString = "";
 
-    this.quasis.map( (quasi, i) => {
-      templateString += quasi.gen() + (expressionStrings ? expressionStrings[i] : '');
+    this.quasis.map((quasi, i) => {
+      templateString +=
+        quasi.gen() + (expressionStrings ? expressionStrings[i] : "");
     });
-  
+
     return `\`${templateString}\``;
   }
-  
+
   return `\`${this.quasis[0].gen()}\``;
 };
 
 PackLiteral.prototype.gen = function() {
-  let pack = this.elements.map(element => element.gen())
+  let pack = this.elements.map((element) => element.gen());
   return `[${pack.join(",")}]`;
 };
 
 ListElement.prototype.gen = function() {
-  return this.value.gen();
+  return this.hasSpread ? `...${this.value.gen()}` : this.value.gen();
 };
 
 KennelLiteral.prototype.gen = function() {
@@ -341,7 +347,7 @@ KennelLiteral.prototype.gen = function() {
   this.keyValuePairs.forEach((keyValuePair) => {
     keyValuePairs.push(keyValuePair.gen());
   });
-  return `{${keyValuePairs.toString()}}; `;
+  return `{${keyValuePairs.toString()}}`;
 };
 
 KeyValuePair.prototype.gen = function() {
@@ -357,7 +363,7 @@ UnaryExpression.prototype.gen = function() {
     return `(!${this.operand.gen()})`;
   } else if (this.op === "!") {
     containsFactorial = true;
-    return `(__factorial(${this.operand.gen()}))`
+    return `(__factorial(${this.operand.gen()}))`;
   } else {
     // this.operand == '-'
     return `-${this.operand.gen()}`;
