@@ -108,15 +108,24 @@ const builtin = {
     indexOfSubstring([s, substring]) {
         return `${s}.indexOf(${substring})`;
     },
-    // toeBeansToLeash([n]) {
-    //     return `${s}.substr(${i}, ${n})`;
-    // },
-    // leashToToeBeans([s, t]) {
-    //     return `${s}.concat(${t})`;
-    // },
-    // goodBoyToToeBeans(i) {
-    //     return `(!(${i}))`;
-    // },
+    toeBeansToLeash([n]) {
+        return `${n}.toString()`;
+    },
+    leashToToeBeans([s]) {
+        return `parseInt(${s})`;
+    },
+    goodBoyToToeBeans([b]) {
+        return `(${b} + 0)`;
+    },
+    toeBeansToGoodBoy([n]) {
+      return `(${n} !== 0)`;
+    },
+    leashToGoodBoy([s]) {
+      return `(${s} !== '')`;
+    },
+    goodBoyToLeash([b]) {
+      return `"${b}"`;
+    },
 };
 
 module.exports = function (exp) {
@@ -282,7 +291,7 @@ FunctionCall.prototype.gen = function () {
     if (builtin[this.callee.name]) {
         return builtin[this.callee.name](argsArray);
     }
-    return `${javaScriptId(this.callee.id)}(${argsArray.join(",")})`;
+    return `${javaScriptId(this.callee.name)}(${argsArray.join(",")})`;
 };
 
 PrintStatement.prototype.gen = function () {
@@ -297,7 +306,7 @@ PrintStatement.prototype.gen = function () {
 };
 
 GiveStatement.prototype.gen = function () {
-    return `return (${this.expression.gen()})`;
+    return `return (${this.expression.gen()});`;
 };
 
 Parameters.prototype.gen = function () {

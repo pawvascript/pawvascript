@@ -55,6 +55,14 @@ const fixture = {
         String.raw `woof("Hello, world");`,
         `console.log(\`Hello, world\`);`,
     ],
+    barkStringLiteral: [
+        String.raw `bark("Hello, world");`,
+        `console.log(\`Hello, world\`.toUpperCase());`,
+    ],
+    howlStringLiteral: [
+        String.raw `howl("Hello, world");`,
+        `console.error(\`Hello, world\`);`,
+    ],
     printTemplateLiteral: [
         String.raw `leash place is "world"; woof("Hello, ![place]");`,
         /let place_(\d+) = `world`;\s*console.log\(`Hello, \${place_\1}`\);/,
@@ -133,6 +141,18 @@ const fixture = {
         String.raw `leash name is "CeCe";
       indexOfSubstring(name, "eC");`,
         /let name_(\d+) = `CeCe`;\s*name_\1.indexOf\(`eC`\)/
+    ],
+    assignment: [
+        String.raw `toeBeans age is 12; age is 13;`,
+        /let age_(\d+) = 12;\s*age_(\1) = 13;/
+    ],
+    funcCall: [
+        String.raw `trick greet chews[leash:name] fetches leash:
+      give "Hello, ![name]";
+    tail
+    greet("Puppy");`,
+        /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\)\s*}\s*greet(\1)\(`Puppy`\);/,
+
     ],
     factorial: [
         String.raw `toeBeans factorial is 5!;`,
