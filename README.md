@@ -203,8 +203,6 @@ pack[leash] bestDogs is goodDogs without "Muffin";
 
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
-        </td>
-    </tr>
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
@@ -215,25 +213,18 @@ pack[leash] allDogs is [
     peanutButter smallDogs,
     peanutButter bigDogs
 ];
-</pre>
-<pre style="margin-left: 0; width: 100%">
 woof allDogs;
 !!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] !!!
 </pre>
-        </td>
+</td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-
 let smallDogs = ["Tiny", "Teenie", "Boo"];
 let bigDogs = ["Boofer", "Woofer", "Mo"];
 let allDogs = [
     ...smallDogs,
     ...bigDogs
 ];
-</pre>
-<pre style="margin-left: 0; width: 100%">
-console.log(allDogs);
-/* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] */
 </pre>
         </td>
     </tr>
@@ -726,7 +717,7 @@ Let's make an owner breed!
 </br>breed Owner is:   
     leash dogName; 
     trick Owner chews[leash:dogName] fetches Owner;
-    
+    </br>
     trick introduceDog:
         woof "My dog's name is " with Owner's dogName;
     tail     
@@ -734,6 +725,7 @@ Let's make an owner breed!
         give Owner's dogName with ", stay!";
     tail
 tail
+<br>
 Owner lucille is Owner("CeCe")  
 (lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!
 woof lucille's command()  !!! output: "CeCe, stay." !!!     
@@ -752,6 +744,7 @@ class Owner {
         return `${this.dogName}, stay!`;
     }
 }
+<br>
 let lucille = new Owner("CeCe");
 lucille.introduceDog();
 console.log(lucille.command());

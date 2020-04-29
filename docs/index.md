@@ -1,6 +1,6 @@
 # PawvaScript
 
-<img alt='PawvaScript Logo' src='images/pawvascript.png' width='300px'/>
+<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
 
 ## Introduction
 
@@ -8,9 +8,9 @@ Ever wish that JavaScript had less symbols and more dogs? We did, so we made Paw
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
-*Check out the full Ohm description of the PawvaScript grammar [here](https://github.com/pawvascript/pawvascript/blob/master/grammar/pawvascript.ohm)!*
+*Check out the full Ohm description of the PawvaScript grammar [here](grammar/pawvascript.ohm)!*
 
-<img alt='CeCe Coding Rear View' src='images/CeCeCoding2.JPG' width='600px'/>
+<img alt='CeCe Coding Rear View' src='assets/CeCeCoding2.JPG' width='600px'/>
 
 ## Features
 
@@ -139,8 +139,7 @@ leash theBestestDog is cat;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-
-
+</br></br>
 let theBestestDog = null;
 </pre>
         </td>
@@ -198,11 +197,10 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
+</br>
 
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
-        </td>
-    </tr>
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
@@ -213,25 +211,18 @@ pack[leash] allDogs is [
     peanutButter smallDogs,
     peanutButter bigDogs
 ];
-</pre>
-<pre style="margin-left: 0; width: 100%">
 woof allDogs;
 !!! ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] !!!
 </pre>
-        </td>
+</td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-
 let smallDogs = ["Tiny", "Teenie", "Boo"];
 let bigDogs = ["Boofer", "Woofer", "Mo"];
 let allDogs = [
     ...smallDogs,
     ...bigDogs
 ];
-</pre>
-<pre style="margin-left: 0; width: 100%">
-console.log(allDogs);
-/* ["Tiny", "Teenie", "Boo", "Boofer", "Woofer", "Mo"] */
 </pre>
         </td>
     </tr>
@@ -402,6 +393,7 @@ else {
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
+</br>
 if x notEquals y then:
     woof "CeCe is kinda cute";
 else if x isGreaterThan y then:
@@ -410,7 +402,6 @@ else if x isLessThan y then:
     woof "Okay, CeCe is really cute";
 else:
     woof "CeCe is the cutest of the cutest";
-tail          
 </pre>
         </td>
         <td>
@@ -469,15 +460,29 @@ Forever Loop
         <td>
 <pre style="margin-left: 0; width: 100%">
 chase:
-    woof "I run forever\!";
+    woof "I run forever!";
 tail
 </pre>
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
 while (true) {
-    console.log("I run forever!");
+    console.log("I run forever\!");
 }
+</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>
+<pre style="margin-left: 0; width: 100%">
+pack[leash] dogNames is ["CeCe", "Fluffy"];
+kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
+</pre>
+        </td>
+        <td>
+<pre style="margin-left: 0; width: 100%">
+let dogNames = ["CeCe", "Fluffy"];
+let dogAges = {"CeCe": 1, "Fluffy": 2};
 </pre>
         </td>
     </tr>
@@ -583,7 +588,7 @@ chase element through myPack:
         poop;  
     else if element equals "CeCe" then: 
         walkies;  
-    tail
+    tail;
     woof element;
 tail
 </pre>
@@ -619,7 +624,7 @@ trick gcd chews[toeBeans:num1, toeBeans:num2] fetches toeBeans:
         remainder is (a mod b); 
         a is b; 
         b is remainder;  
-    tail
+    tail;
     give a;
 tail
 </pre>
@@ -707,10 +712,10 @@ Let's make an owner breed!
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-breed Owner is:   
+</br>breed Owner is:   
     leash dogName; 
     trick Owner chews[leash:dogName] fetches Owner;
-    
+    </br>
     trick introduceDog:
         woof "My dog's name is " with Owner's dogName;
     tail     
@@ -718,6 +723,7 @@ breed Owner is:
         give Owner's dogName with ", stay!";
     tail
 tail
+<br>
 Owner lucille is Owner("CeCe")  
 (lucille's introduceDog)() !!! output: "My dog's name is CeCe" !!!
 woof lucille's command()  !!! output: "CeCe, stay." !!!     
@@ -736,6 +742,7 @@ class Owner {
         return `${this.dogName}, stay!`;
     }
 }
+<br>
 let lucille = new Owner("CeCe");
 lucille.introduceDog();
 console.log(lucille.command());
@@ -777,4 +784,4 @@ console.log(lucille.command());
 
 Happy PawvaScript coding! Remember: _Good Dogs only!_
 
-<img alt='CeCe Coding Front View' src='images/CeCeCoding3.JPG' width='500px'/>
+<img alt='CeCe Coding Front View' src='assets/CeCeCoding3.JPG' width='500px'/>
