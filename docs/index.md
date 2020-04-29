@@ -1,7 +1,3 @@
-<head>
-    <link rel="shortcut icon" type="images/png" href="images/favicon.png">
-</head>
-
 # PawvaScript
 
 <img alt='PawvaScript Logo' src='images/pawvascript.png' width='300px'/>
