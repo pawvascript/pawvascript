@@ -31,9 +31,6 @@ const {
   BreedType,
   Field,
   Method,
-  ListType,
-  DictType,
-  IdType,
   FunctionDeclaration,
   Function,
   Parameters,
@@ -77,6 +74,8 @@ function makeOp(op) {
       isAtMost: "<=",
       isLessThan: "<",
       not: "!",
+      "'s": ".",
+      mod: "%",
     }[op] || op
   );
 }
@@ -152,10 +151,16 @@ Block.prototype.gen = function() {
 ConditionalStatement.prototype.gen = function() {
   const condition = this.condition.gen();
   const body = this.body.gen();
-  const elsePart = this.otherwise ? this.otherwise.gen() : "";
-  return `if (${condition}) {${body}} ${
-    elsePart ? `else { ${elsePart} }` : ""
-  }`;
+  let elseIfStrings = "";
+  // if we have one or more "otherwise"'s inside of this.otherwise, that means the middle
+  // otherwise's are also conditional statements, and we want to produce else-if's for
+  // all of them except the last nested otherwise
+  while (this.otherwise && this.otherwise.otherwise) {
+    elseIfStrings += `else if (${this.otherwise.condition.gen()}) {${this.otherwise.body.gen()}}`;
+    this.otherwise = this.otherwise.otherwise;
+  }
+  const elseString = this.otherwise ? `else { ${this.otherwise.gen()} }` : "";
+  return `if (${condition}) {${body}} ${elseIfStrings} ${elseString}`;
 };
 
 InfiniteLoopStatement.prototype.gen = function() {
@@ -194,16 +199,6 @@ Variable.prototype.gen = function() {
     return `null`;
   }
 };
-// TODO ask Toal
-
-// PS: leash name = cat;
-// JS: let name = null;
-
-// PS: leash name; // value is null
-// JS: let name; // value would be undefined
-
-// PS: Owner lucille; // value is null
-// JS: let lucille = null; // undefined
 
 FunctionDeclaration.prototype.gen = function() {
   const name = javaScriptId(this.id.name);
@@ -212,7 +207,8 @@ FunctionDeclaration.prototype.gen = function() {
 
 Function.prototype.gen = function() {
   const body = this.body.gen();
-  return `( ${this.parameters.gen()} ) {${body}}`;
+  const params = this.parameters ? this.parameters.gen() : "";
+  return `( ${params} ) {${body}}`;
 };
 
 TypeDeclaration.prototype.gen = function() {
@@ -275,8 +271,6 @@ Constructor.prototype.gen = function(fields) {
 
 Field.prototype.gen = function() {
   const fieldId = javaScriptId(this.id.name);
-  console.log("FIELD GEN!!!!!!!!!!!");
-  console.log(this.variable);
   return `this.${fieldId} = ${this.variable.gen()};`;
 };
 
@@ -310,7 +304,7 @@ PrintStatement.prototype.gen = function() {
 };
 
 GiveStatement.prototype.gen = function() {
-  return `return (${this.expression.gen()});`;
+  return this.expression ? `return (${this.expression.gen()});` : `return;`;
 };
 
 Parameters.prototype.gen = function() {
@@ -337,7 +331,14 @@ NumberLiteral.prototype.gen = function() {
 };
 
 StringLiteral.prototype.gen = function() {
-  return `${this.value}`;
+  // We need to iterate through all characters in this.value because
+  // PawvaScript escapes are not the same as JavaScript escapes
+  const characters = this.value
+    .split("")
+    .map((character, i) =>
+      character === "\\" && this.value.charAt(i + 1) === "!" ? "" : character
+    );
+  return characters.join("");
 };
 
 TemplateLiteral.prototype.gen = function() {
@@ -347,7 +348,8 @@ TemplateLiteral.prototype.gen = function() {
 
     this.quasis.map((quasi, i) => {
       templateString +=
-        quasi.gen() + (expressionStrings ? expressionStrings[i] : "");
+        quasi.gen() +
+        (expressionStrings.length > i ? expressionStrings[i] : "");
     });
 
     return `\`${templateString}\``;
@@ -382,37 +384,21 @@ VariableExpression.prototype.gen = function() {
 };
 
 UnaryExpression.prototype.gen = function() {
-  console.log("in unary expression this is: ", this);
   if (this.op === "not") {
     return `(!${this.operand.gen()})`;
   } else if (this.op === "!") {
     containsFactorial = true;
     return `(__factorial(${this.operand.gen()}))`;
   } else {
-    // this.operand == '-'
+    // this.operand === '-'
     return `(-${this.operand.gen()})`;
   }
 };
 
 BinaryExpression.prototype.gen = function() {
+  // TODO: makeOp handles all the binary ops except for with/without
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
 };
-
-// ArrayExp.prototype.gen = function() {
-//   return `Array(${this.size.gen()}).fill(${this.fill.gen()})`;
-// };
-
-// Assignment.prototype.gen = function() {
-//   return `${this.target.gen()} = ${this.source.gen()}`;
-// };
-
-// BinaryExp.prototype.gen = function() {
-//   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
-// };
-
-// Binding.prototype.gen = function() {
-//   return `${this.id} : ${this.value.gen()}`;
-// };
 
 // Break.prototype.gen = function() {
 //   return 'break';

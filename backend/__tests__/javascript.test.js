@@ -31,6 +31,29 @@ const fixture = {
     String.raw`leash name is "CeCe";`,
     /let name_\d+ = `CeCe`;/,
   ],
+  stringVariableDeclarationWithEscape: [
+    String.raw`leash name is "CeCe\!\n";`,
+    /let name_\d+ = `CeCe!\\n`;/,
+  ],
+  stringTemplateVariableDeclaration: [
+    String.raw`leash lastName is "Njoo"; leash name is "CeCe ![lastName] the dog";`,
+    /let lastName_(\d+) = `Njoo`;\s*let name_\d+ = `CeCe \$\{lastName_\1\} the dog`;/,
+  ],
+  /* Binary Expressions */
+  variableDeclarationWithAdditionExpression: [
+    String.raw`toeBeans age is 10 + 34;`,
+    /let age_(\d+) = \(10 \+ 34\);/,
+  ],
+  variableDeclarationWithModExpression: [
+    String.raw`toeBeans age is 34 mod 10;`,
+    /let age_(\d+) = \(34 % 10\);/,
+  ],
+  // TODO: add generator tests for the remaining binary operators.
+  /* Assignment Statements */
+  assignment: [
+    String.raw`toeBeans age is 12; age is 13;`,
+    /let age_(\d+) = 12;\s*age_(\1) = 13;/,
+  ],
   /* Lists and Dictionaries */
   emptyListVariableDeclaration: [
     String.raw`pack[leash] dogs is [];`,
@@ -71,11 +94,21 @@ const fixture = {
     String.raw`leash place is "world"; woof("Hello, ![place]");`,
     /let place_(\d+) = `world`;\s*console.log\(`Hello, \${place_\1}`\);/,
   ],
-  conditional: [
+  /* Conditional Statements */
+  ifStatement: [
     String.raw`if (good) then: woof "Good boy"; tail`,
     /if \(true\) {\s*console.log\(`Good boy`\);\s*}/,
   ],
+  ifElseStatement: [
+    String.raw`if (good) then: woof "Yes"; else: woof "No"; tail`,
+    /if \(true\) {\s*console.log\(`Yes`\);\s*} else {\s*console.log\(`No`\);\s*}/,
+  ],
+  ifElseIfElseStatement: [
+    String.raw`if (good) then: woof "Yes"; else if (bad) then: woof "Maybe"; else: woof "No"; tail`,
+    /if \(true\) {\s*console.log\(`Yes`\);\s*} else if \(false\) {\s*console.log\(`Maybe`\);\s*} else {\s*console.log\(`No`\);\s*}/,
+  ],
   // TODO: add test for strings that escape !
+  /* Loops */
   infiniteLoop: [
     String.raw`chase:
       woof "I run forever";
@@ -122,68 +155,12 @@ const fixture = {
     tail`,
     /for \(let i = 0; i < 5; i\+\+\) {\s*console.log\(`Stay.`\);\s*}/,
   ],
-  variableDeclaration: [
-    String.raw`toeBeans age is 10 + 34;`,
-    /let age_(\d+) = \(10 \+ 34\);/,
-  ],
+  /* Functions and Calls */
   functionDeclaration: [
     String.raw`trick greet chews[leash:name] fetches leash:
       give "Hello, ![name]";
     tail`,
     /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\);\s*}/,
-  ],
-  breedDeclaration: [
-    String.raw`breed Owner is:
-        leash name;
-        goodBoy hasDog is good;
-        
-        trick Owner chews[leash:name] fetches Owner;
-      tail`,
-    /class Owner_\d+ {\s*constructor\(name_(\d+) = ``\) {\s*Object.assign\(this, {\s*name_\1\s*}\);\s*this.hasDog_\d+ = true;\s*}\s*}/,
-  ],
-  sizeBuiltin: [String.raw`size("hello");`, /`hello`.length/],
-  substring: [
-    String.raw`leash name is "CeCe";
-      woof substring(name, 0, 2);`,
-    /let name_(\d+) = `CeCe`;\s*console.log\(name_\1\.substr\(0, 2\)\);/,
-  ],
-  contains: [
-    String.raw`leash name is "CeCe";
-      contains(name, "Ce");`,
-    /let name_(\d+) = `CeCe`;\s*name_\1.includes\(`Ce`\)/,
-  ],
-  indexOfSubstring: [
-    String.raw`leash name is "CeCe";
-      indexOfSubstring(name, "eC");`,
-    /let name_(\d+) = `CeCe`;\s*name_\1.indexOf\(`eC`\)/,
-  ],
-  toeBeansToLeash: [
-    String.raw`leash age is toeBeansToLeash(12);`,
-    /let age_(\d+) = \(12\).toString\(\);/,
-  ],
-  leashToToeBeans: [
-    String.raw`toeBeans age is leashToToeBeans("12");`,
-    /let age_(\d+) = parseInt\(`12`\);/,
-  ],
-  goodBoyToToeBeans: [
-    String.raw`toeBeans number is goodBoyToToeBeans(good);`,
-    /let number_(\d+) = \(true \+ 0\);/,
-  ],
-  toeBeansToGoodBoy: [
-    String.raw`goodBoy boolean is toeBeansToGoodBoy(23);`,
-    /let boolean_(\d+) = \(23 !== 0\);/,
-  ],
-  leashToGoodBoy: [
-    String.raw`goodBoy boolean is leashToGoodBoy("23");`,
-    /let boolean_(\d+) = \(`23` !== ''\);/,
-  ],
-  goodBoyToLeash: [
-    String.raw`leash string is goodBoyToLeash(bad);`,
-    /let string_(\d+) = \(false\).toString\(\);/,
-  ],
-  assignment: [
-    String.raw`toeBeans age is 12; age is 13;`,
-    /let age_(\d+) = 12;\s*age_(\1) = 13;/,
   ],
   funcCall: [
     String.raw`trick greet chews[leash:name] fetches leash:
@@ -192,6 +169,66 @@ const fixture = {
     greet("Puppy");`,
     /function greet_(\d+)\(name_(\d+)\) \{\s*return \(`Hello, \$\{name_\2\}`\);\s*\}\s*greet_\1\(`Puppy`\)/,
   ],
+  /* Breeds */
+  breedDeclarationWithConstructor: [
+    String.raw`breed Owner is:
+        leash name;
+        goodBoy hasDog is good;
+        
+        trick Owner chews[leash:name] fetches Owner;
+      tail`,
+    /class Owner_\d+ {\s*constructor\(name_(\d+) = ``\) {\s*Object.assign\(this, {\s*name_\1\s*}\);\s*this.hasDog_\d+ = true;\s*}\s*}/,
+  ],
+  breedDeclarationWithMethods: [
+    String.raw`breed DogLover is:
+        trick barkAtDog:
+            give;
+        tail
+      tail`,
+    /class DogLover_\d+ {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*}\s*barkAtDog_\d+\(\) {\s*return;\s*}\s*}/,
+  ],
+  /* Builtins */
+  sizeBuiltin: [String.raw`size("hello");`, /`hello`.length/],
+  substringBuiltin: [
+    String.raw`leash name is "CeCe";
+      woof substring(name, 0, 2);`,
+    /let name_(\d+) = `CeCe`;\s*console.log\(name_\1\.substr\(0, 2\)\);/,
+  ],
+  containsBuiltin: [
+    String.raw`leash name is "CeCe";
+      contains(name, "Ce");`,
+    /let name_(\d+) = `CeCe`;\s*name_\1.includes\(`Ce`\)/,
+  ],
+  indexOfSubstringBuiltin: [
+    String.raw`leash name is "CeCe";
+      indexOfSubstring(name, "eC");`,
+    /let name_(\d+) = `CeCe`;\s*name_\1.indexOf\(`eC`\)/,
+  ],
+  toeBeansToLeashBuiltin: [
+    String.raw`leash age is toeBeansToLeash(12);`,
+    /let age_(\d+) = \(12\).toString\(\);/,
+  ],
+  leashToToeBeansBuiltin: [
+    String.raw`toeBeans age is leashToToeBeans("12");`,
+    /let age_(\d+) = parseInt\(`12`\);/,
+  ],
+  goodBoyToToeBeansBuiltin: [
+    String.raw`toeBeans number is goodBoyToToeBeans(good);`,
+    /let number_(\d+) = \(true \+ 0\);/,
+  ],
+  toeBeansToGoodBoyBuiltin: [
+    String.raw`goodBoy boolean is toeBeansToGoodBoy(23);`,
+    /let boolean_(\d+) = \(23 !== 0\);/,
+  ],
+  leashToGoodBoyBuiltin: [
+    String.raw`goodBoy boolean is leashToGoodBoy("23");`,
+    /let boolean_(\d+) = \(`23` !== ''\);/,
+  ],
+  goodBoyToLeashBuiltin: [
+    String.raw`leash string is goodBoyToLeash(bad);`,
+    /let string_(\d+) = \(false\).toString\(\);/,
+  ],
+  /* Unary Operators */
   notOp: [
     String.raw`goodBoy isGood is not bad;`,
     /let isGood_(\d+) = \(!false\);/,
