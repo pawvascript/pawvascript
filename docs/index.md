@@ -1,6 +1,6 @@
 # PawvaScript
 
-<img alt='PawvaScript Logo' src='assets/pawvascript.png' width='300px'/>
+<img alt='PawvaScript Logo' src='images/pawvascript.png' width='300px'/>
 
 ## Introduction
 
