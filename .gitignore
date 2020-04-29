@@ -108,3 +108,6 @@ dist
 
 # All .vscode settings
 .vscode
+
+# DS_Stores
+*.DS_Store
