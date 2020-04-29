@@ -141,7 +141,7 @@ leash theBestestDog is cat;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br></br>
+
 let theBestestDog = null;
 </pre>
         </td>
@@ -199,7 +199,6 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>
 
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
