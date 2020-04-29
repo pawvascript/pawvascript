@@ -12,9 +12,16 @@ const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n !
 
 const fixture = {
   /* Declarations */
+  uninitializedVariableDeclaration: [
+    String.raw`
+        breed Dog is:
+        tail
+        Dog myDog;`,
+    /class Dog_\d+\s*{\s*}\s*let myDog_\d+ = null;/,
+  ],
   numberVariableDeclaration: [
     String.raw`toeBeans CeCeAge is 1;`,
-    String.raw`let CeCeAge_1 = 1;`,
+    /let CeCeAge_\d+ = 1;/,
   ],
   booleanVariableDeclaration: [
     String.raw`goodBoy isGoodBoy is good;`,

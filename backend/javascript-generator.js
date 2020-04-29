@@ -211,7 +211,7 @@ TypeDeclaration.prototype.gen = function() {
 };
 
 BreedType.prototype.gen = function() {
-  const constructorString = this.constructors[0].gen(fields);
+  const constructorString = this.constructors[0].gen(this.fields);
   const methodStrings = this.methods.map((method) => method.gen());
   return `{ ${constructorString} ${methodStrings.join("")} }`;
 };
