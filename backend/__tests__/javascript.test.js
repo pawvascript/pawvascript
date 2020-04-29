@@ -11,155 +11,201 @@ const generate = require("../javascript-generator");
 const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n != 1\\) \\? n \\* factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
 
 const fixture = {
-    /* Declarations */
-    uninitializedVariableDeclaration: [
-        String.raw `
+  /* Declarations */
+  uninitializedVariableDeclaration: [
+    String.raw`
         breed Dog is:
         tail
         Dog myDog;`,
-        /class Dog_\d+ {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*}\s*}\s*let myDog_\d+ = null;/s,
-    ],
-    numberVariableDeclaration: [
-        String.raw `toeBeans CeCeAge is 1;`,
-        /let CeCeAge_\d+ = 1;/,
-    ],
-    booleanVariableDeclaration: [
-        String.raw `goodBoy isGoodBoy is good;`,
-        /let isGoodBoy_\d+ = true;/,
-    ],
-    stringVariableDeclaration: [
-        String.raw `leash name is "CeCe";`,
-        /let name_\d+ = `CeCe`;/,
-    ],
-    /* Lists and Dictionaries */
-    emptyListVariableDeclaration: [
-        String.raw `pack[leash] dogs is [];`,
-        /let dogs_\d+ = \[\];/,
-    ],
-    emptyDictVariableDeclaration: [
-        String.raw `kennel[leash:toeBeans] dogs is [:];`,
-        /let dogs_\d+ = {};/,
-    ],
-    nonEmptyListVariableDeclaration: [
-        String.raw `pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
-        /let dogs_\d+ = \[`CeCe`, `Buster`, `Dumpling`\];/,
-    ],
-    listVariableDeclarationWithSpreadOnPackLiteral: [
-        String.raw `
+    /class Dog_\d+ {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*}\s*}\s*let myDog_\d+ = null;/s,
+  ],
+  numberVariableDeclaration: [
+    String.raw`toeBeans CeCeAge is 1;`,
+    /let CeCeAge_\d+ = 1;/,
+  ],
+  booleanVariableDeclaration: [
+    String.raw`goodBoy isGoodBoy is good;`,
+    /let isGoodBoy_\d+ = true;/,
+  ],
+  stringVariableDeclaration: [
+    String.raw`leash name is "CeCe";`,
+    /let name_\d+ = `CeCe`;/,
+  ],
+  /* Lists and Dictionaries */
+  emptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is [];`,
+    /let dogs_\d+ = \[\];/,
+  ],
+  emptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is [:];`,
+    /let dogs_\d+ = {};/,
+  ],
+  nonEmptyListVariableDeclaration: [
+    String.raw`pack[leash] dogs is ["CeCe", "Buster", "Dumpling"];`,
+    /let dogs_\d+ = \[`CeCe`, `Buster`, `Dumpling`\];/,
+  ],
+  listVariableDeclarationWithSpreadOnPackLiteral: [
+    String.raw`
         pack[leash] allDogs is ["Bear", "Bermuda", peanutButter ["CeCe", "Buster", "Dumpling"]];
     `,
-        /let allDogs_\d+ = \[`Bear`, `Bermuda`, ...\[`CeCe`, `Buster`, `Dumpling`\]\];/,
-    ],
-    /* Print Statements */
-    printStringLiteral: [
-        String.raw `woof("Hello, world");`,
-        `console.log(\`Hello, world\`);`,
-    ],
-    barkStringLiteral: [
-        String.raw `bark("Hello, world");`,
-        `console.log(\`Hello, world\`.toUpperCase());`,
-    ],
-    howlStringLiteral: [
-        String.raw `howl("Hello, world");`,
-        `console.error(\`Hello, world\`);`,
-    ],
-    printTemplateLiteral: [
-        String.raw `leash place is "world"; woof("Hello, ![place]");`,
-        /let place_(\d+) = `world`;\s*console.log\(`Hello, \${place_\1}`\);/,
-    ],
-    conditional: [
-        String.raw `if (good) then: woof "Good boy"; tail`,
-        /if \(true\) {\s*console.log\(`Good boy`\);\s*}/,
-    ],
-    // TODO: add test for strings that escape !
-    infiniteLoop: [
-        String.raw `chase:
+    /let allDogs_\d+ = \[`Bear`, `Bermuda`, ...\[`CeCe`, `Buster`, `Dumpling`\]\];/,
+  ],
+  nonEmptyDictVariableDeclaration: [
+    String.raw`kennel[leash:toeBeans] dogs is ["Sparky":12, "Buster":13];`,
+    /let dogs_\d+ = \{\s*`Sparky`: 12,\s*`Buster`: 13\s*\};/,
+  ],
+  /* Print Statements */
+  printStringLiteral: [
+    String.raw`woof("Hello, world");`,
+    `console.log(\`Hello, world\`);`,
+  ],
+  barkStringLiteral: [
+    String.raw`bark("Hello, world");`,
+    `console.log(\`Hello, world\`.toUpperCase());`,
+  ],
+  howlStringLiteral: [
+    String.raw`howl("Hello, world");`,
+    `console.error(\`Hello, world\`);`,
+  ],
+  printTemplateLiteral: [
+    String.raw`leash place is "world"; woof("Hello, ![place]");`,
+    /let place_(\d+) = `world`;\s*console.log\(`Hello, \${place_\1}`\);/,
+  ],
+  conditional: [
+    String.raw`if (good) then: woof "Good boy"; tail`,
+    /if \(true\) {\s*console.log\(`Good boy`\);\s*}/,
+  ],
+  // TODO: add test for strings that escape !
+  infiniteLoop: [
+    String.raw`chase:
       woof "I run forever";
     tail`,
-        /while \(true\) {\s*console.log\(`I run forever`\);\s*}/,
-    ],
-    forLoop: [
-        String.raw `chase toeBeans i is 0 by i*2 while i isLessThan 10:
+    /while \(true\) {\s*console.log\(`I run forever`\);\s*}/,
+  ],
+  infiniteLoopWithBreak: [
+    String.raw`chase:
+      woof "I run forever";
+      poop;
+    tail`,
+    /while \(true\) {\s*console.log\(`I run forever`\);\s*break;\s*}/,
+  ],
+  infiniteLoopWithContinue: [
+    String.raw`chase:
+      woof "I run forever";
+      walkies;
+    tail`,
+    /while \(true\) {\s*console.log\(`I run forever`\);\s*continue;\s*}/,
+  ],
+  forLoop: [
+    String.raw`chase toeBeans i is 0 by i*2 while i isLessThan 10:
         woof i; 
     tail`,
-        /for \(let i_(\d+) = 0;\s*\(i_\1 < 10\);\s*i_\1 = \(i_\1 \* 2\)\) {\s*console.log\(i_\1\);\s*}/,
-    ],
-    throughLoop: [
-        String.raw `pack[toeBeans] myPack is [1,2,3];
+    /for \(let i_(\d+) = 0;\s*\(i_\1 < 10\);\s*i_\1 = \(i_\1 \* 2\)\) {\s*console.log\(i_\1\);\s*}/,
+  ],
+  throughLoop: [
+    String.raw`pack[toeBeans] myPack is [1,2,3];
     chase element through myPack:   
       woof element; 
     tail`,
-        /let myPack_(\d+) = \[1, 2, 3\];\s*for \(let element_(\d+) of myPack_\1\) {\s*console.log\(element_\2\);\s*}/,
-    ],
-    whileLoop: [
-        String.raw `toeBeans x is 0;
+    /let myPack_(\d+) = \[1, 2, 3\];\s*for \(let element_(\d+) of myPack_\1\) {\s*console.log\(element_\2\);\s*}/,
+  ],
+  whileLoop: [
+    String.raw`toeBeans x is 0;
     chase while x isAtMost 5:
       woof x;
     tail`,
-        /let x_(\d+) = 0;\s*while \(\(x_\1 <= 5\)\) {\s*console.log\(x_\1\);\s*}/,
-    ],
-    fixedLoop: [
-        String.raw `chase 5 times:
+    /let x_(\d+) = 0;\s*while \(\(x_\1 <= 5\)\) {\s*console.log\(x_\1\);\s*}/,
+  ],
+  fixedLoop: [
+    String.raw`chase 5 times:
       woof "Stay.";
     tail`,
-        /for \(let i = 0; i < 5; i\+\+\) {\s*console.log\(`Stay.`\);\s*}/,
-    ],
-    variableDeclaration: [
-        String.raw `toeBeans age is 10 + 34;`,
-        /let age_(\d+) = \(10 \+ 34\);/,
-    ],
-    functionDeclaration: [
-        String.raw `trick greet chews[leash:name] fetches leash:
+    /for \(let i = 0; i < 5; i\+\+\) {\s*console.log\(`Stay.`\);\s*}/,
+  ],
+  variableDeclaration: [
+    String.raw`toeBeans age is 10 + 34;`,
+    /let age_(\d+) = \(10 \+ 34\);/,
+  ],
+  functionDeclaration: [
+    String.raw`trick greet chews[leash:name] fetches leash:
       give "Hello, ![name]";
     tail`,
-        /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\)\s*}/,
-    ],
-    breedDeclaration: [
-        String.raw `breed Owner is:
+    /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\);\s*}/,
+  ],
+  breedDeclaration: [
+    String.raw`breed Owner is:
         leash name;
         goodBoy hasDog is good;
         
         trick Owner chews[leash:name] fetches Owner;
       tail`,
-        /class Owner_\d+ {\s*constructor\(name_(\d+) = ``\) {\s*Object.assign\(this, {\s*name_\1\s*}\);\s*this.hasDog_\d+ = true;\s*}\s*}/
-    ],
-    sizeBuiltin: [
-        String.raw `size("hello");`,
-        /`hello`.length/
-    ],
-    substring: [
-        String.raw `leash name is "CeCe";
+    /class Owner_\d+ {\s*constructor\(name_(\d+) = ``\) {\s*Object.assign\(this, {\s*name_\1\s*}\);\s*this.hasDog_\d+ = true;\s*}\s*}/,
+  ],
+  sizeBuiltin: [String.raw`size("hello");`, /`hello`.length/],
+  substring: [
+    String.raw`leash name is "CeCe";
       woof substring(name, 0, 2);`,
-        /let name_(\d+) = `CeCe`;\s*console.log\(name_\1\.substr\(0, 2\)\);/
-    ],
-    contains: [
-        String.raw `leash name is "CeCe";
+    /let name_(\d+) = `CeCe`;\s*console.log\(name_\1\.substr\(0, 2\)\);/,
+  ],
+  contains: [
+    String.raw`leash name is "CeCe";
       contains(name, "Ce");`,
-        /let name_(\d+) = `CeCe`;\s*name_\1.includes\(`Ce`\)/
-    ],
-    indexOfSubstring: [
-        String.raw `leash name is "CeCe";
+    /let name_(\d+) = `CeCe`;\s*name_\1.includes\(`Ce`\)/,
+  ],
+  indexOfSubstring: [
+    String.raw`leash name is "CeCe";
       indexOfSubstring(name, "eC");`,
-        /let name_(\d+) = `CeCe`;\s*name_\1.indexOf\(`eC`\)/
-    ],
-    assignment: [
-        String.raw `toeBeans age is 12; age is 13;`,
-        /let age_(\d+) = 12;\s*age_(\1) = 13;/
-    ],
-    funcCall: [
-        String.raw `trick greet chews[leash:name] fetches leash:
+    /let name_(\d+) = `CeCe`;\s*name_\1.indexOf\(`eC`\)/,
+  ],
+  toeBeansToLeash: [
+    String.raw`leash age is toeBeansToLeash(12);`,
+    /let age_(\d+) = \(12\).toString\(\);/,
+  ],
+  leashToToeBeans: [
+    String.raw`toeBeans age is leashToToeBeans("12");`,
+    /let age_(\d+) = parseInt\(`12`\);/,
+  ],
+  goodBoyToToeBeans: [
+    String.raw`toeBeans number is goodBoyToToeBeans(good);`,
+    /let number_(\d+) = \(true \+ 0\);/,
+  ],
+  toeBeansToGoodBoy: [
+    String.raw`goodBoy boolean is toeBeansToGoodBoy(23);`,
+    /let boolean_(\d+) = \(23 !== 0\);/,
+  ],
+  leashToGoodBoy: [
+    String.raw`goodBoy boolean is leashToGoodBoy("23");`,
+    /let boolean_(\d+) = \(`23` !== ''\);/,
+  ],
+  goodBoyToLeash: [
+    String.raw`leash string is goodBoyToLeash(bad);`,
+    /let string_(\d+) = \(false\).toString\(\);/,
+  ],
+  assignment: [
+    String.raw`toeBeans age is 12; age is 13;`,
+    /let age_(\d+) = 12;\s*age_(\1) = 13;/,
+  ],
+  funcCall: [
+    String.raw`trick greet chews[leash:name] fetches leash:
       give "Hello, ![name]";
     tail
     greet("Puppy");`,
-        /function greet_(\d+)\(name_(\d+)\) {\s*return \(`Hello, \${name_\2}`\)\s*}\s*greet(\1)\(`Puppy`\);/,
-
-    ],
-    factorial: [
-        String.raw `toeBeans factorial is 5!;`,
-        new RegExp(
-            factorialFunctionRegex + `let factorial_\\d+ = \\(__factorial\\(5\\)\\);`
-        ),
-    ],
+    /function greet_(\d+)\(name_(\d+)\) \{\s*return \(`Hello, \$\{name_\2\}`\);\s*\}\s*greet_\1\(`Puppy`\)/,
+  ],
+  notOp: [
+    String.raw`goodBoy isGood is not bad;`,
+    /let isGood_(\d+) = \(!false\);/,
+  ],
+  factorialOp: [
+    String.raw`toeBeans factorial is 5!;`,
+    new RegExp(
+      factorialFunctionRegex + `let factorial_\\d+ = \\(__factorial\\(5\\)\\);`
+    ),
+  ],
+  negationOp: [
+    String.raw`toeBeans negative is -321;`,
+    /let negative_(\d+) = \(-321\);/,
+  ],
 };
 
 // const fixture = {
@@ -177,56 +223,56 @@ const fixture = {
 //   whileLoop: [String.raw`while 7 do break`, /while \(7\) \{\s*break\s*\}/],
 
 forLoop: [
-        String.raw `for i := 0 to 10 do ()`,
-        /let hi_(\d+) = 10;\s*for \(let i_(\d+) = 0; i_\2 <= hi_\1; i_\2\+\+\) \{\s*\}/,
-    ],
-    //   ifThen: [String.raw`if 3 then 5`, '((3) ? (5) : (null))'],
+  String.raw`for i := 0 to 10 do ()`,
+  /let hi_(\d+) = 10;\s*for \(let i_(\d+) = 0; i_\2 <= hi_\1; i_\2\+\+\) \{\s*\}/,
+],
+  //   ifThen: [String.raw`if 3 then 5`, '((3) ? (5) : (null))'],
 
-    //   ifThenElse: [String.raw`if 3 then 5 else 8`, '((3) ? (5) : (8))'],
+  //   ifThenElse: [String.raw`if 3 then 5 else 8`, '((3) ? (5) : (8))'],
 
-    //   member: [
-    //     String.raw`let type r = {x:string} var p := r{x="@"} in print(p.x) end`,
-    //     /let p_(\d+) = \{\s*x: "@"\s*\};\s*console.log\(p_\1\.x\)/,
-    //   ],
+  //   member: [
+  //     String.raw`let type r = {x:string} var p := r{x="@"} in print(p.x) end`,
+  //     /let p_(\d+) = \{\s*x: "@"\s*\};\s*console.log\(p_\1\.x\)/,
+  //   ],
 
-    //   subscript: [
-    //     String.raw`let type r = array of string var a := r[3] of "" in print(a[0]) end`,
-    //     /let a_(\d+) = Array\(3\).fill\(""\);\s*console.log\(a_\1\[0\]\)/,
-    //   ],
+  //   subscript: [
+  //     String.raw`let type r = array of string var a := r[3] of "" in print(a[0]) end`,
+  //     /let a_(\d+) = Array\(3\).fill\(""\);\s*console.log\(a_\1\[0\]\)/,
+  //   ],
 
-    //   letInFunction: [
-    //     String.raw`let function f():int = let var x:= 1 in x end in () end`,
-    //     /function f_(\d+)\(\) \{\s*let x_(\d+) = 1;\s*return x_\2\s*\};/,
-    //   ],
+  //   letInFunction: [
+  //     String.raw`let function f():int = let var x:= 1 in x end in () end`,
+  //     /function f_(\d+)\(\) \{\s*let x_(\d+) = 1;\s*return x_\2\s*\};/,
+  //   ],
 
-    //   letAsValue: [
-    //     String.raw`print(let var x := "dog" in concat(x, "s") end)`,
-    //     /console.log\(\(\(\) => \{\s*let x_(\d+) = "dog";\s*return x_\1.concat\("s"\);\s*\}\)\(\)\)/,
-    //   ],
+  //   letAsValue: [
+  //     String.raw`print(let var x := "dog" in concat(x, "s") end)`,
+  //     /console.log\(\(\(\) => \{\s*let x_(\d+) = "dog";\s*return x_\1.concat\("s"\);\s*\}\)\(\)\)/,
+  //   ],
 
-    //   returnExpressionSequence: [
-    //     String.raw`let function f():int = let var x:= 1 in (1;nil;3) end in () end`,
-    //     /function f_(\d+)\(\) {\s*let x_(\d+) = 1;\s*1;\s*null;\s*return 3\s*\};/,
-    //   ],
+  //   returnExpressionSequence: [
+  //     String.raw`let function f():int = let var x:= 1 in (1;nil;3) end in () end`,
+  //     /function f_(\d+)\(\) {\s*let x_(\d+) = 1;\s*1;\s*null;\s*return 3\s*\};/,
+  //   ],
 
-    //   moreBuiltIns: [
-    //     String.raw`(ord("x"); chr(30); substring("abc", 0, 1))`,
-    //     /\("x"\).charCodeAt\(0\);\s*String.fromCharCode\(30\);\s*"abc".substr\(0, 1\)/,
-    //   ],
+  //   moreBuiltIns: [
+  //     String.raw`(ord("x"); chr(30); substring("abc", 0, 1))`,
+  //     /\("x"\).charCodeAt\(0\);\s*String.fromCharCode\(30\);\s*"abc".substr\(0, 1\)/,
+  //   ],
 
-    //   evenMoreBuiltIns: [
-    //     String.raw`(not(1) ; size(""); exit(3))`,
-    //     /\(!\(1\)\);\s*"".length;\s*process\.exit\(3\)/,
-    //   ],
-    // };
+  //   evenMoreBuiltIns: [
+  //     String.raw`(not(1) ; size(""); exit(3))`,
+  //     /\(!\(1\)\);\s*"".length;\s*process\.exit\(3\)/,
+  //   ],
+  // };
 
-    describe("The JavaScript generator", () => {
-        Object.entries(fixture).forEach(([name, [source, expected]]) => {
-            test(`produces the correct output for ${name}`, (done) => {
-                const ast = parse(source);
-                analyze(ast);
-                expect(generate(ast)).toMatch(expected);
-                done();
-            });
-        });
+  describe("The JavaScript generator", () => {
+    Object.entries(fixture).forEach(([name, [source, expected]]) => {
+      test(`produces the correct output for ${name}`, (done) => {
+        const ast = parse(source);
+        analyze(ast);
+        expect(generate(ast)).toMatch(expected);
+        done();
+      });
     });
+  });
