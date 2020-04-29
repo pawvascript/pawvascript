@@ -20,7 +20,6 @@ PawvaScript is an object-oriented scripting language designed to make JavaScript
 - Static typing
 - Functions
   - we call them tricks!
-  - higher-order functions
 - 5 basic types
   - leash (string)
   - goodBoy (boolean)
