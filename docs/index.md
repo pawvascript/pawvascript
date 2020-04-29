@@ -402,7 +402,6 @@ else {
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-
 if x notEquals y then:
     woof "CeCe is kinda cute";
 else if x isGreaterThan y then:
