@@ -55,7 +55,6 @@ const {
   BinaryExpression,
 } = require("../ast");
 
-// const { NumType, StringType, BoolType } = require("../semantics/builtins.js");
 const beautify = require("js-beautify");
 
 const factorialFunction =
@@ -136,6 +135,7 @@ module.exports = function(exp) {
 };
 
 Program.prototype.gen = function() {
+  containsFactorial = false;
   const mainCode = this.block.gen();
   return containsFactorial ? factorialFunction + mainCode : mainCode;
 };
@@ -390,97 +390,13 @@ UnaryExpression.prototype.gen = function() {
     containsFactorial = true;
     return `(__factorial(${this.operand.gen()}))`;
   } else {
-    // this.operand === '-'
+    // this.op === '-'
     return `(-${this.operand.gen()})`;
   }
 };
 
 BinaryExpression.prototype.gen = function() {
-  // TODO: makeOp handles all the binary ops except for with/without
+  // TODO: makeOp handles all the binary ops except for with/without and at/of
+  // Handle these cases separately and also write tests for rest of binary ops
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
 };
-
-// Break.prototype.gen = function() {
-//   return 'break';
-// };
-
-// Call.prototype.gen = function() {
-//   const args = this.args.map(a => a.gen());
-//   if (this.callee.builtin) {
-//     return builtin[this.callee.id](args);
-//   }
-//   return `${javaScriptId(this.callee)}(${args.join(',')})`;
-// };
-
-// ExpSeq.prototype.gen = function() {
-//   return this.exps.map(e => e.gen()).join(';');
-// };
-
-// ForExp.prototype.gen = function() {
-//   const i = javaScriptId(this.index);
-//   const low = this.low.gen();
-//   const hi = javaScriptId(new Variable('hi'));
-//   const preAssign = `let ${hi} = ${this.high.gen()};`;
-//   const loopControl = `for (let ${i} = ${low}; ${i} <= ${hi}; ${i}++)`;
-//   const body = this.body.gen();
-//   return `${preAssign} ${loopControl} {${body}}`;
-// };
-
-// Func.prototype.gen = function() {
-//   const name = javaScriptId(this);
-//   const params = this.params.map(javaScriptId);
-//   // "Void" functions do not have a JS return, others do
-//   const body = this.body.type ? makeReturn(this.body) : this.body.gen();
-//   return `function ${name} (${params.join(',')}) {${body}}`;
-// };
-
-// IdExp.prototype.gen = function() {
-//   return javaScriptId(this.ref);
-// };
-
-// IfExp.prototype.gen = function() {
-//   const thenPart = this.consequent.gen();
-//   const elsePart = this.alternate ? this.alternate.gen() : 'null';
-//   return `((${this.test.gen()}) ? (${thenPart}) : (${elsePart}))`;
-// };
-
-// LetExp.prototype.gen = function() {
-//   if (this.type) {
-//     // This looks insane, but let-expressions really are closures!
-//     return `(() => {${makeReturn(this)} ; })()`;
-//   }
-//   const filteredDecs = this.decs.filter(d => d.constructor !== TypeDec);
-//   return [...filteredDecs, ...this.body].map(e => e.gen()).join(';');
-// };
-
-// Literal.prototype.gen = function() {
-//   return this.type === StringType ? `"${this.value}"` : this.value;
-// };
-
-// MemberExp.prototype.gen = function() {
-//   return `${this.record.gen()}.${this.id}`;
-// };
-
-// SubscriptedExp.prototype.gen = function() {
-//   return `${this.array.gen()}[${this.subscript.gen()}]`;
-// };
-
-// NegationExp.prototype.gen = function() {
-//   return `(- (${this.operand.gen()}))`;
-// };
-
-// Nil.prototype.gen = function() {
-//   return 'null';
-// };
-
-// RecordExp.prototype.gen = function() {
-//   return `{${this.bindings.map(b => b.gen()).join(',')}}`;
-// };
-
-// Variable.prototype.gen = function() {
-//   return `let ${javaScriptId(this)} = ${this.init.gen()}`;
-// };
-
-// WhileExp.prototype.gen = function() {
-//   return `while (${this.test.gen()}) { ${this.body.gen()} }`;
-// };
