@@ -10,6 +10,8 @@ Ever wish that JavaScript had less symbols and more dogs? We did, so we made Paw
 
 PawvaScript is an object-oriented scripting language designed to make JavaScript more programmer-friendly (so friendly that your dog could learn it, probably). PawvaScript draws on many fundamentals from JavaScript but replaces confusing symbols with clear and (dog-friendly) readable terms, adds types (like TypeScript) to help with debugging, and throws in some paw-sitively awesome dog-related keywords just for fun and tail wags.
 
+*Check out the full Ohm description of the PawvaScript grammar [here](grammar/pawvascript.ohm)!*
+
 <img alt='CeCe Coding Rear View' src='assets/CeCeCoding2.JPG' width='600px'/>
 
 ## Features
