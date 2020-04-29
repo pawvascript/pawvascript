@@ -264,7 +264,7 @@ const fixture = {
     `,
     /let e_\d+ = \(1 === 10\);\s*let f_\d+ = \(1 !== 10\);\s*/,
   ],
-  // TODO: add generator tests for the remaining binary operators: memberExp, with/without, at/of, & |, && ||
+  // TODO: add generator tests for the remaining binary operators: memberExp, with/without, at/of, & |
 
   //   memberExpresion: [
   //     String.raw`

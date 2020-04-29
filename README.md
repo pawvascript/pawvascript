@@ -100,7 +100,7 @@ goodBoy isNaughtyDoggo is bad;
 let dogName = "CeCe";
 let dogAge = 12;
 let isGoodBoy = true;
-let isNaughtyDoggo = bad; 
+let isNaughtyDoggo = false; 
 </pre>
         </td>
     </tr>
@@ -201,6 +201,7 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         <td>
 <pre style="margin-left: 0; width: 100%">
 </br>
+
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
         </td>
@@ -223,6 +224,7 @@ woof allDogs;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
+
 let smallDogs = ["Tiny", "Teenie", "Boo"];
 let bigDogs = ["Boofer", "Woofer", "Mo"];
 let allDogs = [
@@ -762,23 +764,23 @@ console.log(lucille.command());
 ### Bad Boys: Semantic Errors
 
 * The target and source of a variable declaration must have the same type.
+* The target and source of an assignment statement must have the same type.
 * Types and functions cannot be declared in loops.
-* Variables can only be declared once in the same block;
+* Variables can only be declared once in the same block.
 * Conditions in if statements must be booleans.
 * Conditions in loops must be booleans.
 * For loop variables must evaluate to a number.
 * Through loops can only be used on lists. (We hope to expand this functionality to other types soon!)
-* A through loop's variable cannot be changed in the body of the loop.
+* A through loop's variable cannot be changed in the body of the loop (read-only).
 * Types can only have one constructor.
 * A constructor's identifier must match the identifier of the type it constructs.
 * The parameters of a constructor must be fields in their type.
-* A constructor can only return the type it is a part of.
+* A constructor can only return the breedType it is a part of.
 * If a function's signature contains a return type, the function must and can only return an object of the return type.
-* Functions can only be called after they have been declared.
 * Functions must be called with the same number of arguments as described in the function signature.
 * Each function argument must be the same type as argument in that same positiion in the function signature.
-* Spreads can only be used with lists where the types of the lists are the same.
-* A dictionary's keys must all have the same type and its values must also be of the same type.
+* Spreads can only be used on list members that are also lists, and the member types of the lists must be the same.
+* A dictionary's keys must all have the same type and its values must also all be of the same type.
 * The unary operators "-" and "!" can only be used with numbers.
 * The operator "not" can only be used with booleans.
 * The binary operators "-", "+", "*", and "/" can only be used with numbers on either side.
