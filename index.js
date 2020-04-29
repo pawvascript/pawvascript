@@ -6,15 +6,15 @@ const { argv } = require("yargs")
   .describe("a", "show abstract syntax tree after parsing then stop")
   .describe("o", "do optimizations")
   .describe("i", "generate and show the intermediate code then stop")
-  .default({ target: "js" })
+  .default({ target: "javascript" })
   .demand(1);
 
 const fs = require("fs");
 const util = require("util");
 const parse = require("./ast/parser");
-// require('./semantics/analyzer');
+const analyze = require("./semantics/analyzer");
 // require('./semantics/optimizer');
-// require(`./backend/${argv.target}generator`);
+const generate = require(`./backend/${argv.target}-generator`);
 
 fs.readFile(argv._[0], "utf-8", (error, text) => {
   if (error) {
@@ -26,13 +26,14 @@ fs.readFile(argv._[0], "utf-8", (error, text) => {
     console.log(util.inspect(program, { depth: null }));
     return;
   }
-  //   program.analyze();
+  analyze(program);
   //   if (argv.o) {
   //     program = program.optimize();
   //   }
-  //   if (argv.i) {
-  //     console.log(util.inspect(program, { depth: null }));
-  //     return;
-  //   }
-  //   program.gen();
+  if (argv.i) {
+    console.log(util.inspect(program, { depth: null }));
+    return;
+  }
+  let generatedProgram = generate(program);
+  console.log(generatedProgram);
 });
