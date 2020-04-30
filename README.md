@@ -454,8 +454,7 @@ comment */
 
 ### Loops
 
-Forever Loop
-
+<br>Forever Loop
 <table>
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
@@ -474,25 +473,9 @@ while (true) {
 </pre>
         </td>
     </tr>
-    <tr>
-        <td>
-<pre style="margin-left: 0; width: 100%">
-pack[leash] dogNames is ["CeCe", "Fluffy"];
-kennel[leash:toeBeans] dogAges is ["CeCe": 1, "Fluffy": 2];
-</pre>
-        </td>
-        <td>
-<pre style="margin-left: 0; width: 100%">
-let dogNames = ["CeCe", "Fluffy"];
-let dogAges = {"CeCe": 1, "Fluffy": 2};
-</pre>
-        </td>
-    </tr>
 </table>
 
-
 <br>Fixed Loop
-
 <table>
     <th>PawvaScript</th><th>JavaScript</th>
     <tr>
