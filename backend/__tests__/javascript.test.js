@@ -234,6 +234,27 @@ const fixture = {
     /let negative_(\d+) = \(-321\);/,
   ],
   /* Binary Expressions */
+  withString: [
+    String.raw`leash dogs is "CeCe and Buster";
+      leash justCeCe is dogs without " and Buster";
+    `,
+    /let dogs_(\d+) = `CeCe and Buster`;\s*let justCeCe_\d+ = \(dogs_\1.replace\(` and Buster`, ''\)\);/,
+  ],
+  withPack: [
+    String.raw`pack[toeBeans] x is [1,2];
+    toeBeans y is 3;
+    pack[toeBeans] z is x with y;`,
+    /let x_(\d+) = \[1, 2\];\s*let y_(\d+) = 3;\s*let z_\d+ = \(x_\1.concat\(y_\2\)\)/,
+  ],
+  withoutString: [
+    String.raw`woof "hello sir" without "sir";`,
+    /console.log\(\(`hello sir`.replace\(`sir`, ''\)\)\);/,
+  ],
+  withoutPack: [
+    String.raw`pack[toeBeans] x is [1,2,3];
+    pack[toeBeans] y is x without 3;`,
+    /let x_(\d+) = \[1, 2, 3\];\s*let y_(\d+) = \(x_\1\.filter\(e => e !== 3\)\);/,
+  ],
   additionExpression: [
     String.raw`toeBeans age is 10 + 34;`,
     /let age_(\d+) = \(10 \+ 34\);/,
