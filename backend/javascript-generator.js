@@ -55,7 +55,7 @@ const {
   BinaryExpression,
 } = require("../ast");
 
-const check = require("..semantics");
+const check = require("../semantics/check.js");
 
 const beautify = require("js-beautify");
 
@@ -401,15 +401,14 @@ BinaryExpression.prototype.gen = function() {
   if (this.op === "with") {
     return `(${this.left.gen()}.concat(${this.right.gen()}))`;
   } else if (this.op === "without") {
-    console.log("this for without: ", this.left.type);
-    if (check.) {
-      // if check.typesAreEquivalent(..., ...)
+    if (check.isListType(this.left.type)) {
       return `(${this.left.gen()}.filter(e => e !== ${this.right.gen()}))`;
     } else {
       return `(${this.left.gen()}.replace(${this.right.gen()}, ''))`;
     }
+  } else if (this.op === "at" || this.op === "of") {
+    return `(${this.left.gen()}[${this.right.gen()}])`;
   }
-  // TODO: makeOp handles all the binary ops except for with/without and at/of
-  // Handle these cases separately and also write tests for rest of binary ops
+
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
 };

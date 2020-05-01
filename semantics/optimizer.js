@@ -51,6 +51,12 @@ function isOne(e) {
   return e instanceof NumberLiteral && e.value === 1;
 }
 
+function isSameNumber(e) {
+  return e.left instanceof NumberLiteral && e.right instanceof NumberLiteral && e.left.value === e.right.value;
+}
+
+
+
 function isFalse(b) {
   return b instanceof BooleanLiteral && b.value === false;
 }
@@ -77,24 +83,10 @@ function toUpperCase(e) {
   return e.toUpperCase();
 }
 
-const factorialTable = {
-  0: 1,
-  1: 1,
-  2: 2,
-  3: 6,
-  4: 24,
-  5: 120,
-  6: 720,
-  7: 5040,
-  8: 40320,
-  9: 362880,
-  10: 3628800,
-  11: ‬39916800,
-  12: 479001600‬
-};
+const factorialTable = [1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800, ‬39916800‬, 479001600];
 function lookupFactorial(n) {
   if (n >= 0 && n <= 12) {
-    //use table
+    return factorialTable[n];
   }
   return factorial(n);
 }
@@ -121,13 +113,13 @@ Program.prototype.optimize = function() {
 };
 
 Block.prototype.optimize = function() {
-  this.statements = this.statements.map((statement) => statement.optimize());
+  this.statements = this.statements.map((statement) => statement.optimize()).filter(statement => statement !== null);
   return this;
 };
 
 ConditionalStatement.prototype.optimize = function() {
   this.condition = this.condition.optimize();
-  if (isFalse(this.condition)) return;
+  if (isFalse(this.condition)) return null;
   this.body = this.body.optimize();
   if (isTrue(this.condition) || !this.otherwise) return this;
   this.otherwise = this.otherwise ? this.otherwise.optimize() : null;
@@ -157,14 +149,14 @@ ThroughLoopStatement.prototype.optimize = function() {
 
 WhileLoopStatement.prototype.optimize = function() {
   this.condition = this.condition.optimize();
-  if (isFalse(this.condition)) return;
+  if (isFalse(this.condition)) return null;
   this.body = this.body.optimize();
   return this;
 };
 
 FixedLoopStatement.prototype.optimize = function() {
   this.expression = this.expression.optimize();
-  if (isZero(this.expression)) return;
+  if (isZero(this.expression)) return null;
   this.body = this.body.optimize();
   return this;
 };
@@ -251,8 +243,7 @@ AssignmentStatement.prototype.optimize = function() {
   this.target = this.target.optimize();
   this.source = this.source.optimize();
   if (this.target === this.source) {
-    // TODO ask toal: return; or return null; ??
-    return;
+    return null;
   }
   return this;
 };
@@ -358,16 +349,41 @@ BinaryExpression.prototype.optimize = function() {
   this.right = this.right.optimize();
   if (this.op === "+" && isZero(this.right)) return this.left;
   if (this.op === "+" && isZero(this.left)) return this.right;
+  if (this.op === "-" && isZero(this.right)) return this.left;
+  if (this.op === "-" && isSameNumber(this)) return new NumberLiteral(0);
   if (this.op === "*" && isZero(this.right)) return new NumberLiteral(0);
   if (this.op === "*" && isZero(this.left)) return new NumberLiteral(0);
   if (this.op === "*" && isOne(this.right)) return this.left;
   if (this.op === "*" && isOne(this.left)) return this.right;
+  if (this.op === "/" && isSameNumber(this)) return new NumberLiteral(1);
+  if (this.op === "/" && isOne(this.right)) return this.left;
+  if (this.op === "/" && isZero(this.left)) return new NumberLiteral(0);
+  if (this.op === "mod" && isZero(this.left)) return new NumberLiteral(0);
+  if ((this.op === "isGreaterThan" || this.op === "isLessThan") && isSameNumber(this)) return new BooleanLiteral(false);
+  if (this.op === "&" && (isFalse(this.left) || isFalse(this.right))) return new BooleanLiteral(false);
+  if (this.op === "|" && (isTrue(this.left) || isTrue(this.right))) return new BooleanLiteral(true);
   if (bothNumberLiterals(this)) {
     const [x, y] = [this.left.value, this.right.value];
     if (this.op === "+") return new NumberLiteral(x + y);
     if (this.op === "-") return new NumberLiteral(x - y);
-    if (this.op === "*") return new NumberLiteral(x * y);
-    if (this.op === "/") return new NumberLiteral(x / y);
+    if (this.op === "*") {
+      if (x % 2 === 0) {
+        return new NumberLiteral(y << x / 2)
+      }
+      if (y % 2 === 0) {
+        return new NumberLiteral(x << y / 2)
+      }
+      return new NumberLiteral(x * y);
+    }
+    if (this.op === "/") {
+      if (x % 2 === 0) {
+        return new NumberLiteral(y >> x / 2)
+      }
+      if (y % 2 === 0) {
+        return new NumberLiteral(x >> y / 2)
+      }
+      return new NumberLiteral(x / y);
+    }
     if (this.op === "mod") return new NumberLiteral(x % y);
     if (this.op === "isGreaterThan") return new NumberLiteral(x > y);
     if (this.op === "isAtLeast") return new NumberLiteral(x >= y);
@@ -382,8 +398,6 @@ BinaryExpression.prototype.optimize = function() {
         this.left.quasis.concat(this.right.quasis),
         this.left.exps.concat(this.right.exps)
       );
-    // TODO: can we even do optimization on the without operator?
-    // if (this.op === "without") return new TemplateLiteral();
   }
   if (bothBooleanLiterals(this)) {
     const [x, y] = [this.left.value, this.right.value];
@@ -402,31 +416,26 @@ BinaryExpression.prototype.optimize = function() {
 //   return this;
 // };
 
-IfExp.prototype.optimize = function() {
-  this.test = this.test.optimize();
-  this.consequent = this.consequent.optimize();
-  this.alternate = this.alternate.optimize();
-  if (isZero(this.test)) {
-    return this.alternate;
-  }
-  return this;
-};
+// IfExp.prototype.optimize = function() {
+//   this.test = this.test.optimize();
+//   this.consequent = this.consequent.optimize();
+//   this.alternate = this.alternate.optimize();
+//   if (isZero(this.test)) {
+//     return this.alternate;
+//   }
+//   return this;
+// };
 
-MemberExp.prototype.optimize = function() {
-  this.record = this.record.optimize();
-  return this;
-};
+// MemberExp.prototype.optimize = function() {
+//   this.record = this.record.optimize();
+//   return this;
+// };
 
-SubscriptedExp.prototype.optimize = function() {
-  this.array = this.array.optimize();
-  this.subscript = this.subscript.optimize();
-  return this;
-};
-
-Param.prototype.optimize = function() {
-  // Nothing to do in Tiger, since it does not have defaults
-  return this;
-};
+// SubscriptedExp.prototype.optimize = function() {
+//   this.array = this.array.optimize();
+//   this.subscript = this.subscript.optimize();
+//   return this;
+// };
 
 // TODO ask toal:
 // again do we just return nothing or do we return null or nil or whatever?

@@ -255,6 +255,15 @@ const fixture = {
     pack[toeBeans] y is x without 3;`,
     /let x_(\d+) = \[1, 2, 3\];\s*let y_(\d+) = \(x_\1\.filter\(e => e !== 3\)\);/,
   ],
+  atExpression: [
+    String.raw`toeBeans a is [1,2,3] at 0;`,
+    /let a_\d+ = \(\[1, 2, 3\]\[0\]\);/,
+  ],
+  ofExpression: [
+    String.raw`kennel[toeBeans:toeBeans] a is [1:2, 3:4];
+    toeBeans b is a of 1;`,
+    /let a_(\d+) = {\s*1: 2,\s*3: 4\s*};\s*let b_\d+ = \(a_\1\[1\]\);/,
+  ],
   additionExpression: [
     String.raw`toeBeans age is 10 + 34;`,
     /let age_(\d+) = \(10 \+ 34\);/,
