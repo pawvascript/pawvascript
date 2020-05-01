@@ -60,7 +60,7 @@ const check = require("../semantics/check.js");
 const beautify = require("js-beautify");
 
 const factorialFunction =
-  "function __factorial(n) { return (n != 1) ? n * factorial(n - 1) : 1; }";
+  "function __factorial(n) { return (n !== 1) ? n * __factorial(n - 1) : 1; }";
 let containsFactorial = false;
 
 function makeOp(op) {

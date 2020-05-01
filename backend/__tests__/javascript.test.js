@@ -8,7 +8,7 @@
 const parse = require("../../ast/parser");
 const analyze = require("../../semantics/analyzer");
 const generate = require("../javascript-generator");
-const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n != 1\\) \\? n \\* factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
+const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n !== 1\\) \\? n \\* __factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
 
 const fixture = {
   /* Declarations */
