@@ -1,12 +1,12 @@
-// /*
-//  * JavaScript Code Generator Tests
-//  *
-//  * These tests check that the JavaScript generator produces the target
-//  * JavaScript that we expect.
-//  */
+/*
+ * JavaScript Code Generator Tests
+ *
+ * These tests check that the JavaScript generator produces the target
+ * JavaScript that we expect.
+ */
 
 const parse = require("../../ast/parser");
-const analyze = require("../../semantics/analyzer");
+const { analyze } = require("../../semantics/analyzer");
 const generate = require("../javascript-generator");
 const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n !== 1\\) \\? n \\* __factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
 
@@ -97,7 +97,6 @@ const fixture = {
     String.raw`if (good) then: woof "Yes"; else if (bad) then: woof "Maybe"; else: woof "No"; tail`,
     /if \(true\) {\s*console.log\(`Yes`\);\s*} else if \(false\) {\s*console.log\(`Maybe`\);\s*} else {\s*console.log\(`No`\);\s*}/,
   ],
-  // TODO: add test for strings that escape !
   /* Loops */
   infiniteLoop: [
     String.raw`chase:
@@ -176,6 +175,16 @@ const fixture = {
         tail
       tail`,
     /class DogLover_\d+ {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*}\s*barkAtDog_\d+\(\) {\s*return;\s*}\s*}/,
+  ],
+  initializeVariableToBreedType: [
+    String.raw`breed Puppy is:
+      trick itYaps:
+        woof "yap";
+      tail
+    tail
+    
+    Puppy lilDog is Puppy();`,
+    /class Puppy_(\d+) {\s*constructor\(\) {\s*Object\.assign\(this, {}\);\s*}\s*itYaps_\d+\(\) {\s*console\.log\(`yap`\);\s*}\s*}\s*let lilDog_(\d+) = new Puppy_(\1)\(\);/,
   ],
   /* Builtins */
   sizeBuiltin: [String.raw`size("hello");`, /`hello`.length/],
@@ -294,18 +303,19 @@ const fixture = {
     `,
     /let e_\d+ = \(1 === 10\);\s*let f_\d+ = \(1 !== 10\);\s*/,
   ],
-  // TODO: add generator tests for the remaining binary operators: memberExp, with/without, at/of, & |
+  // TODO: add generator tests for the remaining binary operators: memberExp and logical &|
 
-  //   memberExpresion: [
-  //     String.raw`
-  //         breed Dog is:
-  //             leash name is "CeCe";
-  //         tail
-  //         Dog myDog is Dog();
-  //         leash myDogName is myDog's name;
-  //     `,
-  //     /class Dog_(\d+) {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*this\.name_(\d+) = `CeCe`;\s*}\s*}\s*let myDog_\d+ = new Dog_\1\(\);\s*let myDogName_\d+ = myDog\.name_\2;\s*/s,
-  //   ],
+  // useMemberExpression: [
+  //   String.raw`breed Puppy is:
+  //     trick itYaps:
+  //       woof "yap";
+  //     tail
+  //   tail
+
+  //   Puppy lilDog is Puppy();
+  //   lilDog's itYaps();`,
+  //   /class Puppy_(\d+) {\s*constructor\(\) {\s*Object\.assign\(this, {}\);\s*}\s*itYaps_(\d+)\(\) {\s*console\.log\(`yap`\);\s*}\s*}\s*let lilDog_(\d+) = new Puppy_(\1)\(\);\s*lilDog_\3\.itYaps_\2\(\)/,
+  // ],
 };
 
 describe("The JavaScript generator", () => {

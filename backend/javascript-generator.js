@@ -96,7 +96,7 @@ const javaScriptId = (() => {
   };
 })();
 
-// Let's inline the built-in functions, because we can!
+// Inline implementations of builtins
 const builtin = {
   size(s) {
     return `${s}.length`;
@@ -154,7 +154,7 @@ ConditionalStatement.prototype.gen = function() {
   const condition = this.condition.gen();
   const body = this.body.gen();
   let elseIfStrings = "";
-  // if we have one or more "otherwise"'s inside of this.otherwise, that means the middle
+  // If we have one or more "otherwise"'s inside of this.otherwise, that means the middle
   // otherwise's are also conditional statements, and we want to produce else-if's for
   // all of them except the last nested otherwise
   while (this.otherwise && this.otherwise.otherwise) {
@@ -288,6 +288,10 @@ AssignmentStatement.prototype.gen = function() {
 FunctionCall.prototype.gen = function() {
   const argsArray = this.args.map((arg) => arg.gen());
 
+  if (this.callee.ref.constructor === Constructor) {
+    return `new ${javaScriptId(this.callee.name)}(${argsArray.join(",")})`;
+  }
+
   if (builtin[this.callee.name]) {
     return builtin[this.callee.name](argsArray);
   }
@@ -408,6 +412,9 @@ BinaryExpression.prototype.gen = function() {
     }
   } else if (this.op === "at" || this.op === "of") {
     return `(${this.left.gen()}[${this.right.gen()}])`;
+    // Note: this code sort of works, but is buggy; remains a TODO to fix and add tests
+    //   } else if (this.op === "'s") {
+    //     return `(${this.left.gen()}.${this.right.gen()})`;
   }
 
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;

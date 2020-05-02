@@ -318,7 +318,7 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
     let membersAST = checkForEmptyArray(chars.ast());
     let quasis = [];
     let exps = [];
-    membersAST.forEach((item) => {
+    membersAST.forEach((item, i) => {
       if (Array.isArray(item)) {
         quasis.push(new StringLiteral(item.join("")));
       } else {
@@ -328,6 +328,9 @@ const astBuilder = grammar.createSemantics().addOperation("ast", {
           quasis.push(new StringLiteral(""));
         }
         exps.push(item);
+        if (i === membersAST.length - 1) {
+          quasis.push(new StringLiteral(""));
+        }
       }
     });
     return new TemplateLiteral(
