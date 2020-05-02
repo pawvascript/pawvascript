@@ -1,0 +1,17 @@
+breed DogTrainer is:
+    leash name;
+
+    !!! Dog names mapped to the names of their owners !!!
+    kennel[leash:leash] dogs is ["CeCe": "Lucille", "Fluffy": "Moriah", "Sgt. Pepper": "Jeremy"];
+
+    trick DogTrainer chews[leash: name] fetches DogTrainer;
+
+    trick getOwner chews[leash: dogName] fetches leash:
+        give dogs of dogName;
+    tail
+
+    trick introduceSelf chews[leash: dogName]:
+        leash thisDogName is dogs of dogName;
+        woof "Hi I'm ![name]. I loved hanging with your dog today, ![thisDogName]";
+    tail
+tail
