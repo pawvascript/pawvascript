@@ -12,7 +12,7 @@ const { argv } = require("yargs")
 const fs = require("fs");
 const util = require("util");
 const parse = require("./ast/parser");
-const analyze = require("./semantics/analyzer");
+const { analyze } = require("./semantics/analyzer");
 // require('./semantics/optimizer');
 const generate = require(`./backend/${argv.target}-generator`);
 

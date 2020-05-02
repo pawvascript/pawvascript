@@ -48,8 +48,18 @@ const { NumType, StringType, BoolType } = require("./builtins");
 const check = require("./check");
 const Context = require("./context");
 
-module.exports = function(exp) {
+const uncalledFunctions = new Set();
+// Note: We have not yet implemented finding all unused types
+const unusedTypes = new Set();
+
+const analyze = function(exp) {
   exp.analyze(Context.INITIAL);
+};
+
+module.exports = {
+  analyze,
+  uncalledFunctions,
+  unusedTypes,
 };
 
 Program.prototype.analyze = function(context) {
@@ -58,23 +68,37 @@ Program.prototype.analyze = function(context) {
 
 Block.prototype.analyze = function(context) {
   const newContext = context.createChildContextForBlock();
+  this.funcDecs = new Set();
+  this.typeDecs = new Set();
 
-  this.statements
-    .filter((s) => s.constructor === TypeDeclaration)
-    .map((s) => newContext.add(s.id.name, s.breedType));
+  const typeDeclarations = this.statements.filter(
+    (s) => s.constructor === TypeDeclaration
+  );
+  // First add type ids to the context so that they can be used everywhere else
+  // Also add type ids to a set of declared types to be used in optimization
+  typeDeclarations.map((s) => {
+    newContext.add(s.id.name, s.breedType);
+    unusedTypes.add(s.id.name);
+  });
 
-  this.statements
-    .filter((s) => s.constructor === FunctionDeclaration)
-    .map((s) => s.func.analyzeSignature(newContext));
-  this.statements
-    .filter((s) => s.constructor === FunctionDeclaration)
-    .map((s) => newContext.add(s.id.name, s.func));
+  const functionDeclarations = this.statements.filter(
+    (s) => s.constructor === FunctionDeclaration
+  );
+  // Then analyze each function's signature to figure and
+  // add function ids to the context so they also can be called anywhere
+  // Also add function ids to a set of declared functions to be used in optimization
+  functionDeclarations.map((s) => s.func.analyzeSignature(newContext));
+  functionDeclarations.map((s) => {
+    newContext.add(s.id.name, s.func);
+    uncalledFunctions.add(s.id.name);
+  });
 
-  this.statements
-    .filter((s) => s.constructor === TypeDeclaration)
-    .forEach((statement) => {
-      statement.analyze(newContext);
-    });
+  // Then analyze type declarations so that we can use their fields and methods anywhere
+  typeDeclarations.forEach((statement) => {
+    statement.analyze(newContext);
+  });
+
+  // Finally, analyze everything else
   this.statements
     .filter((s) => s.constructor !== TypeDeclaration)
     .forEach((statement) => {
@@ -173,6 +197,7 @@ Variable.prototype.analyze = function(context) {
 FunctionDeclaration.prototype.analyze = function(context) {
   check.funcOrTypeDecNotInLoop(context);
   this.func.analyze();
+  context.add(this.id, this.func);
 };
 
 Function.prototype.analyzeSignature = function(context) {
@@ -279,12 +304,15 @@ AssignmentStatement.prototype.analyze = function(context) {
   this.source.analyze(context);
   check.isAssignableTo(this.source, targetVariable.type);
   check.isNotReadOnly(targetVariable);
+  this.target.analyze(context);
 };
 
 FunctionCall.prototype.analyze = function(context) {
   // this.callee starts out as a VariableExpression whose name is the id of the function
   this.callee.analyze(context);
   check.isFunctionOrBreed(this.callee.ref);
+  // Remove the function corresponding to this callee id from the uncalledFunctions set
+  uncalledFunctions.delete(this.callee.name);
 
   if (this.callee.ref.constructor === BreedType) {
     this.callee.ref = this.callee.ref.constructors[0].constr;
@@ -322,6 +350,7 @@ Parameters.prototype.analyze = function(context) {
     const paramType = this.types[i];
     paramType.analyze(context);
     context.add(paramId.name, new Variable(paramType));
+    paramId.analyze(context);
   });
 };
 
