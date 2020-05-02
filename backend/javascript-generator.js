@@ -349,8 +349,6 @@ StringLiteral.prototype.gen = function() {
 
 TemplateLiteral.prototype.gen = function() {
   if (this.exps) {
-    console.log("GENERATOR > TEMPLATE LITERAL");
-    console.log(this.exps);
     const expressionStrings = this.exps.map((exp) => `\${${exp.gen()}}`); // a VariableExpression's .gen() method handles the javaScriptId
     let templateString = "";
 
