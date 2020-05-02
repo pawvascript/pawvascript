@@ -1,47 +1,42 @@
-breed StringExpert is:
 
-    trick isPalindrome chews[leash:s] fetches goodBoy:
-        toeBeans stringLength is size(s);
+trick isPalindrome chews[leash:s] fetches goodBoy:
+    toeBeans stringLength is size(s);
 
-        chase toeBeans i is 0 by i+1 while i isLessThan stringLength/2:
-            if substring(s, i, i+1) notEquals substring(s, stringLength - (i+1), stringLength - i) then:
-                give bad;
-            tail
-        tail
-
-        give good;
-
-    tail 
-
-    trick removeCharacter chews[leash:s, leash:c] fetches leash:
-        give s without c;
-    tail 
-
-    !!! Takes in two strings and returns true if they are anagrams of each other and false otherwise!!!
-    trick areAnagrams chews[leash:s1, leash:s2] fetches goodBoy:
-
-        if size(s1) isGreaterThan size(s2) then:
+    chase toeBeans i is 0 by i+1 while i isLessThan stringLength/2:
+        if substring(s, i, i+1) notEquals substring(s, stringLength - (i+1), stringLength - i) then:
             give bad;
         tail
+    tail
 
-        chase toeBeans i is 0 by i+1 while i isLessThan size(s1):
-            if not contains(s2, substring(s1, i, i+1)) then:
-                give bad;
-            tail
-        tail
-
-        give good;
-    tail 
+    give good;
 
 tail 
 
-StringExpert se is StringExpert();
+trick removeCharacter chews[leash:s, leash:c] fetches leash:
+    give s without c;
+tail 
 
-goodBoy isHelloAPalindrome is se's isPalindrome("hello");
+!!! Takes in two strings and returns true if they are anagrams of each other and false otherwise!!!
+trick areAnagrams chews[leash:s1, leash:s2] fetches goodBoy:
 
-leash noIInTeam is se's removeCharacter("teaim", "i");
+    if size(s1) isGreaterThan size(s2) then:
+        give bad;
+    tail
 
-goodBoy heyIsAnagramOfYhe is se's areAnagrams("hey", "yhe");
+    chase toeBeans i is 0 by i+1 while i isLessThan size(s1):
+        if not contains(s2, substring(s1, i, i+1)) then:
+            give bad;
+        tail
+    tail
+
+    give good;
+tail 
+
+goodBoy isHelloAPalindrome is isPalindrome("hello");
+
+leash noIInTeam is removeCharacter("teaim", "i");
+
+goodBoy heyIsAnagramOfYhe is areAnagrams("hey", "yhe");
 
 
 woof "Hello is a palindrome: ![isHelloAPalindrome]";
