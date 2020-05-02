@@ -6,7 +6,7 @@
 //  */
 
 const parse = require("../../ast/parser");
-const analyze = require("../../semantics/analyzer");
+const { analyze } = require("../../semantics/analyzer");
 const generate = require("../javascript-generator");
 const factorialFunctionRegex = `function __factorial\\(n\\) \\{\\s*return \\(n !== 1\\) \\? n \\* __factorial\\(n - 1\\) : 1;\\s*\\}\\s*`;
 
@@ -177,6 +177,16 @@ const fixture = {
       tail`,
     /class DogLover_\d+ {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*}\s*barkAtDog_\d+\(\) {\s*return;\s*}\s*}/,
   ],
+  initializeVariableToBreedType: [
+    String.raw`breed Puppy is:
+      trick itYaps:
+        woof "yap";
+      tail
+    tail
+    
+    Puppy lilDog is Puppy();`,
+    /class Puppy_(\d+) {\s*constructor\(\) {\s*Object\.assign\(this, {}\);\s*}\s*itYaps_\d+\(\) {\s*console\.log\(`yap`\);\s*}\s*}\s*let lilDog_(\d+) = new Puppy_(\1)\(\);/,
+  ],
   /* Builtins */
   sizeBuiltin: [String.raw`size("hello");`, /`hello`.length/],
   substringBuiltin: [
@@ -294,18 +304,30 @@ const fixture = {
     `,
     /let e_\d+ = \(1 === 10\);\s*let f_\d+ = \(1 !== 10\);\s*/,
   ],
+  // useMemberExpression: [
+  //   String.raw`breed Puppy is:
+  //     trick itYaps:
+  //       woof "yap";
+  //     tail
+  //   tail
+
+  //   Puppy lilDog is Puppy();
+  //   lilDog's itYaps();`,
+  //   /class Puppy_(\d+) {\s*constructor\(\) {\s*Object\.assign\(this, {}\);\s*}\s*itYaps_(\d+)\(\) {\s*console\.log\(`yap`\);\s*}\s*}\s*let lilDog_(\d+) = new Puppy_(\1)\(\);\s*lilDog_\3\.itYaps_\2\(\)/,
+  // ],
+
   // TODO: add generator tests for the remaining binary operators: memberExp, with/without, at/of, & |
 
-  //   memberExpresion: [
-  //     String.raw`
+  // memberExpresion: [
+  //   String.raw`
   //         breed Dog is:
   //             leash name is "CeCe";
   //         tail
   //         Dog myDog is Dog();
   //         leash myDogName is myDog's name;
   //     `,
-  //     /class Dog_(\d+) {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*this\.name_(\d+) = `CeCe`;\s*}\s*}\s*let myDog_\d+ = new Dog_\1\(\);\s*let myDogName_\d+ = myDog\.name_\2;\s*/s,
-  //   ],
+  //   /class Dog_(\d+) {\s*constructor\(\) {\s*Object.assign\(this, {}\);\s*this\.name_(\d+) = `CeCe`;\s*}\s*}\s*let myDog_\d+ = new Dog_\1\(\);\s*let myDogName_\d+ = myDog\.name_\2;\s*/s,
+  // ],
 };
 
 describe("The JavaScript generator", () => {

@@ -288,6 +288,10 @@ AssignmentStatement.prototype.gen = function() {
 FunctionCall.prototype.gen = function() {
   const argsArray = this.args.map((arg) => arg.gen());
 
+  if (this.callee.ref.constructor === Constructor) {
+    return `new ${javaScriptId(this.callee.name)}(${argsArray.join(",")})`;
+  }
+
   if (builtin[this.callee.name]) {
     return builtin[this.callee.name](argsArray);
   }
@@ -345,6 +349,8 @@ StringLiteral.prototype.gen = function() {
 
 TemplateLiteral.prototype.gen = function() {
   if (this.exps) {
+    console.log("GENERATOR > TEMPLATE LITERAL");
+    console.log(this.exps);
     const expressionStrings = this.exps.map((exp) => `\${${exp.gen()}}`); // a VariableExpression's .gen() method handles the javaScriptId
     let templateString = "";
 
@@ -408,6 +414,9 @@ BinaryExpression.prototype.gen = function() {
     }
   } else if (this.op === "at" || this.op === "of") {
     return `(${this.left.gen()}[${this.right.gen()}])`;
+    // Note: this code sort of works, but is buggy; remains a TODO to fix and add tests
+    //   } else if (this.op === "'s") {
+    //     return `(${this.left.gen()}.${this.right.gen()})`;
   }
 
   return `(${this.left.gen()} ${makeOp(this.op)} ${this.right.gen()})`;
