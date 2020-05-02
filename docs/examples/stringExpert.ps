@@ -1,0 +1,51 @@
+breed StringExpert is:
+
+    trick isPalindrome chews[leash:s] fetches goodBoy:
+        toeBeans stringLength is size(s);
+
+        chase toeBeans i is 0 by i+1 while i isLessThan stringLength/2:
+            if substring(s, i, i+1) notEquals substring(s, stringLength - (i+1), stringLength - i) then:
+                give bad;
+            tail
+        tail
+
+        give good;
+
+    tail 
+
+    trick removeCharacter chews[leash:s, leash:c] fetches leash:
+        give s without c;
+    tail 
+
+    !!! Takes in two strings and returns true if they are anagrams of each other and false otherwise!!!
+    trick areAnagrams chews[leash:s1, leash:s2] fetches goodBoy:
+
+        if size(s1) isGreaterThan size(s2) then:
+            give bad;
+        tail
+
+        chase toeBeans i is 0 by i+1 while i isLessThan size(s1):
+            if not contains(s2, substring(s1, i, i+1)) then:
+                give bad;
+            tail
+        tail
+
+        give good;
+    tail 
+
+tail 
+
+StringExpert se is StringExpert();
+
+goodBoy isHelloAPalindrome is se's isPalindrome("hello");
+
+leash noIInTeam is se's removeCharacter("teaim", "i");
+
+goodBoy heyIsAnagramOfYhe is se's areAnagrams("hey", "yhe");
+
+
+woof "Hello is a palindrome: ![isHelloAPalindrome]";
+
+bark "There is no 'I' in ![noIInTeam]\!";
+
+woof "Hey is an anagram of yhe: ![heyIsAnagramOfYhe]";
