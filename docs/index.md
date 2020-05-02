@@ -137,7 +137,7 @@ leash theBestestDog is cat;
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br></br>
+<br><br>
 let theBestestDog = null;
 </pre>
         </td>
@@ -195,7 +195,7 @@ pack[leash] bestDogs is goodDogs without "Muffin";
         </td>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>
+<br>
 
 let bestDogs = goodDogs.filter(dogName => dogName != "Muffin");
 </pre>
@@ -391,7 +391,7 @@ else {
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>
+<br>
 if x notEquals y then:
     woof "CeCe is kinda cute";
 else if x isGreaterThan y then:
@@ -696,10 +696,10 @@ Let's make an owner breed!
     <tr>
         <td>
 <pre style="margin-left: 0; width: 100%">
-</br>breed Owner is:   
+<br>breed Owner is:   
     leash dogName; 
     trick Owner chews[leash:dogName] fetches Owner;
-    </br>
+    <br>
     trick introduceDog:
         woof "My dog's name is " with Owner's dogName;
     tail     
