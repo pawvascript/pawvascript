@@ -6,7 +6,7 @@
  */
 
 const parse = require("../../ast/parser");
-const analyze = require("../analyzer");
+const { analyze } = require("../analyzer");
 
 const fixture = {
   /* Basic Declarations */
@@ -320,6 +320,10 @@ const fixture = {
                 tail
             tail
           `,
+  // Note: currently, the at operator only works with lists
+  // Moving forward we can edit the analyzer to include strings
+  // indexOfString: String.raw`leash s is "Hello";
+  // woof s at 0;`,
 };
 
 describe("The semantic analyzer", () => {
