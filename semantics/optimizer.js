@@ -40,6 +40,14 @@ const {
   BinaryExpression,
 } = require("../ast");
 
+const {
+  uncalledFunctions,
+  // Note: We have not yet implemented finding all unused types
+  // In the future, we want to be able to remove all type declarations that
+  // are never used or instantiated.
+  // unusedTypes
+} = require("./analyzer");
+
 module.exports = (program) => program.optimize();
 
 function isZero(e) {
@@ -80,8 +88,12 @@ function bothTemplateLiterals(b) {
   );
 }
 
-function toUpperCase(e) {
-  return e.toUpperCase();
+function sameVariableExpression(e1, e2) {
+  return (
+    e1 instanceof VariableExpression &&
+    e2 instanceof VariableExpression &&
+    e1.name === e2.name
+  );
 }
 
 // If the given type is an IdType, returns type.ref; otherwise, returns the given type
@@ -112,7 +124,7 @@ function lookupFactorial(n) {
 }
 
 function factorial(n) {
-  return n != 1 ? n * factorial(n - 1) : 1;
+  return n != 12 ? n * factorial(n - 1) : factorialTable[12];
 }
 
 // ArrayExp.prototype.optimize = function() {
@@ -130,8 +142,22 @@ Program.prototype.optimize = function() {
 
 Block.prototype.optimize = function() {
   this.statements = this.statements
-    .map((statement) => statement.optimize())
-    .filter((statement) => statement !== null);
+    // remove all statements that are FunctionDeclarations whose functions are never called
+    .filter(
+      (s) =>
+        !(
+          s.constructor === FunctionDeclaration &&
+          uncalledFunctions.has(s.id.name)
+        )
+    )
+    .map((s) => s.optimize())
+    // after optimizing, some if/else statements might have been replaced with a Block,
+    // so we pull out the statements array from each Block
+    .map((s) => (s !== null && s.constructor === Block ? s.statements : s))
+    // flatten all nested arrays (infinite depth)
+    .flat(Infinity)
+    .filter((s) => s !== null);
+
   // If we find a return, break, or continue statement, then we can remove
   // all statements after that one since they will never execute anyways
   const stoppingIndex = this.statements.findIndex(
@@ -146,8 +172,6 @@ Block.prototype.optimize = function() {
       this.statements.length - (stoppingIndex + 1)
     );
   }
-  //  todo ask toal how to implement this:
-  // look for variable declarations; if not used in block, remove vardec??
   return this;
 };
 
@@ -155,13 +179,11 @@ ConditionalStatement.prototype.optimize = function() {
   this.condition = this.condition.optimize();
   if (isTrue(this.condition)) {
     this.body = this.body.optimize();
-    this.otherwise = null;
-    return this;
+    return this.body;
   }
   if (isFalse(this.condition)) {
-    this.body = new Block([]);
     this.otherwise = this.otherwise ? this.otherwise.optimize() : null;
-    return this;
+    return this.otherwise;
   }
   this.body = this.body.optimize();
   this.otherwise = this.otherwise ? this.otherwise.optimize() : null;
@@ -205,11 +227,13 @@ FixedLoopStatement.prototype.optimize = function() {
 
 VariableDeclaration.prototype.optimize = function() {
   this.variable = this.variable.optimize();
+  this.id = this.id.optimize();
   return this;
 };
 
 Variable.prototype.optimize = function() {
   this.initializerExp = this.initializerExp.optimize();
+  this.type.optimize();
   this.type = getTypeReference(this.type);
   return this;
 };
@@ -220,16 +244,17 @@ FunctionDeclaration.prototype.optimize = function() {
 };
 
 Function.prototype.optimize = function() {
-  this.parameters = this.parameters.optimize();
-  this.returnType = getTypeReference(this.returnType);
+  this.parameters = this.parameters ? this.parameters.optimize() : null;
+  this.returnType = this.returnType ? getTypeReference(this.returnType) : null;
   this.body = this.body.optimize();
   return this;
 };
 
-Parameters.prototype.optimize = function() {
-  this.types = this.types.map((t) => getTypeReference(t));
-  return this;
-};
+// Parameters.prototype.optimize = function() {
+//   this.types = this.types.map((t) => getTypeReference(t));
+//   //   this.types = this.types ? this.types.map((t) => getTypeReference(t)) : null;
+//   return this;
+// };
 
 TypeDeclaration.prototype.optimize = function() {
   this.breedType = this.breedType.optimize();
@@ -252,6 +277,7 @@ ConstructorDeclaration.prototype.optimize = function() {
 Constructor.prototype.optimize = function() {
   this.parameters = this.parameters ? this.parameters.optimize() : null;
   this.returnType = getTypeReference(this.returnType);
+  return this;
 };
 
 Field.prototype.optimize = function() {
@@ -261,6 +287,7 @@ Field.prototype.optimize = function() {
 
 Method.prototype.optimize = function() {
   this.func = this.func.optimize();
+  return this;
 };
 
 ListType.prototype.optimize = function() {
@@ -280,7 +307,7 @@ IdType.prototype.optimize = function() {
 AssignmentStatement.prototype.optimize = function() {
   this.target = this.target.optimize();
   this.source = this.source.optimize();
-  if (this.target === this.source) {
+  if (sameVariableExpression(this.target, this.source)) {
     return null;
   }
   return this;
@@ -288,22 +315,30 @@ AssignmentStatement.prototype.optimize = function() {
 
 FunctionCall.prototype.optimize = function() {
   this.args = this.args.map((a) => a.optimize());
-  this.callee = this.callee.optimize();
+  // TODO: fix error in analyzer
+  // callee == VariableExpression but has no ref.type?
+  //this.callee = this.callee.optimize();
   return this;
 };
 
 PrintStatement.prototype.optimize = function() {
   this.expression = this.expression.optimize();
-  //TODO: 90% sure this won't work but YOLO
-  // TODO ask toal if this is a good optimization
-  // we would basically replace all bark statements with woof statements
-  // but how to convert to uppercase if there are expressions interpolated?
-  if (this.flavor === "bark") this.expression = toUpperCase(this.expression);
+  if (
+    this.flavor === "bark" &&
+    this.expression.constructor === TemplateLiteral &&
+    this.expression.exps === null
+  ) {
+    const upperCased = this.expression.quasis[0].value.toUpperCase();
+    return new PrintStatement(
+      "woof",
+      new TemplateLiteral([new StringLiteral(upperCased)], null)
+    );
+  }
   return this;
 };
 
 GiveStatement.prototype.optimize = function() {
-  this.expression = this.expression.optimize();
+  this.expression = this.expression ? this.expression.optimize() : null;
   return this;
 };
 
@@ -316,8 +351,8 @@ ContinueStatement.prototype.optimize = function() {
 };
 
 Parameters.prototype.optimize = function() {
-  this.types = this.types ? this.types.map((type) => type.optimize()) : null;
-  this.ids = this.ids ? this.ids.map((id) => id.optimize()) : null;
+  this.types = this.types.map((type) => type.optimize());
+  this.ids = this.ids.map((id) => id.optimize());
   return this;
 };
 
@@ -360,14 +395,18 @@ KennelLiteral.prototype.optimize = function() {
 
 KeyValuePair.prototype.optimize = function() {
   this.key = this.key.optimize();
-  this.keyType = getTypeReference(this.keyType);
+  this.keyType = getTypeReference(this.key.type);
   this.value = this.value.optimize();
-  this.valueType = getTypeReference(this.valueType);
+  this.valueType = getTypeReference(this.value.type);
   return this;
 };
 
 VariableExpression.prototype.optimize = function() {
-  this.type = getTypeReference(this.type);
+  // Not all variable expressions have this.type;
+  // variable expressions that represent a function have no type,
+  // such as the variable expression with name "gcd" whose ref is the
+  // function gcd.
+  if (this.type) this.type = getTypeReference(this.type);
   // TODO ask toal:
   // wonder if it's valid code optimization to remove in-between references?
   // answer: yes
@@ -389,6 +428,7 @@ UnaryExpression.prototype.optimize = function() {
   ) {
     return new NumberLiteral(lookupFactorial(this.operand.value));
   }
+  return this;
 };
 
 BinaryExpression.prototype.optimize = function() {
@@ -406,11 +446,21 @@ BinaryExpression.prototype.optimize = function() {
   if (this.op === "/" && isOne(this.right)) return this.left;
   if (this.op === "/" && isZero(this.left)) return new NumberLiteral(0);
   if (this.op === "mod" && isZero(this.left)) return new NumberLiteral(0);
+  if (this.op === "mod" && isOne(this.right)) return new NumberLiteral(0);
+  if (this.op === "mod" && isSameNumber(this)) return new NumberLiteral(0);
   if (
     (this.op === "isGreaterThan" || this.op === "isLessThan") &&
     isSameNumber(this)
-  )
+  ) {
     return new BooleanLiteral(false);
+  }
+
+  if (
+    (this.op === "isAtLeast" || this.op === "isAtMost") &&
+    isSameNumber(this)
+  ) {
+    return new BooleanLiteral(true);
+  }
   if (this.op === "&" && (isFalse(this.left) || isFalse(this.right)))
     return new BooleanLiteral(false);
   if (this.op === "|" && (isTrue(this.left) || isTrue(this.right)))
@@ -420,63 +470,54 @@ BinaryExpression.prototype.optimize = function() {
     if (this.op === "+") return new NumberLiteral(x + y);
     if (this.op === "-") return new NumberLiteral(x - y);
     if (this.op === "*") {
-      if (x % 2 === 0) {
-        return new NumberLiteral(y << (x / 2));
+      if (Number.isInteger(Math.log2(x))) {
+        return new NumberLiteral(y << Math.log2(x));
       }
-      if (y % 2 === 0) {
-        return new NumberLiteral(x << (y / 2));
+      if (Number.isInteger(Math.log2(y))) {
+        return new NumberLiteral(x << Math.log2(y));
       }
       return new NumberLiteral(x * y);
     }
-    if (this.op === "/") {
-      if (x % 2 === 0) {
-        return new NumberLiteral(y >> (x / 2));
-      }
-      if (y % 2 === 0) {
-        return new NumberLiteral(x >> (y / 2));
-      }
-      return new NumberLiteral(x / y);
-    }
+    if (this.op === "/") return new NumberLiteral(x / y);
+    // TODO Add bitwise shift for dividing two numbers that are both multiples of 2
+    // both left and right must be multiples of 2 and left >= right
     if (this.op === "mod") return new NumberLiteral(x % y);
     if (this.op === "isGreaterThan") return new BooleanLiteral(x > y);
     if (this.op === "isAtLeast") return new BooleanLiteral(x >= y);
     if (this.op === "isAtMost") return new BooleanLiteral(x <= y);
     if (this.op === "isLessThan") return new BooleanLiteral(x < y);
     if (this.op === "equals") return new BooleanLiteral(x === y);
-    if (this.op === "notEquals") return new BooleanLiteral(x !== y);
+    // this.op === "notEquals"
+    return new BooleanLiteral(x !== y);
   }
   if (bothTemplateLiterals(this)) {
-    if (this.op === "with")
-      return new TemplateLiteral(
-        this.left.quasis.concat(this.right.quasis),
-        this.left.exps.concat(this.right.exps)
+    // TODO: check if we are allowing string equals string
+    if (this.op === "with") {
+      const leftQuasiLength = this.left.quasis.length;
+      // Combine the last quasi of the left and the first quasi of the right
+      const middleQuasi = this.left.quasis[leftQuasiLength - 1].value.concat(
+        this.right.quasis[0].value
       );
+      const newQuasiArray = this.left.quasis.concat(this.right.quasis);
+      newQuasiArray.splice(
+        leftQuasiLength - 1,
+        2,
+        new StringLiteral(middleQuasi)
+      );
+      let newExpArray = this.left.exps
+        ? this.left.exps.concat(this.right.exps)
+        : this.right.exps;
+      if (newExpArray !== null)
+        newExpArray = newExpArray.filter((exp) => exp !== null);
+      return new TemplateLiteral(newQuasiArray, newExpArray);
+    }
+    return this;
   }
   if (bothBooleanLiterals(this)) {
     const [x, y] = [this.left.value, this.right.value];
     if (this.op === "&") return new BooleanLiteral(x && y);
-    if (this.op === "|") return new BooleanLiteral(x || y);
+    // this.op === '|'
+    return new BooleanLiteral(x || y);
   }
   return this;
 };
-
-// IfExp.prototype.optimize = function() {
-//   this.test = this.test.optimize();
-//   this.consequent = this.consequent.optimize();
-//   this.alternate = this.alternate.optimize();
-//   if (isZero(this.test)) {
-//     return this.alternate;
-//   }
-//   return this;
-// };
-
-// MemberExp.prototype.optimize = function() {
-//   this.record = this.record.optimize();
-//   return this;
-// };
-
-// SubscriptedExp.prototype.optimize = function() {
-//   this.array = this.array.optimize();
-//   this.subscript = this.subscript.optimize();
-//   return this;
-// };
