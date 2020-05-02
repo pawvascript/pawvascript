@@ -96,7 +96,7 @@ const javaScriptId = (() => {
   };
 })();
 
-// Let's inline the built-in functions, because we can!
+// Inline implementations of builtins
 const builtin = {
   size(s) {
     return `${s}.length`;
@@ -154,7 +154,7 @@ ConditionalStatement.prototype.gen = function() {
   const condition = this.condition.gen();
   const body = this.body.gen();
   let elseIfStrings = "";
-  // if we have one or more "otherwise"'s inside of this.otherwise, that means the middle
+  // If we have one or more "otherwise"'s inside of this.otherwise, that means the middle
   // otherwise's are also conditional statements, and we want to produce else-if's for
   // all of them except the last nested otherwise
   while (this.otherwise && this.otherwise.otherwise) {

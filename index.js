@@ -13,7 +13,7 @@ const fs = require("fs");
 const util = require("util");
 const parse = require("./ast/parser");
 const { analyze } = require("./semantics/analyzer");
-// require('./semantics/optimizer');
+const optimize = require("./semantics/optimizer");
 const generate = require(`./backend/${argv.target}-generator`);
 
 fs.readFile(argv._[0], "utf-8", (error, text) => {
@@ -27,9 +27,9 @@ fs.readFile(argv._[0], "utf-8", (error, text) => {
     return;
   }
   analyze(program);
-  //   if (argv.o) {
-  //     program = program.optimize();
-  //   }
+  if (argv.o) {
+    optimize(program);
+  }
   if (argv.i) {
     console.log(util.inspect(program, { depth: null }));
     return;

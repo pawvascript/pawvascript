@@ -127,14 +127,6 @@ function factorial(n) {
   return n != 12 ? n * factorial(n - 1) : factorialTable[12];
 }
 
-// ArrayExp.prototype.optimize = function() {
-//   this.size = this.size.optimize();
-//   this.fill = this.fill.optimize();
-//   return this;
-// };
-// TODO ask toal:
-// is it an optimization to deconstruct spreads on lists?
-
 Program.prototype.optimize = function() {
   this.block = this.block.optimize();
   return this;
@@ -142,7 +134,7 @@ Program.prototype.optimize = function() {
 
 Block.prototype.optimize = function() {
   this.statements = this.statements
-    // remove all statements that are FunctionDeclarations whose functions are never called
+    // Remove all statements that are FunctionDeclarations whose functions are never called
     .filter(
       (s) =>
         !(
@@ -151,10 +143,10 @@ Block.prototype.optimize = function() {
         )
     )
     .map((s) => s.optimize())
-    // after optimizing, some if/else statements might have been replaced with a Block,
+    // After optimizing, some if/else statements might have been replaced with a Block,
     // so we pull out the statements array from each Block
     .map((s) => (s !== null && s.constructor === Block ? s.statements : s))
-    // flatten all nested arrays (infinite depth)
+    // Flatten all nested arrays (infinite depth)
     .flat(Infinity)
     .filter((s) => s !== null);
 
@@ -250,12 +242,6 @@ Function.prototype.optimize = function() {
   return this;
 };
 
-// Parameters.prototype.optimize = function() {
-//   this.types = this.types.map((t) => getTypeReference(t));
-//   //   this.types = this.types ? this.types.map((t) => getTypeReference(t)) : null;
-//   return this;
-// };
-
 TypeDeclaration.prototype.optimize = function() {
   this.breedType = this.breedType.optimize();
   return this;
@@ -315,9 +301,7 @@ AssignmentStatement.prototype.optimize = function() {
 
 FunctionCall.prototype.optimize = function() {
   this.args = this.args.map((a) => a.optimize());
-  // TODO: fix error in analyzer
-  // callee == VariableExpression but has no ref.type?
-  //this.callee = this.callee.optimize();
+  this.callee = this.callee.optimize();
   return this;
 };
 
@@ -369,13 +353,14 @@ StringLiteral.prototype.optimize = function() {
 };
 
 TemplateLiteral.prototype.optimize = function() {
-  // wonder if we even need these two statements because exps can only be id's, and quasis can only be string literals
   this.quasis = this.quasis.map((quasi) => quasi.optimize());
   this.exps = this.exps ? this.exps.map((exp) => exp.optimize()) : null;
   return this;
 };
 
 PackLiteral.prototype.optimize = function() {
+  // TODO: In the future we intend to include the optimization of unpacking
+  // list elements that have spreads and are themselves also PackLiterals
   this.elements = this.elements.map((e) => e.optimize());
   return this;
 };
@@ -407,15 +392,14 @@ VariableExpression.prototype.optimize = function() {
   // such as the variable expression with name "gcd" whose ref is the
   // function gcd.
   if (this.type) this.type = getTypeReference(this.type);
-  // TODO ask toal:
-  // wonder if it's valid code optimization to remove in-between references?
-  // answer: yes
-  // but what about here?
+  // TODO: a future optimization would be to return what this variable expression
+  // actuall references instead of returning the variable itself
   return this;
 };
 
 UnaryExpression.prototype.optimize = function() {
-  // REMINDER op == ! (5!) / - (-209) / not (not true)
+  // Possible Operations: op === ! or - or not
+  // examples: 5!, -209, not good
   this.operand = this.operand.optimize();
   if (this.op === "not" && this.operand instanceof BooleanLiteral)
     return new BooleanLiteral(!this.operand.value);
@@ -479,7 +463,7 @@ BinaryExpression.prototype.optimize = function() {
       return new NumberLiteral(x * y);
     }
     if (this.op === "/") return new NumberLiteral(x / y);
-    // TODO Add bitwise shift for dividing two numbers that are both multiples of 2
+    // TODO: Add bitwise shift for dividing two numbers that are both multiples of 2
     // both left and right must be multiples of 2 and left >= right
     if (this.op === "mod") return new NumberLiteral(x % y);
     if (this.op === "isGreaterThan") return new BooleanLiteral(x > y);
@@ -491,7 +475,8 @@ BinaryExpression.prototype.optimize = function() {
     return new BooleanLiteral(x !== y);
   }
   if (bothTemplateLiterals(this)) {
-    // TODO: check if we are allowing string equals string
+    // TODO: implement optimization for when checking if a String/TemplateLiteral
+    // equals another string/TemplateLiteral
     if (this.op === "with") {
       const leftQuasiLength = this.left.quasis.length;
       // Combine the last quasi of the left and the first quasi of the right
