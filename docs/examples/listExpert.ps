@@ -1,0 +1,29 @@
+!!! trick getMax chews[pack[toeBeans]: a] fetches toeBeans:
+    toeBeans max is a at 0;
+
+    chase element through a:
+        if element isGreaterThan a then:
+            max is element;
+        tail
+    tail
+
+    give max;
+tail !!!
+
+trick sumSubArray chews[pack[toeBeans]: a, toeBeans: start, toeBeans: end] fetches toeBeans:
+    toeBeans sum is 0;
+
+    chase toeBeans i is start by i+1 while i isLessThan end:
+        sum is sum + (a at i);
+    tail
+
+    give sum;
+
+tail 
+
+pack[toeBeans] a is [1,4,5,28,2];
+toeBeans sumOfSomeOfA is sumSubArray(a, 1, 4);
+
+woof "The sum of the second three elements in ![a] is ![sumOfSomeOfA]";
+            
+            
